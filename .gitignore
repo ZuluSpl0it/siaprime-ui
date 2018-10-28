@@ -1,0 +1,22 @@
+# Generated Items
+release
+node_modules
+npm-debug.log
+config.json
+Sia
+doc/SiaPrime-UI
+errors.log
+dist
+sia-testing
+profiles
+test.json
+
+#VSCode
+.vscode
+
+# Vim
+*.sw?
+
+# IntelliJ
+.idea
+*.iml
