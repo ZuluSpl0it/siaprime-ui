@@ -167,7 +167,7 @@ export default async function loadingScreen (initUI) {
         'Loading can take a while after upgrading to a new version. Check the <a style="text-decoration: underline; cursor: pointer" id="releasenotelink">release notes</a> for more details.'
 
       document.getElementById('releasenotelink').onclick = () => {
-        shell.openExternal('https://github.com/NebulousLabs/Sia/releases')
+        shell.openExternal('https://github.com/SiaPrime/Sia/releases')
       }
     }
   }, 30000)

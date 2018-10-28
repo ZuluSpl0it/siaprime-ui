@@ -58,7 +58,7 @@ buildOSX() {
 	# NOTE: this only works with GNU sed, other platforms (like OSX) may fail here
 	sed -i 's/>Electron</>SiaPrime-UI</' SiaPrime-UI.app/Contents/Info.plist
 	sed -i 's/>'"${electronVersion:1}"'</>'"${siaPrimeVersion:1}"'</' SiaPrime-UI.app/Contents/Info.plist
-	sed -i 's/>com.github.electron\</>com.siaprim.siaprimeui</' SiaPrime-UI.app/Contents/Info.plist
+	sed -i 's/>com.github.electron\</>com.siaprime.siaprimeui</' SiaPrime-UI.app/Contents/Info.plist
 	sed -i 's/>electron.icns</>icon.icns</' SiaPrime-UI.app/Contents/Info.plist
 	cp ../../assets/icon.icns SiaPrime-UI.app/Contents/Resources/
 	rm -r SiaPrime-UI.app/Contents/Resources/default_app.asar

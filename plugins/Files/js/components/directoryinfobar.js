@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 const colorBackDisabled = '#C5C5C5'
-const colorBackEnabled = '#00CBA0'
+const colorBackEnabled = '#00A0CB'
 
 const DirectoryInfoBar = ({
   path,
