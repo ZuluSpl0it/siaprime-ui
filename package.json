@@ -1,7 +1,7 @@
 {
   "name": "SiaPrime-UI",
-  "version": "v1.3.5",
-  "releaseName": "SuchPrime",
+  "version": "v1.3.5-1",
+  "releaseName": "SiaPrime",
   "main": "dist/main.js",
   "author": "SiaPrime",
   "description": "A UI application for interfacing with SiaPrime",
