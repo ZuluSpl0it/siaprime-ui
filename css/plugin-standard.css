@@ -35,7 +35,7 @@ select, input {
 	position: relative;
 
 	box-shadow: none;
-	color:#4a4a4a;
+	color:#000000;
 
 	border: solid 1px #dddddd;
 	transition: box-shadow 0.3s, border 0.3s;
@@ -47,7 +47,7 @@ select {
 }
 select:focus, input:focus {
 	outline: none;
-	border: solid 1px #4a4a4a;
+	border: solid 1px #000000;
 	box-shadow: 0 0 5px 1px #c5c5c5;
 }
 select:hover {
@@ -121,6 +121,6 @@ select:hover {
 	-webkit-user-select: none;
 }
 .button:hover {
-	color: #4a4a4a;
+	color: #000000;
 	cursor: pointer;
 }
