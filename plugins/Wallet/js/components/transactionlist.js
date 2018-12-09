@@ -100,7 +100,7 @@ const TransactionList = ({ transactions, ntransactions, actions, filter }) => {
         <h2> Recent Transactions </h2>
         <div className='filter-toggle'>
           <input type='checkbox' onClick={onToggleFilter} checked={filter} />
-          Hide 0SPC Transactions
+          Hide 0SCP Transactions
         </div>
       </div>
       <table className='pure-table transaction-table'>
