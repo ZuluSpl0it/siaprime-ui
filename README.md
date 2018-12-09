@@ -1,4 +1,4 @@
-# [![SiaPrime Logo](https://gitlab.com/SiaPrime/siaprime-ui/blob/master/assets/siaPrimeLogo.png)](https://siaprime.net/) User Interface
+# [![SiaPrime Logo](/assets/siaPrimeLogo.png)](https://siaprime.net/) User Interface
 
 [![Build Status](https://travis-ci.org/NebulousLabs/SiaPrime-UI.svg?branch=master)](https://travis-ci.org/NebulousLabs/SiaPrime-UI)
 [![devDependency Status](https://david-dm.org/NebulousLabs/SiaPrime-UI/dev-status.svg)](https://david-dm.org/NebulousLabs/SiaPrime-UI#info=devDependencies)
