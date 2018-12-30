@@ -11,8 +11,8 @@ stages:
 test:
   stage: test
   script:
-  - wget https://github.com/NebulousLabs/Sia/releases/download/v1.3.3/Sia-v1.3.3-linux-amd64.zip
-  - unzip Sia-v1.3.3-linux-amd64.zip
-  - mv Sia-v1.3.3-linux-amd64 Sia
+  - wget https://github.com/SiaPrime/SiaPrime/releases/download/v1.3.5.2/SiaPrime-v1.3.5.2-linux-amd64.zip
+  - unzip SiaPrime-v1.3.5.2-linux-amd64.zip
+  - mv SiaPrime-v1.3.5.2-linux-amd64 Sia
   - npm install
   - npm run test
