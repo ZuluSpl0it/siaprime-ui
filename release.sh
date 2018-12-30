@@ -35,9 +35,9 @@ electronOSX="https://github.com/electron/electron/releases/download/${electronVe
 electronLinux="https://github.com/electron/electron/releases/download/${electronVersion}/electron-${electronVersion}-linux-x64.zip"
 electronWindows="https://github.com/electron/electron/releases/download/${electronVersion}/electron-${electronVersion}-win32-x64.zip"
 
-siaOSX="$HOME/go/src/gitlab.com/SiaPrime/Sia/release/SiaPrime-${siaPrimeVersion}-darwin-amd64.zip"
-siaLinux="$HOME/go/src/gitlab.com/SiaPrime/Sia/release/SiaPrime-${siaPrimeVersion}-linux-amd64.zip"
-siaWindows="$HOME/go/src/gitlab.com/SiaPrime/Sia/release/SiaPrime-${siaPrimeVersion}-windows-amd64.zip"
+siaOSX="$HOME/go/src/gitlab.com/SiaPrime/SiaPrime/release/SiaPrime-${siaPrimeVersion}-darwin-amd64.zip"
+siaLinux="$HOME/go/src/gitlab.com/SiaPrime/SiaPrime/release/SiaPrime-${siaPrimeVersion}-linux-amd64.zip"
+siaWindows="$HOME/go/src/gitlab.com/SiaPrime/SiaPrime/release/SiaPrime-${siaPrimeVersion}-windows-amd64.zip"
 
 rm -rf release/
 mkdir -p release/{osx,linux,win32}
