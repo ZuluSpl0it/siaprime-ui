@@ -1,0 +1,17 @@
+{
+  "name": "Sia-UI",
+  "productName": "Sia-UI",
+  "version": "1.4.0-RC1",
+  "description": "A electron webapp to manage and interface with the Sia daemon",
+  "main": "./main.js",
+  "author": {
+    "name": "Eddie Wang",
+    "email": "eddie@sia.tech",
+    "url": "https://github.com/eddiewang"
+  },
+  "scripts": {
+    "postinstall": "npm rebuild --runtime=electron --target=1.6.6 --disturl=https://atom.io/download/atom-shell --build-from-source"
+  },
+  "license": "MIT",
+  "dependencies": {}
+}
