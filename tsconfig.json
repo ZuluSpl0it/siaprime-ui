@@ -17,8 +17,8 @@
     "baseUrl": "./app",
     "paths": {
       "actions": ["actions"],
-      "components": ["components/**/*"],
-      "assets": ["assets/*"]
+      "components": ["components"],
+      "assets": ["assets"]
     }
   },
   "files": ["app/index.tsx"],
