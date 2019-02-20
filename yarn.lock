@@ -781,6 +781,30 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@eddiewang/react-filemanager@1.1.0-beta.7":
+  version "1.1.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@eddiewang/react-filemanager/-/react-filemanager-1.1.0-beta.7.tgz#fb3eca13c4afbe121cceeeeb8d4346853725b5b1"
+  integrity sha512-uty3jG8G6GkXEz9Q483nk5bk/8XD3HlAd+NjWyeNfA0sW06ATBm/2BiFdxzk6igAlTQftv3xHYjHvdDRTFeDvQ==
+  dependencies:
+    "@opuscapita/react-svg" "2.0.1"
+    "@opuscapita/svg-icons" "1.1.1"
+    core-js "2.5.0"
+    detect-it "3.0.3"
+    lodash "4.17.10"
+    nanoid "1.0.0"
+    prop-types "15.6.0"
+    range-parser "1.2.0"
+    react-click-outside "3.0.0"
+    react-contextmenu "2.8.0"
+    react-dnd "2.5.4"
+    react-dnd-html5-backend "2.5.4"
+    react-dnd-scrollzone "4.0.0"
+    react-dropzone "4.2.1"
+    react-sortable-hoc "0.6.8"
+    react-virtualized "9.12.0"
+    sanitize-filename "1.6.1"
+    superagent "3.8.3"
+
 "@expo/spawn-async@1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@expo/spawn-async/-/spawn-async-1.4.0.tgz#39f7777bdee22e1f48d03898c9ed2f150a7f4cbd"
@@ -799,30 +823,6 @@
     filesize "3.5.11"
     nanoid "1.0.0"
     range-parser "1.2.0"
-    sanitize-filename "1.6.1"
-    superagent "3.8.3"
-
-"@opuscapita/react-filemanager@1.1.0-beta.4":
-  version "1.1.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@opuscapita/react-filemanager/-/react-filemanager-1.1.0-beta.4.tgz#c41bc3aa1ff0caced0f84042b807e49813855058"
-  integrity sha512-yBDmz5bjJMO6HK3lysLZ3OtoGzBBV/6ZWesUsV9aAjQuy+3Cjikcdy9y+LK3mnvziMLqoHc5QnD1PimVTsLaQQ==
-  dependencies:
-    "@opuscapita/react-svg" "2.0.1"
-    "@opuscapita/svg-icons" "1.1.1"
-    core-js "2.5.0"
-    detect-it "3.0.3"
-    lodash "4.17.10"
-    nanoid "1.0.0"
-    prop-types "15.6.0"
-    range-parser "1.2.0"
-    react-click-outside "3.0.0"
-    react-contextmenu "2.8.0"
-    react-dnd "2.5.4"
-    react-dnd-html5-backend "2.5.4"
-    react-dnd-scrollzone "4.0.0"
-    react-dropzone "4.2.1"
-    react-sortable-hoc "0.6.8"
-    react-virtualized "9.12.0"
     sanitize-filename "1.6.1"
     superagent "3.8.3"
 

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { FileManager, FileNavigator } from '@opuscapita/react-filemanager'
+import { FileManager, FileNavigator } from '@eddiewang/react-filemanager'
 import connectorNodeV1 from 'sia-opus-connector'
 const { dialog } = require('electron').remote
 

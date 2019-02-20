@@ -1,4 +1,4 @@
-declare module '@opuscapita/react-filemanager' {
+declare module '@eddiewang/react-filemanager' {
   var x: any
   var FileManager: any
   var FileNavigator: any
