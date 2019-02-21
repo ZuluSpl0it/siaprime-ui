@@ -805,6 +805,14 @@
     sanitize-filename "1.6.1"
     superagent "3.8.3"
 
+"@eddiewang/sia.js@0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@eddiewang/sia.js/-/sia.js-0.4.4.tgz#04d1a6186446fb6f55fdf0da61a4cefd2cc27c9b"
+  integrity sha512-WnhePKdIBLSQPmtz2++Kr8kbBi3EfY4RuGWmA6Nj3djzcaE23YASVdjpcSSdHZhNp6ogTGQcnW5+5l6l4NhvrA==
+  dependencies:
+    bignumber.js "7.2.1"
+    request "^2.81.0"
+
 "@expo/spawn-async@1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@expo/spawn-async/-/spawn-async-1.4.0.tgz#39f7777bdee22e1f48d03898c9ed2f150a7f4cbd"
@@ -2421,7 +2429,7 @@ big.js@^3.1.3:
   resolved "https://registry.yarnpkg.com/big.js/-/big.js-3.2.0.tgz#a5fc298b81b9e0dca2e458824784b65c52ba588e"
   integrity sha512-+hN/Zh2D08Mx65pZ/4g5bsmNiZUuChDiQfTUQ7qJr4/kuopCr88xZsAXv6mBoZEsUI4OuGHlX59qE94K2mMW8Q==
 
-bignumber.js@8.0.2, bignumber.js@^4.0.4:
+bignumber.js@7.2.1, bignumber.js@8.0.2:
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-8.0.2.tgz#d8c4e1874359573b1ef03011a2d861214aeef137"
   integrity sha512-EiuvFrnbv0jFixEQ9f58jo7X0qI2lNGIr/MxntmVzQc5JUweDSh8y8hbTCAomFtqwUPIOWcLXP0VEOSZTG7FFw==
@@ -10653,14 +10661,6 @@ shellwords@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
-
-sia.js@0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/sia.js/-/sia.js-0.4.2.tgz#49a734bbe5c4cdab0f184acfdfee1726ac199595"
-  integrity sha1-Sac0u+XEzasPGErP3+4XJqwZlZU=
-  dependencies:
-    bignumber.js "^4.0.4"
-    request "^2.81.0"
 
 siajs-lib@1.1.1:
   version "1.1.1"

@@ -1,5 +1,5 @@
 import { defaultConfig } from 'config'
-import * as S from 'sia.js'
+import * as S from '@eddiewang/sia.js'
 import { Client } from 'siajs-lib'
 export interface SiadConfig {
   path: string

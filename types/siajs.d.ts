@@ -1,4 +1,4 @@
-declare module 'sia.js' {
+declare module '@eddiewang/sia.js' {
   var x: any
   export = x
 }
