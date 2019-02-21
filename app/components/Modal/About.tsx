@@ -33,7 +33,7 @@ export class AboutModal extends React.Component<AboutModalProps, {}> {
                   </SVGBox>
                 </Flex>
                 <Box pt={2}>
-                  <Text>1.4.0 RC1</Text>
+                  <Text>1.4.0 RC2</Text>
                 </Box>
               </Flex>
             </Box>
