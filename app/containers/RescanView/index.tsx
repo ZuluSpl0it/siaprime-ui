@@ -47,7 +47,7 @@ class RescanView extends React.Component<StateProps & DispatchProp & RouteCompon
             </Box>
             <Box mx={2} width={1 / 3} css={{ textAlign: 'center' }}>
               <Text is="p" color="mid-gray" fontSize={3}>
-                Hold tight, we're building an index of your wallet
+                Please wait, we are building an index of your wallet
               </Text>
             </Box>
             <Box mx={2} width={1 / 3}>

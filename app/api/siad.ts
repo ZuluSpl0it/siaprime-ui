@@ -1,6 +1,6 @@
 import { defaultConfig } from 'config'
 import * as S from '@eddiewang/sia.js'
-import { Client } from 'siajs-lib'
+import { Client } from 'sia-typescript'
 export interface SiadConfig {
   path: string
   datadir: string
@@ -14,7 +14,7 @@ export const siad = new Client({
   dataDirectory: defaultConfig.siad.datadir
 })
 
-// TODO: need to replace with siajs-lib instead of using sia.js
+// TODO: need to replace with sia-typescript instead of using sia.js
 export const initSiad = async () => {
   console.log('launching at ', defaultConfig.siad.path)
   const p = S.launch(defaultConfig.siad.path, {

@@ -157,7 +157,6 @@ export const validateSiafundBalance = (state: IndexState) => (
 }
 
 export const testVal = (v: any) => {
-  console.log(v, typeof v)
   return {
     validateStatus: undefined,
     help: undefined

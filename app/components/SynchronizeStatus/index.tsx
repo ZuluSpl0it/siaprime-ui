@@ -3,6 +3,7 @@ import { Box, Text, TextWithAdornment } from 'components/atoms'
 import { ConsensusModel } from 'models'
 import * as React from 'react'
 import styled from 'styled-components'
+import { hashrateParser } from 'lib/hashrateParser'
 
 const BoldText = ({ children }: any) => (
   <Text fontWeight={600} color="white">
@@ -36,6 +37,7 @@ export default ({ synced, height, currentblock, difficulty }: SyncStatusProps) =
   if (currentblock) {
     hash = currentblock.slice(0, 5) + '...' + currentblock.slice(-5)
   }
+  const parsedDiff = hashrateParser(difficulty as any)
   return (
     <Tooltip
       placement="leftBottom"
@@ -43,7 +45,7 @@ export default ({ synced, height, currentblock, difficulty }: SyncStatusProps) =
         <Box>
           <Stat title="Block Height" stat={`${height.toLocaleString('en-US')}`} />
           <Stat title="Block Hash" stat={`${hash}`} />
-          <Stat title="Difficulty" stat={`${difficulty}`} />
+          <Stat title="Difficulty" stat={`${parsedDiff}`} />
         </Box>
       )}
     >
@@ -53,7 +55,7 @@ export default ({ synced, height, currentblock, difficulty }: SyncStatusProps) =
         </TextWithAdornment>
       ) : (
         <TextWithAdornment after={<Icon type="loading" />} fontWeight={500}>
-          Synchronizing
+          Syncing
         </TextWithAdornment>
       )}
     </Tooltip>

@@ -38,13 +38,14 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
         visible={props.visible}
         onOk={props.onOk}
         closable={false}
+        centered
         footer={[
           <Button key="submit" type="primary" onClick={props.onOk}>
             Done
           </Button>
         ]}
       >
-        <Box display="flex" alignItems="center" height="350px">
+        <Box display="flex" alignItems="center" height="50vh">
           <OuterPreWrap>
             <PreWrap>
               {stdout.map((s, i) => (

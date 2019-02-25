@@ -16,7 +16,7 @@ import {
 } from 'redux-saga/effects'
 import { activeHostWorker, consensusWorker, gatewayWorker, getContractsWorker } from 'sagas'
 import { selectTransactionHeight } from 'selectors'
-import { toHastings } from 'siajs-lib'
+import { toHastings } from 'sia-typescript'
 import { bindAsyncAction } from 'typescript-fsa-redux-saga'
 
 const getWalletWorker = bindAsyncAction(WalletActions.getWallet)(function*(): SagaIterator {

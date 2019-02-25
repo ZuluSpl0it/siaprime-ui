@@ -15,7 +15,7 @@ import { selectHost } from 'selectors'
 import { bindAsyncAction } from 'typescript-fsa-redux-saga'
 
 import { walletSagas } from './wallet'
-import { toHastings } from 'siajs-lib'
+import { toHastings } from 'sia-typescript'
 
 // TODO: Do we want to keep this for coin prices?
 // const priceWorker = bindAsyncAction(GlobalActions.fetchPriceStats)(function*(): SagaIterator {

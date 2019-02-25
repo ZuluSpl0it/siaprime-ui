@@ -197,7 +197,10 @@ class Host extends React.Component<RenterProps, {}> {
     }
     const connectable =
       hostConfig.connectabilitystatus === 'connectable' ? 'Connectable' : 'Offline'
-    const totalStorage = bytes(hostConfig.externalsettings.totalstorage)
+    const totalStorage = bytes(hostConfig.externalsettings.totalstorage, {
+      unitSeparator: ' ',
+      unit: 'TB'
+    })
     const contractCount = hostConfig.financialmetrics.contractcount
     const storageRevenue = hostConfig.financialmetrics.storagerevenue
     return (
@@ -214,7 +217,7 @@ class Host extends React.Component<RenterProps, {}> {
               </Tooltip>
               <Box ml={2}>
                 <Button onClick={this.toggleAnnounce}>
-                  <Caps mr={2}>Announce Host</Caps>
+                  <Caps>Announce Host</Caps>
                 </Button>
               </Box>
             </Flex>
@@ -248,7 +251,7 @@ class Host extends React.Component<RenterProps, {}> {
                       {
                         title: 'Max Duration (Weeks)',
                         value: blocksToWeeks(hostConfig.internalsettings.maxduration).toFixed(0),
-                        suffix: 'Weeks',
+                        suffix: 'W',
                         name: 'maxduration'
                       },
                       {
@@ -345,13 +348,27 @@ class Host extends React.Component<RenterProps, {}> {
                         title={<Text>Free Space</Text>}
                         dataIndex="capacityremaining"
                         key="freeSpace"
-                        render={v => <Text>{bytes(v)}</Text>}
+                        render={v => (
+                          <Text>
+                            {bytes(v, {
+                              unitSeparator: ' ',
+                              unit: 'GB'
+                            })}
+                          </Text>
+                        )}
                       />
                       <Table.Column
                         title={<Text>Total Space</Text>}
                         dataIndex="capacity"
                         key="totalSpace"
-                        render={v => <Text>{bytes(v)}</Text>}
+                        render={v => (
+                          <Text>
+                            {bytes(v, {
+                              unitSeparator: ' ',
+                              unit: 'GB'
+                            })}
+                          </Text>
+                        )}
                       />
                       <Table.Column
                         title={<Text>Action</Text>}
