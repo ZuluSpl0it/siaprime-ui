@@ -4,7 +4,7 @@ import { every } from 'lodash'
 import { WalletModel } from 'models'
 import * as moment from 'moment/moment'
 import { StructuredTransaction } from 'selectors'
-import { toHastings, toSiacoins } from 'siajs-lib'
+import { toHastings, toSiacoins } from 'sia-typescript'
 
 const emptyTransactions = {
   sections: [],

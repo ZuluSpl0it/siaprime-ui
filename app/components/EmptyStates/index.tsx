@@ -80,15 +80,9 @@ class OffState extends React.Component<DispatchProp> {
           </Box>
           <Box mx={2} width={1 / 3} css={{ textAlign: 'center' }}>
             <Text is="p" color="mid-gray" fontSize={3}>
-              {this.state.status === 'loading' ? 'Attempting to Connect' : 'Sia Daemon Unreachable'}
+              {this.state.status === 'loading' ? 'Connecting' : 'Sia Daemon Unreachable'}
             </Text>
-            {this.state.status === 'loading' ? (
-              <React.Fragment>
-                <Text is="p" color="silver" fontSize={2} maxWidth="300em">
-                  Working on loading the daemon...
-                </Text>
-              </React.Fragment>
-            ) : (
+            {this.state.status !== 'loading' && (
               <Text is="p" color="silver" fontSize={2} maxWidth="300em">
                 It's likely the siad process crashed or was never started. Please start siad from
                 your terminal or using the built-in daemon by clicking on the button below.

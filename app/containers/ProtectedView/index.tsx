@@ -74,6 +74,7 @@ class ProtectedView extends React.Component<Props, State> {
   }
   render() {
     const { wallet, unlockFormHelp, siad, seed, consensus } = this.props
+    console.log('wallet', wallet)
     if (!siad.isActive) {
       return <Redirect to="/offline" />
     }
@@ -113,10 +114,10 @@ class ProtectedView extends React.Component<Props, State> {
               </SVGBox>
             </Flex>
           </Box>
-          <Box width="300px" height="100px" py={2}>
+          <Box width="300px" height="100px" pt={3}>
             {unlockFormHelp.loading || wallet.unlocked ? (
               <Flex justifyContent="center">
-                <Spin tip="Logging you in..." />
+                <Spin tip="Logging In" />
               </Flex>
             ) : (
               <Form.Item

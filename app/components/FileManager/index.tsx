@@ -1,7 +1,11 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { FileManager, FileNavigator } from '@eddiewang/react-filemanager'
+import ReactPlayer from 'react-player'
 import connectorNodeV1 from 'sia-opus-connector'
+import { Modal } from 'antd'
+import { Box } from 'components/atoms'
+import { shell } from 'electron'
 const { dialog } = require('electron').remote
 
 const apiOptions = {
@@ -15,8 +19,8 @@ const ThemedManager = styled(FileManager)`
   box-shadow: ${(props: any) => props.theme.boxShadow[0]} !important;
   .oc-fm--list-view__row--selected {
     position: relative;
-    background-color: ${props => props.theme.colors['silver']} !important;
-    color: #fff;
+    background-color: ${props => props.theme.colors['light-gray']} !important;
+    color: ${props => props.theme.colors['mid-gray']} !important;
     border-bottom-color: transparent;
   }
 `
@@ -35,9 +39,13 @@ export default class fManager extends React.Component {
     })
     connectorNodeV1.emitter.emit('downloadpath', paths)
   }
+  // openHandler = (filename: string) => {
+  //   shell.openItem('')
+  // }
   componentWillMount() {
     connectorNodeV1.emitter.on('uploadrequestpath', this.uploadHandler)
     connectorNodeV1.emitter.on('downloadrequestpath', this.downloadHandler)
+    // connectorNodeV1.emitter.on('openfile', this.openHandler)
   }
   componentWillUnmount() {
     connectorNodeV1.emitter.removeListener('uploadrequestpath', this.uploadHandler)
@@ -45,7 +53,12 @@ export default class fManager extends React.Component {
   }
   render() {
     return (
-      <div style={{ height: '450px' }}>
+      <div style={{ height: '500px' }}>
+        {/* <Modal visible width="680px">
+          <Box>
+            <ReactPlayer width="640px" url="https://www.youtube.com/watch?v=WQqVny3MKdg" playing />
+          </Box>
+        </Modal> */}
         <ThemedManager>
           <FileNavigator
             id="filemanager-1"

@@ -2,7 +2,7 @@ import { BigNumber } from 'bignumber.js'
 import { WalletModel } from 'models'
 import { IndexState } from 'reducers'
 import { createSelector } from 'reselect'
-import { toSiacoins } from 'siajs-lib'
+import { toSiacoins } from 'sia-typescript'
 import { computeTxSum, groupTransactionsByDay } from 'utils'
 
 // export const selectGlobalStats = (state: IndexState) => state.dashboard.globalStats

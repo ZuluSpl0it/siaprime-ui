@@ -92,7 +92,7 @@ class Wallet extends React.Component<WalletProps, {}> {
     //   .multipliedBy(usdPrice)
     //   .toFixed(2)
     //   .toString()
-    const balanceWithSeperator = parseFloat(confirmedBalance).toLocaleString('en-US')
+    const balanceWithSeperator = parseFloat(confirmedBalance).toLocaleString('en-US') + ' ' + 'SC'
     return (
       <div>
         <BackupModel visible={this.state.backupModal} onOk={this.handleBackupModal} />
@@ -131,12 +131,12 @@ class Wallet extends React.Component<WalletProps, {}> {
               </Text>
             </Box> */}
             <Flex>
-              <Stat content={balanceWithSeperator} title="siacoin" width={1 / 3} />
+              <Stat content={balanceWithSeperator} title="siacoins" width={1 / 3} />
             </Flex>
             <Box height="25px">
               <Flex mx={2} pt={2} pb={3}>
                 {/* <Tag>${usdBalance} USD</Tag> */}
-                {!!parseFloat(siafundBalance) && <Tag>{siafundBalance} SC</Tag>}
+                {!!parseFloat(siafundBalance) && <Tag>{siafundBalance} SF</Tag>}
                 {!!parseFloat(unconfirmedBalance) && (
                   <StyledTag>{unconfirmedBalance} SC (Unconfirmed)</StyledTag>
                 )}
@@ -180,10 +180,10 @@ class Wallet extends React.Component<WalletProps, {}> {
                 <TabPanelWrap>
                   <Box py={3} display="flex" justifyContent="space-between" alignItems="center">
                     <Text color="silver" fontSize={1} css={{ textTransform: 'uppercase' }}>
-                      Latest Generated Address
+                      Latest Address
                     </Text>
                     <Button type="default" onClick={this.generateAddress}>
-                      Generate new address
+                      Generate New Address
                     </Button>
                   </Box>
                   <Box my={2}>
@@ -208,7 +208,7 @@ class Wallet extends React.Component<WalletProps, {}> {
                   </Box>
                   <Box py={3}>
                     <Text color="silver" fontSize={1} css={{ textTransform: 'uppercase' }}>
-                      Previously Used Addresses
+                      Previous Addresseses
                     </Text>
                   </Box>
                   <Box>

@@ -3,6 +3,8 @@ import { Modal, Button } from 'antd'
 import { Box, Text, SVGBox } from 'components/atoms'
 import { Flex } from 'rebass'
 import Wordmark from 'assets/svg/wordmark.svg'
+import { defaultConfig } from 'config'
+import { shell } from 'electron'
 
 interface AboutModalProps {
   visible: boolean
@@ -10,6 +12,10 @@ interface AboutModalProps {
 }
 
 export class AboutModal extends React.Component<AboutModalProps, {}> {
+  openSiaDir = () => {
+    const path = defaultConfig.siad.datadir
+    shell.openItem(path)
+  }
   render() {
     return (
       <div>
@@ -32,16 +38,23 @@ export class AboutModal extends React.Component<AboutModalProps, {}> {
                     <Wordmark viewBox="0 0 97 58" />
                   </SVGBox>
                 </Flex>
-                <Box pt={2}>
+                {/* <Box pt={2}>
                   <Text>1.4.0 RC2</Text>
-                </Box>
+                </Box> */}
               </Flex>
             </Box>
-            <Box width={1 / 2}>
-              <Text>
-                You are using a beta, unfinished version of Sia-UI. Understand the risks of using
-                this wallet, and use at your own discretion.
-              </Text>
+            <Box width={1 / 2} alignSelf="stretch">
+              <Box>
+                <Text fontWeight={6}>Sia UI</Text>
+              </Box>
+              <Box>
+                <Text is="div">UI: v1.4.0 RC2</Text>
+                <Text is="div">Daemon: v1.4.0 RC2</Text>
+              </Box>
+              <Box pt={3}>
+                <Button onClick={this.openSiaDir}>Show Sia Data</Button>
+              </Box>
+              <Box />
             </Box>
           </Flex>
         </Modal>

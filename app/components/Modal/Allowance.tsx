@@ -4,7 +4,7 @@ import { Box, Text } from 'components/atoms'
 import { Flex } from 'rebass'
 import { IndexState } from 'reducers'
 import { useMappedState, useDispatch } from 'redux-react-hook'
-import { toSiacoins } from 'siajs-lib'
+import { toSiacoins } from 'sia-typescript'
 import { RenterActions } from 'actions'
 
 export const AllowanceModal = (props: any) => {
@@ -44,13 +44,6 @@ export const AllowanceModal = (props: any) => {
         <Text fontSize={3}>Rent storage on the Sia Network</Text>
       </Box>
       <Box>
-        <Text as="p">
-          You need to allocate funds to upload and download on Sia. Your allowance remains locked
-          for 3 months. Unspent funds are then refunded. You can increase your allowance at any
-          time.
-        </Text>
-      </Box>
-      <Box py={2}>
         <Text as="p">
           You need to allocate funds to upload and download on Sia. Your allowance remains locked
           for 3 months. Unspent funds are then refunded. You can increase your allowance at any
