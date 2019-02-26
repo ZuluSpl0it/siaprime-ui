@@ -1,8 +1,7 @@
 import { Button, Icon } from 'antd'
-import { initSiad, isRunning } from 'api/siad'
+import { initSiad, siad, launchSiad } from 'api/siad'
 import Temp from 'assets/img/Bitmap.png'
 import { Box, Image, Text } from 'components/atoms'
-import { setLaunchedSiaFlag } from 'containers/App'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { WalletActions, GlobalActions } from 'actions'
@@ -34,30 +33,32 @@ export const ScanningState = () => (
 // I don't think scanning state belongs to the wallet plugin - should be global.
 class OffState extends React.Component<DispatchProp> {
   state = {
-    status: 'loading'
+    status: 'exclamation-circle'
   }
   componentDidMount = async () => {
-    setTimeout(() => {
-      this.setState({
-        status: 'exclamation-circle'
-      })
-      this.props.dispatch(GlobalActions.stopPolling)
-    }, 30000)
+    this.props.dispatch(GlobalActions.stopPolling())
   }
   launchDaemon = async () => {
     this.setState({
       status: 'loading'
     })
-    // tryLaunch awaits for the process to init
-    setLaunchedSiaFlag(true)
-    const tryLaunch = await initSiad()
-    if (tryLaunch) {
-      console.log('starting siad')
-      this.props.dispatch(GlobalActions.startPolling)
+    const { dispatch } = this.props
+    const isRunning = await siad.isRunning()
+    // If not running, we'll try to launch siad ourselves
+    if (!isRunning) {
+      dispatch(GlobalActions.siadLoading())
+      dispatch(GlobalActions.setSiadOrigin({ isInternal: true }))
+      const loaded = await launchSiad()
+      if (loaded) {
+        dispatch(GlobalActions.siadLoaded())
+      } else {
+        dispatch(GlobalActions.siadOffline())
+        this.setState({
+          status: 'close-circle'
+        })
+      }
     } else {
-      this.setState({
-        status: 'close-circle'
-      })
+      dispatch(GlobalActions.setSiadOrigin({ isInternal: false }))
     }
   }
   render() {

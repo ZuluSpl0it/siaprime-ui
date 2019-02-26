@@ -74,7 +74,6 @@ class ProtectedView extends React.Component<Props, State> {
   }
   render() {
     const { wallet, unlockFormHelp, siad, seed, consensus } = this.props
-    console.log('wallet', wallet)
     if (!siad.isActive) {
       return <Redirect to="/offline" />
     }

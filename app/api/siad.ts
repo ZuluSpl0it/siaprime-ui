@@ -14,16 +14,34 @@ export const siad = new Client({
   dataDirectory: defaultConfig.siad.datadir
 })
 
-// TODO: need to replace with sia-typescript instead of using sia.js
-export const initSiad = async () => {
-  console.log('launching at ', defaultConfig.siad.path)
-  const p = S.launch(defaultConfig.siad.path, {
-    'sia-directory': defaultConfig.siad.datadir,
-    modules: 'cghrtw'
-  })
+export const initSiad = () => {
+  const p = siad.launch(defaultConfig.siad.path)
   return p
 }
 
-export const isRunning = S.isRunning
-
-export const siadConnectionString = siad.getConnectionUrl()
+export const launchSiad = () => {
+  return new Promise((resolve, reject) => {
+    try {
+      const p = initSiad()
+      p.stdout.on('data', data => {
+        console.log(data.toString())
+      })
+      p.stderr.on('data', data => {
+        console.log(data.toString())
+      })
+      const timeout = setTimeout(() => {
+        clearInterval(pollLoaded)
+        resolve(false)
+      }, 20000)
+      const pollLoaded = setInterval(() => {
+        if (siad.isRunning()) {
+          clearInterval(pollLoaded)
+          clearInterval(timeout)
+          resolve(true)
+        }
+      }, 2000)
+    } catch (e) {
+      reject(e)
+    }
+  })
+}

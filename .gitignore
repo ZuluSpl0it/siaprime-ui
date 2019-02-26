@@ -2,6 +2,9 @@
 logs
 *.log
 
+# Todo
+todo.*
+
 # Runtime data
 pids
 *.pid

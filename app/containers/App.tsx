@@ -1,38 +1,38 @@
-import { siad, isRunning, initSiad } from 'api/siad'
+import { siad, initSiad, launchSiad } from 'api/siad'
 import * as React from 'react'
-
-export let launchedSiadInterally = false
-
-export const setLaunchedSiaFlag = (b: boolean) => {
-  launchedSiadInterally = b
-}
+import { reduxStore } from './Root'
+import { connect, DispatchProp } from 'react-redux'
+import { GlobalActions } from 'actions'
 
 window.addEventListener('beforeunload', async e => {
-  if (launchedSiadInterally) {
-    console.log('onclose initialized')
+  const store = reduxStore.getState()
+  if (store.ui.siad.isInternal) {
     await siad.daemonStop()
-    console.log('done unload sia')
   }
 })
 
-export default class App extends React.Component {
+class App extends React.Component<DispatchProp> {
   componentDidMount = async () => {
-    console.log('mounted App')
-    const running = await isRunning('localhost:9980')
-    if (!running) {
-      console.log('trying to launch on init...')
-      setLaunchedSiaFlag(true)
-      const tryLaunch = await initSiad()
-      if (tryLaunch) {
-        console.log('starting siad,')
-        tryLaunch.stdout.on('data', (data: any) => {
-          const log = data.toString()
-          console.log('siad', log)
-        })
+    const { dispatch } = this.props
+    const isRunning = await siad.isRunning()
+    // If not running, we'll try to launch siad ourselves
+    if (!isRunning) {
+      dispatch(GlobalActions.siadLoading())
+      dispatch(GlobalActions.setSiadOrigin({ isInternal: true }))
+      const loaded = await launchSiad()
+      if (loaded) {
+        dispatch(GlobalActions.siadLoaded())
+      } else {
+        dispatch(GlobalActions.siadOffline())
       }
+    } else {
+      dispatch(GlobalActions.setSiadOrigin({ isInternal: false }))
+      dispatch(GlobalActions.siadLoaded())
     }
   }
   render() {
     return <div>{this.props.children}</div>
   }
 }
+
+export default connect()(App)

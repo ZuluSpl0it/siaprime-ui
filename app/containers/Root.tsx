@@ -10,7 +10,7 @@ import cs from '../store/configureStore'
 import { theme } from '../theme'
 
 const { configureStore, history } = cs
-const store = configureStore()
+export const reduxStore = configureStore()
 
 injectGlobal`
 @font-face {
@@ -36,8 +36,8 @@ injectGlobal`
 `
 
 const Root = () => (
-  <Provider store={store}>
-    <StoreContext.Provider value={store}>
+  <Provider store={reduxStore}>
+    <StoreContext.Provider value={reduxStore}>
       <ThemeProvider theme={theme}>
         <ConnectedRouter history={history}>
           <Routes />

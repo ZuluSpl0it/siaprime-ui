@@ -10,6 +10,11 @@ export namespace GlobalActions {
   )
   export const startPolling = globalActionCreator<void>('START_POLL')
   export const stopPolling = globalActionCreator<void>('STOP_POLL')
+
+  export const siadLoading = globalActionCreator<void>('SIAD_LOADING')
+  export const siadLoaded = globalActionCreator<void>('SIAD_LOADED')
+  export const siadOffline = globalActionCreator<void>('SIAD_OFFLINE')
+  export const setSiadOrigin = globalActionCreator<{ isInternal: boolean }>('SET_SIAD_ORIGIN')
 }
 
 const tpoolActionCreator = actionCreatorFactory('tpool')
