@@ -10,6 +10,7 @@ import { createStructuredSelector } from 'reselect'
 import { selectSiadState } from 'selectors'
 import Wordmark from 'assets/svg/wordmark.svg'
 import { SiaSpinner } from 'components/GSAP'
+import { Flex } from 'components/atoms/Flex'
 
 interface StateProps {
   siad: UIReducer.SiadState
@@ -27,15 +28,9 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
     if (siad.loading) {
       return (
         <DragContiner>
-          <Box
-            display="flex"
-            height="100vh"
-            width="100%"
-            justifyContent="center"
-            alignItems="center"
-          >
+          <Flex height="100vh" width="100%" justifyContent="center" alignItems="center">
             <SiaSpinner />
-          </Box>
+          </Flex>
         </DragContiner>
       )
     }

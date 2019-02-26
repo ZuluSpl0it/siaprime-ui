@@ -7,7 +7,6 @@ import { RequireWalletData } from 'components/RequireData'
 import { clipboard } from 'electron'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
-import { Flex } from 'rebass'
 import { createStructuredSelector } from 'reselect'
 import {
   selectCurrAddress,
@@ -20,6 +19,7 @@ import {
 
 import Send from './Send'
 import TransactionView from './TransactionView'
+import { Flex } from 'components/atoms/Flex'
 
 const TabPane = Tabs.TabPane
 const TabPanelWrap = ({ children }: any) => <Box height="460px">{children}</Box>
@@ -115,7 +115,7 @@ class Wallet extends React.Component<WalletProps, {}> {
                   }
                   trigger={['click']}
                 >
-                  <Text color="silver" css={{ cursor: 'pointer', textTransform: 'uppercase' }}>
+                  <Text color="silver" style={{ cursor: 'pointer', textTransform: 'uppercase' }}>
                     More <Icon type="down" />
                   </Text>
                 </Dropdown>
@@ -178,14 +178,14 @@ class Wallet extends React.Component<WalletProps, {}> {
                 key="3"
               >
                 <TabPanelWrap>
-                  <Box py={3} display="flex" justifyContent="space-between" alignItems="center">
-                    <Text color="silver" fontSize={1} css={{ textTransform: 'uppercase' }}>
+                  <Flex py={3} justifyContent="space-between" alignItems="center">
+                    <Text color="silver" fontSize={1} style={{ textTransform: 'uppercase' }}>
                       Latest Address
                     </Text>
                     <Button type="default" onClick={this.generateAddress}>
                       Generate New Address
                     </Button>
-                  </Box>
+                  </Flex>
                   <Box my={2}>
                     <Card>
                       <Flex>

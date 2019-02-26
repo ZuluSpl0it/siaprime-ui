@@ -11,6 +11,9 @@ export namespace GlobalActions {
   export const startPolling = globalActionCreator<void>('START_POLL')
   export const stopPolling = globalActionCreator<void>('STOP_POLL')
 
+  export const startSiadPolling = globalActionCreator<void>('START_SIAD_POLL')
+  export const stopSiadPolling = globalActionCreator<void>('STOP_SIAD_POLL')
+
   export const siadLoading = globalActionCreator<void>('SIAD_LOADING')
   export const siadLoaded = globalActionCreator<void>('SIAD_LOADED')
   export const siadOffline = globalActionCreator<void>('SIAD_OFFLINE')

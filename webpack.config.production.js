@@ -37,7 +37,8 @@ module.exports = merge(baseConfig, {
                     libraryName: 'antd',
                     style: true // or 'css'
                   }
-                ]
+                ],
+                'babel-plugin-styled-components'
               ]
             }
           },

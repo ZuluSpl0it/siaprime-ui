@@ -7,10 +7,10 @@ import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { RouteComponentProps, Switch, withRouter } from 'react-router'
 import { Link, Route } from 'react-router-dom'
-import { Flex } from 'rebass'
 import { IndexState } from 'reducers'
 import { ContractSums, selectContractDetails, selectSpending, SpendingTotals } from 'selectors'
 import { AllowanceModal } from 'components/Modal'
+import { Flex } from 'components/atoms/Flex'
 
 const { Panel } = Collapse
 
@@ -18,7 +18,7 @@ const Metrics = () => (
   <Collapse bordered={false} style={{ backgroundColor: '#fdfdfd' }} defaultActiveKey={['1']}>
     <Panel header="Developer Guides" key="1" style={{ borderBottom: 0 }}>
       <Flex>
-        <Box display="flex" width={1 / 2} mx={2}>
+        <Flex width={1 / 2} mx={2}>
           <Card
             title="Building on the Sia Platform"
             style={{ alignSelf: 'stretch' }}
@@ -36,8 +36,8 @@ const Metrics = () => (
               smart-contracts and blockchains to upload your first file through Sia.
             </Text>
           </Card>
-        </Box>
-        <Box display="flex" width={1 / 2} mx={2}>
+        </Flex>
+        <Flex width={1 / 2} mx={2}>
           <Card
             title="Decentralized Youtube on Sia"
             style={{ alignSelf: 'stretch' }}
@@ -48,12 +48,12 @@ const Metrics = () => (
               clone using the Sia platform to serve video content!
             </Text>
           </Card>
-        </Box>
+        </Flex>
       </Flex>
     </Panel>
     <Panel header="File Metrics (Fake Data)" key="2" style={{ borderBottom: 0 }}>
       <Flex>
-        <Box display="flex" width={1 / 2} mx={2}>
+        <Flex width={1 / 2} mx={2}>
           <Card
             title="Building on the Sia Platform"
             style={{ alignSelf: 'stretch' }}
@@ -64,7 +64,7 @@ const Metrics = () => (
               smart-contracts and blockchains to build a cloud Plex-drive.
             </Text>
           </Card>
-        </Box>
+        </Flex>
         <Box width={1 / 2}>
           <Flex flexDirection="column">
             <Flex mb={2}>
@@ -84,7 +84,7 @@ const Metrics = () => (
     </Panel>
     <Panel header="UL/DL Metrics (Fake Data)" key="3" style={{ borderBottom: 0 }}>
       <Flex>
-        <Box display="flex" width={1 / 2} mx={2}>
+        <Flex width={1 / 2} mx={2}>
           <Card
             title="Building on the Sia Platform"
             style={{ alignSelf: 'stretch' }}
@@ -95,7 +95,7 @@ const Metrics = () => (
               smart-contracts and blockchains to build a cloud Plex-drive.
             </Text>
           </Card>
-        </Box>
+        </Flex>
         <Box width={1 / 2}>
           <Flex flexDirection="column">
             <Flex mb={2}>
@@ -212,10 +212,9 @@ class Renter extends React.Component<RenterProps, State> {
               openModal={this.openModal}
               closeModal={this.closeModal}
             />
-            <Box
+            <Flex
               p={4}
               height="400px"
-              display="flex"
               flexDirection="column"
               justifyContent="center"
               alignItems="center"
@@ -228,7 +227,7 @@ class Renter extends React.Component<RenterProps, State> {
               <Button onClick={this.openModal} type="ghost" size="large">
                 Setup Allowance
               </Button>
-            </Box>
+            </Flex>
           </Flex>
         )}
       </Box>

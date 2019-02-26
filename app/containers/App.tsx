@@ -3,6 +3,7 @@ import * as React from 'react'
 import { reduxStore } from './Root'
 import { connect, DispatchProp } from 'react-redux'
 import { GlobalActions } from 'actions'
+import {} from 'styled-components/cssprop'
 
 window.addEventListener('beforeunload', async e => {
   const store = reduxStore.getState()

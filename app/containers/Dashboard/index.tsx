@@ -127,7 +127,7 @@ class Dashboard extends React.Component<StateProps, {}> {
                   <Text is="div" fontSize="28px">
                     Build on Sia
                   </Text>
-                  <Box width={2 / 3} css={{ textAlign: 'center' }}>
+                  <Box width={2 / 3} style={{ textAlign: 'center' }}>
                     <Text is="div" fontSize={2} py={2} fontWeight={400}>
                       Safe and inexpensive secondary backup solution. Video streaming. Private,
                       redundant, and fast.

@@ -43,7 +43,8 @@ module.exports = merge(baseConfig, {
                     style: true // or 'css'
                   }
                 ],
-                require.resolve('react-hot-loader/babel')
+                require.resolve('react-hot-loader/babel'),
+                'babel-plugin-styled-components'
               ]
             }
           },

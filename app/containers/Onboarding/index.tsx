@@ -1,7 +1,7 @@
 import { WalletActions } from 'actions'
-import { Button, Steps } from 'antd'
+import { Button, Steps, Input } from 'antd'
 import { WrappedFormUtils } from 'antd/lib/form/Form'
-import { Box, Text } from 'components/atoms'
+import { Box, Text, Card, DragContiner } from 'components/atoms'
 import { SeedForm } from 'components/Forms'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
@@ -9,6 +9,8 @@ import { RouteComponentProps, withRouter } from 'react-router'
 import { IndexState } from 'reducers'
 import { WalletRootReducer } from 'reducers/wallet'
 import { selectSeedState } from 'selectors'
+import { Grid } from 'components/atoms/Grid'
+import { Flex } from 'components/atoms/Flex'
 
 const { Step } = Steps
 
@@ -31,24 +33,24 @@ class Onboarding extends React.Component<Props, State> {
   nextStep = () => {
     const { step } = this.state
     let hasError = false
-    if (step === 0) {
-      const form: WrappedFormUtils = this.seedForm.props.form
-      form.validateFieldsAndScroll((errors: any, values: any) => {
-        if (errors) {
-          hasError = true
-          return errors
-        }
-        const { password } = values
+    // if (step === 0) {
+    //   const form: WrappedFormUtils = this.seedForm.props.form
+    //   form.validateFieldsAndScroll((errors: any, values: any) => {
+    //     if (errors) {
+    //       hasError = true
+    //       return errors
+    //     }
+    //     const { password } = values
 
-        this.props.dispatch(
-          WalletActions.changePassword.started({
-            encryptionpassword: this.props.seed.primaryseed,
-            newpassword: password
-          })
-        )
-        return null
-      })
-    }
+    //     this.props.dispatch(
+    //       WalletActions.changePassword.started({
+    //         encryptionpassword: this.props.seed.primaryseed,
+    //         newpassword: password
+    //       })
+    //     )
+    //     return null
+    //   })
+    // }
     if (hasError) {
       return
     }
@@ -71,58 +73,77 @@ class Onboarding extends React.Component<Props, State> {
   render() {
     const { step } = this.state
     const { seed } = this.props
+    const mockseed =
+      'avoid economics rover nota etoag eeemsk renting mohawk guarded yoga dotted inundate jackets hesitate picked dual eclipse aided tarnished often among dilute pizza calamity suede olive bygones ptrhon abloze'
     return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        flexDirection="column"
-        bg="near-white"
-        height="100vh"
-        width="100%"
-        p={4}
-      >
-        <Box mx={5}>
-          <Steps current={step}>
-            <Step title="Generate Seed" />
-            <Step title="Verify Seed" />
-            <Step title="Wallet Scan" />
-          </Steps>
-          <Box display="flex" justifyContent="center" flexDirection="column" mt={4} height="400px">
-            {step === 0 && (
-              <SeedForm seed={seed} wrappedComponentRef={(form: any) => (this.seedForm = form)} />
-            )}
-            {step === 1 && <Text>{seed.primaryseed}</Text>}
-            {step === 2 && <Text>Coming soon... still under construction...</Text>}
-          </Box>
-          <Box display="flex" justifyContent="space-between">
-            <Button.Group>
-              {step === 0 ? (
-                <Button type="ghost" onClick={this.routeTo('/protected')}>
-                  Back to Home
-                </Button>
-              ) : (
-                <Button type="ghost" onClick={this.prevStep}>
-                  Previous
-                </Button>
+      <DragContiner>
+        <Flex
+          justifyContent="center"
+          flexDirection="column"
+          bg="near-white"
+          height="100vh"
+          width="100%"
+          p={4}
+        >
+          <Box mx={5}>
+            <Steps current={step}>
+              <Step title="Generated Seed" />
+              <Step title="Verify Seed" />
+              <Step title="Set Password" />
+            </Steps>
+            <Box mt={4} height="450px">
+              {step === 0 && (
+                <Box>
+                  <Card mb={4}>
+                    <Box width={3 / 4}>
+                      <Text fontSize={2}>
+                        This is your generated seed. Please safely copy and store this seed
+                        somewhere safe. It is used to recover funds in case the wallet is lost.
+                      </Text>
+                    </Box>
+                  </Card>
+                  <Grid gridTemplateColumns="repeat(6, 1fr)" gridGap={3}>
+                    {mockseed.split(' ').map((v, i) => (
+                      <Box>
+                        <Input prefix={<Text color="silver">{i}</Text>} value={v} />
+                      </Box>
+                    ))}
+                  </Grid>
+                </Box>
               )}
-            </Button.Group>
-            {step < 2 && (
+              {step === 1 && <Text>{seed.primaryseed}</Text>}
+              {step === 2 && <Text>Coming soon... still under construction...</Text>}
+            </Box>
+            <Flex justifyContent="space-between">
               <Button.Group>
-                <Button onClick={this.nextStep} type="primary">
-                  Next
-                </Button>
+                {step === 0 ? (
+                  <Button type="ghost" size="large" onClick={this.routeTo('/protected')}>
+                    Back to Home
+                  </Button>
+                ) : (
+                  <Button type="ghost" size="large" onClick={this.prevStep}>
+                    Previous
+                  </Button>
+                )}
               </Button.Group>
-            )}
-            {step === 2 && (
-              <Button.Group>
-                <Button onClick={this.done} type="primary">
-                  Done
-                </Button>
-              </Button.Group>
-            )}
+              {step < 2 && (
+                <Button.Group>
+                  <Button size="large" onClick={this.nextStep} type="primary">
+                    Next
+                  </Button>
+                </Button.Group>
+              )}
+              {step === 2 && (
+                <Button.Group>
+                  <Button size="large" onClick={this.done} type="primary">
+                    Done
+                  </Button>
+                </Button.Group>
+              )}
+            </Flex>
           </Box>
-        </Box>
-      </Box>
+        </Flex>
+      </DragContiner>
     )
   }
 }

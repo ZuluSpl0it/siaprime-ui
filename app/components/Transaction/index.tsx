@@ -3,9 +3,9 @@ import { Box, Card, Text } from 'components/atoms'
 import { WalletModel } from 'models'
 import * as moment from 'moment/moment'
 import * as React from 'react'
-import { Flex } from 'rebass'
 import { StructuredTransaction } from 'selectors'
 import { ThemeProps, withTheme } from 'styled-components'
+import { Flex } from 'components/atoms/Flex'
 
 const Checkmark = ({ color }: any) => (
   <Icon style={{ fontSize: 16, color: color || 'green' }} type="check-circle" />
@@ -44,14 +44,14 @@ export const TransactionItem = withTheme(
       <Box my={2}>
         <Card>
           <Flex alignItems="center" py={2}>
-            <Box display="flex" justifyContent="center" alignItems="center" pr={3}>
+            <Flex justifyContent="center" alignItems="center" pr={3}>
               {parseFloat(sc) > 0 ? (
                 <ReceiveIcon color={theme.colors['sia-green']} />
               ) : (
                 <SendIcon />
               )}
-            </Box>
-            <Box mr={4} width="120px" css={{ flexShrink: 0 }}>
+            </Flex>
+            <Box mr={4} width="120px" style={{ flexShrink: 0 }}>
               <Text is="div">{sc} SC</Text>
             </Box>
             <Box>

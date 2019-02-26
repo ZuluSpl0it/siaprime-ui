@@ -7,6 +7,7 @@ import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { selectConsensus } from 'selectors'
+import { Flex } from 'components/atoms/Flex'
 
 interface StateProps {
   consensus: ConsensusModel.ConsensusGETResponse
@@ -43,14 +44,8 @@ class AppHeader extends React.Component<StateProps & DispatchProp, {}> {
     const { consensus } = this.props
     return (
       <React.Fragment>
-        <HeaderBox
-          px={3}
-          height={2}
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Box display="flex" justifyContent="center" alignItems="center">
+        <HeaderBox px={3} height={2} justifyContent="space-between" alignItems="center">
+          <Flex justifyContent="center" alignItems="center">
             <div onClick={this.lockWallet}>
               <AppIconButton iconType="lock" />
             </div>
@@ -64,10 +59,10 @@ class AppHeader extends React.Component<StateProps & DispatchProp, {}> {
             <div onClick={this.showTerminalModal}>
               <AppIconButton iconType="right-square" />
             </div>
-          </Box>
-          <Box display="flex" justifyContent="center" alignItems="center">
+          </Flex>
+          <Flex justifyContent="center" alignItems="center">
             <SynchronizeStatus {...consensus} />
-          </Box>
+          </Flex>
         </HeaderBox>
         <AboutModal visible={this.state.visible} onOk={this.handleOk} />
         <TerminalModal visible={this.state.terminalVisible} onOk={this.handleTerminalOk} />
