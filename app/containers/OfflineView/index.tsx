@@ -1,6 +1,6 @@
 import { GlobalActions } from 'actions'
 import { Spin } from 'antd'
-import { Box, DragContiner } from 'components/atoms'
+import { Box, DragContiner, SVGBox } from 'components/atoms'
 import { OfflineState } from 'components/EmptyStates'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
@@ -8,6 +8,8 @@ import { Redirect } from 'react-router'
 import { UIReducer } from 'reducers/ui'
 import { createStructuredSelector } from 'reselect'
 import { selectSiadState } from 'selectors'
+import Wordmark from 'assets/svg/wordmark.svg'
+import { SiaSpinner } from 'components/GSAP'
 
 interface StateProps {
   siad: UIReducer.SiadState
@@ -24,9 +26,17 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
     }
     if (siad.loading) {
       return (
-        <Box display="flex" height="100vh" width="100%" justifyContent="center" alignItems="center">
-          <Spin tip="Loading Sia-UI..." />{' '}
-        </Box>
+        <DragContiner>
+          <Box
+            display="flex"
+            height="100vh"
+            width="100%"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <SiaSpinner />
+          </Box>
+        </DragContiner>
       )
     }
     return (

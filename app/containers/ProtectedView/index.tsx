@@ -7,7 +7,8 @@ import {
   defaultFieldState,
   DragContiner,
   FormItemProps,
-  SVGBox
+  SVGBox,
+  Text
 } from 'components/atoms'
 import { WalletModel } from 'models'
 import * as React from 'react'
@@ -21,6 +22,7 @@ import { WalletRootReducer } from 'reducers/wallet'
 import { selectConsensus, selectSeedState, selectSiadState, selectWalletSummary } from 'selectors'
 
 import SetupView from './SetupView'
+import { SiaSpinner } from 'components/GSAP'
 
 interface State {
   password: FormItemProps
@@ -100,25 +102,29 @@ class ProtectedView extends React.Component<Props, State> {
           height="100vh"
           width="100%"
         >
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            flexDirection="column"
-            pb={4}
-          >
-            <Flex alignItems="center" justifyContent="center">
-              <SVGBox height="40px">
-                <Wordmark viewBox="0 0 97 58" />
-              </SVGBox>
+          {unlockFormHelp.loading && (
+            <Flex justifyContent="center" flexDirection="column" alignItems="center">
+              <SiaSpinner width="100px" height="100px" />
+              <Box py={4}>
+                <Text color="mid-gray">Logging In</Text>
+              </Box>
             </Flex>
-          </Box>
-          <Box width="300px" height="100px" pt={3}>
-            {unlockFormHelp.loading || wallet.unlocked ? (
-              <Flex justifyContent="center">
-                <Spin tip="Logging In" />
-              </Flex>
-            ) : (
+          )}
+          {!unlockFormHelp.loading && (
+            <Box width="300px" pt={3} display="flex" flexDirection="column">
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+                pb={4}
+              >
+                <Flex alignItems="center" justifyContent="center">
+                  <SVGBox height="40px">
+                    <Wordmark viewBox="0 0 97 58" />
+                  </SVGBox>
+                </Flex>
+              </Box>
               <Form.Item
                 hasFeedback
                 help={unlockFormHelp.help}
@@ -134,10 +140,6 @@ class ProtectedView extends React.Component<Props, State> {
                   size="large"
                 />
               </Form.Item>
-            )}
-          </Box>
-          {!unlockFormHelp.loading && !wallet.unlocked && (
-            <Button.Group>
               <ButtonWithAdornment
                 onClick={this.handleLogin}
                 type="primary"
@@ -147,7 +149,7 @@ class ProtectedView extends React.Component<Props, State> {
               >
                 Login
               </ButtonWithAdornment>
-            </Button.Group>
+            </Box>
           )}
         </Box>
       </DragContiner>

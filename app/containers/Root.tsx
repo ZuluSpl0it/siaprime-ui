@@ -1,6 +1,5 @@
 import { ConnectedRouter } from 'connected-react-router'
 import * as React from 'react'
-import { hot } from 'react-hot-loader'
 import { Provider } from 'react-redux'
 import { ThemeProvider, injectGlobal } from 'styled-components'
 import { StoreContext } from 'redux-react-hook'
@@ -8,6 +7,7 @@ import { StoreContext } from 'redux-react-hook'
 import Routes from '../routes'
 import cs from '../store/configureStore'
 import { theme } from '../theme'
+import { hot } from 'react-hot-loader'
 
 const { configureStore, history } = cs
 export const reduxStore = configureStore()
@@ -47,4 +47,4 @@ const Root = () => (
   </Provider>
 )
 
-export default hot(module as any)(Root)
+export default hot(module)(Root)

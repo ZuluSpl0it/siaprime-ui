@@ -7,7 +7,7 @@
     "lib": ["dom", "es6", "es7", "dom.iterable", "scripthost"],
     "alwaysStrict": true,
     "strictNullChecks": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "experimentalDecorators": true,
