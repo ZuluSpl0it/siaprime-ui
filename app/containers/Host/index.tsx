@@ -6,7 +6,6 @@ import { Stat } from 'components/Card'
 import { HostModel } from 'models'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
-import { Flex } from 'rebass'
 import { IndexState } from 'reducers'
 import { selectFolders, selectHostConfig } from 'selectors'
 import {
@@ -20,6 +19,7 @@ import {
 } from 'utils'
 
 import IntegerStep from './IntegerStep'
+import { Flex } from 'components/atoms/Flex'
 
 const { dialog } = require('electron').remote
 const checkDiskSpace = require('check-disk-space')
@@ -287,7 +287,7 @@ class Host extends React.Component<RenterProps, {}> {
                         name: 'uploadprice'
                       }
                     ].map((x, i) => (
-                      <Box key={i} pt={2} display="flex" alignItems="center">
+                      <Flex key={i} pt={2} alignItems="center">
                         <Text mr={2}>{x.title}</Text>
                         <Box width="200px" ml="auto">
                           <Form.Item>
@@ -304,7 +304,7 @@ class Host extends React.Component<RenterProps, {}> {
                             )}
                           </Form.Item>
                         </Box>
-                      </Box>
+                      </Flex>
                     ))}
                   </Form>
                 </Card>
@@ -408,10 +408,9 @@ class Host extends React.Component<RenterProps, {}> {
             </Box>
           ) : (
             <Flex justifyContent="center" alignItems="center">
-              <Box
+              <Flex
                 p={4}
                 height="400px"
-                display="flex"
                 flexDirection="column"
                 justifyContent="center"
                 alignItems="center"
@@ -424,7 +423,7 @@ class Host extends React.Component<RenterProps, {}> {
                 <Button onClick={this.addFolder} type="ghost" size="large">
                   Add a folder
                 </Button>
-              </Box>
+              </Flex>
             </Flex>
           )}
         </Box>

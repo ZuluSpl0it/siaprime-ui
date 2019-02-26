@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { Modal, Button } from 'antd'
 import { Box, Text, SVGBox } from 'components/atoms'
-import { Flex } from 'rebass'
 import Wordmark from 'assets/svg/wordmark.svg'
 import { defaultConfig } from 'config'
 import { shell } from 'electron'
+import { Flex } from 'components/atoms/Flex'
 
 interface AboutModalProps {
   visible: boolean

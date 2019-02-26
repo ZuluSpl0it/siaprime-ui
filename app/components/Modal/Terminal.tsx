@@ -2,8 +2,8 @@ import { Button, Input, Modal } from 'antd'
 import { Box } from 'components/atoms'
 import { spawnSiac } from 'components/Modal/util'
 import * as React from 'react'
-import { Flex } from 'rebass'
 import styled from 'styled-components'
+import { Flex } from 'components/atoms/Flex'
 
 interface TerminalModalProps {
   visible: boolean
@@ -45,7 +45,7 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
           </Button>
         ]}
       >
-        <Box display="flex" alignItems="center" height="50vh">
+        <Flex alignItems="center" height="50vh">
           <OuterPreWrap>
             <PreWrap>
               {stdout.map((s, i) => (
@@ -55,7 +55,7 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
               ))}
             </PreWrap>
           </OuterPreWrap>
-        </Box>
+        </Flex>
         <Input
           type="text"
           onPressEnter={async (e: any) => {

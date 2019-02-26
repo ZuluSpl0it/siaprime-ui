@@ -3,8 +3,9 @@ import { Button, Icon } from 'antd'
 import { shell } from 'electron'
 import * as React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
-import { Flex } from 'rebass'
 import styled from 'styled-components'
+import { Box } from './Box'
+import { Flex } from './Flex'
 
 export const defaultFieldState = {
   value: undefined,
@@ -26,47 +27,48 @@ export const ElectronLink = ({ href, children }: any) => {
     </a>
   )
 }
+export * from './Box'
 
-export const Box = system(
-  {
-    position: 'relative',
-    color: 'near-black'
-  },
-  // core
-  'space',
-  'width',
-  'color',
-  'fontSize',
-  // borders
-  'borders',
-  'borderColor',
-  'borderRadius',
-  // layout
-  'display',
-  'maxWidth',
-  'minWidth',
-  'height',
-  'maxHeight',
-  'minHeight',
-  // flexbox
-  'alignItems',
-  'alignContent',
-  'justifyContent',
-  'flexWrap',
-  'flexDirection',
-  'flex',
-  'flexBasis',
-  'justifySelf',
-  'alignSelf',
-  'order',
-  // position
-  'position',
-  'zIndex',
-  'top',
-  'right',
-  'bottom',
-  'left'
-)
+// export const Box = system(
+//   {
+//     position: 'relative',
+//     color: 'near-black'
+//   },
+//   // core
+//   'space',
+//   'width',
+//   'color',
+//   'fontSize',
+//   // borders
+//   'borders',
+//   'borderColor',
+//   'borderRadius',
+//   // layout
+//   'display',
+//   'maxWidth',
+//   'minWidth',
+//   'height',
+//   'maxHeight',
+//   'minHeight',
+//   // flexbox
+//   'alignItems',
+//   'alignContent',
+//   'justifyContent',
+//   'flexWrap',
+//   'flexDirection',
+//   'flex',
+//   'flexBasis',
+//   'justifySelf',
+//   'alignSelf',
+//   'order',
+//   // position
+//   'position',
+//   'zIndex',
+//   'top',
+//   'right',
+//   'bottom',
+//   'left'
+// )
 
 export const OverflowBox = Box.extend`
   overflow-y: auto;
@@ -146,12 +148,12 @@ export const AppRegionDrag = styled.div`
   left: 0;
   right: 0;
 `
-export const Image = Box.extend`
+export const Image = styled(Box)`
   max-width: 100%;
   height: auto;
 `.withComponent('img')
 
-export const Caps = Text.extend`
+export const Caps = styled(Text)`
   text-transform: uppercase;
 `
 
@@ -173,27 +175,26 @@ export const Header = system(
   'letterSpacing'
 )
 
-const Adornment = Box.extend`
-  display: flex;
+const Adornment = styled(Flex)<any>`
   position: absolute;
   opacity: ${(props: any) => (props.disabled ? 0.25 : 1)};
 `
 
 export const TextWithAdornment = ({ before, after, disabled, ...props }: any) => {
   return (
-    <Box display="flex" alignItems="center" position="relative">
+    <Flex alignItems="center" position="relative">
       {before && (
-        <Adornment left="0" pl={2} disabled={disabled}>
+        <Adornment style={{ left: 0 }} ml={2} disabled={disabled}>
           {before}
         </Adornment>
       )}
       <Text py={2} pl={before ? 4 : 2} pr={after ? 4 : 2} {...props} />
       {after && (
-        <Adornment right="0" pr={2} disabled={disabled}>
+        <Adornment style={{ right: 0 }} pr={2} disabled={disabled}>
           {after}
         </Adornment>
       )}
-    </Box>
+    </Flex>
   )
 }
 
@@ -216,7 +217,7 @@ interface MenuItemProps {
 const StyledActiveEnhancer = (Component: any) =>
   styled(({ active, ...props }: any) => <Component {...props} />)
 
-const ActivationBox = StyledActiveEnhancer(Box)`
+const ActivationBox = StyledActiveEnhancer(Flex)`
   background: ${(props: any) => (props.active ? props.theme.colors['near-white'] : 'transparent')};
   &:hover {
     cursor: pointer;
@@ -224,7 +225,7 @@ const ActivationBox = StyledActiveEnhancer(Box)`
   }
 `
 
-const DarkerActivationBox = ActivationBox.extend`
+const DarkerActivationBox = styled(ActivationBox)`
   background: ${(props: any) => (props.active ? props.theme.colors['light-gray'] : 'transparent')};
   &:hover {
     cursor: pointer;
@@ -251,13 +252,13 @@ export const MenuItem = ({ title, active = false, iconType }: MenuItemProps) => 
   )
 }
 
-export const HeaderBox = Box.extend`
+export const HeaderBox = styled(Flex)`
   position: absolute;
   width: 100%;
   border-bottom: 1px solid ${(props: any) => props.theme.colors['light-gray']};
 `
 
-export const SVGBox = Box.extend`
+export const SVGBox = styled(Box)`
   svg {
     height: 100%;
     width: auto;
@@ -271,7 +272,6 @@ interface AppIconButtonProps {
 export const AppIconButton = ({ iconType }: AppIconButtonProps & any) => {
   return (
     <DarkerActivationBox
-      display="flex"
       alignItems="center"
       justifyContent="center"
       height="40px"
@@ -294,7 +294,6 @@ export const MenuIconButton = withRouter(
     return (
       <DarkerActivationBox
         active={pathname === location.pathname}
-        display="flex"
         alignItems="center"
         justifyContent="center"
         height="40px"

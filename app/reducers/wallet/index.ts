@@ -25,7 +25,7 @@ export namespace WalletRootReducer {
 
   // Summary State
   const InitialSummaryState: WalletModel.WalletGET = {
-    encrypted: true,
+    encrypted: false,
     height: 0,
     rescanning: false,
     unlocked: false,

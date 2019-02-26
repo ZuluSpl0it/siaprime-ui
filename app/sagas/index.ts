@@ -9,8 +9,8 @@ import { siad } from 'api/siad'
 import BigNumber from 'bignumber.js'
 import { ConsensusModel, GatewayModel, HostModel } from 'models'
 import { HostReducer } from 'reducers/hosts'
-import { SagaIterator } from 'redux-saga'
-import { all, call, put, select, spawn, take, takeLatest } from 'redux-saga/effects'
+import { SagaIterator, delay } from 'redux-saga'
+import { all, call, fork, cancel, put, select, spawn, take, takeLatest } from 'redux-saga/effects'
 import { selectHost } from 'selectors'
 import { bindAsyncAction } from 'typescript-fsa-redux-saga'
 
@@ -274,6 +274,25 @@ function* setAllowanceWatcher() {
   }
 }
 
+function* pollSiad() {
+  while (true) {
+    const running = yield call(siad.isRunning)
+    if (running) {
+      yield put(GlobalActions.siadLoaded())
+    } else {
+      yield put(GlobalActions.siadOffline())
+      yield put(GlobalActions.stopPolling())
+    }
+    yield call(delay, 3000)
+  }
+}
+
+function* pollRunning() {
+  const bgPoll = yield fork(pollSiad)
+  yield take(GlobalActions.stopSiadPolling)
+  yield cancel(bgPoll)
+}
+
 // Root Saga
 export default function* rootSaga() {
   yield all([
@@ -283,6 +302,7 @@ export default function* rootSaga() {
     takeLatest(HostActions.getHostStorage.started, getStorageWorker),
     takeLatest(HostActions.getHostConfig.started, hostConfigWorker),
     takeLatest(HostActions.announceHost.started, announceHostWorker),
+    takeLatest(GlobalActions.startSiadPolling, pollRunning),
     hostConfigWatcher(),
     addFolderWatcher(),
     resizeFolderWatcher(),

@@ -7,6 +7,7 @@ import { Redirect, RouteComponentProps, withRouter } from 'react-router'
 import { ConsensusRootReducer } from 'reducers/consensus'
 import { createStructuredSelector } from 'reselect'
 import { selectConsensus } from 'selectors'
+import { Flex } from 'components/atoms/Flex'
 
 interface StateProps {
   consensus: ConsensusRootReducer.State
@@ -31,19 +32,18 @@ class SyncView extends React.Component<StateProps & DispatchProp & RouteComponen
     const syncPercentage = Math.ceil((consensus.height / (chooseBigger + 5)) * 100)
     return (
       <DragContiner>
-        <Box height="100vh" width="100%" justifyContent="center" alignItems="center">
-          <Box
-            display="flex"
+        <Flex height="100vh" width="100%" justifyContent="center" alignItems="center">
+          <Flex
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
             width="100%"
             height="100%"
           >
-            <Box width={1 / 3} css={{ textAlign: 'center' }} pb={2}>
+            <Box width={1 / 3} style={{ textAlign: 'center' }} pb={2}>
               <Icon type="loading" style={{ fontSize: 14 }} spin />
             </Box>
-            <Box mx={2} width={1 / 3} css={{ textAlign: 'center' }}>
+            <Box mx={2} width={1 / 3} style={{ textAlign: 'center' }}>
               <Text is="p" color="mid-gray" fontSize={3}>
                 Sia is currently syncing with the network
               </Text>
@@ -68,8 +68,8 @@ class SyncView extends React.Component<StateProps & DispatchProp & RouteComponen
                 </ButtonWithAdornment>
               </Button.Group>
             </Box>
-          </Box>
-        </Box>
+          </Flex>
+        </Flex>
       </DragContiner>
     )
   }

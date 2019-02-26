@@ -53,6 +53,7 @@ class MainView extends React.Component<Props & DispatchProp & StateProps, {}> {
   componentDidMount = async () => {
     if (await siad.isRunning()) {
       this.props.dispatch(GlobalActions.startPolling())
+      this.props.dispatch(GlobalActions.startSiadPolling())
     }
   }
   componentWillUnmount() {
@@ -68,7 +69,7 @@ class MainView extends React.Component<Props & DispatchProp & StateProps, {}> {
     }
     return (
       <DragContiner>
-        <Box px={20} pt={5} width="240px" bg="white" css={{ flexShrink: 0 }}>
+        <Box px={20} pt={5} width="240px" bg="white" style={{ flexShrink: 0 }}>
           <SVGBox height="40px">
             <Wordmark viewBox="0 0 97 58" />
           </SVGBox>
@@ -90,7 +91,7 @@ class MainView extends React.Component<Props & DispatchProp & StateProps, {}> {
           </Box>
         </Box>
 
-        <Box width={1} css={{ height: '100vh' }} bg="near-white">
+        <Box width={1} style={{ height: '100vh' }} bg="near-white">
           <RequireConsensusData>
             <AppHeader />
           </RequireConsensusData>
@@ -98,7 +99,7 @@ class MainView extends React.Component<Props & DispatchProp & StateProps, {}> {
             mt="64px"
             height="calc(100% - 64px)"
             width="calc(100vw - 240px)"
-            css={{ overflow: 'auto' }}
+            style={{ overflow: 'auto' }}
             p={4}
           >
             <Switch>

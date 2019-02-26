@@ -129,6 +129,7 @@
     "awesome-typescript-loader": "5.2.1",
     "babel-loader": "8.0.4",
     "babel-plugin-import": "1.9.1",
+    "babel-plugin-styled-components": "1.10.0",
     "babel-preset-es2015": "6.24.1",
     "boiler-room-custodian": "^0.6.2",
     "concurrently": "^3.1.0",

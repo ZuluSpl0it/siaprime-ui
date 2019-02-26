@@ -8,6 +8,7 @@ import { Route, Switch } from 'react-router'
 
 import App from './containers/App'
 import MainView from './containers/MainView'
+import SetupView from 'containers/ProtectedView/SetupView'
 
 class Routes extends React.Component<{}, {}> {
   render() {

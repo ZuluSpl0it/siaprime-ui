@@ -11,6 +11,7 @@ import { ConsensusRootReducer } from 'reducers/consensus'
 import { OrganizedTx, selectConsensus, selectOrganizedTx } from 'selectors'
 import styled from 'styled-components'
 import { themeGet } from 'styled-system'
+import { Flex } from 'components/atoms/Flex'
 
 interface StateProps {
   transactions: OrganizedTx
@@ -86,7 +87,7 @@ class TransactionView extends React.Component<Props, {}> {
               render: (value: any) => {
                 const isRed = parseFloat(value) < 0 ? true : false
                 return (
-                  <Box display="flex">
+                  <Flex>
                     <Box pr="2px">
                       <Icon
                         style={{
@@ -100,7 +101,7 @@ class TransactionView extends React.Component<Props, {}> {
                     <Text fontSize="14px" fontWeight={500} color="mid-gray" ml="auto">
                       {parseFloat(value).toLocaleString('en-US')} <Text color="gray">SC</Text>
                     </Text>
-                  </Box>
+                  </Flex>
                 )
               }
             },
@@ -168,17 +169,17 @@ class TransactionView extends React.Component<Props, {}> {
               render: (x: number) => {
                 const confs = currHeight - x
                 return confs < 6 ? (
-                  <Box display="flex" alignItems="center" color="mid-gray" justifyContent="center">
+                  <Flex alignItems="center" color="mid-gray" justifyContent="center">
                     <Text fontSize="14px" fontWeight={400}>
                       {currHeight - x}/6
                     </Text>
-                  </Box>
+                  </Flex>
                 ) : (
-                  <Box display="flex" alignItems="center" justifyContent="center">
+                  <Flex alignItems="center" justifyContent="center">
                     <Tooltip title={`${confs} Confirmations`}>
                       <Icon style={{ color: '#1ED660' }} type="check-circle" />
                     </Tooltip>
-                  </Box>
+                  </Flex>
                 )
               }
             }

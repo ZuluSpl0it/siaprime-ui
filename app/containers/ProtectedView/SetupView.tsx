@@ -1,4 +1,4 @@
-import { WalletActions } from 'actions'
+import { WalletActions, GlobalActions } from 'actions'
 import { Button } from 'antd'
 import { Box, ButtonWithAdornment, DragContiner, Text } from 'components/atoms'
 import * as React from 'react'
@@ -7,6 +7,7 @@ import { RouteComponentProps, withRouter } from 'react-router'
 import { IndexState } from 'reducers'
 import { WalletRootReducer } from 'reducers/wallet'
 import { selectSeedState } from 'selectors'
+import { Flex } from 'components/atoms/Flex'
 
 interface StateProps {
   seed: WalletRootReducer.SeedState
@@ -15,21 +16,23 @@ interface StateProps {
 type Props = RouteComponentProps & DispatchProp & StateProps
 
 class SetupView extends React.Component<Props, {}> {
+  componentDidMount() {
+    this.props.dispatch(GlobalActions.stopPolling())
+  }
   routeTo = (path: string) => () => {
     this.props.history.push(path)
   }
   generateWallet = () => {
     const { seed } = this.props
-    if (!seed.primaryseed) {
-      this.props.dispatch(WalletActions.createNewWallet.started({}))
-    }
+    // if (!seed.primaryseed) {
+    //   this.props.dispatch(WalletActions.createNewWallet.started({}))
+    // }
     this.props.history.push('/onboarding')
   }
   render() {
     return (
       <DragContiner>
-        <Box
-          display="flex"
+        <Flex
           justifyContent="center"
           alignItems="center"
           flexDirection="column"
@@ -43,28 +46,28 @@ class SetupView extends React.Component<Props, {}> {
               Welcome to Sia
             </Text>
           </Box>
-          <Box width={1 / 3} my={3} css={{ textAlign: 'center' }}>
+          <Flex width="300px" my={3} style={{ textAlign: 'center' }}>
             <Text fontSize={3} color="mid-gray">
-              It looks like you don't have a wallet setup yet. Would you like to create a new wallet
-              or restore your wallet for a seed?
+              Would you like to create a new wallet or restore your wallet from a seed?
             </Text>
-          </Box>
+          </Flex>
           <Box pt={3}>
             <Button.Group>
               <ButtonWithAdornment
                 onClick={this.generateWallet}
                 before
+                size="large"
                 iconType="wallet"
                 type="primary"
               >
                 Create new wallet
               </ButtonWithAdornment>
-              <ButtonWithAdornment after iconType="right">
+              <ButtonWithAdornment size="large" after iconType="right">
                 Restore from seed
               </ButtonWithAdornment>
             </Button.Group>
           </Box>
-        </Box>
+        </Flex>
       </DragContiner>
     )
   }

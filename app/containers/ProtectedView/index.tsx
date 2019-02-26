@@ -14,7 +14,6 @@ import { WalletModel } from 'models'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { Redirect } from 'react-router'
-import { Flex } from 'rebass'
 import { IndexState } from 'reducers'
 import { ConsensusRootReducer } from 'reducers/consensus'
 import { UIReducer } from 'reducers/ui'
@@ -23,6 +22,7 @@ import { selectConsensus, selectSeedState, selectSiadState, selectWalletSummary 
 
 import SetupView from './SetupView'
 import { SiaSpinner } from 'components/GSAP'
+import { Flex } from 'components/atoms/Flex'
 
 interface State {
   password: FormItemProps
@@ -53,9 +53,6 @@ class ProtectedView extends React.Component<Props, State> {
     // }
   }
   componentDidMount() {
-    this.props.dispatch(GlobalActions.startPolling())
-  }
-  componentWillUnmount() {
     this.props.dispatch(GlobalActions.stopPolling())
   }
   handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,16 +82,15 @@ class ProtectedView extends React.Component<Props, State> {
     if (wallet.rescanning) {
       return <Redirect to="/scanning" />
     }
-    if (wallet.unlocked) {
-      return <Redirect to="/" />
-    }
     if (!wallet.encrypted || seed.primaryseed) {
       return <SetupView />
     }
+    if (wallet.unlocked) {
+      return <Redirect to="/" />
+    }
     return (
       <DragContiner>
-        <Box
-          display="flex"
+        <Flex
           justifyContent="center"
           alignItems="center"
           flexDirection="column"
@@ -111,20 +107,14 @@ class ProtectedView extends React.Component<Props, State> {
             </Flex>
           )}
           {!unlockFormHelp.loading && (
-            <Box width="300px" pt={3} display="flex" flexDirection="column">
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                flexDirection="column"
-                pb={4}
-              >
+            <Flex width="300px" pt={3} flexDirection="column">
+              <Flex justifyContent="center" alignItems="center" flexDirection="column" pb={4}>
                 <Flex alignItems="center" justifyContent="center">
                   <SVGBox height="40px">
                     <Wordmark viewBox="0 0 97 58" />
                   </SVGBox>
                 </Flex>
-              </Box>
+              </Flex>
               <Form.Item
                 hasFeedback
                 help={unlockFormHelp.help}
@@ -149,9 +139,9 @@ class ProtectedView extends React.Component<Props, State> {
               >
                 Login
               </ButtonWithAdornment>
-            </Box>
+            </Flex>
           )}
-        </Box>
+        </Flex>
       </DragContiner>
     )
   }
