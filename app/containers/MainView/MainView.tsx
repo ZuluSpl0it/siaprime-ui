@@ -15,6 +15,7 @@ import { Redirect, Route, Switch } from 'react-router'
 import { IndexState } from 'reducers'
 import { UIReducer } from 'reducers/ui'
 import { selectSiadState, selectWalletSummary } from 'selectors'
+import { siad } from 'api/siad'
 
 const routes: SidebarItem[] = [
   {
@@ -49,8 +50,10 @@ interface StateProps {
 }
 
 class MainView extends React.Component<Props & DispatchProp & StateProps, {}> {
-  componentDidMount() {
-    this.props.dispatch(GlobalActions.startPolling())
+  componentDidMount = async () => {
+    if (await siad.isRunning()) {
+      this.props.dispatch(GlobalActions.startPolling())
+    }
   }
   componentWillUnmount() {
     this.props.dispatch(GlobalActions.stopPolling())

@@ -15,9 +15,6 @@ interface StateProps {
 
 class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
   componentDidMount() {
-    this.props.dispatch(GlobalActions.startPolling())
-  }
-  componentWillUnmount() {
     this.props.dispatch(GlobalActions.stopPolling())
   }
   render() {

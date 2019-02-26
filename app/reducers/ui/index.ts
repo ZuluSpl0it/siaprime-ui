@@ -1,4 +1,4 @@
-import { WalletActions } from 'actions'
+import { WalletActions, GlobalActions } from 'actions'
 import { combineReducers } from 'redux'
 import { reducerWithInitialState } from 'typescript-fsa-reducers'
 
@@ -9,6 +9,7 @@ export namespace UIReducer {
   }
 
   export interface SiadState {
+    isInternal: boolean
     isActive: boolean
     loading: boolean
   }
@@ -26,6 +27,7 @@ export namespace UIReducer {
   }
 
   const InitialSiadState = {
+    isInternal: true,
     isActive: false,
     loading: true
   }
@@ -50,16 +52,31 @@ export namespace UIReducer {
     .case(WalletActions.unlockWallet.done, () => InitialUnlockState)
 
   const SiadReducer = reducerWithInitialState(InitialSiadState)
-    .case(WalletActions.getWallet.done, () => {
+    .case(GlobalActions.siadLoaded, (state, _) => {
       return {
+        ...state,
         isActive: true,
         loading: false
       }
     })
-    .case(WalletActions.getWallet.failed, () => {
+    .case(GlobalActions.siadOffline, (state, _) => {
       return {
+        ...state,
         isActive: false,
         loading: false
+      }
+    })
+    .case(GlobalActions.siadLoading, (state, _) => {
+      return {
+        ...state,
+        isActive: false,
+        loading: true
+      }
+    })
+    .case(GlobalActions.setSiadOrigin, (state, payload) => {
+      return {
+        ...state,
+        isInternal: payload.isInternal
       }
     })
 
