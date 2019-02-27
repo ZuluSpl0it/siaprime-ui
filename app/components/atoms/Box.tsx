@@ -27,7 +27,9 @@ import {
   overflow,
   OverflowProps,
   gridColumn,
-  GridColumnProps
+  GridColumnProps,
+  borderRadius,
+  BorderRadiusProps
 } from 'styled-system'
 
 export type BoxProps = SpaceProps &
@@ -42,7 +44,8 @@ export type BoxProps = SpaceProps &
   MinHeightProps &
   TextAlignProps &
   OverflowProps &
-  GridColumnProps
+  GridColumnProps &
+  BorderRadiusProps
 
 export const Box = styled.div<BoxProps>`
   ${display}
@@ -59,6 +62,7 @@ export const Box = styled.div<BoxProps>`
   ${boxShadow}
   ${overflow}
   ${gridColumn}
+  ${borderRadius}
 `
 Box.displayName = 'Box'
 

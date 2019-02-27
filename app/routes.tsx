@@ -5,6 +5,7 @@ import RescanView from 'containers/RescanView'
 import SyncView from 'containers/SyncView'
 import * as React from 'react'
 import { Route, Switch } from 'react-router'
+import { hot } from 'react-hot-loader/root'
 
 import App from './containers/App'
 import MainView from './containers/MainView'
@@ -27,4 +28,4 @@ class Routes extends React.Component<{}, {}> {
   }
 }
 
-export default Routes
+export default hot(Routes)

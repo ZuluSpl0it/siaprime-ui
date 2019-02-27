@@ -1,7 +1,7 @@
 import { WalletActions } from 'actions'
-import { Button, Steps, Input } from 'antd'
+import { Button, Steps, Input, Icon } from 'antd'
 import { WrappedFormUtils } from 'antd/lib/form/Form'
-import { Box, Text, Card, DragContiner } from 'components/atoms'
+import { Box, Text, Card, DragContiner, ButtonWithAdornment } from 'components/atoms'
 import { SeedForm } from 'components/Forms'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
@@ -11,11 +11,14 @@ import { WalletRootReducer } from 'reducers/wallet'
 import { selectSeedState } from 'selectors'
 import { Grid } from 'components/atoms/Grid'
 import { Flex } from 'components/atoms/Flex'
+import { GenerateSeedView } from './GenerateSeedView'
+import { VerifySeedView } from './VerifySeedView'
 
 const { Step } = Steps
 
 interface State {
   step: number
+  seedCheckValid: boolean
 }
 
 interface StateProps {
@@ -27,33 +30,11 @@ type Props = RouteComponentProps & StateProps & DispatchProp
 class Onboarding extends React.Component<Props, State> {
   seedForm: any
   state = {
-    step: 0
+    step: 0,
+    seedCheckValid: false
   }
 
   nextStep = () => {
-    const { step } = this.state
-    let hasError = false
-    // if (step === 0) {
-    //   const form: WrappedFormUtils = this.seedForm.props.form
-    //   form.validateFieldsAndScroll((errors: any, values: any) => {
-    //     if (errors) {
-    //       hasError = true
-    //       return errors
-    //     }
-    //     const { password } = values
-
-    //     this.props.dispatch(
-    //       WalletActions.changePassword.started({
-    //         encryptionpassword: this.props.seed.primaryseed,
-    //         newpassword: password
-    //       })
-    //     )
-    //     return null
-    //   })
-    // }
-    if (hasError) {
-      return
-    }
     this.setState({
       step: this.state.step += 1
     })
@@ -67,14 +48,23 @@ class Onboarding extends React.Component<Props, State> {
     this.props.history.push(path)
   }
   done = () => {
-    this.props.dispatch(WalletActions.clearSeed())
-    this.props.history.push('/protected')
+    const { seedCheckValid } = this.state
+    if (seedCheckValid) {
+      this.props.dispatch(WalletActions.clearSeed())
+      this.props.history.push('/protected')
+    }
+  }
+  handleSeedCheck = (v: boolean) => {
+    this.setState({
+      seedCheckValid: v
+    })
   }
   render() {
     const { step } = this.state
     const { seed } = this.props
-    const mockseed =
-      'avoid economics rover nota etoag eeemsk renting mohawk guarded yoga dotted inundate jackets hesitate picked dual eclipse aided tarnished often among dilute pizza calamity suede olive bygones ptrhon abloze'
+    const { primaryseed } = seed
+    console.log('seed state', seed)
+    // TODO should show loading and error states
     return (
       <DragContiner>
         <Flex
@@ -89,30 +79,14 @@ class Onboarding extends React.Component<Props, State> {
             <Steps current={step}>
               <Step title="Generated Seed" />
               <Step title="Verify Seed" />
-              <Step title="Set Password" />
+              {/* <Step title="Set Password" /> */}
             </Steps>
             <Box mt={4} height="450px">
-              {step === 0 && (
-                <Box>
-                  <Card mb={4}>
-                    <Box width={3 / 4}>
-                      <Text fontSize={2}>
-                        This is your generated seed. Please safely copy and store this seed
-                        somewhere safe. It is used to recover funds in case the wallet is lost.
-                      </Text>
-                    </Box>
-                  </Card>
-                  <Grid gridTemplateColumns="repeat(6, 1fr)" gridGap={3}>
-                    {mockseed.split(' ').map((v, i) => (
-                      <Box>
-                        <Input prefix={<Text color="silver">{i}</Text>} value={v} />
-                      </Box>
-                    ))}
-                  </Grid>
-                </Box>
+              {step === 0 && <GenerateSeedView seed={primaryseed} />}
+              {step === 1 && (
+                <VerifySeedView seed={primaryseed} setAllValid={this.handleSeedCheck} />
               )}
-              {step === 1 && <Text>{seed.primaryseed}</Text>}
-              {step === 2 && <Text>Coming soon... still under construction...</Text>}
+              {/* {step === 2 && <Text>Coming soon... still under construction...</Text>} */}
             </Box>
             <Flex justifyContent="space-between">
               <Button.Group>
@@ -126,14 +100,14 @@ class Onboarding extends React.Component<Props, State> {
                   </Button>
                 )}
               </Button.Group>
-              {step < 2 && (
+              {step < 1 && (
                 <Button.Group>
                   <Button size="large" onClick={this.nextStep} type="primary">
                     Next
                   </Button>
                 </Button.Group>
               )}
-              {step === 2 && (
+              {step === 1 && (
                 <Button.Group>
                   <Button size="large" onClick={this.done} type="primary">
                     Done

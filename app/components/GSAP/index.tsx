@@ -1,23 +1,21 @@
 import * as React from 'react'
 import { Box } from 'components/atoms'
 import { TimelineMax, TweenLite, TweenMax, Expo, Linear } from 'gsap'
+import styled from 'styled-components'
 import './bonus/DrawSVGPlugin.min.js'
-// 7F8C8D
-
-const composeAnimation = fn => (...args) => ref => fn(ref, ...args)
 
 export const SiaSpinner = ({ ...props }) => {
   const refHook = React.useRef(null)
-  const t = new TimelineMax({})
   React.useEffect(() => {
+    const t = new TimelineMax({})
     TweenLite.defaultEase = Expo.easeOut
     const drawPath = TweenMax.fromTo(
       'path',
-      0.5,
+      1.5,
       { drawSVG: '50% 50%', opacity: 0 },
       { drawSVG: true, opacity: 1 }
     )
-    const fadeInFromBottom = TweenMax.from('#sia-logo', 0.5, {
+    const fadeInFromBottom = TweenMax.from('#sia-logo', 2, {
       transform: 'translateY(100%)',
       opacity: 0
     })
@@ -32,20 +30,19 @@ export const SiaSpinner = ({ ...props }) => {
     })
     t.add([drawPath, fadeInFromBottom]).add([removePath, addGreen, addBorder, rotateCircle])
   }, [refHook])
+
+  // TODO: babel-plugin-styled-components not working with CSS props. Super annoying. This is a work-around.
+  const Wrap = styled(Box)`
+    svg {
+      path {
+        fill: transparent;
+        opacity: 0;
+      }
+    }
+  `
+
   return (
-    <Box
-      css={`
-        svg {
-          path {
-            fill: transparent;
-            opacity: 0;
-          }
-        }
-      `}
-      width="200px"
-      height="200px"
-      {...props}
-    >
+    <Wrap width="200px" height="200px" {...props}>
       <svg
         id="sia-logo"
         ref={refHook}
@@ -77,6 +74,6 @@ export const SiaSpinner = ({ ...props }) => {
           </g>
         </g>
       </svg>
-    </Box>
+    </Wrap>
   )
 }

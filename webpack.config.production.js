@@ -38,7 +38,7 @@ module.exports = merge(baseConfig, {
                     style: true // or 'css'
                   }
                 ],
-                'babel-plugin-styled-components'
+                ['babel-plugin-styled-components']
               ]
             }
           },

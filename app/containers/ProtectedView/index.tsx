@@ -44,13 +44,12 @@ class ProtectedView extends React.Component<Props, State> {
   }
   handleLogin = () => {
     const { password } = this.state
-    // if (password.value) {
     this.props.dispatch(
       WalletActions.unlockWallet.started({
         encryptionpassword: password.value as any
       })
     )
-    // }
+    this.props.dispatch(GlobalActions.startPolling())
   }
   componentDidMount() {
     this.props.dispatch(GlobalActions.stopPolling())

@@ -4,26 +4,31 @@ import { reduxStore } from './Root'
 import { connect, DispatchProp } from 'react-redux'
 import { GlobalActions } from 'actions'
 import {} from 'styled-components/cssprop'
+import { defaultConfig } from 'config'
+
+let process = null
 
 window.addEventListener('beforeunload', async e => {
-  const store = reduxStore.getState()
-  if (store.ui.siad.isInternal) {
+  if (process) {
     await siad.daemonStop()
   }
 })
 
 class App extends React.Component<DispatchProp> {
-  componentDidMount = () => {
+  componentDidMount = async () => {
     const { dispatch } = this.props
+    const isRunning = await siad.isRunning()
+    // If not running, we'll try to launch siad ourselves
     setTimeout(async () => {
-      const isRunning = await siad.isRunning()
-      // If not running, we'll try to launch siad ourselves
       if (!isRunning) {
         dispatch(GlobalActions.siadLoading())
-        dispatch(GlobalActions.setSiadOrigin({ isInternal: true }))
-        const loaded = await launchSiad()
-        if (loaded) {
-          dispatch(GlobalActions.siadLoaded())
+        const loadedProcess: any = await launchSiad()
+        if (loadedProcess) {
+          process = loadedProcess
+          dispatch(GlobalActions.setSiadOrigin({ isInternal: true }))
+          setTimeout(() => {
+            dispatch(GlobalActions.siadLoaded())
+          }, 2000)
         } else {
           dispatch(GlobalActions.siadOffline())
         }

@@ -37,7 +37,7 @@ export const launchSiad = () => {
         if (siad.isRunning()) {
           clearInterval(pollLoaded)
           clearInterval(timeout)
-          resolve(true)
+          resolve(p)
         }
       }, 2000)
     } catch (e) {
