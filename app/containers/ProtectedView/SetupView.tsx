@@ -24,9 +24,9 @@ class SetupView extends React.Component<Props, {}> {
   }
   generateWallet = () => {
     const { seed } = this.props
-    // if (!seed.primaryseed) {
-    //   this.props.dispatch(WalletActions.createNewWallet.started({}))
-    // }
+    if (!seed.primaryseed) {
+      this.props.dispatch(WalletActions.createNewWallet.started({}))
+    }
     this.props.history.push('/onboarding')
   }
   render() {

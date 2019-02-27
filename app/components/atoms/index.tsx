@@ -1,11 +1,12 @@
 import system from '@rebass/components'
-import { Button, Icon } from 'antd'
+import { Button, Icon, AutoComplete } from 'antd'
 import { shell } from 'electron'
 import * as React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 import styled from 'styled-components'
 import { Box } from './Box'
 import { Flex } from './Flex'
+import { themeGet } from 'styled-system'
 
 export const defaultFieldState = {
   value: undefined,
@@ -27,92 +28,20 @@ export const ElectronLink = ({ href, children }: any) => {
     </a>
   )
 }
-export * from './Box'
 
-// export const Box = system(
-//   {
-//     position: 'relative',
-//     color: 'near-black'
-//   },
-//   // core
-//   'space',
-//   'width',
-//   'color',
-//   'fontSize',
-//   // borders
-//   'borders',
-//   'borderColor',
-//   'borderRadius',
-//   // layout
-//   'display',
-//   'maxWidth',
-//   'minWidth',
-//   'height',
-//   'maxHeight',
-//   'minHeight',
-//   // flexbox
-//   'alignItems',
-//   'alignContent',
-//   'justifyContent',
-//   'flexWrap',
-//   'flexDirection',
-//   'flex',
-//   'flexBasis',
-//   'justifySelf',
-//   'alignSelf',
-//   'order',
-//   // position
-//   'position',
-//   'zIndex',
-//   'top',
-//   'right',
-//   'bottom',
-//   'left'
-// )
-
-export const OverflowBox = Box.extend`
+export const OverflowBox = styled(Box)`
   overflow-y: auto;
 `
 
-export const Card = system(
-  {
-    p: 3,
-    borderRadius: 2,
-    bg: 'white'
-  },
-  // core
-  'position',
-  'space',
-  'width',
-  'color',
-  'fontSize',
-  // borders
-  'borders',
-  'borderColor',
-  'borderRadius',
-  // typography
-  'textAlign',
-  // layout
-  'display',
-  'maxWidth',
-  'minWidth',
-  'height',
-  'maxHeight',
-  'minHeight',
-  // flexbox
-  'alignItems',
-  'alignContent',
-  'justifyContent',
-  'flexWrap',
-  'flexDirection',
-  'flex',
-  'flexBasis',
-  'justifySelf',
-  'alignSelf',
-  'order'
-).extend`
+export const Card = styled(Box)`
   box-shadow: ${(props: any) => props.theme.boxShadow[0]};
 `
+
+Card.defaultProps = {
+  p: 3,
+  borderRadius: 2,
+  bg: 'white'
+}
 
 export const Text = system(
   {
@@ -201,9 +130,9 @@ export const TextWithAdornment = ({ before, after, disabled, ...props }: any) =>
 export const ButtonWithAdornment = ({ before, after, iconType, children, ...props }: any) => {
   return (
     <Button {...props}>
-      {before && <Icon type={iconType} />}
+      {before && <Icon style={{ marginRight: 2, verticalAlign: 'middle' }} type={iconType} />}
       {children}
-      {after && <Icon type={iconType} />}
+      {after && <Icon style={{ marginLeft: 2, verticalAlign: 'middle' }} type={iconType} />}
     </Button>
   )
 }
@@ -339,3 +268,12 @@ export const StyledTag = styled(Box)`
   background: #eee;
   margin-right: 3px;
 `
+
+export const StyledAutoComplete = styled(AutoComplete)<any>`
+  .ant-input {
+    border: 1px solid ${(props: any) => (props.error ? 'red' : themeGet('colors.sia-green'))} !important;
+  }
+`
+
+export * from './Box'
+export * from './Flex'

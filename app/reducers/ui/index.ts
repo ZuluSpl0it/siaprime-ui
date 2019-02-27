@@ -36,7 +36,7 @@ export namespace UIReducer {
     .case(WalletActions.unlockWallet.failed, (_, payload) => {
       // We should really have status messages for this, and not rely on string matching.
       const errorMessage = payload.error.message
-      let help = null
+      let help: any = null
       if (errorMessage.includes('provided encryption key is incorrect')) {
         help = 'Provided password is incorrect'
       } else {

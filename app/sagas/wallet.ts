@@ -43,9 +43,10 @@ const getTransactionsWorker = bindAsyncAction(WalletActions.getTransactions)(fun
     ? // ? response.unconfirmedtransactions.slice(-params.count)
       response.unconfirmedtransactions
     : []
-  response.sinceHeight = response.confirmedtransactions
-    ? response.confirmedtransactions[response.confirmedtransactions.length - 1].confirmationheight
-    : 0
+  response.sinceHeight =
+    response.confirmedtransactions.length > 0
+      ? response.confirmedtransactions[response.confirmedtransactions.length - 1].confirmationheight
+      : 0
   return response
 })
 const broadcastSiacoinWorker = bindAsyncAction(WalletActions.createSiacoinTransaction, {

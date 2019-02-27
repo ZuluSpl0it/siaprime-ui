@@ -22,9 +22,7 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
   }
   render() {
     const { siad } = this.props
-    if (siad.isActive) {
-      return <Redirect to="/" />
-    }
+    console.log('siad', siad)
     if (siad.loading) {
       return (
         <DragContiner>
@@ -33,6 +31,9 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
           </Flex>
         </DragContiner>
       )
+    }
+    if (siad.isActive) {
+      return <Redirect to="/" />
     }
     return (
       <DragContiner>

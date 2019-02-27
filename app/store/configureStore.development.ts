@@ -61,12 +61,12 @@ const enhancer = composeEnhancers(applyMiddleware(thunk, sagaMiddleware, router)
 const configureStore = (initialState: any | void) => {
   const store = createStore(connectRouter(history)(rootReducer), initialState, enhancer)
 
-  if (module.hot) {
-    module.hot.accept(
-      '../reducers',
-      () => store.replaceReducer(require('../reducers').default) // eslint-disable-line global-require
-    )
-  }
+  // if (module.hot) {
+  //   module.hot.accept(
+  //     '../reducers',
+  //     () => store.replaceReducer(require('../reducers').default) // eslint-disable-line global-require
+  //   )
+  // }
 
   sagaMiddleware.run(rootSaga)
   return store
