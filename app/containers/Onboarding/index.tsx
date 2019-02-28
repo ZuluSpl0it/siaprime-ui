@@ -1,4 +1,4 @@
-import { WalletActions } from 'actions'
+import { WalletActions, GlobalActions } from 'actions'
 import { Button, Steps, Input, Icon } from 'antd'
 import { WrappedFormUtils } from 'antd/lib/form/Form'
 import { Box, Text, Card, DragContiner, ButtonWithAdornment } from 'components/atoms'
@@ -13,6 +13,7 @@ import { Grid } from 'components/atoms/Grid'
 import { Flex } from 'components/atoms/Flex'
 import { GenerateSeedView } from './GenerateSeedView'
 import { VerifySeedView } from './VerifySeedView'
+import AppHeader from 'components/AppHeader'
 
 const { Step } = Steps
 
@@ -50,7 +51,13 @@ class Onboarding extends React.Component<Props, State> {
   done = () => {
     const { seedCheckValid } = this.state
     if (seedCheckValid) {
-      this.props.dispatch(WalletActions.clearSeed())
+      // this.props.dispatch(WalletActions.clearSeed())
+      this.props.dispatch(
+        WalletActions.unlockWallet.started({
+          encryptionpassword: this.props.seed.primaryseed
+        })
+      )
+      this.props.dispatch(GlobalActions.startPolling())
       this.props.history.push('/protected')
     }
   }
@@ -63,7 +70,6 @@ class Onboarding extends React.Component<Props, State> {
     const { step } = this.state
     const { seed } = this.props
     const { primaryseed } = seed
-    console.log('seed state', seed)
     // TODO should show loading and error states
     return (
       <DragContiner>

@@ -174,7 +174,10 @@ export const MenuItem = ({ title, active = false, iconType }: MenuItemProps) => 
       position="relative"
       active={active}
     >
-      <TextWithAdornment before={<Icon type={iconType} />} fontWeight={500}>
+      <TextWithAdornment
+        before={<Icon style={{ color: '#444' }} type={iconType} />}
+        fontWeight={500}
+      >
         {title}
       </TextWithAdornment>
     </ActivationBox>
