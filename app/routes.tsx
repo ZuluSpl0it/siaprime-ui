@@ -21,6 +21,7 @@ class Routes extends React.Component<{}, {}> {
           <Route exact path="/syncing" component={SyncView} />
           <Route exact path="/scanning" component={RescanView} />
           <Route path="/onboarding" component={Onboarding} />
+          <Route path="/setup" component={SetupView} />
           <Route path="/" component={MainView} />
         </Switch>
       </App>

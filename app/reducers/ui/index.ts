@@ -6,6 +6,7 @@ export namespace UIReducer {
   export interface State {
     unlockForm: UnlockFormState
     siad: SiadState
+    changePassword: ChangePasswordState
   }
 
   export interface SiadState {
@@ -20,6 +21,12 @@ export namespace UIReducer {
     loading: boolean
   }
 
+  export interface ChangePasswordState {
+    error: string
+    success: boolean
+    loading: boolean
+  }
+
   const InitialUnlockState = {
     validateStatus: '',
     help: '',
@@ -30,6 +37,12 @@ export namespace UIReducer {
     isInternal: true,
     isActive: false,
     loading: true
+  }
+
+  const InitialChangePasswordState = {
+    error: '',
+    success: false,
+    loading: false
   }
 
   const UnlockFormReducer = reducerWithInitialState(InitialUnlockState)
@@ -80,8 +93,26 @@ export namespace UIReducer {
       }
     })
 
+  const ChangePasswordReducer = reducerWithInitialState(InitialChangePasswordState)
+    .case(WalletActions.changePassword.started, () => ({
+      error: '',
+      success: false,
+      loading: true
+    }))
+    .case(WalletActions.changePassword.done, () => ({
+      error: '',
+      success: true,
+      loading: false
+    }))
+    .case(WalletActions.changePassword.failed, (state, payload) => ({
+      error: payload.error.message,
+      success: false,
+      loading: false
+    }))
+
   export const Reducer = combineReducers<State>({
     unlockForm: UnlockFormReducer,
-    siad: SiadReducer
+    siad: SiadReducer,
+    changePassword: ChangePasswordReducer
   })
 }

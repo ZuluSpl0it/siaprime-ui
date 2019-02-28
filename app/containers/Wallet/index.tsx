@@ -20,6 +20,7 @@ import {
 import Send from './Send'
 import TransactionView from './TransactionView'
 import { Flex } from 'components/atoms/Flex'
+import { ChangePasswordModal } from 'components/Modal/ChangePassword'
 
 const TabPane = Tabs.TabPane
 const TabPanelWrap = ({ children }: any) => <Box height="460px">{children}</Box>
@@ -66,7 +67,8 @@ type WalletProps = StateProps & DispatchProp
 
 class Wallet extends React.Component<WalletProps, {}> {
   state = {
-    backupModal: false
+    backupModal: false,
+    changePasswordModal: false
   }
   handleBackupModal = () => {
     this.props.dispatch(WalletActions.clearSeed())
@@ -77,6 +79,16 @@ class Wallet extends React.Component<WalletProps, {}> {
   openBackupModal = () => {
     this.setState({
       backupModal: true
+    })
+  }
+  closeChangePasswordModal = () => {
+    this.setState({
+      changePasswordModal: false
+    })
+  }
+  openChangePasswordModal = () => {
+    this.setState({
+      changePasswordModal: true
     })
   }
   generateAddress = () => {
@@ -96,6 +108,10 @@ class Wallet extends React.Component<WalletProps, {}> {
     return (
       <div>
         <BackupModel visible={this.state.backupModal} onOk={this.handleBackupModal} />
+        <ChangePasswordModal
+          closeModal={this.closeChangePasswordModal}
+          visible={this.state.changePasswordModal}
+        />
         <RequireWalletData>
           <Box>
             <Flex justifyContent="space-between" alignItems="baseline">
@@ -107,8 +123,12 @@ class Wallet extends React.Component<WalletProps, {}> {
                       <Menu.Item key="0">
                         <a onClick={this.openBackupModal}>View Seed</a>
                       </Menu.Item>
-                      {/* <Menu.Divider />
+                      <Menu.Divider />
                       <Menu.Item key="1">
+                        <a onClick={this.openChangePasswordModal}>Change Password</a>
+                      </Menu.Item>
+                      {/* <Menu.Divider /> */}
+                      {/* <Menu.Item key="1">
                         <a href="#">Sweep Seed</a>
                       </Menu.Item> */}
                     </Menu>
@@ -121,15 +141,6 @@ class Wallet extends React.Component<WalletProps, {}> {
                 </Dropdown>
               </Box>
             </Flex>
-            {/* <Box mx={2}>
-              <Text color="dark-gray" fontSize={4} fontWeight={4}>
-                {balanceWithSeperator}
-              </Text>
-              <Text color="mid-gray" fontSize={2} fontWeight={4}>
-                {' '}
-                siacoins
-              </Text>
-            </Box> */}
             <Flex>
               <Stat content={balanceWithSeperator} title="siacoins" width={1 / 3} />
             </Flex>

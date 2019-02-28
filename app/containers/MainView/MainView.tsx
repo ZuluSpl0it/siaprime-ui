@@ -11,7 +11,7 @@ import Wallet from 'containers/Wallet'
 import { WalletModel } from 'models'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
-import { Redirect, Route, Switch } from 'react-router'
+import { Redirect, Route, Switch, withRouter, RouteComponentProps } from 'react-router'
 import { IndexState } from 'reducers'
 import { UIReducer } from 'reducers/ui'
 import { selectSiadState, selectWalletSummary } from 'selectors'
@@ -49,7 +49,10 @@ interface StateProps {
   siad: UIReducer.SiadState
 }
 
-class MainView extends React.Component<Props & DispatchProp & StateProps, {}> {
+class MainView extends React.Component<
+  Props & DispatchProp & StateProps & RouteComponentProps,
+  {}
+> {
   componentDidMount = async () => {
     if (await siad.isRunning()) {
       this.props.dispatch(GlobalActions.startPolling())
@@ -60,7 +63,7 @@ class MainView extends React.Component<Props & DispatchProp & StateProps, {}> {
     this.props.dispatch(GlobalActions.stopPolling())
   }
   render() {
-    const { pathname, wallet, siad } = this.props
+    const { wallet, siad, location } = this.props
     if (!siad.isActive) {
       return <Redirect to="/offline" />
     }
@@ -74,20 +77,9 @@ class MainView extends React.Component<Props & DispatchProp & StateProps, {}> {
             <Wordmark viewBox="0 0 97 58" />
           </SVGBox>
           <Box mt={4}>
-            {/* <Caps fontSize={0} fontWeight="600">
-              Storage
-            </Caps> */}
             <Box pt={2}>
-              <MainSidebar routes={routes} activePath={pathname} />
+              <MainSidebar routes={routes} activePath={location.pathname} />
             </Box>
-          </Box>
-          <Box mt={4}>
-            {/* <Caps fontSize={0} fontWeight="600">
-              Wallet
-            </Caps> */}
-            {/* <Box pt={2}>
-              <Sidebar routes={routes} activePath={pathname} />
-            </Box> */}
           </Box>
         </Box>
 
@@ -121,4 +113,4 @@ const mapStateToProps = (state: IndexState) => ({
   siad: selectSiadState(state)
 })
 
-export default connect(mapStateToProps)(MainView)
+export default connect(mapStateToProps)(withRouter(MainView))
