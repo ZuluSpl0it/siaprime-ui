@@ -67,6 +67,9 @@ class MainView extends React.Component<
     if (!siad.isActive) {
       return <Redirect to="/offline" />
     }
+    if (wallet.rescanning) {
+      return <Redirect to="/scanning" />
+    }
     if (!wallet.unlocked) {
       return <Redirect to="/protected" />
     }

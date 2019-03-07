@@ -1,19 +1,36 @@
 import { WalletActions, GlobalActions } from 'actions'
-import { Button } from 'antd'
+import { Button, Modal } from 'antd'
 import { Box, ButtonWithAdornment, DragContiner, Text } from 'components/atoms'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
-import { RouteComponentProps, withRouter } from 'react-router'
+import { RouteComponentProps, withRouter, Redirect } from 'react-router'
 import { IndexState } from 'reducers'
 import { WalletRootReducer } from 'reducers/wallet'
-import { selectSeedState } from 'selectors'
+import { selectSeedState, selectWalletSummary, selectSiadState, selectConsensus } from 'selectors'
 import { Flex } from 'components/atoms/Flex'
+import { WalletModel, ConsensusModel } from 'models'
+import { UIReducer } from 'reducers/ui'
+import LockScreenHeader from 'components/AppHeader/LockScreenHeader'
 
 interface StateProps {
   seed: WalletRootReducer.SeedState
+  wallet: WalletModel.WalletGET
+  siad: UIReducer.SiadState
+  consensus: ConsensusModel.ConsensusGETResponse
 }
 
 type Props = RouteComponentProps & DispatchProp & StateProps
+
+const confirm = Modal.info
+
+function showConfirm() {
+  confirm({
+    title: 'Please Wait for Sia-UI to Sync',
+    content:
+      'Sia-UI must be fully synced with the network in order to restore from your seed. Check the status bar in the upper-right corner to monitor sync status',
+    onOk() {}
+  })
+}
 
 class SetupView extends React.Component<Props, {}> {
   componentDidMount() {
@@ -29,9 +46,23 @@ class SetupView extends React.Component<Props, {}> {
     }
     this.props.history.push('/onboarding')
   }
+  restoreFromSeed = () => {
+    this.props.history.push('/restorewallet')
+  }
   render() {
+    const { wallet, siad, consensus } = this.props
+    if (wallet.unlocked) {
+      return <Redirect to="/" />
+    }
+    if (wallet.encrypted) {
+      return <Redirect to="/protected" />
+    }
+    if (!siad.isActive) {
+      return <Redirect to="/offline" />
+    }
     return (
       <DragContiner>
+        <LockScreenHeader />
         <Flex
           justifyContent="center"
           alignItems="center"
@@ -62,7 +93,12 @@ class SetupView extends React.Component<Props, {}> {
               >
                 Create new wallet
               </ButtonWithAdornment>
-              <ButtonWithAdornment size="large" after iconType="right">
+              <ButtonWithAdornment
+                onClick={consensus.synced ? this.restoreFromSeed : showConfirm}
+                size="large"
+                after
+                iconType="right"
+              >
                 Restore from seed
               </ButtonWithAdornment>
             </Button.Group>
@@ -74,7 +110,10 @@ class SetupView extends React.Component<Props, {}> {
 }
 
 const mapStateToProps = (state: IndexState) => ({
-  seed: selectSeedState(state)
+  seed: selectSeedState(state),
+  wallet: selectWalletSummary(state),
+  siad: selectSiadState(state),
+  consensus: selectConsensus(state)
 })
 
 export default connect(mapStateToProps)(withRouter(SetupView))

@@ -45,9 +45,9 @@ export const AllowanceModal = (props: any) => {
       </Box>
       <Box>
         <Text as="p">
-          You need to allocate funds to upload and download on Sia. Your allowance remains locked
-          for 3 months. Unspent funds are then refunded. You can increase your allowance at any
-          time.
+          To upload and download files on Sia, you must allocate funds in advance. Your allowance
+          will remain locked for 3 months, after which unspent funds are refunded to your wallet.
+          You can increase your allowance at any time.
         </Text>
       </Box>
       <Flex>

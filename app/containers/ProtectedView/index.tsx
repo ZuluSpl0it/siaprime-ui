@@ -56,9 +56,6 @@ class ProtectedView extends React.Component<Props, State> {
     )
     this.props.dispatch(GlobalActions.startPolling())
   }
-  componentDidMount() {
-    this.props.dispatch(GlobalActions.stopPolling())
-  }
   handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     this.setState({
@@ -78,14 +75,17 @@ class ProtectedView extends React.Component<Props, State> {
   handleFinishedLoading = () => {
     const { wallet, consensus } = this.props
     let stage = ''
+    if (wallet.unlocked) {
+      stage = '/'
+    }
     if (wallet.unlocked && !consensus.synced) {
       stage = '/syncing'
-    } else if (wallet.rescanning) {
+    }
+    if (wallet.rescanning) {
       stage = '/scanning'
-    } else if (!wallet.encrypted) {
+    }
+    if (!wallet.encrypted) {
       stage = '/setup'
-    } else if (wallet.unlocked) {
-      stage = '/'
     }
     this.setState({
       setStage: stage
@@ -99,8 +99,14 @@ class ProtectedView extends React.Component<Props, State> {
 
   render() {
     const { wallet, unlockFormHelp, siad, seed, consensus } = this.props
+    if (!wallet.encrypted) {
+      return <Redirect to="/setup" />
+    }
     if (!siad.isActive) {
       return <Redirect to="/offline" />
+    }
+    if (wallet.rescanning) {
+      return <Redirect to="/scanning" />
     }
     if (this.state.setStage) {
       return <Redirect to={this.state.setStage} />

@@ -15,22 +15,22 @@ export const TransitionFade = ({ children, ...props }) => {
           TweenMax.killTweensOf(n)
           TweenMax.fromTo(
             n,
-            2,
-            { force3D: true, opacity: 0, transform: 'translateY(-100%)' },
+            0.5,
+            { force3D: true, opacity: 0, yPercent: -100 },
             {
               force3D: true,
               opacity: 1,
-              transform: 'translateY(0)',
+              yPercent: 0,
               onComplete: done,
               ease: Expo.easeOut
             }
           )
         } else {
           TweenMax.killTweensOf(n)
-          TweenMax.to(n, 2, {
+          TweenMax.to(n, 0.5, {
             force3D: true,
             opacity: 0,
-            transform: 'translateY(100%)',
+            yPercent: 100,
             onComplete: done,
             ease: Expo.easeOut
           })

@@ -8,34 +8,43 @@ import { connect, DispatchProp } from 'react-redux'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { IndexState } from 'reducers'
 import { WalletRootReducer } from 'reducers/wallet'
-import { selectSeedState } from 'selectors'
+import { selectSeedState, selectInitFromSeedState } from 'selectors'
 import { Grid } from 'components/atoms/Grid'
 import { Flex } from 'components/atoms/Flex'
-import { GenerateSeedView } from './GenerateSeedView'
-import { VerifySeedView } from './VerifySeedView'
 import AppHeader from 'components/AppHeader'
+import { PasteSeedView } from './PasteSeedView'
+import { ScanningView } from './ScanningView'
+import { UIReducer } from 'reducers/ui'
 
 const { Step } = Steps
 
 interface State {
   step: number
-  seedCheckValid: boolean
+  seed: string
 }
 
 interface StateProps {
   seed: WalletRootReducer.SeedState
+  initSeed: UIReducer.InitFromSeedState
 }
 
 type Props = RouteComponentProps & StateProps & DispatchProp
 
-class Onboarding extends React.Component<Props, State> {
+class RestoreWallet extends React.Component<Props, State> {
   seedForm: any
   state = {
     step: 0,
-    seedCheckValid: false
+    seed: ''
   }
 
   nextStep = () => {
+    if (this.state.step === 0) {
+      this.props.dispatch(
+        WalletActions.initFromSeed.started({
+          primaryseed: this.state.seed
+        })
+      )
+    }
     this.setState({
       step: this.state.step += 1
     })
@@ -48,28 +57,17 @@ class Onboarding extends React.Component<Props, State> {
   routeTo = (path: string) => () => {
     this.props.history.push(path)
   }
-  done = () => {
-    const { seedCheckValid } = this.state
-    if (seedCheckValid) {
-      // this.props.dispatch(WalletActions.clearSeed())
-      this.props.dispatch(
-        WalletActions.unlockWallet.started({
-          encryptionpassword: this.props.seed.primaryseed
-        })
-      )
-      this.props.dispatch(GlobalActions.startPolling())
-      this.props.history.push('/protected')
-    }
-  }
-  handleSeedCheck = (v: boolean) => {
+  handleSeedInput = e => {
     this.setState({
-      seedCheckValid: v
+      seed: e.target.value
     })
+  }
+  done = () => {
+    this.props.history.push('/protected')
   }
   render() {
     const { step } = this.state
-    const { seed } = this.props
-    const { primaryseed } = seed
+    const { initSeed } = this.props
     // TODO should show loading and error states
     return (
       <DragContiner>
@@ -83,22 +81,23 @@ class Onboarding extends React.Component<Props, State> {
         >
           <Box mx={5}>
             <Steps current={step}>
-              <Step title="Generated Seed" />
-              <Step title="Verify Seed" />
-              {/* <Step title="Set Password" /> */}
+              <Step title="Input Seed" />
+              <Step title="Scan Blockchain" />
             </Steps>
             <Box mt={4} height="450px">
-              {step === 0 && <GenerateSeedView seed={primaryseed} />}
-              {step === 1 && (
-                <VerifySeedView seed={primaryseed} setAllValid={this.handleSeedCheck} />
-              )}
-              {/* {step === 2 && <Text>Coming soon... still under construction...</Text>} */}
+              {step === 0 && <PasteSeedView onChange={this.handleSeedInput} />}
+              {step === 1 && <ScanningView />}
             </Box>
             <Flex justifyContent="space-between">
               <Button.Group>
                 {step !== 0 && (
-                  <Button type="ghost" size="large" onClick={this.prevStep}>
-                    Previous
+                  <Button
+                    disabled={initSeed.loading || initSeed.done}
+                    type="ghost"
+                    size="large"
+                    onClick={this.prevStep}
+                  >
+                    Try Again
                   </Button>
                 )}
               </Button.Group>
@@ -111,7 +110,7 @@ class Onboarding extends React.Component<Props, State> {
               )}
               {step === 1 && (
                 <Button.Group>
-                  <Button size="large" onClick={this.done} type="primary">
+                  <Button disabled={!initSeed.done} size="large" onClick={this.done} type="primary">
                     Done
                   </Button>
                 </Button.Group>
@@ -125,7 +124,8 @@ class Onboarding extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: IndexState) => ({
-  seed: selectSeedState(state)
+  seed: selectSeedState(state),
+  initSeed: selectInitFromSeedState(state)
 })
 
-export default connect(mapStateToProps)(withRouter(Onboarding))
+export default connect(mapStateToProps)(withRouter(RestoreWallet))

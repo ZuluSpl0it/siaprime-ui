@@ -23,6 +23,7 @@ export class AboutModal extends React.Component<AboutModalProps, {}> {
           title="About Sia-UI"
           visible={this.props.visible}
           onOk={this.props.onOk}
+          onCancel={this.props.onOk}
           closable={false}
           footer={[
             <Button key="submit" type="primary" onClick={this.props.onOk}>

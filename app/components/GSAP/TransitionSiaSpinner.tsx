@@ -39,8 +39,11 @@ export const TransitionSiaSpinner = ({
     <Transition
       {...props}
       appear
-      timeout={10000}
+      mountOnEnter
+      unmountOnExit
+      timeout={30000}
       addEndListener={(n, done) => {
+        console.log('entering', props)
         if (props.in) {
           const t = new TimelineMax()
           const paths = n.querySelectorAll('path')

@@ -37,6 +37,7 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
         title="Terminal"
         visible={props.visible}
         onOk={props.onOk}
+        onCancel={props.onOk}
         closable={false}
         centered
         footer={[

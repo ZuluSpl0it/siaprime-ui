@@ -151,6 +151,20 @@ const changePassword = bindAsyncAction(WalletActions.changePassword, {
   return response
 })
 
+const initFromSeedWorker = bindAsyncAction(WalletActions.initFromSeed, {
+  skipStartedAction: true
+})(function*(params): SagaIterator {
+  const response = yield call(siad.call, {
+    url: '/wallet/init/seed',
+    method: 'POST',
+    qs: {
+      seed: params.primaryseed
+    },
+    timeout: 864e5
+  })
+  return response
+})
+
 const getSeeds = bindAsyncAction(WalletActions.getWalletSeeds, {
   skipStartedAction: true
 })(function*(): SagaIterator {
@@ -257,6 +271,13 @@ function* getSeedWatcher() {
   }
 }
 
+function* initFromSeedWatcher() {
+  while (true) {
+    const params = yield take(WalletActions.initFromSeed.started)
+    yield spawn(initFromSeedWorker, params.payload)
+  }
+}
+
 export const walletSagas = [
   fetchUnconfirmedTxOnBroadcastCompletion(),
   changePasswordWatcher(),
@@ -265,6 +286,7 @@ export const walletSagas = [
   unlockWalletWatcher(),
   createWalletWatcher(),
   getSeedWatcher(),
+  initFromSeedWatcher(),
   takeLatest(GlobalActions.startPolling, startPolling),
   takeLatest(WalletActions.lockWallet.started, lockWalletWorker),
   takeLatest(WalletActions.getReceiveAddresses.started, receiveAddressWorker),

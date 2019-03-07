@@ -6,6 +6,8 @@ import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { WalletActions, GlobalActions } from 'actions'
 import { Flex } from 'components/atoms/Flex'
+import { globalSiadProcess, getGlobalSiadProcess, setGlobalSiadProcess } from 'containers/App'
+import { ChildProcess } from 'child_process'
 
 const EmptyState = ({ children }: any) => (
   <Flex height="100vh" width="100vw" justifyContent="center" alignItems="center">
@@ -48,8 +50,13 @@ class OffState extends React.Component<DispatchProp> {
     // If not running, we'll try to launch siad ourselves
     if (!isRunning) {
       dispatch(GlobalActions.setSiadOrigin({ isInternal: true }))
+      const gsp: ChildProcess = getGlobalSiadProcess()
+      if (gsp) {
+        gsp.kill('SIGKILL')
+      }
       const loaded = await launchSiad()
       if (loaded) {
+        setGlobalSiadProcess(loaded)
         dispatch(GlobalActions.siadLoaded())
         dispatch(GlobalActions.startSiadPolling())
       } else {

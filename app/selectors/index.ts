@@ -23,6 +23,8 @@ export const selectContracts = (state: IndexState) => state.renter.contracts
 
 export const selectSeedState = (state: IndexState) => state.wallet.seed
 
+export const selectInitFromSeedState = (state: IndexState) => state.ui.initFromSeed
+
 export const selectSiadState = (state: IndexState) => state.ui.siad
 
 export const selectWalletSummary = (state: IndexState) => state.wallet.summary

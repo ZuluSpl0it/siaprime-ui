@@ -10,6 +10,7 @@ import { hot } from 'react-hot-loader/root'
 import App from './containers/App'
 import MainView from './containers/MainView'
 import SetupView from 'containers/ProtectedView/SetupView'
+import RestoreWallet from 'containers/RestoreWallet'
 
 class Routes extends React.Component<{}, {}> {
   render() {
@@ -21,6 +22,7 @@ class Routes extends React.Component<{}, {}> {
           <Route exact path="/syncing" component={SyncView} />
           <Route exact path="/scanning" component={RescanView} />
           <Route path="/onboarding" component={Onboarding} />
+          <Route path="/restorewallet" component={RestoreWallet} />
           <Route path="/setup" component={SetupView} />
           <Route path="/" component={MainView} />
         </Switch>

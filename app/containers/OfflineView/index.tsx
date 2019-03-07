@@ -1,6 +1,6 @@
 import { GlobalActions } from 'actions'
 import { Spin, Button } from 'antd'
-import { Box, DragContiner, SVGBox } from 'components/atoms'
+import { Box, DragContiner, SVGBox, Text } from 'components/atoms'
 import { OfflineState } from 'components/EmptyStates'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
@@ -20,6 +20,7 @@ interface StateProps {
 }
 
 class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
+  timer: any = null
   state = {
     readyForMainView: false,
     hasEntered: false
@@ -38,14 +39,33 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
     const { siad } = this.props
     return (
       <DragContiner>
-        <Flex height="100vh" width="100%" justifyContent="center" alignItems="center">
+        <Flex
+          height="100vh"
+          width="100%"
+          justifyContent="center"
+          alignItems="center"
+          flexDirection="column"
+        >
           <TransitionSiaSpinner
-            in={siad.loading || !this.state.hasEntered}
+            in={
+              siad.loading || (siad.isActive && !siad.isFinishedLoading) || !this.state.hasEntered
+            }
             onEntered={this.handleEntered}
             onExited={this.handleExit}
           />
+          {siad.isFinishedLoading !== null &&
+            !siad.isFinishedLoading &&
+            this.state.hasEntered &&
+            siad.isActive && (
+              <Text pt={3} width={200} textAlign="center">
+                Sia is not done loading the modules. It may take longer than expected.
+              </Text>
+            )}
+          {!siad.isActive && !siad.loading && this.state.readyForMainView && <OfflineState />}
         </Flex>
-        {this.state.readyForMainView && <Redirect to="/" />}
+        {this.state.readyForMainView && siad.isFinishedLoading && siad.isActive && (
+          <Redirect to="/" />
+        )}
       </DragContiner>
     )
   }

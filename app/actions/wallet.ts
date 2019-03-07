@@ -73,6 +73,12 @@ export namespace WalletActions {
     APIModel.Error
   >('SWEEP_SEED')
 
+  export const initFromSeed = walletActionsCreator.async<
+    { primaryseed: string },
+    void,
+    APIModel.Error
+  >('INIT_FROM_SEED')
+
   export const broadcastedTransactionDetails = walletActionsCreator<
     WalletModel.ProcessedTransaction[]
   >('BCAST_TX_DETAILS')
