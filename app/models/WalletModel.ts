@@ -167,6 +167,8 @@ export namespace WalletModel {
     SETUP = 'SETUP'
   }
 
+  export const TransactionTypesList = Object.keys(TransactionTypes).map(x => TransactionTypes[x])
+
   export enum CurrencyTypes {
     SC = 'SC',
     SF = 'SF'

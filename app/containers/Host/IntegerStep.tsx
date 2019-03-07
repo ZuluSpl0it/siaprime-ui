@@ -69,7 +69,12 @@ class IntegerStep extends React.Component<Props> {
               <Text color="mid-gray" fontSize={0}>
                 {inputValue} MB
               </Text>
-              <Text>{bytes.format(bytes.parse(`${inputValue}mb`), { unitSperator: ' ' })}</Text>
+              <Text>
+                {bytes.format(bytes.parse(`${inputValue}mb`), {
+                  unitSeparator: ' ',
+                  decimalPlaces: 2
+                })}
+              </Text>
             </Flex>
           </Col>
         </Row>

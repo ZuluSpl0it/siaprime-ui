@@ -12,6 +12,7 @@ import { OrganizedTx, selectConsensus, selectOrganizedTx } from 'selectors'
 import styled from 'styled-components'
 import { themeGet } from 'styled-system'
 import { Flex } from 'components/atoms/Flex'
+import { WalletModel } from 'models'
 
 interface StateProps {
   transactions: OrganizedTx
@@ -76,7 +77,10 @@ class TransactionView extends React.Component<Props, {}> {
       <>
         <StyledTable
           rowKey="txid"
-          pagination={{ pageSize: 6 }}
+          pagination={{ pageSize: 50 }}
+          scroll={{
+            y: 350
+          }}
           columns={[
             {
               title: () => <TableTitle>Amount</TableTitle>,
@@ -103,7 +107,9 @@ class TransactionView extends React.Component<Props, {}> {
                     </Text>
                   </Flex>
                 )
-              }
+              },
+              sorter: (a, b) => a.sc - b.sc,
+              sortDirections: ['descend', 'ascend']
             },
             {
               title: () => <TableTitle>Transaction ID</TableTitle>,
@@ -159,7 +165,13 @@ class TransactionView extends React.Component<Props, {}> {
                     ))}
                   </span>
                 )
-              }
+              },
+              filters: WalletModel.TransactionTypesList.map(v => ({
+                value: v,
+                text: v
+              })),
+              filterMultiple: true,
+              onFilter: (value, record) => record.tags.includes(value)
             },
             {
               title: () => <TableTitle>Status</TableTitle>,

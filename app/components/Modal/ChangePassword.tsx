@@ -38,13 +38,14 @@ export const ChangePasswordModal = ({ closeModal, ...props }) => {
     <Formik
       initialValues={{ currentPassword: '', newPassword: '', confirmPassword: '' }}
       validationSchema={validationSchema}
-      onSubmit={payload => {
+      onSubmit={(payload, { resetForm }) => {
         dispatch(
           WalletActions.changePassword.started({
             encryptionpassword: payload.currentPassword,
             newpassword: payload.newPassword
           })
         )
+        resetForm()
       }}
       render={formikProps => (
         <Modal

@@ -1,4 +1,4 @@
-import { WalletActions, GlobalActions } from 'actions'
+import { WalletActions, GlobalActions, GatewayActions } from 'actions'
 import { combineReducers } from 'redux'
 import { reducerWithInitialState } from 'typescript-fsa-reducers'
 
@@ -7,11 +7,13 @@ export namespace UIReducer {
     unlockForm: UnlockFormState
     siad: SiadState
     changePassword: ChangePasswordState
+    initFromSeed: InitFromSeedState
   }
 
   export interface SiadState {
     isInternal: boolean
     isActive: boolean
+    isFinishedLoading: boolean | null
     loading: boolean
   }
 
@@ -19,6 +21,12 @@ export namespace UIReducer {
     validateStatus: string
     help?: string
     loading: boolean
+  }
+
+  export interface InitFromSeedState {
+    error: string
+    loading: boolean
+    done: boolean
   }
 
   export interface ChangePasswordState {
@@ -33,9 +41,10 @@ export namespace UIReducer {
     loading: false
   }
 
-  const InitialSiadState = {
+  const InitialSiadState: SiadState = {
     isInternal: true,
     isActive: false,
+    isFinishedLoading: null,
     loading: true
   }
 
@@ -43,6 +52,12 @@ export namespace UIReducer {
     error: '',
     success: false,
     loading: false
+  }
+
+  const InitialInitFromSeedState: InitFromSeedState = {
+    error: '',
+    loading: false,
+    done: false
   }
 
   const UnlockFormReducer = reducerWithInitialState(InitialUnlockState)
@@ -63,6 +78,23 @@ export namespace UIReducer {
     })
     .case(WalletActions.unlockWallet.started, (state, _) => ({ ...state, loading: true }))
     .case(WalletActions.unlockWallet.done, () => InitialUnlockState)
+
+  const InitFromSeedReducer = reducerWithInitialState(InitialInitFromSeedState)
+    .case(WalletActions.initFromSeed.started, () => ({
+      error: '',
+      loading: true,
+      done: false
+    }))
+    .case(WalletActions.initFromSeed.failed, (state, payload) => ({
+      loading: false,
+      error: payload.error.message,
+      done: false
+    }))
+    .case(WalletActions.initFromSeed.done, (state, payload) => ({
+      loading: false,
+      error: '',
+      done: true
+    }))
 
   const SiadReducer = reducerWithInitialState(InitialSiadState)
     .case(GlobalActions.siadLoaded, (state, _) => {
@@ -92,6 +124,20 @@ export namespace UIReducer {
         isInternal: payload.isInternal
       }
     })
+    .case(GatewayActions.fetchGateway.failed, (state, payload) => {
+      if (payload.error.message.includes('siad is not ready')) {
+        return {
+          ...state,
+          isFinishedLoading: false
+        }
+      } else {
+        return state
+      }
+    })
+    .case(GatewayActions.fetchGateway.done, (state, payload) => ({
+      ...state,
+      isFinishedLoading: true
+    }))
 
   const ChangePasswordReducer = reducerWithInitialState(InitialChangePasswordState)
     .case(WalletActions.changePassword.started, () => ({
@@ -113,6 +159,7 @@ export namespace UIReducer {
   export const Reducer = combineReducers<State>({
     unlockForm: UnlockFormReducer,
     siad: SiadReducer,
-    changePassword: ChangePasswordReducer
+    changePassword: ChangePasswordReducer,
+    initFromSeed: InitFromSeedReducer
   })
 }

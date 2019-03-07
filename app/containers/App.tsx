@@ -6,10 +6,42 @@ import { GlobalActions } from 'actions'
 import {} from 'styled-components/cssprop'
 import { defaultConfig } from 'config'
 import { createGlobalStyle } from 'styled-components'
+import { ChildProcess } from 'child_process'
+import MetropolisRegular from '../assets/fonts/Metropolis-Regular.ttf'
+import MetropolisMedium from '../assets/fonts/Metropolis-Medium.otf'
+import MetropolisBold from '../assets/fonts/Metropolis-Bold.otf'
 
-let process = null
+export let globalSiadProcess: any = null
+
+export const setGlobalSiadProcess = p => {
+  globalSiadProcess = p
+}
+
+export const getGlobalSiadProcess = (): ChildProcess => {
+  return globalSiadProcess
+}
 
 const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: Metropolis;
+    src: url('${MetropolisRegular}') format('ttf');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: Metropolis;
+    src: url(${MetropolisMedium}) format('otf');
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: Metropolis;
+    src: url(${MetropolisBold}) format('otf');
+    font-weight: 800;
+    font-style: normal;
+  }
     /* total width */
   ::-webkit-scrollbar {
       background-color:#fff;
@@ -34,10 +66,13 @@ const GlobalStyle = createGlobalStyle`
         background-color: #fff;
         width: .8em
   }
+
+
 `
 
 window.addEventListener('beforeunload', async e => {
-  if (process) {
+  console.log('globalsiad', globalSiadProcess)
+  if (globalSiadProcess) {
     await siad.daemonStop()
   }
 })
@@ -48,22 +83,22 @@ class App extends React.Component<DispatchProp> {
     const isRunning = await siad.isRunning()
     dispatch(GlobalActions.startPolling())
     // If not running, we'll try to launch siad ourselves
-    // setTimeout(async () => {
-    if (!isRunning) {
-      dispatch(GlobalActions.siadLoading())
-      const loadedProcess: any = await launchSiad()
-      if (loadedProcess) {
-        process = loadedProcess
-        dispatch(GlobalActions.setSiadOrigin({ isInternal: true }))
-        dispatch(GlobalActions.siadLoaded())
+    setTimeout(async () => {
+      if (!isRunning) {
+        dispatch(GlobalActions.siadLoading())
+        const loadedProcess: any = await launchSiad()
+        if (loadedProcess) {
+          setGlobalSiadProcess(loadedProcess)
+          dispatch(GlobalActions.setSiadOrigin({ isInternal: true }))
+          dispatch(GlobalActions.siadLoaded())
+        } else {
+          dispatch(GlobalActions.siadOffline())
+        }
       } else {
-        dispatch(GlobalActions.siadOffline())
+        dispatch(GlobalActions.setSiadOrigin({ isInternal: false }))
+        dispatch(GlobalActions.siadLoaded())
       }
-    } else {
-      dispatch(GlobalActions.setSiadOrigin({ isInternal: false }))
-      dispatch(GlobalActions.siadLoaded())
-    }
-    // }, 3000)
+    }, 3000)
   }
   render() {
     return (

@@ -17,7 +17,7 @@ interface StateProps {
 
 class RescanView extends React.Component<StateProps & DispatchProp & RouteComponentProps, {}> {
   componentDidMount() {
-    // this.props.dispatch(GlobalActions.startPolling())
+    this.props.dispatch(GlobalActions.startPolling())
   }
   componentWillUnmount() {
     this.props.dispatch(GlobalActions.stopPolling())

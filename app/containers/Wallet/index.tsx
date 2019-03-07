@@ -1,5 +1,5 @@
 import { WalletActions } from 'actions'
-import { Button, Dropdown, Icon, Menu, Tabs, Tag } from 'antd'
+import { Button, Dropdown, Icon, Menu, Tabs, Tag, Modal } from 'antd'
 import { Box, Card, CardHeader, StyledTag, Text } from 'components/atoms'
 import { Stat } from 'components/Card'
 import { BackupModel } from 'components/Modal'
@@ -21,6 +21,9 @@ import Send from './Send'
 import TransactionView from './TransactionView'
 import { Flex } from 'components/atoms/Flex'
 import { ChangePasswordModal } from 'components/Modal/ChangePassword'
+import console = require('console')
+import { TextInput } from 'components/Forms/Inputs'
+const confirm = Modal.confirm
 
 const TabPane = Tabs.TabPane
 const TabPanelWrap = ({ children }: any) => <Box height="460px">{children}</Box>
@@ -65,16 +68,34 @@ interface StateProps {
 
 type WalletProps = StateProps & DispatchProp
 
+// function showConfirm() {
+//   confirm({
+//     title: 'Sweep a seed',
+//     content: (
+//       <Box>
+//         <TextInput type="text" />
+//       </Box>
+//     ),
+//     onOk(e) {
+//       console.log('e', e)
+//       return new Promise((resolve, reject) => {
+//         setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
+//       }).catch(() => console.log('Oops errors!'))
+//     },
+//     onCancel() {}
+//   })
+// }
+
 class Wallet extends React.Component<WalletProps, {}> {
   state = {
     backupModal: false,
     changePasswordModal: false
   }
   handleBackupModal = () => {
-    this.props.dispatch(WalletActions.clearSeed())
     this.setState({
       backupModal: false
     })
+    this.props.dispatch(WalletActions.clearSeed())
   }
   openBackupModal = () => {
     this.setState({
@@ -123,14 +144,14 @@ class Wallet extends React.Component<WalletProps, {}> {
                       <Menu.Item key="0">
                         <a onClick={this.openBackupModal}>View Seed</a>
                       </Menu.Item>
-                      <Menu.Divider />
+                      {/* <Menu.Divider />
                       <Menu.Item key="1">
+                        <a onClick={showConfirm}>Sweep Seed</a>
+                      </Menu.Item> */}
+                      <Menu.Divider />
+                      <Menu.Item key="2">
                         <a onClick={this.openChangePasswordModal}>Change Password</a>
                       </Menu.Item>
-                      {/* <Menu.Divider /> */}
-                      {/* <Menu.Item key="1">
-                        <a href="#">Sweep Seed</a>
-                      </Menu.Item> */}
                     </Menu>
                   }
                   trigger={['click']}
