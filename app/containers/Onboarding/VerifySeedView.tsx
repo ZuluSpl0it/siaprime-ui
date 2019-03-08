@@ -20,11 +20,40 @@ import { Grid } from 'components/atoms/Grid'
 import { Flex } from 'components/atoms/Flex'
 import { mnemonics } from './seedlist'
 
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive).
+ * The value is no lower than min (or the next integer greater than min
+ * if min isn't an integer) and no greater than max (or the next integer
+ * lower than max if max isn't an integer).
+ * Using Math.round() will give you a non-uniform distribution!
+ */
+function getRandomInt(min, max) {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+const createIndexList = () => {
+  let res: any = []
+  for (let i = 0; i < 4; i++) {
+    let random = getRandomInt(0, 27)
+    while (res.includes(random)) {
+      random = getRandomInt(0, 27)
+    }
+    res.push(random)
+  }
+  return res
+}
+
 export const VerifySeedView = ({ seed, setAllValid }) => {
+  const hideSeedIndicies = React.useMemo(() => {
+    return createIndexList()
+  }, [seed])
+  console.log('hidis', hideSeedIndicies)
   const seedlist = seed.split(' ')
-  const remainder = 9
+
   const indicesToCheck = seedlist
-    .map((_, i) => (i % remainder === 0 ? i : null))
+    .map((_, i) => (hideSeedIndicies.includes(i) ? i : null))
     .filter(x => typeof x === 'number')
 
   const { initialSeedState, validationState } = React.useMemo(() => {
@@ -85,7 +114,7 @@ export const VerifySeedView = ({ seed, setAllValid }) => {
       </Card>
       <Grid gridTemplateColumns="repeat(6, 1fr)" gridGap={3}>
         {seedlist.map((v, i) => {
-          const hideWord = i % remainder === 0
+          const hideWord = hideSeedIndicies.includes(i)
           return (
             <Box>
               {hideWord ? (
