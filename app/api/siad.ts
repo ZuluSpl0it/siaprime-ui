@@ -1,5 +1,4 @@
 import { defaultConfig } from 'config'
-import * as S from '@eddiewang/sia.js'
 import { Client } from 'sia-typescript'
 export interface SiadConfig {
   path: string
