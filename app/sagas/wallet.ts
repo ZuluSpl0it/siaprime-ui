@@ -14,7 +14,14 @@ import {
   take,
   takeLatest
 } from 'redux-saga/effects'
-import { activeHostWorker, consensusWorker, gatewayWorker, getContractsWorker } from 'sagas'
+import {
+  activeHostWorker,
+  consensusWorker,
+  gatewayWorker,
+  getContractsWorker,
+  getFeeWorker,
+  getRenterWorker
+} from 'sagas'
 import { selectTransactionHeight } from 'selectors'
 import { toHastings } from 'sia-typescript'
 import { bindAsyncAction } from 'typescript-fsa-redux-saga'
@@ -189,6 +196,8 @@ function* initialDataCalls() {
   // move to global
   yield spawn(gatewayWorker)
   yield spawn(activeHostWorker)
+  yield spawn(getFeeWorker)
+  yield spawn(getRenterWorker)
 }
 
 function* pollCalls() {

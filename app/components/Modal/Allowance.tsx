@@ -4,13 +4,43 @@ import { Box, Text } from 'components/atoms'
 import { Flex } from 'rebass'
 import { IndexState } from 'reducers'
 import { useMappedState, useDispatch } from 'redux-react-hook'
-import { toSiacoins } from 'sia-typescript'
+import { toSiacoins, toHastings } from 'sia-typescript'
 import { RenterActions } from 'actions'
+import { RenterModel } from 'models'
+import BigNumber from 'bignumber.js'
+const bytes = require('bytes')
 
 export const AllowanceModal = (props: any) => {
   const { closeModal } = props
-  const [allowanceAmount, setAllowanceAmount] = React.useState(200)
+  const pricing: RenterModel.PricesGETResponse = props.pricing
+  const summary: RenterModel.RenterGETResponse = props.renterSummary
+
+  const defaultAllowance = new BigNumber(summary.settings.allowance.funds).toNumber()
+  const setAllowance = defaultAllowance > 0 ? toSiacoins(defaultAllowance).toNumber() : 500
+
+  const [allowanceAmount, setAllowanceAmount] = React.useState(setAllowance)
   const [maxBalance, setMaxBalance] = React.useState(0)
+
+  // TODO should use a better estimation method given new api data is passed back.
+  const storageEstimates = React.useMemo(() => {
+    const storagePerTbMonth = new BigNumber(pricing.storageterabytemonth)
+    const monthsPerContract = 3
+    const uploadPerTb = new BigNumber(pricing.uploadterabyte)
+    const allowance = toHastings(allowanceAmount)
+    const contractFees = new BigNumber(pricing.formcontracts)
+
+    const allowanceMinusFees = allowance.minus(contractFees)
+    const storageOverTime = storagePerTbMonth.times(monthsPerContract).plus(uploadPerTb)
+    const estimate = allowanceMinusFees.dividedBy(storageOverTime).times(1e12)
+
+    const result = {
+      contractfees: toSiacoins(contractFees).toFixed(2),
+      storage: bytes(estimate.toNumber(), {
+        unitSeparator: ' '
+      })
+    }
+    return result
+  }, [allowanceAmount, pricing])
 
   const mapState = React.useCallback(
     (state: IndexState) => ({
@@ -68,6 +98,15 @@ export const AllowanceModal = (props: any) => {
             onChange={e => typeof e === 'number' && setAllowanceAmount(e)}
           />
           <Text>SC</Text>
+        </Box>
+        <Box width={12 / 18}>
+          <Box>
+            <Text>{storageEstimates.contractfees} SC</Text>{' '}
+            <Text fontWeight={2}>Contract Fees</Text>
+          </Box>
+          <Box>
+            <Text>{storageEstimates.storage}</Text> <Text fontWeight={2}>Est. Storage</Text>
+          </Box>
         </Box>
       </Flex>
     </Modal>
