@@ -49,7 +49,6 @@ export const VerifySeedView = ({ seed, setAllValid }) => {
   const hideSeedIndicies = React.useMemo(() => {
     return createIndexList()
   }, [seed])
-  console.log('hidis', hideSeedIndicies)
   const seedlist = seed.split(' ')
 
   const indicesToCheck = seedlist

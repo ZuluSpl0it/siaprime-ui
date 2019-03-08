@@ -203,6 +203,7 @@ class Host extends React.Component<RenterProps, {}> {
     })
     const contractCount = hostConfig.financialmetrics.contractcount
     const storageRevenue = hostConfig.financialmetrics.storagerevenue
+    const hasFolderAndConfig = folders.length > 0 && hostConfig
     return (
       <Box>
         <Flex justifyContent="space-between" alignItems="baseline">
@@ -211,12 +212,13 @@ class Host extends React.Component<RenterProps, {}> {
             <Flex alignItems="center">
               <Tooltip title={<Text color="white">Enable/Disable Accepting Contracts</Text>}>
                 <Switch
+                  disabled={!hasFolderAndConfig}
                   checked={hostConfig.externalsettings.acceptingcontracts}
                   onChange={this.toggleAcceptingContracts}
                 />
               </Tooltip>
               <Box ml={2}>
-                <Button onClick={this.toggleAnnounce}>
+                <Button disabled={!hasFolderAndConfig} onClick={this.toggleAnnounce}>
                   <Caps>Announce Host</Caps>
                 </Button>
               </Box>
@@ -238,7 +240,7 @@ class Host extends React.Component<RenterProps, {}> {
           <IntegerStep ref={this.sliderRef} min={minMB} max={maxMB} />
         </Modal>
         <Box>
-          {folders.length > 0 && hostConfig ? (
+          {hasFolderAndConfig ? (
             <Box mx={2} pt={3}>
               <Flex>
                 <Card width={1 / 2} mr={2}>
