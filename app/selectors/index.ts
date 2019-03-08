@@ -40,6 +40,9 @@ export const selectTransactionHeight = (state: IndexState) => state.wallet.trans
 export const selectFolders = (state: IndexState) => state.host.folders
 export const selectHostConfig = (state: IndexState) => state.host.host
 
+export const selectPricing = (state: IndexState) => state.renter.pricing
+export const selectRenterSummary = (state: IndexState) => state.renter.summary
+
 export type SpendingTotals = ReturnType<typeof selectSpending>
 export const selectSpending = createSelector(
   selectContracts,

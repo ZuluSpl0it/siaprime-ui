@@ -8,9 +8,17 @@ import { connect, DispatchProp } from 'react-redux'
 import { RouteComponentProps, Switch, withRouter } from 'react-router'
 import { Link, Route } from 'react-router-dom'
 import { IndexState } from 'reducers'
-import { ContractSums, selectContractDetails, selectSpending, SpendingTotals } from 'selectors'
+import {
+  ContractSums,
+  selectContractDetails,
+  selectSpending,
+  SpendingTotals,
+  selectPricing,
+  selectRenterSummary
+} from 'selectors'
 import { AllowanceModal } from 'components/Modal'
 import { Flex } from 'components/atoms/Flex'
+import { RenterModel } from 'models'
 
 const { Panel } = Collapse
 
@@ -131,6 +139,8 @@ const PaddedMenuItemLink = ({ children, ...props }: any) => (
 interface StateProps {
   contracts: ContractSums
   spending: SpendingTotals
+  pricing: RenterModel.PricesGETResponse
+  renterSummary: RenterModel.RenterGETResponse
 }
 
 interface State {
@@ -158,30 +168,42 @@ class Renter extends React.Component<RenterProps, State> {
   }
   render() {
     const { match }: { match: any } = this.props
-    const { contracts, spending } = this.props
+    const { contracts, spending, pricing, renterSummary } = this.props
     return (
       <Box>
+        <AllowanceModal
+          pricing={pricing}
+          visible={this.state.allowanceModalVisible}
+          openModal={this.openModal}
+          closeModal={this.closeModal}
+          renterSummary={renterSummary}
+        />
         <Flex justifyContent="space-between" alignItems="baseline">
           <CardHeader>File Manager</CardHeader>
-          {/* <Box ml="auto">
-            <Dropdown
-              overlay={
-                <Menu>
-                  <Menu.Item key="0">
-                    <a>Backup Files</a>
-                  </Menu.Item>
-                  <Menu.Item key="1">
-                    <a>Restore Files</a>
-                  </Menu.Item>
-                </Menu>
-              }
-              trigger={['click']}
-            >
-              <Text color="silver" css={{ cursor: 'pointer', textTransform: 'uppercase' }}>
-                More <Icon type="down" />
-              </Text>
-            </Dropdown>
-          </Box> */}
+          {contracts.active > 0 && (
+            <Box ml="auto">
+              <Dropdown
+                overlay={
+                  <Menu>
+                    <Menu.Item onClick={this.openModal} key="1">
+                      <a>Modify Allowance</a>
+                    </Menu.Item>
+                    {/* <Menu.Item key="0">
+                      <a>Backup Files</a>
+                    </Menu.Item>
+                    <Menu.Item key="1">
+                      <a>Restore Files</a>
+                    </Menu.Item> */}
+                  </Menu>
+                }
+                trigger={['click']}
+              >
+                <Text color="silver" css={{ cursor: 'pointer', textTransform: 'uppercase' }}>
+                  More <Icon type="down" />
+                </Text>
+              </Dropdown>
+            </Box>
+          )}
         </Flex>
         <Flex>
           <Stat content={`${contracts.active}`} title="Contracts Active" width={1 / 4} />
@@ -207,11 +229,6 @@ class Renter extends React.Component<RenterProps, State> {
           </Box>
         ) : (
           <Flex justifyContent="center" alignItems="center">
-            <AllowanceModal
-              visible={this.state.allowanceModalVisible}
-              openModal={this.openModal}
-              closeModal={this.closeModal}
-            />
             <Flex
               p={4}
               height="400px"
@@ -237,7 +254,9 @@ class Renter extends React.Component<RenterProps, State> {
 
 export const mapStateToProps = (state: IndexState) => ({
   contracts: selectContractDetails(state),
-  spending: selectSpending(state)
+  spending: selectSpending(state),
+  pricing: selectPricing(state),
+  renterSummary: selectRenterSummary(state)
 })
 
 export default connect(mapStateToProps)(withRouter(Renter))

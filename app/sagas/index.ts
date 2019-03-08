@@ -211,6 +211,20 @@ export const setAllowanceWorker = bindAsyncAction(RenterActions.setAllowance, {
   return response
 })
 
+export const getFeeWorker = bindAsyncAction(RenterActions.getFeeEstimates, {
+  skipStartedAction: true
+})(function*(): SagaIterator {
+  const response = yield call(siad.call, '/renter/prices')
+  return response
+})
+
+export const getRenterWorker = bindAsyncAction(RenterActions.getRenterDetails, {
+  skipStartedAction: true
+})(function*(): SagaIterator {
+  const response = yield call(siad.call, '/renter')
+  return response
+})
+
 export const getContractsWorker = bindAsyncAction(RenterActions.fetchContracts, {
   skipStartedAction: true
 })(function*(): SagaIterator {
@@ -271,6 +285,7 @@ function* setAllowanceWatcher() {
     yield spawn(setAllowanceWorker, {
       allowance
     })
+    yield spawn(getRenterWorker)
   }
 }
 

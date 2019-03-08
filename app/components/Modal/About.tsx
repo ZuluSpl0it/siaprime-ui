@@ -39,9 +39,6 @@ export class AboutModal extends React.Component<AboutModalProps, {}> {
                     <Wordmark viewBox="0 0 97 58" />
                   </SVGBox>
                 </Flex>
-                {/* <Box pt={2}>
-                  <Text>1.4.0 RC2</Text>
-                </Box> */}
               </Flex>
             </Box>
             <Box width={1 / 2} alignSelf="stretch">
@@ -49,8 +46,8 @@ export class AboutModal extends React.Component<AboutModalProps, {}> {
                 <Text fontWeight={6}>Sia UI</Text>
               </Box>
               <Box>
-                <Text is="div">UI: v1.4.0 RC2</Text>
-                <Text is="div">Daemon: v1.4.0 RC2</Text>
+                <Text is="div">UI: v1.4.0 RC3</Text>
+                <Text is="div">Daemon: v1.4.0 RC3</Text>
               </Box>
               <Box pt={3}>
                 <Button onClick={this.openSiaDir}>Show Sia Data</Button>

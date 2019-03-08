@@ -1,8 +1,10 @@
 import { WalletActions } from 'actions'
-import { Button, Dropdown, Icon, Menu, Tabs, Tag, Modal } from 'antd'
+import { Button, Dropdown, Icon, Menu, Modal, Tabs, Tag } from 'antd'
 import { Box, Card, CardHeader, StyledTag, Text } from 'components/atoms'
+import { Flex } from 'components/atoms/Flex'
 import { Stat } from 'components/Card'
 import { BackupModel } from 'components/Modal'
+import { ChangePasswordModal } from 'components/Modal/ChangePassword'
 import { RequireWalletData } from 'components/RequireData'
 import { clipboard } from 'electron'
 import * as React from 'react'
@@ -19,10 +21,7 @@ import {
 
 import Send from './Send'
 import TransactionView from './TransactionView'
-import { Flex } from 'components/atoms/Flex'
-import { ChangePasswordModal } from 'components/Modal/ChangePassword'
-import console = require('console')
-import { TextInput } from 'components/Forms/Inputs'
+
 const confirm = Modal.confirm
 
 const TabPane = Tabs.TabPane
@@ -240,7 +239,7 @@ class Wallet extends React.Component<WalletProps, {}> {
                   </Box>
                   <Box py={3}>
                     <Text color="silver" fontSize={1} css={{ textTransform: 'uppercase' }}>
-                      Previous Addresseses
+                      Previous Addresses
                     </Text>
                   </Box>
                   <Box>

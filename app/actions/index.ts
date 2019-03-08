@@ -115,6 +115,18 @@ export namespace RenterActions {
     APIModel.Error
   >('SET_ALLOWANCE')
 
+  export const getFeeEstimates = renterActionCreator.async<
+    void,
+    RenterModel.PricesGETResponse,
+    APIModel.Error
+  >('GET_FEE_ESTIMATES')
+
+  export const getRenterDetails = renterActionCreator.async<
+    void,
+    RenterModel.RenterGETResponse,
+    APIModel.Error
+  >('RENTER_DETAILS')
+
   export const createBackup = renterActionCreator.async<
     { destination: string },
     void,
