@@ -43,7 +43,7 @@ class ScanView extends React.Component<DispatchProp & StateProps> {
           </Box>
           <Box mx={2} width={1 / 3} style={{ textAlign: 'center' }}>
             <Text is="p" color="mid-gray" fontSize={3}>
-              {initState.loading ? 'Scanning' : initState.done ? 'Scan Complet' : 'Error Occured'}
+              {initState.loading ? 'Scanning' : initState.done ? 'Scan Complete' : 'Error Occured'}
             </Text>
             <Text is="p" color="silver" fontSize={2} maxWidth="300em">
               {initState.error ? initState.error : initState.done ? '' : 'This may take some time'}

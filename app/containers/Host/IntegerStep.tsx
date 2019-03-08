@@ -20,7 +20,7 @@ class IntegerStep extends React.Component<Props> {
     if (parseInt(value) < 32768) {
       this.setState({
         error:
-          'The minimum requirement for storage is 32GB. We generally recommend allocating 2TB or more to be a competitive host.'
+          'The minimum requirement for storage is 32 GB. We generally recommend allocating 2 TB or more to be a competitive host.'
       })
     } else {
       this.setState({
