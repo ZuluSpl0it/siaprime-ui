@@ -27,7 +27,7 @@ function showConfirm() {
   confirm({
     title: 'Please Wait for Sia-UI to Sync',
     content:
-      'Sia-UI must be fully synced with the network in order to restore from your seed. Check the status bar in the upper-right corner to monitor sync status',
+      'Sia-UI must be fully synced with the network in order to restore your wallet. Sync status is displayed in the upper-right corner.',
     onOk() {}
   })
 }
