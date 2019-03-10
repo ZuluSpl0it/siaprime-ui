@@ -149,7 +149,7 @@ class TransactionView extends React.Component<Props, {}> {
               )
             },
             {
-              title: () => <TableTitle>Tx Type</TableTitle>,
+              title: () => <TableTitle>Type</TableTitle>,
               width: 150,
               dataIndex: 'tags',
               key: 'tags',

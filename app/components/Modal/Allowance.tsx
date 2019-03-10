@@ -50,6 +50,8 @@ export const AllowanceModal = (props: any) => {
   )
   const { balance } = useMappedState(mapState)
 
+  const [errorMessage, setError] = React.useState('')
+
   // Effects sets the max siacoin balance for the slider
   React.useEffect(() => {
     const siacoinBalance = toSiacoins(balance).toNumber()
@@ -58,18 +60,22 @@ export const AllowanceModal = (props: any) => {
 
   const dispatch = useDispatch()
   const createAllowance = React.useCallback(() => {
-    if (allowanceAmount < maxBalance) {
+    if (allowanceAmount === 0) {
+      setError('Your allowance amount cannot be zero.')
+    } else if (allowanceAmount < maxBalance) {
       dispatch(
         RenterActions.setAllowance.started({
           allowance: allowanceAmount
         })
       )
       closeModal()
+    } else {
+      setError('Your wallet has insufficient funds for allowance amount.')
     }
   }, [maxBalance, allowanceAmount])
 
   return (
-    <Modal {...props} onOk={createAllowance} onCancel={closeModal}>
+    <Modal {...props} onOk={createAllowance} onCancel={closeModal} destroyOnClose>
       <Box py={3}>
         <Text fontSize={3}>Rent storage on the Sia Network</Text>
       </Box>
@@ -81,14 +87,6 @@ export const AllowanceModal = (props: any) => {
         </Text>
       </Box>
       <Flex>
-        {/* <Box width={12 / 18}>
-          <Slider
-            min={1}
-            max={maxBalance}
-            onChange={amt => setAllowanceAmount(amt as any)}
-            value={allowanceAmount}
-          />
-        </Box> */}
         <Box width={6 / 18}>
           <InputNumber
             min={1}
@@ -109,6 +107,7 @@ export const AllowanceModal = (props: any) => {
           </Box>
         </Box>
       </Flex>
+      <Box>{errorMessage && <Text color="red">{errorMessage} </Text>}</Box>
     </Modal>
   )
 }

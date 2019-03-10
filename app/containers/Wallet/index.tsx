@@ -45,7 +45,7 @@ const ReceiveAddressCard = ({ address }: any) => {
   )
 }
 
-interface WalletDetails {
+export interface WalletDetails {
   confirmedBalance: string
   unconfirmedBalance: string
   siafundBalance: string

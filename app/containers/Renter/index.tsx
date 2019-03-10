@@ -1,5 +1,5 @@
 import { RenterActions } from 'actions'
-import { Card, Collapse, Dropdown, Menu, Icon, Button } from 'antd'
+import { Card, Collapse, Dropdown, Menu, Icon, Button, Tooltip } from 'antd'
 import { Box, CardHeader, ElectronLink, Text } from 'components/atoms'
 import { Stat } from 'components/Card'
 import FileManager from 'components/FileManager'
@@ -14,11 +14,13 @@ import {
   selectSpending,
   SpendingTotals,
   selectPricing,
-  selectRenterSummary
+  selectRenterSummary,
+  selectWalletBalanceDetails
 } from 'selectors'
 import { AllowanceModal } from 'components/Modal'
 import { Flex } from 'components/atoms/Flex'
 import { RenterModel } from 'models'
+import { WalletDetails } from 'containers/Wallet'
 
 const { Panel } = Collapse
 
@@ -141,6 +143,7 @@ interface StateProps {
   spending: SpendingTotals
   pricing: RenterModel.PricesGETResponse
   renterSummary: RenterModel.RenterGETResponse
+  balances: WalletDetails
 }
 
 interface State {
@@ -168,7 +171,8 @@ class Renter extends React.Component<RenterProps, State> {
   }
   render() {
     const { match }: { match: any } = this.props
-    const { contracts, spending, pricing, renterSummary } = this.props
+    const { contracts, spending, pricing, renterSummary, balances } = this.props
+    console.log('balances', balances)
     return (
       <Box>
         <AllowanceModal
@@ -241,9 +245,16 @@ class Renter extends React.Component<RenterProps, State> {
                   It looks like you don't have any contracts yet.
                 </Text>
               </Box>
-              <Button onClick={this.openModal} type="ghost" size="large">
+              {/* <Tooltip title="You must have a Siacoin balance to create contracts"> */}
+              <Button
+                onClick={this.openModal}
+                // disabled={parseFloat(balances.confirmedBalance) === 0}
+                type="ghost"
+                size="large"
+              >
                 Setup Allowance
               </Button>
+              {/* </Tooltip> */}
             </Flex>
           </Flex>
         )}
@@ -256,7 +267,8 @@ export const mapStateToProps = (state: IndexState) => ({
   contracts: selectContractDetails(state),
   spending: selectSpending(state),
   pricing: selectPricing(state),
-  renterSummary: selectRenterSummary(state)
+  renterSummary: selectRenterSummary(state),
+  balances: selectWalletBalanceDetails(state)
 })
 
 export default connect(mapStateToProps)(withRouter(Renter))
