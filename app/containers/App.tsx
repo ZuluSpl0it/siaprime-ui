@@ -20,28 +20,30 @@ export const setGlobalSiadProcess = p => {
 export const getGlobalSiadProcess = (): ChildProcess => {
   return globalSiadProcess
 }
+console.log('metropolis', MetropolisRegular)
 
-const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
   @font-face {
-    font-family: Metropolis;
-    src: url('${MetropolisRegular}') format('ttf');
+    font-family: "Metropolis";
+    src: url('${MetropolisRegular}');
     font-weight: 400;
     font-style: normal;
   }
 
   @font-face {
-    font-family: Metropolis;
-    src: url(${MetropolisMedium}) format('otf');
-    font-weight: 600;
+    font-family: "Metropolis";
+    src: url('${MetropolisMedium}');
+    font-weight: 500;
     font-style: normal;
   }
 
   @font-face {
-    font-family: Metropolis;
-    src: url(${MetropolisBold}) format('otf');
+    font-family: "Metropolis";
+    src: url('${MetropolisBold}');
     font-weight: 800;
     font-style: normal;
   }
+
     /* total width */
   ::-webkit-scrollbar {
       background-color:#fff;
@@ -71,7 +73,6 @@ const GlobalStyle = createGlobalStyle`
 `
 
 window.addEventListener('beforeunload', async e => {
-  console.log('globalsiad', globalSiadProcess)
   if (globalSiadProcess) {
     await siad.daemonStop()
   }
@@ -104,7 +105,6 @@ class App extends React.Component<DispatchProp> {
     return (
       <React.Fragment>
         <div>{this.props.children}</div>
-        <GlobalStyle />
       </React.Fragment>
     )
   }
