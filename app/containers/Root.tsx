@@ -9,6 +9,7 @@ import Routes from '../routes'
 import cs from '../store/configureStore'
 import { theme } from '../theme'
 import {} from 'styled-components/cssprop'
+import { GlobalStyle } from './App'
 
 const { configureStore, history } = cs
 export const reduxStore = configureStore()
@@ -40,9 +41,12 @@ const Root = () => (
   <Provider store={reduxStore}>
     <StoreContext.Provider value={reduxStore}>
       <ThemeProvider theme={theme}>
-        <Router history={history}>
-          <Routes />
-        </Router>
+        <>
+          <GlobalStyle />
+          <Router history={history}>
+            <Routes />
+          </Router>
+        </>
       </ThemeProvider>
     </StoreContext.Provider>
   </Provider>
