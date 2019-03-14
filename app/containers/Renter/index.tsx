@@ -172,7 +172,6 @@ class Renter extends React.Component<RenterProps, State> {
   render() {
     const { match }: { match: any } = this.props
     const { contracts, spending, pricing, renterSummary, balances } = this.props
-    console.log('balances', balances)
     return (
       <Box>
         <AllowanceModal

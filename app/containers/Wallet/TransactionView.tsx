@@ -171,7 +171,13 @@ class TransactionView extends React.Component<Props, {}> {
                 text: v
               })),
               filterMultiple: true,
-              onFilter: (value, record) => record.tags.includes(value)
+              onFilter: (value, record) => {
+                if (value === 'SIACOIN') {
+                  return record.tags.length === 1 && record.tags.includes(value)
+                } else {
+                  return record.tags.includes(value)
+                }
+              }
             },
             {
               title: () => <TableTitle>Status</TableTitle>,
