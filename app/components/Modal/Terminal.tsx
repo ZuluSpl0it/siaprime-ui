@@ -30,6 +30,7 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
   const [stdout, setState] = React.useState([
     'Welcome to the Sia Terminal! Type `help` to see the available commands. Type `clear` to clear the screen.'
   ])
+  const [input, setInput] = React.useState('')
   return (
     <div>
       <Modal
@@ -50,7 +51,7 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
           <OuterPreWrap>
             <PreWrap>
               {stdout.map((s, i) => (
-                <pre style={{ paddingTop: '50px' }} key={i}>
+                <pre style={{ paddingTop: '50px', fontWeight: 600 }} key={i}>
                   {s}
                 </pre>
               ))}
@@ -59,12 +60,13 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
         </Flex>
         <Input
           type="text"
+          onChange={e => setInput(e.target.value)}
+          value={input}
           onPressEnter={async (e: any) => {
-            const command = e.target.value
+            const command = input
             try {
               switch (command) {
                 case 'clear':
-                  e.target.value = ''
                   setState([])
                   return
                 default:
@@ -72,7 +74,7 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
               }
               if (command) {
                 const command = e.target.value
-                e.target.value = ''
+                setInput('')
                 setState([...stdout, e.target.value])
                 const result = await spawnSiac(command)
                 setState([...stdout, result])

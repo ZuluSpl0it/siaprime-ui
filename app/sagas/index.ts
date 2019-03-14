@@ -308,15 +308,33 @@ function* pollRunning() {
   yield cancel(bgPoll)
 }
 
+// function createWatcher(action, fn) {
+//   return function* watcher() {
+//     while (true) {
+//       yield take(action)
+//       yield spawn()
+//     }
+
+//   }
+// }
+
+const wrapSpawn = fn => {
+  return function* g() {
+    yield spawn(fn)
+  }
+}
+
+const spawnAnnounceHostWorker = wrapSpawn(announceHostWorker)
+
 // Root Saga
 export default function* rootSaga() {
   yield all([
-    takeLatest(GatewayActions.fetchGateway.started, gatewayWorker),
-    takeLatest(ConsensusActions.fetchConsensus.started, consensusWorker),
-    takeLatest(RenterActions.fetchContracts.started, getContractsWorker),
-    takeLatest(HostActions.getHostStorage.started, getStorageWorker),
-    takeLatest(HostActions.getHostConfig.started, hostConfigWorker),
-    takeLatest(HostActions.announceHost.started, announceHostWorker),
+    takeLatest(GatewayActions.fetchGateway.started, wrapSpawn(gatewayWorker)),
+    takeLatest(ConsensusActions.fetchConsensus.started, wrapSpawn(consensusWorker)),
+    takeLatest(RenterActions.fetchContracts.started, wrapSpawn(getContractsWorker)),
+    takeLatest(HostActions.getHostStorage.started, wrapSpawn(getStorageWorker)),
+    takeLatest(HostActions.getHostConfig.started, wrapSpawn(hostConfigWorker)),
+    takeLatest(HostActions.announceHost.started, wrapSpawn(announceHostWorker)),
     takeLatest(GlobalActions.startSiadPolling, pollRunning),
     hostConfigWatcher(),
     addFolderWatcher(),

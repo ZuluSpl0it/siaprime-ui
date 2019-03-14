@@ -20,7 +20,6 @@ export const setGlobalSiadProcess = p => {
 export const getGlobalSiadProcess = (): ChildProcess => {
   return globalSiadProcess
 }
-console.log('metropolis', MetropolisRegular)
 
 export const GlobalStyle = createGlobalStyle`
   @font-face {
