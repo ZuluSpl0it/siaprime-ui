@@ -1,4 +1,5 @@
 import { GlobalActions } from 'actions'
+import { siad } from 'api/siad'
 import Wordmark from 'assets/svg/wordmark.svg'
 import AppHeader from 'components/AppHeader'
 import { Box, DragContiner, SVGBox } from 'components/atoms'
@@ -11,11 +12,10 @@ import Wallet from 'containers/Wallet'
 import { WalletModel } from 'models'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
-import { Redirect, Route, Switch, withRouter, RouteComponentProps } from 'react-router'
+import { Redirect, Route, RouteComponentProps, Switch, withRouter } from 'react-router'
 import { IndexState } from 'reducers'
 import { UIReducer } from 'reducers/ui'
 import { selectSiadState, selectWalletSummary } from 'selectors'
-import { siad } from 'api/siad'
 
 const routes: SidebarItem[] = [
   {

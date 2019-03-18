@@ -1,19 +1,16 @@
-import { WalletActions, GlobalActions } from 'actions'
-import { Button, Steps, Input, Icon } from 'antd'
-import { WrappedFormUtils } from 'antd/lib/form/Form'
-import { Box, Text, Card, DragContiner, ButtonWithAdornment } from 'components/atoms'
-import { SeedForm } from 'components/Forms'
+import { GlobalActions, WalletActions } from 'actions'
+import { Button, Steps } from 'antd'
+import { Box, DragContiner } from 'components/atoms'
+import { Flex } from 'components/atoms/Flex'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { IndexState } from 'reducers'
 import { WalletRootReducer } from 'reducers/wallet'
 import { selectSeedState } from 'selectors'
-import { Grid } from 'components/atoms/Grid'
-import { Flex } from 'components/atoms/Flex'
+
 import { GenerateSeedView } from './GenerateSeedView'
 import { VerifySeedView } from './VerifySeedView'
-import AppHeader from 'components/AppHeader'
 
 const { Step } = Steps
 

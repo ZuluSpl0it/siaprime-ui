@@ -1,5 +1,5 @@
 import { WalletActions } from 'actions'
-import { Button, Dropdown, Icon, Menu, Modal, Tabs, Tag } from 'antd'
+import { Button, Dropdown, Icon, Menu, Tabs, Tag } from 'antd'
 import { Box, Card, CardHeader, StyledTag, Text } from 'components/atoms'
 import { Flex } from 'components/atoms/Flex'
 import { Stat } from 'components/Card'
@@ -21,8 +21,6 @@ import {
 
 import Send from './Send'
 import TransactionView from './TransactionView'
-
-const confirm = Modal.confirm
 
 const TabPane = Tabs.TabPane
 const TabPanelWrap = ({ children }: any) => <Box height="460px">{children}</Box>

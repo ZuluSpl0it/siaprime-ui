@@ -1,6 +1,7 @@
 import { GlobalActions } from 'actions'
 import { Icon, Progress } from 'antd'
 import { Box, DragContiner, Text } from 'components/atoms'
+import { Flex } from 'components/atoms/Flex'
 import { WalletModel } from 'models'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
@@ -8,7 +9,6 @@ import { Redirect, RouteComponentProps, withRouter } from 'react-router'
 import { ConsensusRootReducer } from 'reducers/consensus'
 import { createStructuredSelector } from 'reselect'
 import { selectConsensus, selectWalletSummary } from 'selectors'
-import { Flex } from 'components/atoms/Flex'
 
 interface StateProps {
   consensus: ConsensusRootReducer.State

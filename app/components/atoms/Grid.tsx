@@ -1,31 +1,32 @@
 import * as React from 'react'
+import styled from 'styled-components'
 import {
-  gridGap,
-  gridColumnGap,
-  gridRowGap,
-  gridColumn,
-  gridRow,
-  gridAutoFlow,
-  gridAutoColumns,
-  gridAutoRows,
-  gridTemplateColumns,
-  gridTemplateRows,
-  gridTemplateAreas,
   gridArea,
-  GridGapProps,
+  GridAreaProps,
+  gridAutoColumns,
+  GridAutoColumnsProps,
+  gridAutoFlow,
+  GridAutoFlowProps,
+  gridAutoRows,
+  GridAutoRowsProps,
+  gridColumn,
+  gridColumnGap,
   GridColumnProps,
+  gridGap,
+  GridGapProps,
+  gridRow,
+  gridRowGap,
   GridRowGapProps,
   GridRowProps,
-  GridAutoFlowProps,
-  GridAutoColumnsProps,
-  GridAutoRowsProps,
-  GridTemplatesColumnsProps,
-  GridTemplatesRowsProps,
+  gridTemplateAreas,
+  gridTemplateColumns,
+  gridTemplateRows,
   GridTemplatesAreasProps,
-  GridAreaProps
+  GridTemplatesColumnsProps,
+  GridTemplatesRowsProps
 } from 'styled-system'
-import styled from 'styled-components'
-import { Box, BoxProps } from './Box'
+
+import { BoxProps } from './Box'
 import { Flex } from './Flex'
 
 export type GridBoxProps = BoxProps &

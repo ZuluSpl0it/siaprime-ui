@@ -1,19 +1,13 @@
-import { GlobalActions } from 'actions'
-import { Spin, Button } from 'antd'
-import { Box, DragContiner, SVGBox, Text } from 'components/atoms'
+import { DragContiner, Text } from 'components/atoms'
+import { Flex } from 'components/atoms/Flex'
 import { OfflineState } from 'components/EmptyStates'
+import { TransitionSiaSpinner } from 'components/GSAP/TransitionSiaSpinner'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { Redirect } from 'react-router'
 import { UIReducer } from 'reducers/ui'
 import { createStructuredSelector } from 'reselect'
 import { selectSiadState } from 'selectors'
-import Wordmark from 'assets/svg/wordmark.svg'
-import { Flex } from 'components/atoms/Flex'
-import MainView from 'containers/MainView/MainView'
-import ReactTransitionGroup from 'react-addons-transition-group' // ES6
-import styled from 'styled-components'
-import { TransitionSiaSpinner } from 'components/GSAP/TransitionSiaSpinner'
 
 interface StateProps {
   siad: UIReducer.SiadState

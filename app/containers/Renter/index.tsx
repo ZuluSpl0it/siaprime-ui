@@ -1,26 +1,28 @@
 import { RenterActions } from 'actions'
-import { Card, Collapse, Dropdown, Menu, Icon, Button, Tooltip } from 'antd'
+import { Button, Card, Collapse, Dropdown, Icon, Menu } from 'antd'
 import { Box, CardHeader, ElectronLink, Text } from 'components/atoms'
+import { Flex } from 'components/atoms/Flex'
 import { Stat } from 'components/Card'
 import FileManager from 'components/FileManager'
+import { AllowanceModal } from 'components/Modal'
+import { WalletDetails } from 'containers/Wallet'
+import { RenterModel } from 'models'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { RouteComponentProps, Switch, withRouter } from 'react-router'
 import { Link, Route } from 'react-router-dom'
 import { IndexState } from 'reducers'
+import { UIReducer } from 'reducers/ui'
 import {
   ContractSums,
   selectContractDetails,
-  selectSpending,
-  SpendingTotals,
   selectPricing,
   selectRenterSummary,
-  selectWalletBalanceDetails
+  selectRentStorage,
+  selectSpending,
+  selectWalletBalanceDetails,
+  SpendingTotals
 } from 'selectors'
-import { AllowanceModal } from 'components/Modal'
-import { Flex } from 'components/atoms/Flex'
-import { RenterModel } from 'models'
-import { WalletDetails } from 'containers/Wallet'
 
 const { Panel } = Collapse
 
@@ -143,6 +145,7 @@ interface StateProps {
   spending: SpendingTotals
   pricing: RenterModel.PricesGETResponse
   renterSummary: RenterModel.RenterGETResponse
+  rentStorage: UIReducer.ErrorState
   balances: WalletDetails
 }
 
@@ -171,10 +174,11 @@ class Renter extends React.Component<RenterProps, State> {
   }
   render() {
     const { match }: { match: any } = this.props
-    const { contracts, spending, pricing, renterSummary, balances } = this.props
+    const { contracts, spending, rentStorage, pricing, renterSummary, balances } = this.props
     return (
       <Box>
         <AllowanceModal
+          rentStorage={rentStorage}
           pricing={pricing}
           visible={this.state.allowanceModalVisible}
           openModal={this.openModal}
@@ -266,6 +270,7 @@ export const mapStateToProps = (state: IndexState) => ({
   contracts: selectContractDetails(state),
   spending: selectSpending(state),
   pricing: selectPricing(state),
+  rentStorage: selectRentStorage(state),
   renterSummary: selectRenterSummary(state),
   balances: selectWalletBalanceDetails(state)
 })

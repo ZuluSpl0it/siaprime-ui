@@ -1,23 +1,9 @@
-import { WalletActions } from 'actions'
-import { Button, Steps, Input, Icon, AutoComplete } from 'antd'
-import { WrappedFormUtils } from 'antd/lib/form/Form'
-import {
-  Box,
-  Text,
-  Card,
-  DragContiner,
-  ButtonWithAdornment,
-  StyledAutoComplete
-} from 'components/atoms'
-import { SeedForm } from 'components/Forms'
-import * as React from 'react'
-import { connect, DispatchProp } from 'react-redux'
-import { RouteComponentProps, withRouter } from 'react-router'
-import { IndexState } from 'reducers'
-import { WalletRootReducer } from 'reducers/wallet'
-import { selectSeedState } from 'selectors'
-import { Grid } from 'components/atoms/Grid'
+import { Input } from 'antd'
+import { Box, Card, StyledAutoComplete, Text } from 'components/atoms'
 import { Flex } from 'components/atoms/Flex'
+import { Grid } from 'components/atoms/Grid'
+import * as React from 'react'
+
 import { mnemonics } from './seedlist'
 
 /**
