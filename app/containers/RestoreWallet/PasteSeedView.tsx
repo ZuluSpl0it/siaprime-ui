@@ -1,17 +1,7 @@
-import { WalletActions } from 'actions'
-import { Button, Steps, Input, Icon } from 'antd'
-import { WrappedFormUtils } from 'antd/lib/form/Form'
-import { Box, Text, Card, DragContiner, ButtonWithAdornment } from 'components/atoms'
-import { SeedForm } from 'components/Forms'
-import * as React from 'react'
-import { connect, DispatchProp } from 'react-redux'
-import { RouteComponentProps, withRouter } from 'react-router'
-import { IndexState } from 'reducers'
-import { WalletRootReducer } from 'reducers/wallet'
-import { selectSeedState } from 'selectors'
-import { Grid } from 'components/atoms/Grid'
+import { Input } from 'antd'
+import { Box, Card, Text } from 'components/atoms'
 import { Flex } from 'components/atoms/Flex'
-import { clipboard } from 'electron'
+import * as React from 'react'
 
 export const PasteSeedView = ({ onChange }) => {
   const [seedInput, setInput] = React.useState('')

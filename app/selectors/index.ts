@@ -19,6 +19,8 @@ import { computeTxSum, groupTransactionsByDay } from 'utils'
 //   })) as PriceChartDataPoint[]
 // })
 
+export const selectRentStorage = (state: IndexState) => state.ui.rentStorage
+
 export const selectContracts = (state: IndexState) => state.renter.contracts
 
 export const selectSeedState = (state: IndexState) => state.wallet.seed

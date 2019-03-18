@@ -1,16 +1,8 @@
 import { GlobalActions, WalletActions } from 'actions'
-import { Form, Input, Button } from 'antd'
+import { Button, Form, Input } from 'antd'
 import Wordmark from 'assets/svg/wordmark.svg'
 import LockScreenHeader from 'components/AppHeader/LockScreenHeader'
-import {
-  Box,
-  ButtonWithAdornment,
-  defaultFieldState,
-  DragContiner,
-  FormItemProps,
-  SVGBox,
-  Text
-} from 'components/atoms'
+import { Box, defaultFieldState, DragContiner, FormItemProps, SVGBox, Text } from 'components/atoms'
 import { Flex } from 'components/atoms/Flex'
 import { TransitionFade } from 'components/GSAP/TransitionFade'
 import { TransitionSiaOnlySpin } from 'components/GSAP/TransitionSiaSpinner'

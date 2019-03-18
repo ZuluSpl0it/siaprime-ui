@@ -1,9 +1,11 @@
 import { Icon, Table, Tooltip } from 'antd'
 import { TableProps } from 'antd/lib/table'
 import { Box, StyledTag, Text } from 'components/atoms'
+import { Flex } from 'components/atoms/Flex'
 import { transactionFormatTool } from 'components/Transaction'
 import { clipboard } from 'electron'
 import { isEqual } from 'lodash'
+import { WalletModel } from 'models'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { IndexState } from 'reducers'
@@ -11,8 +13,6 @@ import { ConsensusRootReducer } from 'reducers/consensus'
 import { OrganizedTx, selectConsensus, selectOrganizedTx } from 'selectors'
 import styled from 'styled-components'
 import { themeGet } from 'styled-system'
-import { Flex } from 'components/atoms/Flex'
-import { WalletModel } from 'models'
 
 interface StateProps {
   transactions: OrganizedTx

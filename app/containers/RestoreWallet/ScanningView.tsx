@@ -1,16 +1,11 @@
-import { Button, Icon } from 'antd'
-import { initSiad, siad, launchSiad } from 'api/siad'
-import Temp from 'assets/img/Bitmap.png'
-import { Box, Image, Text } from 'components/atoms'
+import { Icon } from 'antd'
+import { Box, Text } from 'components/atoms'
+import { Flex } from 'components/atoms/Flex'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
-import { WalletActions, GlobalActions } from 'actions'
-import { Flex } from 'components/atoms/Flex'
-import { globalSiadProcess, getGlobalSiadProcess, setGlobalSiadProcess } from 'containers/App'
-import { ChildProcess } from 'child_process'
+import { UIReducer } from 'reducers/ui'
 import { createStructuredSelector } from 'reselect'
 import { selectInitFromSeedState } from 'selectors'
-import { UIReducer } from 'reducers/ui'
 
 interface StateProps {
   initState: UIReducer.InitFromSeedState

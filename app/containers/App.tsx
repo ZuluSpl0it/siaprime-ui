@@ -1,15 +1,13 @@
-import { siad, initSiad, launchSiad } from 'api/siad'
-import * as React from 'react'
-import { reduxStore } from './Root'
-import { connect, DispatchProp } from 'react-redux'
 import { GlobalActions } from 'actions'
-import {} from 'styled-components/cssprop'
-import { defaultConfig } from 'config'
-import { createGlobalStyle } from 'styled-components'
+import { launchSiad, siad } from 'api/siad'
 import { ChildProcess } from 'child_process'
-import MetropolisRegular from '../assets/fonts/Metropolis-Regular.ttf'
-import MetropolisMedium from '../assets/fonts/Metropolis-Medium.otf'
+import * as React from 'react'
+import { connect, DispatchProp } from 'react-redux'
+import { createGlobalStyle } from 'styled-components'
+
 import MetropolisBold from '../assets/fonts/Metropolis-Bold.otf'
+import MetropolisMedium from '../assets/fonts/Metropolis-Medium.otf'
+import MetropolisRegular from '../assets/fonts/Metropolis-Regular.ttf'
 
 export let globalSiadProcess: any = null
 

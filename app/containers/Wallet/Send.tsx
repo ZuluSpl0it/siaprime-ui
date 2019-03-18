@@ -1,5 +1,5 @@
 import { WalletActions } from 'actions'
-import { Button, Select, Steps } from 'antd'
+import { Button, Steps } from 'antd'
 import {
   Box,
   ButtonWithAdornment,
@@ -19,7 +19,6 @@ import Setup from './SendSteps/Setup'
 import Verify from './SendSteps/Verify'
 
 const { Step } = Steps
-const { Option } = Select
 
 export const SetupDescText = ({ children }: any) => (
   <Text color="silver" css={{ textTransform: 'uppercase' }}>

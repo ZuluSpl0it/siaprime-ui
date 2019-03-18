@@ -1,6 +1,5 @@
-const child_process = require('child_process')
-import { defaultConfig } from 'config'
 import spawnAsync from '@expo/spawn-async'
+import { defaultConfig } from 'config'
 
 export const spawnSiac = async (command: any) => {
   try {

@@ -1,4 +1,4 @@
-import { WalletActions, GlobalActions, GatewayActions } from 'actions'
+import { WalletActions, GlobalActions, GatewayActions, RenterActions } from 'actions'
 import { combineReducers } from 'redux'
 import { reducerWithInitialState } from 'typescript-fsa-reducers'
 
@@ -8,6 +8,7 @@ export namespace UIReducer {
     siad: SiadState
     changePassword: ChangePasswordState
     initFromSeed: InitFromSeedState
+    rentStorage: ErrorState
   }
 
   export interface SiadState {
@@ -27,6 +28,10 @@ export namespace UIReducer {
     error: string
     loading: boolean
     done: boolean
+  }
+
+  export interface ErrorState {
+    error: string
   }
 
   export interface ChangePasswordState {
@@ -59,6 +64,18 @@ export namespace UIReducer {
     loading: false,
     done: false
   }
+
+  const InitialRentStorageState: ErrorState = {
+    error: ''
+  }
+
+  const RenterStorageReducer = reducerWithInitialState(InitialRentStorageState)
+    .case(RenterActions.getFeeEstimates.done, () => ({
+      error: ''
+    }))
+    .case(RenterActions.getFeeEstimates.failed, (state, payload) => ({
+      error: payload.error.message
+    }))
 
   const UnlockFormReducer = reducerWithInitialState(InitialUnlockState)
     .case(WalletActions.unlockWallet.failed, (_, payload) => {
@@ -160,6 +177,7 @@ export namespace UIReducer {
     unlockForm: UnlockFormReducer,
     siad: SiadReducer,
     changePassword: ChangePasswordReducer,
-    initFromSeed: InitFromSeedReducer
+    initFromSeed: InitFromSeedReducer,
+    rentStorage: RenterStorageReducer
   })
 }

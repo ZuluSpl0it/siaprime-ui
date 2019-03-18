@@ -1,17 +1,18 @@
-import * as React from 'react'
-import { Modal, Slider, InputNumber } from 'antd'
+import { RenterActions } from 'actions'
+import { InputNumber, Modal } from 'antd'
+import BigNumber from 'bignumber.js'
 import { Box, Text } from 'components/atoms'
+import { RenterModel } from 'models'
+import * as React from 'react'
 import { Flex } from 'rebass'
 import { IndexState } from 'reducers'
-import { useMappedState, useDispatch } from 'redux-react-hook'
-import { toSiacoins, toHastings } from 'sia-typescript'
-import { RenterActions } from 'actions'
-import { RenterModel } from 'models'
-import BigNumber from 'bignumber.js'
+import { useDispatch, useMappedState } from 'redux-react-hook'
+import { toHastings, toSiacoins } from 'sia-typescript'
+
 const bytes = require('bytes')
 
 export const AllowanceModal = (props: any) => {
-  const { closeModal } = props
+  const { closeModal, rentStorage } = props
   const pricing: RenterModel.PricesGETResponse = props.pricing
   const summary: RenterModel.RenterGETResponse = props.renterSummary
 
@@ -75,7 +76,13 @@ export const AllowanceModal = (props: any) => {
   }, [maxBalance, allowanceAmount])
 
   return (
-    <Modal {...props} onOk={createAllowance} onCancel={closeModal} destroyOnClose>
+    <Modal
+      {...props}
+      onOk={createAllowance}
+      okButtonDisabled={rentStorage.error}
+      onCancel={closeModal}
+      destroyOnClose
+    >
       <Box py={3}>
         <Text fontSize={3}>Rent storage on the Sia Network</Text>
       </Box>
@@ -98,13 +105,21 @@ export const AllowanceModal = (props: any) => {
           <Text>SC</Text>
         </Box>
         <Box width={12 / 18}>
-          <Box>
-            <Text>{storageEstimates.contractfees} SC</Text>{' '}
-            <Text fontWeight={2}>Contract Fees</Text>
-          </Box>
-          <Box>
-            <Text>{storageEstimates.storage}</Text> <Text fontWeight={2}>Est. Storage</Text>
-          </Box>
+          {rentStorage.error ? (
+            <Box>
+              <Text>{rentStorage.error}</Text>
+            </Box>
+          ) : (
+            <>
+              <Box>
+                <Text>{storageEstimates.contractfees} SC</Text>{' '}
+                <Text fontWeight={2}>Contract Fees</Text>
+              </Box>
+              <Box>
+                <Text>{storageEstimates.storage}</Text> <Text fontWeight={2}>Est. Storage</Text>
+              </Box>
+            </>
+          )}
         </Box>
       </Flex>
       <Box>{errorMessage && <Text color="red">{errorMessage} </Text>}</Box>

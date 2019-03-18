@@ -1,5 +1,6 @@
 import { WalletActions } from 'actions'
-import { AppIconButton, Bar, Box, HeaderBox } from 'components/atoms'
+import { AppIconButton, Bar, HeaderBox } from 'components/atoms'
+import { Flex } from 'components/atoms/Flex'
 import { AboutModal, TerminalModal } from 'components/Modal'
 import SynchronizeStatus from 'components/SynchronizeStatus'
 import { ConsensusModel } from 'models'
@@ -7,7 +8,6 @@ import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { selectConsensus } from 'selectors'
-import { Flex } from 'components/atoms/Flex'
 
 interface StateProps {
   consensus: ConsensusModel.ConsensusGETResponse
