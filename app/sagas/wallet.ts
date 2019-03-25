@@ -147,15 +147,32 @@ const changePassword = bindAsyncAction(WalletActions.changePassword, {
   skipStartedAction: true
 })(function*(params): SagaIterator {
   const { encryptionpassword, newpassword } = params
-  const response = yield call(siad.call, {
-    url: '/wallet/changepassword',
-    method: 'POST',
-    qs: {
-      encryptionpassword,
-      newpassword
-    }
-  })
-  return response
+  try {
+    const response = yield call(siad.call, {
+      url: '/wallet/changepassword',
+      method: 'POST',
+      qs: {
+        encryptionpassword,
+        newpassword
+      }
+    })
+    yield put(
+      GlobalActions.notification({
+        title: 'Change Password',
+        message: 'Successfully changed password',
+        type: 'open'
+      })
+    )
+    return response
+  } catch (e) {
+    yield put(
+      GlobalActions.notification({
+        title: 'Change Password Failed',
+        message: e.error ? e.error.message : 'Unknown error occurred',
+        type: 'open'
+      })
+    )
+  }
 })
 
 const initFromSeedWorker = bindAsyncAction(WalletActions.initFromSeed, {
