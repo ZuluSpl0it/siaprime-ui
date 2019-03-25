@@ -10,7 +10,20 @@ import BigNumber from 'bignumber.js'
 import { ConsensusModel, GatewayModel, HostModel } from 'models'
 import { HostReducer } from 'reducers/hosts'
 import { SagaIterator, delay } from 'redux-saga'
-import { all, call, fork, cancel, put, select, spawn, take, takeLatest } from 'redux-saga/effects'
+import {
+  all,
+  actionChannel,
+  call,
+  fork,
+  race,
+  cancel,
+  put,
+  select,
+  spawn,
+  take,
+  takeLatest
+} from 'redux-saga/effects'
+import { notification } from 'antd'
 import { selectHost } from 'selectors'
 import { bindAsyncAction } from 'typescript-fsa-redux-saga'
 
@@ -198,17 +211,34 @@ export const allowancePeriod = blockMonth * allowanceMonths
 export const setAllowanceWorker = bindAsyncAction(RenterActions.setAllowance, {
   skipStartedAction: true
 })(function*(params): SagaIterator {
-  const allowance = params.allowance
-  const hastings = toHastings(allowance).toString()
-  const response = yield call(siad.call, {
-    url: '/renter',
-    method: 'POST',
-    qs: {
-      funds: hastings,
-      period: allowancePeriod
-    }
-  })
-  return response
+  try {
+    const allowance = params.allowance
+    const hastings = toHastings(allowance).toString()
+    const response = yield call(siad.call, {
+      url: '/renter',
+      method: 'POST',
+      qs: {
+        funds: hastings,
+        period: allowancePeriod
+      }
+    })
+    yield put(
+      GlobalActions.notification({
+        title: 'Updated Allowance',
+        message: 'Allowance successfully updated',
+        type: 'open'
+      })
+    )
+    return response
+  } catch (e) {
+    yield put(
+      GlobalActions.notification({
+        title: 'Update Allowance Failed',
+        message: e.error ? e.error.message : 'Unknown error occurred',
+        type: 'open'
+      })
+    )
+  }
 })
 
 export const getFeeWorker = bindAsyncAction(RenterActions.getFeeEstimates, {
@@ -302,10 +332,19 @@ function* pollSiad() {
   }
 }
 
-function* pollRunning() {
-  const bgPoll = yield fork(pollSiad)
-  yield take(GlobalActions.stopSiadPolling)
-  yield cancel(bgPoll)
+function* siadPoller() {
+  while (yield take(GlobalActions.startSiadPolling)) {
+    yield put(
+      GlobalActions.notification({
+        title: 'Started Polling',
+        message: 'Sia-UI established a connection with Sia',
+        type: 'open'
+      })
+    )
+    const bgPoll = yield fork(pollSiad)
+    yield take(GlobalActions.stopSiadPolling)
+    yield cancel(bgPoll)
+  }
 }
 
 // function createWatcher(action, fn) {
@@ -324,6 +363,18 @@ const wrapSpawn = fn => {
   }
 }
 
+function* notificationQueue() {
+  const notifyChan = yield actionChannel(GlobalActions.notification)
+  while (true) {
+    const { payload } = yield take(notifyChan)
+    notification[payload.type]({
+      message: payload.title,
+      description: payload.message
+    })
+    yield call(delay, 3000)
+  }
+}
+
 const spawnAnnounceHostWorker = wrapSpawn(announceHostWorker)
 
 // Root Saga
@@ -335,7 +386,7 @@ export default function* rootSaga() {
     takeLatest(HostActions.getHostStorage.started, wrapSpawn(getStorageWorker)),
     takeLatest(HostActions.getHostConfig.started, wrapSpawn(hostConfigWorker)),
     takeLatest(HostActions.announceHost.started, wrapSpawn(announceHostWorker)),
-    takeLatest(GlobalActions.startSiadPolling, pollRunning),
+    siadPoller(),
     hostConfigWatcher(),
     addFolderWatcher(),
     resizeFolderWatcher(),
@@ -343,6 +394,7 @@ export default function* rootSaga() {
     createBackupWatcher(),
     restoreBackupWatcher(),
     setAllowanceWatcher(),
+    notificationQueue(),
     ...walletSagas
   ])
 }

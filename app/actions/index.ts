@@ -1,6 +1,7 @@
 import actionCreatorFactory from 'typescript-fsa'
 import { DashboardModel, WalletModel, APIModel, GatewayModel, HostModel, RenterModel } from 'models'
 import { TpoolModel, ConsensusModel } from 'models'
+import Title from 'antd/lib/skeleton/Title'
 const globalActionCreator = actionCreatorFactory('global')
 
 export namespace GlobalActions {
@@ -18,6 +19,10 @@ export namespace GlobalActions {
   export const siadLoaded = globalActionCreator<void>('SIAD_LOADED')
   export const siadOffline = globalActionCreator<void>('SIAD_OFFLINE')
   export const setSiadOrigin = globalActionCreator<{ isInternal: boolean }>('SET_SIAD_ORIGIN')
+
+  export const notification = globalActionCreator<{ type: string; title: string; message: string }>(
+    'NOTIFICATION_MESS'
+  )
 }
 
 const tpoolActionCreator = actionCreatorFactory('tpool')
