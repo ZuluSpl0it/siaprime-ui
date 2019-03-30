@@ -108,6 +108,9 @@ export namespace ConsensusActions {
 const renterActionCreator = actionCreatorFactory('renter')
 
 export namespace RenterActions {
+  export const startPolling = renterActionCreator<void>('START_POLL')
+  export const stopPolling = renterActionCreator<void>('STOP_POLL')
+
   export const fetchContracts = renterActionCreator.async<
     void,
     RenterModel.ContractsGETResponse,

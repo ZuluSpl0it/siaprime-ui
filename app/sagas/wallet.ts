@@ -1,4 +1,4 @@
-import { GlobalActions, TpoolActions, WalletActions } from 'actions'
+import { GlobalActions, TpoolActions, WalletActions, RenterActions } from 'actions'
 import { siad } from 'api/siad'
 import { WalletModel } from 'models'
 import { delay, SagaIterator } from 'redux-saga'
@@ -128,7 +128,7 @@ const txFromIdWorker = bindAsyncAction(WalletActions.getTxFromId)(function*(para
   return tx.length === 1 ? tx[0] : []
 })
 
-const getFees = bindAsyncAction(TpoolActions.getFee)(function*(): SagaIterator {
+const getTpoolFees = bindAsyncAction(TpoolActions.getFee)(function*(): SagaIterator {
   const response = yield call(siad.call, '/tpool/fee')
   return response
 })
@@ -208,7 +208,7 @@ function* initialDataCalls() {
   yield spawn(consensusWorker)
   const sinceHeight = yield select(selectTransactionHeight)
   yield spawn(getTransactionsWorker, { count: 100, sinceHeight })
-  yield spawn(getFees)
+  yield spawn(getTpoolFees)
   yield spawn(receiveAddressWorker)
   // move to global
   yield spawn(gatewayWorker)
@@ -217,40 +217,88 @@ function* initialDataCalls() {
   yield spawn(getRenterWorker)
 }
 
-function* pollCalls() {
-  yield spawn(getWalletWorker)
+function* globalPollCalls() {
   yield spawn(consensusWorker)
-  yield spawn(getFeeWorker)
-  const sinceHeight = yield select(selectTransactionHeight)
-  yield spawn(getTransactionsWorker, { count: 100, sinceHeight })
-  yield spawn(getFees)
-  yield spawn(getContractsWorker)
   yield spawn(gatewayWorker)
   yield spawn(activeHostWorker)
+}
+
+function* walletPollCalls() {
+  const sinceHeight = yield select(selectTransactionHeight)
+  yield spawn(getWalletWorker)
+  yield spawn(getTransactionsWorker, { count: 100, sinceHeight })
+  yield spawn(getTpoolFees)
+}
+
+function* renterPollCalls() {
+  yield spawn(getContractsWorker)
+  yield spawn(getFeeWorker)
 }
 
 function* initializeWalletWatcher() {
   yield takeLatest(WalletActions.requestInitialData.type, initialDataCalls)
 }
 
-function* pollTask() {
+function* globalPollTask() {
   yield put(WalletActions.requestInitialData())
   while (true) {
-    yield call(pollCalls)
-    yield call(delay, 3000)
+    yield call(globalPollCalls)
+    yield call(delay, 5000)
   }
 }
 
-function* startPolling() {
-  const bgSync = yield fork(pollTask)
-  yield take(GlobalActions.stopPolling)
-  yield cancel(bgSync)
+function* walletPollTask() {
+  while (true) {
+    yield call(walletPollCalls)
+    yield call(delay, 5000)
+  }
+}
+
+function* renterPollTask() {
+  while (true) {
+    yield call(renterPollCalls)
+    yield call(delay, 5000)
+  }
+}
+
+function* startGlobalPolling() {
+  while (true) {
+    yield take(GlobalActions.startPolling)
+    const bgSync = yield fork(globalPollTask)
+    yield take(GlobalActions.stopPolling)
+    yield cancel(bgSync)
+  }
+}
+
+function* startWalletPolling() {
+  while (true) {
+    yield take(WalletActions.startPolling)
+    const bgSync = yield fork(walletPollTask)
+    yield take(WalletActions.stopPolling)
+    yield cancel(bgSync)
+  }
+}
+
+function* startRenterPolling() {
+  while (true) {
+    yield take(RenterActions.startPolling)
+    const bgSync = yield fork(renterPollTask)
+    yield take(RenterActions.stopPolling)
+    yield cancel(bgSync)
+  }
 }
 
 function* broadcastSiacoinWatcher() {
   while (true) {
     const params = yield take(WalletActions.createSiacoinTransaction.started.type)
     yield spawn(broadcastSiacoinWorker, params.payload)
+  }
+}
+
+function* broadcastSiafundWatcher() {
+  while (true) {
+    const params = yield take(WalletActions.createSiafundTransaction.started.type)
+    yield spawn(broadcastSiafundWorker, params.payload)
   }
 }
 
@@ -264,7 +312,13 @@ function* fetchUnconfirmedTxOnBroadcastCompletion() {
       yield put(WalletActions.broadcastedTransactionDetails(processed))
     } catch (err) {
       // TODO error handling
-      console.log('error', err)
+      yield put(
+        GlobalActions.notification({
+          title: 'Broadcasting Transaction Failed',
+          message: err.error ? err.error.message : err,
+          type: 'open'
+        })
+      )
     }
   }
 }
@@ -309,12 +363,15 @@ export const walletSagas = [
   fetchUnconfirmedTxOnBroadcastCompletion(),
   changePasswordWatcher(),
   broadcastSiacoinWatcher(),
+  broadcastSiafundWatcher(),
   initializeWalletWatcher(),
   unlockWalletWatcher(),
   createWalletWatcher(),
   getSeedWatcher(),
   initFromSeedWatcher(),
-  takeLatest(GlobalActions.startPolling, startPolling),
+  startGlobalPolling(),
+  startRenterPolling(),
+  startWalletPolling(),
   takeLatest(WalletActions.lockWallet.started, lockWalletWorker),
   takeLatest(WalletActions.getReceiveAddresses.started, receiveAddressWorker),
   takeLatest(WalletActions.generateReceiveAddress.started, createReceiveAddress)

@@ -27,9 +27,9 @@ const ThemedManager = styled(FileManager)`
 `
 
 export default class fManager extends React.Component {
+  poll: any = null
   uploadHandler = uploadType => {
     let paths: any = []
-    console.log('upload type is', uploadType)
     if (uploadType === 'file') {
       paths = dialog.showOpenDialog({
         properties: ['openFile', 'multiSelections']
@@ -39,7 +39,6 @@ export default class fManager extends React.Component {
         properties: ['openDirectory']
       })
     }
-    console.log('emitted paths are', paths)
     connectorNodeV1.emitter.emit('uploadpath', paths)
   }
   downloadHandler = (filename: string) => {
@@ -49,19 +48,25 @@ export default class fManager extends React.Component {
     })
     connectorNodeV1.emitter.emit('downloadpath', paths)
   }
-  // openHandler = (filename: string) => {
-  //   shell.openItem('')
-  // }
   componentWillMount() {
     connectorNodeV1.emitter.on('uploadrequestpath', this.uploadHandler)
     connectorNodeV1.emitter.on('downloadrequestpath', this.downloadHandler)
     connectorNodeV1.emitter.on('notification', this.notificationHandler)
-    // connectorNodeV1.emitter.on('openfile', this.openHandler)
+    setTimeout(() => {
+      connectorNodeV1.emitter.emit('startuploadpoll')
+      connectorNodeV1.emitter.emit('startdownloadpoll')
+    }, 3000)
+    this.poll = setInterval(() => {
+      connectorNodeV1.emitter.emit('startuploadpoll')
+      connectorNodeV1.emitter.emit('startdownloadpoll')
+    }, 10000)
   }
   componentWillUnmount() {
     connectorNodeV1.emitter.removeListener('uploadrequestpath', this.uploadHandler)
     connectorNodeV1.emitter.removeListener('downloadrequestpath', this.downloadHandler)
     connectorNodeV1.emitter.removeListener('notification', this.notificationHandler)
+    connectorNodeV1.emitter.removeAllListeners()
+    clearInterval(this.poll)
   }
   notificationHandler = description => {
     notification.open({
@@ -71,12 +76,7 @@ export default class fManager extends React.Component {
   }
   render() {
     return (
-      <div style={{ height: '500px' }}>
-        {/* <Modal visible width="680px">
-          <Box>
-            <ReactPlayer width="640px" url="https://www.youtube.com/watch?v=WQqVny3MKdg" playing />
-          </Box>
-        </Modal> */}
+      <div style={{ height: 'calc(100vh - 300px)' }}>
         <ThemedManager>
           <FileNavigator
             id="filemanager-1"
