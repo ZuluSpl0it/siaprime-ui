@@ -8,6 +8,7 @@ import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { IndexState } from 'reducers'
 import { selectFolders, selectHostConfig } from 'selectors'
+import BigNumber from 'bignumber.js'
 import {
   blocksToWeeks,
   hastingsByteBlockToSCTBMonth,
@@ -20,6 +21,7 @@ import {
 
 import IntegerStep from './IntegerStep'
 import { Flex } from 'components/atoms/Flex'
+import { toSiacoins } from 'sia-typescript'
 
 const { dialog } = require('electron').remote
 const checkDiskSpace = require('check-disk-space')
@@ -202,7 +204,9 @@ class Host extends React.Component<RenterProps, {}> {
       unit: 'TB'
     })
     const contractCount = hostConfig.financialmetrics.contractcount
-    const storageRevenue = hostConfig.financialmetrics.storagerevenue
+    const storageRevenue = toSiacoins(
+      new BigNumber(hostConfig.financialmetrics.storagerevenue)
+    ).toFixed(4)
     const hasFolderAndConfig = folders.length > 0 && hostConfig
     return (
       <Box>

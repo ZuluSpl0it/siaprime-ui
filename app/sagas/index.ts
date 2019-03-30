@@ -320,10 +320,21 @@ function* setAllowanceWatcher() {
 }
 
 function* pollSiad() {
+  let notificationTriggered = false
   while (true) {
     const running = yield call(siad.isRunning)
     if (running) {
       yield put(GlobalActions.siadLoaded())
+      if (!notificationTriggered) {
+        notificationTriggered = true
+        yield put(
+          GlobalActions.notification({
+            title: 'Started Polling',
+            message: 'Sia-UI established a connection with Sia',
+            type: 'open'
+          })
+        )
+      }
     } else {
       yield put(GlobalActions.siadOffline())
       yield put(GlobalActions.stopPolling())
@@ -334,13 +345,6 @@ function* pollSiad() {
 
 function* siadPoller() {
   while (yield take(GlobalActions.startSiadPolling)) {
-    yield put(
-      GlobalActions.notification({
-        title: 'Started Polling',
-        message: 'Sia-UI established a connection with Sia',
-        type: 'open'
-      })
-    )
     const bgPoll = yield fork(pollSiad)
     yield take(GlobalActions.stopSiadPolling)
     yield cancel(bgPoll)
