@@ -220,6 +220,7 @@ function* initialDataCalls() {
 function* pollCalls() {
   yield spawn(getWalletWorker)
   yield spawn(consensusWorker)
+  yield spawn(getFeeWorker)
   const sinceHeight = yield select(selectTransactionHeight)
   yield spawn(getTransactionsWorker, { count: 100, sinceHeight })
   yield spawn(getFees)

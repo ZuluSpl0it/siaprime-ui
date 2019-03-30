@@ -6,6 +6,7 @@ import connectorNodeV1 from 'sia-opus-connector'
 import { Modal } from 'antd'
 import { Box } from 'components/atoms'
 import { shell } from 'electron'
+import { notification } from 'antd'
 const { dialog } = require('electron').remote
 
 const apiOptions = {
@@ -26,10 +27,19 @@ const ThemedManager = styled(FileManager)`
 `
 
 export default class fManager extends React.Component {
-  uploadHandler = () => {
-    const paths = dialog.showOpenDialog({
-      properties: ['openFile']
-    })
+  uploadHandler = uploadType => {
+    let paths: any = []
+    console.log('upload type is', uploadType)
+    if (uploadType === 'file') {
+      paths = dialog.showOpenDialog({
+        properties: ['openFile', 'multiSelections']
+      })
+    } else {
+      paths = dialog.showOpenDialog({
+        properties: ['openDirectory']
+      })
+    }
+    console.log('emitted paths are', paths)
     connectorNodeV1.emitter.emit('uploadpath', paths)
   }
   downloadHandler = (filename: string) => {
@@ -45,11 +55,19 @@ export default class fManager extends React.Component {
   componentWillMount() {
     connectorNodeV1.emitter.on('uploadrequestpath', this.uploadHandler)
     connectorNodeV1.emitter.on('downloadrequestpath', this.downloadHandler)
+    connectorNodeV1.emitter.on('notification', this.notificationHandler)
     // connectorNodeV1.emitter.on('openfile', this.openHandler)
   }
   componentWillUnmount() {
     connectorNodeV1.emitter.removeListener('uploadrequestpath', this.uploadHandler)
     connectorNodeV1.emitter.removeListener('downloadrequestpath', this.downloadHandler)
+    connectorNodeV1.emitter.removeListener('notification', this.notificationHandler)
+  }
+  notificationHandler = description => {
+    notification.open({
+      message: 'File Manager',
+      description: description.error ? description.error.message : description
+    })
   }
   render() {
     return (

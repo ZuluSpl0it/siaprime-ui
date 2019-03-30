@@ -47,8 +47,8 @@ export class AboutModal extends React.Component<AboutModalProps, {}> {
                 <Text fontWeight={2}> (Draco)</Text>
               </Box>
               <Box>
-                <Text is="div">UI: v1.4.0 RC4</Text>
-                <Text is="div">Daemon: v1.4.0 RC4</Text>
+                <Text is="div">UI: v1.4.0</Text>
+                <Text is="div">Daemon: v1.4.0</Text>
               </Box>
               <Box pt={3}>
                 <Button onClick={this.openSiaDir}>Show Sia Data</Button>
