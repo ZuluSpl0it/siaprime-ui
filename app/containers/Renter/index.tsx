@@ -10,6 +10,7 @@ import { RenterModel } from 'models'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { RouteComponentProps, Switch, withRouter } from 'react-router'
+import BigNumber from 'bignumber.js'
 import { Link, Route } from 'react-router-dom'
 import { IndexState } from 'reducers'
 import { UIReducer } from 'reducers/ui'
@@ -23,6 +24,7 @@ import {
   selectWalletBalanceDetails,
   SpendingTotals
 } from 'selectors'
+import { toSiacoins } from 'sia-typescript'
 
 const { Panel } = Collapse
 
@@ -160,6 +162,10 @@ class Renter extends React.Component<RenterProps, State> {
   }
   componentDidMount() {
     this.props.dispatch(RenterActions.fetchContracts.started())
+    this.props.dispatch(RenterActions.startPolling())
+  }
+  componentWillUnmount() {
+    this.props.dispatch(RenterActions.stopPolling())
   }
   openModal = () => {
     this.setState({
@@ -175,6 +181,21 @@ class Renter extends React.Component<RenterProps, State> {
   render() {
     const { match }: { match: any } = this.props
     const { contracts, spending, rentStorage, pricing, renterSummary, balances } = this.props
+    const totalAllocated = toSiacoins(
+      new BigNumber(renterSummary.financialmetrics.totalallocated)
+    ).toFixed(2)
+    const totalSpent = toSiacoins(
+      new BigNumber(0)
+        .plus(new BigNumber(renterSummary.financialmetrics.storagespending))
+        .plus(new BigNumber(renterSummary.financialmetrics.downloadspending))
+        .plus(new BigNumber(renterSummary.financialmetrics.uploadspending))
+        .plus(new BigNumber(renterSummary.financialmetrics.contractfees))
+    ).toFixed(2)
+
+    const storageSpending = toSiacoins(
+      new BigNumber(renterSummary.financialmetrics.storagespending)
+    ).toFixed(2)
+
     return (
       <Box>
         <AllowanceModal
@@ -214,13 +235,9 @@ class Renter extends React.Component<RenterProps, State> {
         </Flex>
         <Flex>
           <Stat content={`${contracts.active}`} title="Contracts Active" width={1 / 4} />
-          <Stat content={`${spending.storagespending} SC`} title="Storage Spending" width={1 / 4} />
-          <Stat
-            content={`${spending.downloadspending} SC`}
-            title="Download Spending"
-            width={1 / 4}
-          />
-          <Stat content={`${spending.uploadspending} SC`} title="Upload Spending" width={1 / 4} />
+          <Stat content={`${totalAllocated} SC`} title="Total Allocated" width={1 / 4} />
+          <Stat content={`${totalSpent} SC`} title="Total Spent" width={1 / 4} />
+          <Stat content={`${storageSpending} SC`} title="Storage Spending" width={1 / 4} />
         </Flex>
         {contracts.active > 0 ? (
           <Box mx={2} pt={3}>

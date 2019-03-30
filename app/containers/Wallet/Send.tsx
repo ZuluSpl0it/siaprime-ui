@@ -101,10 +101,6 @@ class Send extends React.Component<SendProps & DispatchProp, SendState> {
   generateTransaction = () => {
     const { amount, walletAddress, currencyType } = this.state
     const { fee } = this.props
-    // disable siafunds for now
-    if (currencyType === CurrencyTypes.SF) {
-      return
-    }
     if (parseFloat(amount.value as any) && walletAddress.value && currencyType) {
       if (walletAddress.validateStatus !== 'success' || amount.validateStatus !== 'success') {
         return

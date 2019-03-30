@@ -11,7 +11,7 @@ interface TerminalModalProps {
 }
 
 const OuterPreWrap = styled(Box)`
-  height: 320px;
+  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column-reverse;

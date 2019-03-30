@@ -77,10 +77,7 @@ class TransactionView extends React.Component<Props, {}> {
       <>
         <StyledTable
           rowKey="txid"
-          pagination={{ pageSize: 50 }}
-          scroll={{
-            y: 350
-          }}
+          // pagination={{ pageSize: 20 }}
           columns={[
             {
               title: () => <TableTitle>Amount</TableTitle>,
@@ -113,7 +110,6 @@ class TransactionView extends React.Component<Props, {}> {
             },
             {
               title: () => <TableTitle>Transaction ID</TableTitle>,
-              width: 250,
               dataIndex: 'txid',
               key: 'txid',
               render: (value: any) => {
@@ -181,6 +177,7 @@ class TransactionView extends React.Component<Props, {}> {
             },
             {
               title: () => <TableTitle>Status</TableTitle>,
+              width: 120,
               align: 'center',
               dataIndex: 'confirmationheight',
               key: 'confirmationheight',

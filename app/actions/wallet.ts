@@ -4,6 +4,8 @@ import { DashboardModel, WalletModel, APIModel } from 'models'
 const walletActionsCreator = actionCreatorFactory('wallet')
 
 export namespace WalletActions {
+  export const startPolling = walletActionsCreator<void>('START_POLL')
+  export const stopPolling = walletActionsCreator<void>('STOP_POLL')
   export const requestInitialData = walletActionsCreator<void>('INITIALIZE')
 
   export const getWallet = walletActionsCreator.async<void, WalletModel.WalletGET, APIModel.Error>(

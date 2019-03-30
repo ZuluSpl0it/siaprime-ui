@@ -23,7 +23,7 @@ import Send from './Send'
 import TransactionView from './TransactionView'
 
 const TabPane = Tabs.TabPane
-const TabPanelWrap = ({ children }: any) => <Box height="460px">{children}</Box>
+const TabPanelWrap = ({ children }: any) => <Box height="calc(100vh - 200px)">{children}</Box>
 
 const ReceiveAddressCard = ({ address }: any) => {
   const copy = (value: string) => () => {
@@ -88,6 +88,13 @@ class Wallet extends React.Component<WalletProps, {}> {
     backupModal: false,
     changePasswordModal: false
   }
+  componentDidMount() {
+    this.props.dispatch(WalletActions.startPolling())
+  }
+  componentWillUnmount() {
+    this.props.dispatch(WalletActions.stopPolling())
+  }
+
   handleBackupModal = () => {
     this.setState({
       backupModal: false
@@ -122,7 +129,11 @@ class Wallet extends React.Component<WalletProps, {}> {
     //   .multipliedBy(usdPrice)
     //   .toFixed(2)
     //   .toString()
+
     const balanceWithSeperator = parseFloat(confirmedBalance).toLocaleString('en-US') + ' ' + 'SC'
+    const siafunds = parseInt(siafundBalance)
+    const siafundBalanceWithSeperator =
+      parseFloat(siafundBalance).toLocaleString('en-US') + ' ' + 'SC'
     return (
       <div>
         <BackupModel visible={this.state.backupModal} onOk={this.handleBackupModal} />
@@ -161,11 +172,13 @@ class Wallet extends React.Component<WalletProps, {}> {
             </Flex>
             <Flex>
               <Stat content={balanceWithSeperator} title="siacoins" width={1 / 3} />
+              {siafunds > 0 && (
+                <Stat content={siafundBalanceWithSeperator} title="siafunds" width={1 / 3} />
+              )}
             </Flex>
             <Box height="25px">
               <Flex mx={2} pt={2} pb={3}>
                 {/* <Tag>${usdBalance} USD</Tag> */}
-                {!!parseFloat(siafundBalance) && <Tag>{siafundBalance} SF</Tag>}
                 {!!parseFloat(unconfirmedBalance) && (
                   <StyledTag>{unconfirmedBalance} SC (Unconfirmed)</StyledTag>
                 )}
