@@ -69,9 +69,10 @@ export default class fManager extends React.Component {
     clearInterval(this.poll)
   }
   notificationHandler = description => {
+    const descriptionString = '' + description
     notification.open({
       message: 'File Manager',
-      description: description.error ? description.error.message : description
+      description: description.error ? description.error.message : descriptionString
     })
   }
   render() {
