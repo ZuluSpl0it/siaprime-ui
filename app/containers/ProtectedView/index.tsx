@@ -39,6 +39,9 @@ class ProtectedView extends React.Component<Props, State> {
     setStage: '',
     loadingAnimEntered: false
   }
+  componentDidMount() {
+    this.props.dispatch(WalletActions.resetForm())
+  }
   handleLogin = () => {
     const { password } = this.state
     this.props.dispatch(
