@@ -47,6 +47,7 @@ class ProtectedView extends React.Component<Props, State> {
       })
     )
     this.props.dispatch(GlobalActions.startPolling())
+    this.props.dispatch(WalletActions.startPolling())
   }
   handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
