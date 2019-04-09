@@ -1,4 +1,6 @@
 import * as path from 'path'
+import * as fs from 'fs'
+import { merge } from 'lodash'
 const { app } = require('electron').remote
 const appRootDir = require('app-root-dir')
 const getPlatform = require('./get-platform')
@@ -19,8 +21,11 @@ const defaultSiacPath = path.join(
   daemonPath,
   `${process.platform === 'win32' ? 'siac.exe' : 'siac'}`
 )
+
+// User config path
+const userConfigPath = path.join(app.getPath('userData'), 'sia', 'config.json')
 // Default config
-export const defaultConfig = {
+let defaultConfig = {
   siad: {
     path: defaultSiadPath,
     datadir: path.join(app.getPath('userData'), './sia')
@@ -29,3 +34,15 @@ export const defaultConfig = {
     path: defaultSiacPath
   }
 }
+let userConfig = {}
+fs.readFile(userConfigPath, (err, data) => {
+  if (err) return
+  try {
+    userConfig = JSON.parse(data.toString())
+    defaultConfig = merge(defaultConfig, userConfig)
+  } catch (err) {
+    console.error('error reading user config file:', err)
+  }
+})
+
+export { defaultConfig }
