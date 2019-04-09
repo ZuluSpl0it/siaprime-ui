@@ -1,6 +1,7 @@
 const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron')
 const windowStateKeeper = require('electron-window-state')
 // const { shutdown, initSiad } = require('./utils/siadProcess')
+const defaultConfig = require('./config')
 
 let menu
 let template
@@ -70,7 +71,7 @@ app.on('ready', () =>
       mainWindow.focus()
     })
 
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development' || defaultConfig.debugMode) {
       mainWindow.openDevTools()
       mainWindow.webContents.on('context-menu', (e, props) => {
         const { x, y } = props
