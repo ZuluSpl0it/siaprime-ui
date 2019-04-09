@@ -1,4 +1,4 @@
-import { GlobalActions, TpoolActions, WalletActions, RenterActions } from 'actions'
+import { GlobalActions, TpoolActions, WalletActions, RenterActions, HostActions } from 'actions'
 import { siad } from 'api/siad'
 import { WalletModel } from 'models'
 import { delay, SagaIterator } from 'redux-saga'
@@ -254,6 +254,13 @@ function* walletPollTask() {
   }
 }
 
+function* hostPollTask() {
+  while (true) {
+    yield put(HostActions.getHostConfig.started())
+    yield call(delay, 10000)
+  }
+}
+
 function* renterPollTask() {
   while (true) {
     yield call(renterPollCalls)
@@ -275,6 +282,15 @@ function* startWalletPolling() {
     yield take(WalletActions.startPolling)
     const bgSync = yield fork(walletPollTask)
     yield take(WalletActions.stopPolling)
+    yield cancel(bgSync)
+  }
+}
+
+function* startHostPolling() {
+  while (true) {
+    yield take(HostActions.startPolling)
+    const bgSync = yield fork(hostPollTask)
+    yield take(HostActions.stopPolling)
     yield cancel(bgSync)
   }
 }
@@ -372,6 +388,7 @@ export const walletSagas = [
   startGlobalPolling(),
   startRenterPolling(),
   startWalletPolling(),
+  startHostPolling(),
   takeLatest(WalletActions.lockWallet.started, lockWalletWorker),
   takeLatest(WalletActions.getReceiveAddresses.started, receiveAddressWorker),
   takeLatest(WalletActions.generateReceiveAddress.started, createReceiveAddress)

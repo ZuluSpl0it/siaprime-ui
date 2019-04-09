@@ -95,6 +95,8 @@ export namespace WalletActions {
     APIModel.Error
   >('UNLOCK_WALLET')
 
+  export const resetForm = walletActionsCreator<void>('RESET_FORMS')
+
   export const createNewWallet = walletActionsCreator.async<
     WalletModel.InitPOST,
     WalletModel.InitPOSTResponse,

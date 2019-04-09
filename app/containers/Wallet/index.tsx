@@ -133,7 +133,7 @@ class Wallet extends React.Component<WalletProps, {}> {
     const balanceWithSeperator = parseFloat(confirmedBalance).toLocaleString('en-US') + ' ' + 'SC'
     const siafunds = parseInt(siafundBalance)
     const siafundBalanceWithSeperator =
-      parseFloat(siafundBalance).toLocaleString('en-US') + ' ' + 'SC'
+      parseFloat(siafundBalance).toLocaleString('en-US') + ' ' + 'SF'
     return (
       <div>
         <BackupModel visible={this.state.backupModal} onOk={this.handleBackupModal} />

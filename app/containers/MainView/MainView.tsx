@@ -1,4 +1,4 @@
-import { GlobalActions } from 'actions'
+import { GlobalActions, WalletActions } from 'actions'
 import { siad } from 'api/siad'
 import Wordmark from 'assets/svg/wordmark.svg'
 import AppHeader from 'components/AppHeader'
@@ -57,10 +57,12 @@ class MainView extends React.Component<
     if (await siad.isRunning()) {
       this.props.dispatch(GlobalActions.startPolling())
       this.props.dispatch(GlobalActions.startSiadPolling())
+      this.props.dispatch(WalletActions.startPolling())
     }
   }
   componentWillUnmount() {
     this.props.dispatch(GlobalActions.stopPolling())
+    this.props.dispatch(WalletActions.stopPolling())
   }
   render() {
     const { wallet, siad, location } = this.props
