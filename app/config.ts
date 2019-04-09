@@ -34,15 +34,12 @@ let defaultConfig = {
     path: defaultSiacPath
   }
 }
-let userConfig = {}
-fs.readFile(userConfigPath, (err, data) => {
-  if (err) return
-  try {
-    userConfig = JSON.parse(data.toString())
-    defaultConfig = merge(defaultConfig, userConfig)
-  } catch (err) {
-    console.error('error reading user config file:', err)
-  }
-})
+try {
+  const userConfigBuffer = fs.readFileSync(userConfigPath)
+  const userConfig = JSON.parse(userConfigBuffer.toString())
+  defaultConfig = merge(defaultConfig, userConfig)
+} catch (err) {
+  console.error('error reading user config file:', err)
+}
 
 export { defaultConfig }
