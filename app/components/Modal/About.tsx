@@ -2,7 +2,7 @@ import { Button, Modal } from 'antd'
 import Wordmark from 'assets/svg/draco.svg'
 import { Box, SVGBox, Text } from 'components/atoms'
 import { Flex } from 'components/atoms/Flex'
-import { defaultConfig } from 'config'
+import defaultConfig from 'config'
 import { shell } from 'electron'
 import * as React from 'react'
 
