@@ -1,23 +1,12 @@
-import { GlobalActions, TpoolActions, WalletActions, RenterActions, HostActions } from 'actions'
-import {
-  actionChannel,
-  all,
-  call,
-  cancel,
-  fork,
-  put,
-  select,
-  spawn,
-  take,
-  takeLatest,
-  delay
-} from 'redux-saga/effects'
+import { GlobalActions, HostActions, RenterActions, WalletActions } from 'actions'
 import { siad } from 'api/siad'
+import { call, cancel, delay, fork, put, select, spawn, take } from 'redux-saga/effects'
 import { consensusWorker, gatewayWorker } from 'sagas'
-import { getContractsWorker, getFeeWorker, getRenterWorker } from './renter'
 import { selectTransactionHeight } from 'selectors'
-import { getWalletWorker, getTransactionsWorker, getTpoolFees } from './wallet'
+
 import { activeHostWorker } from './host'
+import { getContractsWorker, getFeeWorker } from './renter'
+import { getTpoolFees, getTransactionsWorker, getWalletWorker } from './wallet'
 
 /* Poll Calls
   Calls define the actual workers that are spawned in each poll iteration

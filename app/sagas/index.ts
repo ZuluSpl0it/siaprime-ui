@@ -6,17 +6,11 @@ import { SagaIterator } from 'redux-saga'
 import { actionChannel, all, call, delay, take, takeLatest } from 'redux-saga/effects'
 import { bindAsyncAction } from 'typescript-fsa-redux-saga'
 
+import { hostSagas } from './host'
 import { pollingSagas } from './polling'
 import { renterSagas } from './renter'
 import { wrapSpawn } from './utility'
 import { walletSagas } from './wallet'
-import { hostSagas } from './host'
-
-// TODO: Do we want to keep this for coin prices?
-// const priceWorker = bindAsyncAction(GlobalActions.fetchPriceStats)(function*(): SagaIterator {
-//   const { data } = yield call(coinGecko.get, '/coins/siacoin')
-//   return data
-// })
 
 // Consensus
 export const consensusWorker = bindAsyncAction(ConsensusActions.fetchConsensus, {
