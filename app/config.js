@@ -1,9 +1,11 @@
 const path = require('path')
 const fs = require('fs')
 const merge = require('lodash/merge')
-const { app } = require('electron').remote
+const electron = require('electron')
 const appRootDir = require('app-root-dir')
 const getPlatform = require('./get-platform')
+
+const app = electron.app || electron.remote.app
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -27,6 +29,7 @@ const userConfigPath = path.join(app.getPath('userData'), 'sia', 'config.json')
 // Default config
 let defaultConfig = {
   debugMode: false,
+  developmentMode: !isProd,
   siad: {
     path: defaultSiadPath,
     datadir: path.join(app.getPath('userData'), './sia')
@@ -35,6 +38,7 @@ let defaultConfig = {
     path: defaultSiacPath
   }
 }
+
 try {
   const userConfigBuffer = fs.readFileSync(userConfigPath)
   const userConfig = JSON.parse(userConfigBuffer.toString())

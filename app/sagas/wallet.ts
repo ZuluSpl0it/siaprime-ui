@@ -1,37 +1,27 @@
-import { GlobalActions, TpoolActions, WalletActions, RenterActions, HostActions } from 'actions'
+import { GlobalActions, TpoolActions, WalletActions } from 'actions'
 import { siad } from 'api/siad'
 import { WalletModel } from 'models'
-import { delay, SagaIterator } from 'redux-saga'
-import {
-  actionChannel,
-  all,
-  call,
-  cancel,
-  fork,
-  put,
-  select,
-  spawn,
-  take,
-  takeLatest
-} from 'redux-saga/effects'
+import { SagaIterator } from 'redux-saga'
+import { actionChannel, all, call, put, select, spawn, take, takeLatest } from 'redux-saga/effects'
 import {
   activeHostWorker,
   consensusWorker,
   gatewayWorker,
-  getContractsWorker,
   getFeeWorker,
   getRenterWorker
 } from 'sagas'
+
 import { selectTransactionHeight } from 'selectors'
 import { toHastings } from 'sia-typescript'
 import { bindAsyncAction } from 'typescript-fsa-redux-saga'
+import { wrapSpawn } from './utility'
 
-const getWalletWorker = bindAsyncAction(WalletActions.getWallet)(function*(): SagaIterator {
+export const getWalletWorker = bindAsyncAction(WalletActions.getWallet)(function*(): SagaIterator {
   const response = yield call(siad.call, '/wallet')
   return response
 })
 
-const getTransactionsWorker = bindAsyncAction(WalletActions.getTransactions)(function*(
+export const getTransactionsWorker = bindAsyncAction(WalletActions.getTransactions)(function*(
   params
 ): SagaIterator {
   let startHeight = 0
@@ -43,12 +33,10 @@ const getTransactionsWorker = bindAsyncAction(WalletActions.getTransactions)(fun
     `/wallet/transactions?startheight=${startHeight}&endheight=-1`
   )
   response.confirmedtransactions = response.confirmedtransactions
-    ? // ? response.confirmedtransactions.slice(-params.count)
-      response.confirmedtransactions
+    ? response.confirmedtransactions
     : []
   response.unconfirmedtransactions = response.unconfirmedtransactions
-    ? // ? response.unconfirmedtransactions.slice(-params.count)
-      response.unconfirmedtransactions
+    ? response.unconfirmedtransactions
     : []
   response.sinceHeight =
     response.confirmedtransactions.length > 0
@@ -56,6 +44,7 @@ const getTransactionsWorker = bindAsyncAction(WalletActions.getTransactions)(fun
       : 0
   return response
 })
+
 const broadcastSiacoinWorker = bindAsyncAction(WalletActions.createSiacoinTransaction, {
   skipStartedAction: true
 })(function*(params): SagaIterator {
@@ -128,14 +117,14 @@ const txFromIdWorker = bindAsyncAction(WalletActions.getTxFromId)(function*(para
   return tx.length === 1 ? tx[0] : []
 })
 
-const getTpoolFees = bindAsyncAction(TpoolActions.getFee)(function*(): SagaIterator {
+export const getTpoolFees = bindAsyncAction(TpoolActions.getFee)(function*(): SagaIterator {
   const response = yield call(siad.call, '/tpool/fee')
   return response
 })
 
 const createWallet = bindAsyncAction(WalletActions.createNewWallet, {
   skipStartedAction: true
-})(function*(params): SagaIterator {
+})(function*(): SagaIterator {
   const response: WalletModel.InitPOSTResponse = yield call(siad.call, {
     url: '/wallet/init',
     method: 'POST'
@@ -217,91 +206,8 @@ function* initialDataCalls() {
   yield spawn(getRenterWorker)
 }
 
-function* globalPollCalls() {
-  yield spawn(consensusWorker)
-  yield spawn(gatewayWorker)
-  yield spawn(activeHostWorker)
-}
-
-function* walletPollCalls() {
-  const sinceHeight = yield select(selectTransactionHeight)
-  yield spawn(getWalletWorker)
-  yield spawn(getTransactionsWorker, { count: 100, sinceHeight })
-  yield spawn(getTpoolFees)
-}
-
-function* renterPollCalls() {
-  yield spawn(getContractsWorker)
-  yield spawn(getFeeWorker)
-}
-
 function* initializeWalletWatcher() {
-  yield takeLatest(WalletActions.requestInitialData.type, initialDataCalls)
-}
-
-function* globalPollTask() {
-  yield put(WalletActions.requestInitialData())
-  while (true) {
-    yield call(globalPollCalls)
-    yield call(delay, 5000)
-  }
-}
-
-function* walletPollTask() {
-  while (true) {
-    yield call(walletPollCalls)
-    yield call(delay, 5000)
-  }
-}
-
-function* hostPollTask() {
-  while (true) {
-    yield put(HostActions.getHostConfig.started())
-    yield call(delay, 10000)
-  }
-}
-
-function* renterPollTask() {
-  while (true) {
-    yield call(renterPollCalls)
-    yield call(delay, 5000)
-  }
-}
-
-function* startGlobalPolling() {
-  while (true) {
-    yield take(GlobalActions.startPolling)
-    const bgSync = yield fork(globalPollTask)
-    yield take(GlobalActions.stopPolling)
-    yield cancel(bgSync)
-  }
-}
-
-function* startWalletPolling() {
-  while (true) {
-    yield take(WalletActions.startPolling)
-    const bgSync = yield fork(walletPollTask)
-    yield take(WalletActions.stopPolling)
-    yield cancel(bgSync)
-  }
-}
-
-function* startHostPolling() {
-  while (true) {
-    yield take(HostActions.startPolling)
-    const bgSync = yield fork(hostPollTask)
-    yield take(HostActions.stopPolling)
-    yield cancel(bgSync)
-  }
-}
-
-function* startRenterPolling() {
-  while (true) {
-    yield take(RenterActions.startPolling)
-    const bgSync = yield fork(renterPollTask)
-    yield take(RenterActions.stopPolling)
-    yield cancel(bgSync)
-  }
+  yield takeLatest(WalletActions.requestInitialData, initialDataCalls)
 }
 
 function* broadcastSiacoinWatcher() {
@@ -385,11 +291,7 @@ export const walletSagas = [
   createWalletWatcher(),
   getSeedWatcher(),
   initFromSeedWatcher(),
-  startGlobalPolling(),
-  startRenterPolling(),
-  startWalletPolling(),
-  startHostPolling(),
-  takeLatest(WalletActions.lockWallet.started, lockWalletWorker),
-  takeLatest(WalletActions.getReceiveAddresses.started, receiveAddressWorker),
-  takeLatest(WalletActions.generateReceiveAddress.started, createReceiveAddress)
+  takeLatest(WalletActions.lockWallet.started, wrapSpawn(lockWalletWorker)),
+  takeLatest(WalletActions.getReceiveAddresses.started, wrapSpawn(receiveAddressWorker)),
+  takeLatest(WalletActions.generateReceiveAddress.started, wrapSpawn(createReceiveAddress))
 ]

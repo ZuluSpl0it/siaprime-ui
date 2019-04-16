@@ -9,19 +9,21 @@ import { siad } from 'api/siad'
 import BigNumber from 'bignumber.js'
 import { ConsensusModel, GatewayModel, HostModel } from 'models'
 import { HostReducer } from 'reducers/hosts'
-import { SagaIterator, delay } from 'redux-saga'
+import { SagaIterator } from 'redux-saga'
 import {
   all,
   actionChannel,
   call,
   fork,
+  delay,
   race,
   cancel,
   put,
   select,
   spawn,
   take,
-  takeLatest
+  takeLatest,
+  Effect
 } from 'redux-saga/effects'
 import { notification } from 'antd'
 import { selectHost } from 'selectors'
@@ -29,6 +31,8 @@ import { bindAsyncAction } from 'typescript-fsa-redux-saga'
 
 import { walletSagas } from './wallet'
 import { toHastings } from 'sia-typescript'
+import { pollingSagas } from './polling'
+import { wrapSpawn } from './utility'
 
 // TODO: Do we want to keep this for coin prices?
 // const priceWorker = bindAsyncAction(GlobalActions.fetchPriceStats)(function*(): SagaIterator {
@@ -339,7 +343,7 @@ function* pollSiad() {
       yield put(GlobalActions.siadOffline())
       yield put(GlobalActions.stopPolling())
     }
-    yield call(delay, 3000)
+    yield delay(3000)
   }
 }
 
@@ -351,22 +355,6 @@ function* siadPoller() {
   }
 }
 
-// function createWatcher(action, fn) {
-//   return function* watcher() {
-//     while (true) {
-//       yield take(action)
-//       yield spawn()
-//     }
-
-//   }
-// }
-
-const wrapSpawn = fn => {
-  return function* g() {
-    yield spawn(fn)
-  }
-}
-
 function* notificationQueue() {
   const notifyChan = yield actionChannel(GlobalActions.notification)
   while (true) {
@@ -375,7 +363,7 @@ function* notificationQueue() {
       message: payload.title,
       description: payload.message
     })
-    yield call(delay, 3000)
+    yield delay(3000)
   }
 }
 
@@ -399,6 +387,7 @@ export default function* rootSaga() {
     restoreBackupWatcher(),
     setAllowanceWatcher(),
     notificationQueue(),
-    ...walletSagas
+    ...walletSagas,
+    ...pollingSagas
   ])
 }
