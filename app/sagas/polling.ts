@@ -12,16 +12,12 @@ import {
   takeLatest,
   delay
 } from 'redux-saga/effects'
-import {
-  activeHostWorker,
-  consensusWorker,
-  gatewayWorker,
-  getContractsWorker,
-  getFeeWorker,
-  getRenterWorker
-} from 'sagas'
+import { siad } from 'api/siad'
+import { consensusWorker, gatewayWorker } from 'sagas'
+import { getContractsWorker, getFeeWorker, getRenterWorker } from './renter'
 import { selectTransactionHeight } from 'selectors'
 import { getWalletWorker, getTransactionsWorker, getTpoolFees } from './wallet'
+import { activeHostWorker } from './host'
 
 /* Poll Calls
   Calls define the actual workers that are spawned in each poll iteration
@@ -123,9 +119,43 @@ function* startHostPolling() {
   }
 }
 
+// Siad Polling
+function* pollSiad() {
+  let notificationTriggered = false
+  while (true) {
+    const running = yield call(siad.isRunning)
+    if (running) {
+      yield put(GlobalActions.siadLoaded())
+      if (!notificationTriggered) {
+        notificationTriggered = true
+        yield put(
+          GlobalActions.notification({
+            title: 'Started Polling',
+            message: 'Sia-UI established a connection with Sia',
+            type: 'open'
+          })
+        )
+      }
+    } else {
+      yield put(GlobalActions.siadOffline())
+      yield put(GlobalActions.stopPolling())
+    }
+    yield delay(3000)
+  }
+}
+
+function* siadPoller() {
+  while (yield take(GlobalActions.startSiadPolling)) {
+    const bgPoll = yield fork(pollSiad)
+    yield take(GlobalActions.stopSiadPolling)
+    yield cancel(bgPoll)
+  }
+}
+
 export const pollingSagas = [
   startGlobalPolling(),
   startRenterPolling(),
   startWalletPolling(),
-  startHostPolling()
+  startHostPolling(),
+  siadPoller()
 ]
