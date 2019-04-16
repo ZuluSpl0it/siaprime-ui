@@ -3,6 +3,7 @@ import { isEqual } from 'lodash'
 import { WalletModel } from 'models'
 import { combineReducers } from 'redux'
 import { reducerWithInitialState } from 'typescript-fsa-reducers'
+import { merge } from 'lodash'
 
 export namespace WalletRootReducer {
   export interface ReceiveState {
@@ -93,10 +94,17 @@ export namespace WalletRootReducer {
       if (!utx) {
         utx = []
       }
+      if (ctx.length === 0 && utx.length === 0) {
+        return state
+      }
+      const latestSeenTransaction = ctx[ctx.length - 1]
+      const latestSeenHeight = latestSeenTransaction
+        ? latestSeenTransaction.confirmationheight + 1
+        : 0
       const newState = {
-        confirmedtransactions: ctx,
-        unconfirmedtransactions: utx,
-        sinceHeight: payload.params.sinceHeight
+        confirmedtransactions: merge(state.confirmedtransactions, ctx),
+        unconfirmedtransactions: merge(state.unconfirmedtransactions, utx),
+        sinceHeight: latestSeenHeight
       }
       return newState
     }
