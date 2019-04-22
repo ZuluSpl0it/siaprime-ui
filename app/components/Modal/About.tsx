@@ -2,7 +2,7 @@ import { Button, Modal } from 'antd'
 import Wordmark from 'assets/svg/draco.svg'
 import { Box, SVGBox, Text } from 'components/atoms'
 import { Flex } from 'components/atoms/Flex'
-import defaultConfig from 'config'
+import defaultConfig, { userConfigPath } from 'config'
 import { shell } from 'electron'
 import * as React from 'react'
 
@@ -15,6 +15,9 @@ export class AboutModal extends React.Component<AboutModalProps, {}> {
   openSiaDir = () => {
     const path = defaultConfig.siad.datadir
     shell.openItem(path)
+  }
+  openConfig = () => {
+    shell.openItem(userConfigPath)
   }
   render() {
     return (
@@ -52,6 +55,7 @@ export class AboutModal extends React.Component<AboutModalProps, {}> {
               </Box>
               <Box pt={3}>
                 <Button onClick={this.openSiaDir}>Show Sia Data</Button>
+                <Button onClick={this.openConfig}>Show Config</Button>
               </Box>
               <Box />
             </Box>
