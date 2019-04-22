@@ -25,6 +25,8 @@ import {
   SpendingTotals
 } from 'selectors'
 import { toSiacoins } from 'sia-typescript'
+import { TransitionSiaOnlySpin } from 'components/GSAP/TransitionSiaSpinner'
+import { TransitionGroup } from 'react-transition-group'
 
 const { Panel } = Collapse
 
@@ -239,7 +241,7 @@ class Renter extends React.Component<RenterProps, State> {
           <Stat content={`${totalSpent} SC`} title="Total Spent" width={1 / 4} />
           <Stat content={`${storageSpending} SC`} title="Storage Spending" width={1 / 4} />
         </Flex>
-        {contracts.active > 0 ? (
+        {contracts.active > 30 ? (
           <Box mx={2} pt={3}>
             <Switch>
               <Route exact path={`${match.path}/metrics`} component={Metrics} />
@@ -251,6 +253,21 @@ class Renter extends React.Component<RenterProps, State> {
               <Route exact path={`${match.path}`} component={FM} />
             </Switch>
           </Box>
+        ) : contracts.active > 0 ? (
+          <Flex
+            p={5}
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            height="100%"
+          >
+            <TransitionGroup>
+              <TransitionSiaOnlySpin />
+            </TransitionGroup>
+            <Text color="mid-gray" p={4}>
+              We're setting up your contracts right now!
+            </Text>
+          </Flex>
         ) : (
           <Flex justifyContent="center" alignItems="center">
             <Flex
@@ -265,16 +282,9 @@ class Renter extends React.Component<RenterProps, State> {
                   It looks like you don't have any contracts yet.
                 </Text>
               </Box>
-              {/* <Tooltip title="You must have a Siacoin balance to create contracts"> */}
-              <Button
-                onClick={this.openModal}
-                // disabled={parseFloat(balances.confirmedBalance) === 0}
-                type="ghost"
-                size="large"
-              >
+              <Button onClick={this.openModal} type="ghost" size="large">
                 Setup Allowance
               </Button>
-              {/* </Tooltip> */}
             </Flex>
           </Flex>
         )}
