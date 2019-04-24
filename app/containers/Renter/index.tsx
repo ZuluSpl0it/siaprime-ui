@@ -27,6 +27,7 @@ import {
 import { toSiacoins } from 'sia-typescript'
 import { TransitionSiaOnlySpin } from 'components/GSAP/TransitionSiaSpinner'
 import { TransitionGroup } from 'react-transition-group'
+import defaultConfig from 'config'
 
 const { Panel } = Collapse
 
@@ -241,7 +242,7 @@ class Renter extends React.Component<RenterProps, State> {
           <Stat content={`${totalSpent} SC`} title="Total Spent" width={1 / 4} />
           <Stat content={`${storageSpending} SC`} title="Storage Spending" width={1 / 4} />
         </Flex>
-        {contracts.active > 30 ? (
+        {contracts.active > 30 || defaultConfig.developmentMode ? (
           <Box mx={2} pt={3}>
             <Switch>
               <Route exact path={`${match.path}/metrics`} component={Metrics} />

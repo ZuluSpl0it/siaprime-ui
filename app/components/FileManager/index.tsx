@@ -1,11 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { FileManager, FileNavigator } from '@eddiewang/react-filemanager'
-import ReactPlayer from 'react-player'
 import connectorNodeV1 from 'sia-opus-connector'
-import { Modal } from 'antd'
-import { Box } from 'components/atoms'
-import { shell } from 'electron'
 import { notification } from 'antd'
 const { dialog } = require('electron').remote
 
