@@ -808,10 +808,10 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@eddiewang/react-filemanager@1.1.0-beta.10":
-  version "1.1.0-beta.10"
-  resolved "https://registry.yarnpkg.com/@eddiewang/react-filemanager/-/react-filemanager-1.1.0-beta.10.tgz#e96f81e3c1bc1f7fb33a29e87c02f19822fe730d"
-  integrity sha512-jLzQIiTkt9ha9qXiJWd9XoOQ04Eh+5JJLN2+gfoJYTWl1nBGNDz0dkOv27RMoQvJjZaBVxnrapUiJLse6Y4N9w==
+"@eddiewang/react-filemanager@1.1.0-beta.11":
+  version "1.1.0-beta.11"
+  resolved "https://registry.yarnpkg.com/@eddiewang/react-filemanager/-/react-filemanager-1.1.0-beta.11.tgz#33126f508e98817dd0e9f527c715e895ac486f6e"
+  integrity sha512-hugrxAsDv4ldILNzK8UuGMOgppO7tikFXfveQ8SKmjgFH+0lv5GnoueGVmY4xPe+M8kUqjRZ1HaAUnDIDIariw==
   dependencies:
     "@opuscapita/react-svg" "2.0.1"
     "@opuscapita/svg-icons" "1.1.1"
@@ -11041,10 +11041,10 @@ shellwords@^0.1.1:
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
 
-sia-opus-connector@1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/sia-opus-connector/-/sia-opus-connector-1.0.5.tgz#a9fac78aff5e1d9641ac6c82dd1f272d6497d252"
-  integrity sha512-lOshBm32fq85apZkzgTNM7K/dGnvV5pm4XK5LQKaXja4zNtBH33P3QBZXKBF4bfE1C+MS600aqV2DbiesU8QHg==
+sia-opus-connector@1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/sia-opus-connector/-/sia-opus-connector-1.0.7.tgz#298b4cb2257f6dc7ad260e77bc3b4858a578c303"
+  integrity sha512-r0S5gx45KNOnjCvVrHx7iteLVMZ+p9E6haDtGfNKOHVmgRPRpZukW+NDGTms6yMjQTxIF6eUCIr24JpxGa3f8A==
   dependencies:
     "@eddiewang/sia.js" "0.4.4"
     fecha "3.0.2"
