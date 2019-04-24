@@ -24,6 +24,8 @@ import {
   unlockWalletWorker
 } from './workers'
 
+// these calls are spawned once at the start of the wallet load. they spin off a
+// bunch of various workers to retrieve data the app will consume.
 function* initialDataCalls() {
   yield spawn(getWalletWorker)
   yield spawn(consensusWorker)
@@ -38,10 +40,12 @@ function* initialDataCalls() {
   yield spawn(getRenterWorker)
 }
 
+// One time watcher for wallet initialization
 function* initializeWalletWatcher() {
   yield takeLatest(WalletActions.requestInitialData, initialDataCalls)
 }
 
+// passes siacoin tx details to the siacoin tx worker.
 function* broadcastSiacoinWatcher() {
   while (true) {
     const params = yield take(WalletActions.createSiacoinTransaction.started.type)
@@ -49,6 +53,7 @@ function* broadcastSiacoinWatcher() {
   }
 }
 
+// passes siafund tx details to the siafund tx worker.
 function* broadcastSiafundWatcher() {
   while (true) {
     const params = yield take(WalletActions.createSiafundTransaction.started.type)
@@ -56,6 +61,7 @@ function* broadcastSiafundWatcher() {
   }
 }
 
+// attempts to fetch the transaction details on completion. Otherwise, spawn an error.
 function* fetchUnconfirmedTxOnBroadcastCompletion() {
   while (true) {
     const response = yield take(WalletActions.createSiacoinTransaction.done.type)
@@ -77,6 +83,7 @@ function* fetchUnconfirmedTxOnBroadcastCompletion() {
   }
 }
 
+// pass password params down to the changePassword worker.
 function* changePasswordWatcher() {
   while (true) {
     const params = yield take(WalletActions.changePassword.started)
@@ -84,6 +91,7 @@ function* changePasswordWatcher() {
   }
 }
 
+// pass the password to the unlockWallet worker.
 function* unlockWalletWatcher() {
   const chan = yield actionChannel(WalletActions.unlockWallet.started)
   while (true) {
@@ -92,6 +100,7 @@ function* unlockWalletWatcher() {
   }
 }
 
+// create a new wallet by spawning createWallet worker.
 function* createWalletWatcher() {
   while (true) {
     const params = yield take(WalletActions.createNewWallet.started)
@@ -99,6 +108,7 @@ function* createWalletWatcher() {
   }
 }
 
+// get the seed from siad by spawning the getSeeds worker.
 function* getSeedWatcher() {
   while (true) {
     yield take(WalletActions.getWalletSeeds.started)
@@ -106,6 +116,7 @@ function* getSeedWatcher() {
   }
 }
 
+// init from seed process that takes a seed and passes it to the initFromSeed worker.
 function* initFromSeedWatcher() {
   while (true) {
     const params = yield take(WalletActions.initFromSeed.started)
@@ -113,6 +124,7 @@ function* initFromSeedWatcher() {
   }
 }
 
+// list of all wallet sagas, passed to the RootSaga for processing.
 export const walletSagas = [
   fetchUnconfirmedTxOnBroadcastCompletion(),
   changePasswordWatcher(),

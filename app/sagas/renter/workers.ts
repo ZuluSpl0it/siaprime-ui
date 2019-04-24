@@ -5,10 +5,14 @@ import { call, put } from 'redux-saga/effects'
 import { toHastings } from 'sia-typescript'
 import { bindAsyncAction } from 'typescript-fsa-redux-saga'
 
+// TODO: take these values from the renter. At the moment these are set to the
+// default settings for the renter, taken from the old Sia-UI.
 export const blockMonth = 4320
 export const allowanceMonths = 3
 export const allowancePeriod = blockMonth * allowanceMonths
 
+// Worker that posts to the /renter endpoint to set the allowance. At completion
+// it will spawn a notification.
 export const setAllowanceWorker = bindAsyncAction(RenterActions.setAllowance, {
   skipStartedAction: true
 })(function*(params): SagaIterator {
@@ -42,6 +46,8 @@ export const setAllowanceWorker = bindAsyncAction(RenterActions.setAllowance, {
   }
 })
 
+// Calls the /renter/prices endpoint to get contract fees for storage
+// estimation.
 export const getFeeWorker = bindAsyncAction(RenterActions.getFeeEstimates, {
   skipStartedAction: true
 })(function*(): SagaIterator {
@@ -49,6 +55,7 @@ export const getFeeWorker = bindAsyncAction(RenterActions.getFeeEstimates, {
   return response
 })
 
+// Calls the /renter endpoint to get the renter summary object.
 export const getRenterWorker = bindAsyncAction(RenterActions.getRenterDetails, {
   skipStartedAction: true
 })(function*(): SagaIterator {
@@ -56,6 +63,7 @@ export const getRenterWorker = bindAsyncAction(RenterActions.getRenterDetails, {
   return response
 })
 
+// Calls the /renter/contracts endpoint to get contract details.
 export const getContractsWorker = bindAsyncAction(RenterActions.fetchContracts, {
   skipStartedAction: true
 })(function*(): SagaIterator {
@@ -63,6 +71,8 @@ export const getContractsWorker = bindAsyncAction(RenterActions.fetchContracts, 
   return response
 })
 
+// Given the destination param, worker posts to /renter/backup to create a
+// backup file.
 export const createBackupWorker = bindAsyncAction(RenterActions.createBackup, {
   skipStartedAction: true
 })(function*(payload): SagaIterator {
@@ -76,6 +86,8 @@ export const createBackupWorker = bindAsyncAction(RenterActions.createBackup, {
   return response
 })
 
+// Given a source param, worker posts to the /renter/recoverbackup to attempt
+// file recovery.
 export const restoreBackupWorker = bindAsyncAction(RenterActions.restoreBackup, {
   skipStartedAction: true
 })(function*(payload): SagaIterator {

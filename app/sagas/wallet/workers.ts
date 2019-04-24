@@ -7,11 +7,17 @@ import { toHastings } from 'sia-typescript'
 import { bindAsyncAction } from 'typescript-fsa-redux-saga'
 import { selectConsensus } from 'selectors'
 
+// calls /wallet to get wallet summary object.
 export const getWalletWorker = bindAsyncAction(WalletActions.getWallet)(function*(): SagaIterator {
   const response = yield call(siad.call, '/wallet')
   return response
 })
 
+// calls the /wallet/transactions endpoint. takes the sinceHeight param to
+// determine the startHeight of the request. endHeight is always set to -1. We
+// take the consensus state from our app to determine if the sinceHeight is
+// greater than the latest seen height. If not, we don't need to poll for new
+// transactions.
 export const getTransactionsWorker = bindAsyncAction(WalletActions.getTransactions)(function*(
   params
 ): SagaIterator {
@@ -45,6 +51,7 @@ export const getTransactionsWorker = bindAsyncAction(WalletActions.getTransactio
   return response
 })
 
+// broadcasts a siacoin transaction to the sia network
 export const broadcastSiacoinWorker = bindAsyncAction(WalletActions.createSiacoinTransaction, {
   skipStartedAction: true
 })(function*(params): SagaIterator {
@@ -59,6 +66,7 @@ export const broadcastSiacoinWorker = bindAsyncAction(WalletActions.createSiacoi
   return response
 })
 
+// broadcasts a siafund transaction to the sia network
 export const broadcastSiafundWorker = bindAsyncAction(WalletActions.createSiafundTransaction, {
   skipStartedAction: true
 })(function*(params): SagaIterator {
@@ -73,6 +81,7 @@ export const broadcastSiafundWorker = bindAsyncAction(WalletActions.createSiafun
   return response
 })
 
+// locks the wallet by posting to /wallet/lock
 export const lockWalletWorker = bindAsyncAction(WalletActions.lockWallet, {
   skipStartedAction: true
 })(function*(): SagaIterator {
@@ -84,6 +93,7 @@ export const lockWalletWorker = bindAsyncAction(WalletActions.lockWallet, {
   return response
 })
 
+// unlocks the wallet by posting the password to /wallet/unlock
 export const unlockWalletWorker = bindAsyncAction(WalletActions.unlockWallet, {
   skipStartedAction: true
 })(function*(params): SagaIterator {
@@ -98,6 +108,8 @@ export const unlockWalletWorker = bindAsyncAction(WalletActions.unlockWallet, {
   return response
 })
 
+// calls /wallet/addresses to get receive addresses.
+// TODO: we have a new endpoint to get receive addresses in order, so we should use that.
 export const receiveAddressWorker = bindAsyncAction(WalletActions.getReceiveAddresses, {
   skipStartedAction: true
 })(function*(): SagaIterator {
@@ -119,11 +131,13 @@ export const txFromIdWorker = bindAsyncAction(WalletActions.getTxFromId)(functio
   return tx.length === 1 ? tx[0] : []
 })
 
+// call the /tpool/fee endpoint to get the estimated transaction fee for the tx.
 export const getTpoolFees = bindAsyncAction(TpoolActions.getFee)(function*(): SagaIterator {
   const response = yield call(siad.call, '/tpool/fee')
   return response
 })
 
+// calls /wallet/init for a new wallet. should only be called for a new user.
 export const createWallet = bindAsyncAction(WalletActions.createNewWallet, {
   skipStartedAction: true
 })(function*(): SagaIterator {
@@ -134,6 +148,8 @@ export const createWallet = bindAsyncAction(WalletActions.createNewWallet, {
   return response
 })
 
+// calls /wallet/changepassword with the old password and the new password, puts
+// success or failed notification depending on the api result.
 export const changePassword = bindAsyncAction(WalletActions.changePassword, {
   skipStartedAction: true
 })(function*(params): SagaIterator {
@@ -166,6 +182,7 @@ export const changePassword = bindAsyncAction(WalletActions.changePassword, {
   }
 })
 
+// starts the init from seed process, should be called for new users only.
 export const initFromSeedWorker = bindAsyncAction(WalletActions.initFromSeed, {
   skipStartedAction: true
 })(function*(params): SagaIterator {
@@ -180,6 +197,7 @@ export const initFromSeedWorker = bindAsyncAction(WalletActions.initFromSeed, {
   return response
 })
 
+// returns the seed(s) from the wallet, use to display in the 'View Seed' modal.
 export const getSeeds = bindAsyncAction(WalletActions.getWalletSeeds, {
   skipStartedAction: true
 })(function*(): SagaIterator {
@@ -187,6 +205,7 @@ export const getSeeds = bindAsyncAction(WalletActions.getWalletSeeds, {
   return response
 })
 
+// creates a new receive address by calling the /wallet/address endpoint.
 export const createReceiveAddress = bindAsyncAction(WalletActions.generateReceiveAddress, {
   skipStartedAction: true
 })(function*(): SagaIterator {

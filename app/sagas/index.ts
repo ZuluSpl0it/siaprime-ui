@@ -12,7 +12,9 @@ import { renterSagas } from './renter'
 import { wrapSpawn } from './utility'
 import { walletSagas } from './wallet'
 
-// Consensus
+// Consensus Workers
+
+// calls the /consensus endpoint and passes the success data down to the fetchConsensus action.
 export const consensusWorker = bindAsyncAction(ConsensusActions.fetchConsensus, {
   skipStartedAction: true
 })(function*(): SagaIterator {
@@ -20,7 +22,9 @@ export const consensusWorker = bindAsyncAction(ConsensusActions.fetchConsensus, 
   return response
 })
 
-// Gateway
+// Gateway Workers
+
+// calls the /gateway endpoint and passes the success data down to the fetchGateway action.
 export const gatewayWorker = bindAsyncAction(GatewayActions.fetchGateway, {
   skipStartedAction: true
 })(function*(): SagaIterator {
@@ -28,6 +32,8 @@ export const gatewayWorker = bindAsyncAction(GatewayActions.fetchGateway, {
   return response
 })
 
+// processes any notifications coming down from the notification action channel,
+// displays the notification, and then waits 3s before processing the next one.
 function* notificationQueue() {
   const notifyChan = yield actionChannel(GlobalActions.notification)
   while (true) {
@@ -40,7 +46,7 @@ function* notificationQueue() {
   }
 }
 
-// Root Saga
+// Root Sagas that spin all all child sagas for processing.
 export default function* rootSaga() {
   yield all([
     takeLatest(GatewayActions.fetchGateway.started, wrapSpawn(gatewayWorker)),
