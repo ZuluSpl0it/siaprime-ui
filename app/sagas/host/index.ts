@@ -22,6 +22,7 @@ function* hostConfigWatcher() {
   }
 }
 
+// adds a folder by passing its modified params down to the addFolder worker.
 function* addFolderWatcher() {
   while (true) {
     const params = yield take(HostActions.addFolder.started)
@@ -44,6 +45,7 @@ function* addFolderWatcher() {
   }
 }
 
+// resizes a host folder by passing the roundedBytes to the worker.
 function* resizeFolderWatcher() {
   while (true) {
     const params = yield take(HostActions.resizeFolder.started)
@@ -66,6 +68,7 @@ function* resizeFolderWatcher() {
   }
 }
 
+// removes a host folder
 function* removeFolderWatcher() {
   while (true) {
     const params = yield take(HostActions.deleteFolder.started)
@@ -76,6 +79,7 @@ function* removeFolderWatcher() {
   }
 }
 
+// list of all host sagas
 export const hostSagas = [
   takeLatest(HostActions.getHostStorage.started, wrapSpawn(getStorageWorker)),
   takeLatest(HostActions.getHostConfig.started, wrapSpawn(hostConfigWorker)),

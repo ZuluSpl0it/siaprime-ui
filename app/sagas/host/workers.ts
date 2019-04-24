@@ -5,6 +5,7 @@ import { SagaIterator } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
 import { bindAsyncAction } from 'typescript-fsa-redux-saga'
 
+// calls /hostdb/active to get active hosts.
 export const activeHostWorker = bindAsyncAction(HostActions.getActiveHosts, {
   skipStartedAction: true
 })(function*(): SagaIterator {
@@ -12,6 +13,7 @@ export const activeHostWorker = bindAsyncAction(HostActions.getActiveHosts, {
   return response
 })
 
+// calls /host/storage to get host storage settings
 export const getStorageWorker = bindAsyncAction(HostActions.getHostStorage, {
   skipStartedAction: true
 })(function*(): SagaIterator {
@@ -19,6 +21,7 @@ export const getStorageWorker = bindAsyncAction(HostActions.getHostStorage, {
   return response
 })
 
+// calls /host/announce to announce the host
 export const announceHostWorker = bindAsyncAction(HostActions.announceHost, {
   skipStartedAction: true
 })(function*(): SagaIterator {
@@ -30,6 +33,7 @@ export const announceHostWorker = bindAsyncAction(HostActions.announceHost, {
   return response
 })
 
+// updates the host config by posting the config to /host
 export const updateHostConfigWorker = bindAsyncAction(HostActions.updateHostConfig, {
   skipStartedAction: true
 })(function*(params): SagaIterator {
@@ -42,6 +46,7 @@ export const updateHostConfigWorker = bindAsyncAction(HostActions.updateHostConf
   return response
 })
 
+// adds a new folder with the path and size passed down from the watcher
 export const addFolderWorker = bindAsyncAction(HostActions.addFolder, {
   skipStartedAction: true
 })(function*(params): SagaIterator {
@@ -57,6 +62,7 @@ export const addFolderWorker = bindAsyncAction(HostActions.addFolder, {
   return response
 })
 
+// resizes a folder with path and newsize from watcher.
 export const resizeFolderWorker = bindAsyncAction(HostActions.resizeFolder, {
   skipStartedAction: true
 })(function*(params): SagaIterator {
@@ -72,6 +78,7 @@ export const resizeFolderWorker = bindAsyncAction(HostActions.resizeFolder, {
   return response
 })
 
+// deletes a host folder.
 export const deleteFolderWorker = bindAsyncAction(HostActions.deleteFolder, {
   skipStartedAction: true
 })(function*(params): SagaIterator {
@@ -86,6 +93,7 @@ export const deleteFolderWorker = bindAsyncAction(HostActions.deleteFolder, {
   return response
 })
 
+// gets the /host endpoint to return the host config object.
 export const hostConfigWorker = bindAsyncAction(HostActions.getHostConfig, {
   skipStartedAction: true
 })(function*(): SagaIterator {
