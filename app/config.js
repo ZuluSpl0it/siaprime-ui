@@ -25,7 +25,8 @@ const defaultSiacPath = path.join(
 )
 
 // User config path
-const userConfigPath = path.join(app.getPath('userData'), 'sia', 'config.json')
+const userConfigFolder = path.join(app.getPath('userData'), 'sia')
+const userConfigPath = path.join(userConfigFolder, 'config.json')
 // Default config
 let defaultConfig = {
   debugMode: false,
@@ -36,7 +37,8 @@ let defaultConfig = {
   },
   siac: {
     path: defaultSiacPath
-  }
+  },
+  userConfigFolder
 }
 
 try {
