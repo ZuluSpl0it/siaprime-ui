@@ -120,20 +120,30 @@ export const selectUnconfirmedBalance = createSelector(
   (incoming, outgoing) => toSiacoins(new BigNumber(incoming).minus(outgoing)).toFixed(4)
 )
 
+// selects the siacoinclaimbalance from the wallet summary, and returns the
+// number as a Siacoin unit, fixed to 4 digits.
+export const selectSiacoinClaimBalance = createSelector(
+  selectWalletSummary,
+  summary => toSiacoins(new BigNumber(summary.siacoinclaimbalance)).toFixed(4)
+)
+
 export const selectSiafundBalance = createSelector(
   selectWalletSummary,
   summary => summary.siafundbalance
 )
 
+// returns an object containing common wallet balance details as a string.
 export const selectWalletBalanceDetails = createSelector(
   selectConfirmedBalance,
   selectUnconfirmedBalance,
   selectSiafundBalance,
-  (confirmed, unconfirmed, siafund) => {
+  selectSiacoinClaimBalance,
+  (confirmed, unconfirmed, siafund, claim) => {
     return {
       confirmedBalance: confirmed,
       unconfirmedBalance: unconfirmed,
-      siafundBalance: siafund.toString()
+      siafundBalance: siafund.toString(),
+      siacoinClaimBalance: claim
     }
   }
 )
