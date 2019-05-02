@@ -51,10 +51,8 @@ export const BackupModal = (props: any) => {
           remote: true
         }
       })
-      console.log('response is', response)
       setResults({ response, error: null, loading: false })
     } catch (e) {
-      console.log('got error', e)
       setResults({ response: null, error: e, loading: false })
     }
   }, [backupName])

@@ -76,6 +76,7 @@ export default class fManager extends React.Component {
       <div style={{ height: 'calc(100vh - 300px)' }}>
         <ThemedManager>
           <FileNavigator
+            ref={this.props.getFileNavRef}
             id="filemanager-1"
             initialResourceId="root"
             api={connectorNodeV1.api}

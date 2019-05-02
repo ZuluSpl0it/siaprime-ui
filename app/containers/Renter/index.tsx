@@ -163,6 +163,10 @@ class Renter extends React.Component<RenterProps, State> {
     backupModalVisible: false,
     restoreModalVisible: false
   }
+  constructor(props) {
+    super(props)
+    this.fileNavRef = React.createRef()
+  }
   componentDidMount() {
     this.props.dispatch(RenterActions.fetchContracts.started())
     this.props.dispatch(RenterActions.startPolling())
@@ -241,6 +245,7 @@ class Renter extends React.Component<RenterProps, State> {
           visible={this.state.restoreModalVisible}
           openModal={this.openRestoreModal}
           closeModal={this.closeRestoreModal}
+          fileNav={this.fileNavRef}
         />
         <Flex justifyContent="space-between" alignItems="baseline">
           <CardHeader>File Manager</CardHeader>
@@ -277,7 +282,7 @@ class Renter extends React.Component<RenterProps, State> {
         </Flex>
         {contracts.active > 30 || defaultConfig.developmentMode ? (
           <Box mx={2} pt={3}>
-            <Switch>
+            {/* <Switch>
               <Route exact path={`${match.path}/metrics`} component={Metrics} />
               <Route
                 exact
@@ -285,7 +290,8 @@ class Renter extends React.Component<RenterProps, State> {
                 component={() => <Text>Coming soon</Text>}
               />
               <Route exact path={`${match.path}`} component={FM} />
-            </Switch>
+            </Switch> */}
+            <FileManager getFileNavRef={this.fileNavRef} />
           </Box>
         ) : contracts.active > 0 ? (
           <Flex
