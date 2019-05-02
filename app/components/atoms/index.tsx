@@ -1,5 +1,5 @@
 import system from '@rebass/components'
-import { Button, Icon, AutoComplete } from 'antd'
+import { Button, Icon, AutoComplete, Spin } from 'antd'
 import { shell } from 'electron'
 import * as React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
@@ -277,6 +277,8 @@ export const StyledAutoComplete = styled(AutoComplete)<any>`
     border: 1px solid ${(props: any) => (props.error ? 'red' : themeGet('colors.sia-green'))} !important;
   }
 `
+const SpinIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />
+export const Spinner = () => <Spin indicator={SpinIcon} />
 
 export * from './Box'
 export * from './Flex'

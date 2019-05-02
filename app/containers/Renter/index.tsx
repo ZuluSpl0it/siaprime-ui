@@ -28,6 +28,8 @@ import { toSiacoins } from 'sia-typescript'
 import { TransitionSiaOnlySpin } from 'components/GSAP/TransitionSiaSpinner'
 import { TransitionGroup } from 'react-transition-group'
 import defaultConfig from 'config'
+import { BackupModal } from 'components/Modal/BackupModal'
+import { RestoreModal } from 'components/Modal/RestoreModal'
 
 const { Panel } = Collapse
 
@@ -139,12 +141,6 @@ const FM = () => (
   </div>
 )
 
-const PaddedMenuItemLink = ({ children, ...props }: any) => (
-  <Box maxWidth={3} mx={1} pb={4}>
-    <Link {...props}>{children}</Link>
-  </Box>
-)
-
 interface StateProps {
   contracts: ContractSums
   spending: SpendingTotals
@@ -156,12 +152,16 @@ interface StateProps {
 
 interface State {
   allowanceModalVisible: boolean
+  backupModalVisible: boolean
+  restoreModalVisible: boolean
 }
 
 type RenterProps = RouteComponentProps & DispatchProp & StateProps
 class Renter extends React.Component<RenterProps, State> {
   state = {
-    allowanceModalVisible: false
+    allowanceModalVisible: false,
+    backupModalVisible: false,
+    restoreModalVisible: false
   }
   componentDidMount() {
     this.props.dispatch(RenterActions.fetchContracts.started())
@@ -170,17 +170,40 @@ class Renter extends React.Component<RenterProps, State> {
   componentWillUnmount() {
     this.props.dispatch(RenterActions.stopPolling())
   }
-  openModal = () => {
+  openAllowanceModal = () => {
     this.setState({
       allowanceModalVisible: true
     })
   }
-
-  closeModal = () => {
+  closeAllowanceModal = () => {
     this.setState({
       allowanceModalVisible: false
     })
   }
+
+  openBackupModal = () => {
+    this.setState({
+      backupModalVisible: true
+    })
+  }
+  closeBackupModal = () => {
+    this.setState({
+      backupModalVisible: false
+    })
+  }
+
+  openRestoreModal = () => {
+    this.setState({
+      restoreModalVisible: true
+    })
+  }
+
+  closeRestoreModal = () => {
+    this.setState({
+      restoreModalVisible: false
+    })
+  }
+
   render() {
     const { match }: { match: any } = this.props
     const { contracts, spending, rentStorage, pricing, renterSummary, balances } = this.props
@@ -205,9 +228,19 @@ class Renter extends React.Component<RenterProps, State> {
           rentStorage={rentStorage}
           pricing={pricing}
           visible={this.state.allowanceModalVisible}
-          openModal={this.openModal}
-          closeModal={this.closeModal}
+          openModal={this.openAllowanceModal}
+          closeModal={this.closeAllowanceModal}
           renterSummary={renterSummary}
+        />
+        <BackupModal
+          visible={this.state.backupModalVisible}
+          openModal={this.openBackupModal}
+          closeModal={this.closeBackupModal}
+        />
+        <RestoreModal
+          visible={this.state.restoreModalVisible}
+          openModal={this.openRestoreModal}
+          closeModal={this.closeRestoreModal}
         />
         <Flex justifyContent="space-between" alignItems="baseline">
           <CardHeader>File Manager</CardHeader>
@@ -216,15 +249,15 @@ class Renter extends React.Component<RenterProps, State> {
               <Dropdown
                 overlay={
                   <Menu>
-                    <Menu.Item onClick={this.openModal} key="1">
+                    <Menu.Item onClick={this.openAllowanceModal} key="1">
                       <a>Modify Allowance</a>
                     </Menu.Item>
-                    {/* <Menu.Item key="0">
+                    <Menu.Item onClick={this.openBackupModal} key="2">
                       <a>Backup Files</a>
                     </Menu.Item>
-                    <Menu.Item key="1">
+                    <Menu.Item onClick={this.openRestoreModal} key="3">
                       <a>Restore Files</a>
-                    </Menu.Item> */}
+                    </Menu.Item>
                   </Menu>
                 }
                 trigger={['click']}

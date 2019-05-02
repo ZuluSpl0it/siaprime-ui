@@ -63,4 +63,12 @@ export namespace RenterModel {
     }
     currentperiod: number
   }
+
+  // UploadedBackup describes the type of a single backup returned from the
+  // remote backup list
+  export interface UploadedBackup {
+    name: string
+    creationdate: number
+    size: number
+  }
 }

@@ -1,5 +1,5 @@
 import { RenterActions } from 'actions'
-import { InputNumber, Modal } from 'antd'
+import { InputNumber, Modal, Tag } from 'antd'
 import BigNumber from 'bignumber.js'
 import { Box, Text } from 'components/atoms'
 import { RenterModel } from 'models'
@@ -33,10 +33,10 @@ export const AllowanceModal = (props: any) => {
     const allowanceMinusFees = allowance.minus(contractFees)
     const storageOverTime = storagePerTbMonth.times(monthsPerContract).plus(uploadPerTb)
     const estimate = allowanceMinusFees.dividedBy(storageOverTime).times(1e12)
-
+    const estimatedBytes = estimate.toNumber() > 0 ? estimate.toNumber() : 0
     const result = {
       contractfees: toSiacoins(contractFees).toFixed(2),
-      storage: bytes(estimate.toNumber(), {
+      storage: bytes(estimatedBytes, {
         unitSeparator: ' '
       })
     }
@@ -78,14 +78,12 @@ export const AllowanceModal = (props: any) => {
   return (
     <Modal
       {...props}
+      title="Rent Storage on Sia"
       onOk={createAllowance}
       okButtonDisabled={rentStorage.error}
       onCancel={closeModal}
       destroyOnClose
     >
-      <Box py={3}>
-        <Text fontSize={3}>Rent storage on the Sia Network</Text>
-      </Box>
       <Box>
         <Text as="p">
           To upload and download files on Sia, you must allocate funds in advance. Your allowance
@@ -112,11 +110,16 @@ export const AllowanceModal = (props: any) => {
           ) : (
             <>
               <Box>
-                <Text>{storageEstimates.contractfees} SC</Text>{' '}
+                <Tag>
+                  <Text>{storageEstimates.contractfees} SC</Text>
+                </Tag>
                 <Text fontWeight={2}>Contract Fees</Text>
               </Box>
-              <Box>
-                <Text>{storageEstimates.storage}</Text> <Text fontWeight={2}>Est. Storage</Text>
+              <Box pt={1}>
+                <Tag>
+                  <Text>{storageEstimates.storage}</Text>
+                </Tag>
+                <Text fontWeight={2}>Estimated Storage</Text>
               </Box>
             </>
           )}

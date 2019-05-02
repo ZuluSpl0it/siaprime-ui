@@ -145,6 +145,7 @@ export namespace RenterActions {
   export const restoreBackup = renterActionCreator.async<{ source: string }, void, APIModel.Error>(
     'RESTORE_BACKUP'
   )
+  export const listBackups = renterActionCreator.async<void, any, APIModel.Error>('LIST_BACKUPS')
 }
 
 export * from './wallet'
