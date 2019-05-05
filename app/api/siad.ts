@@ -1,5 +1,6 @@
 import defaultConfig from 'config'
 import { Client } from 'sia-typescript'
+import { logger } from 'utils/logger'
 export interface SiadConfig {
   path: string
   datadir: string
@@ -23,9 +24,11 @@ export const launchSiad = () => {
     try {
       const p = initSiad()
       p.stdout.on('data', data => {
+        logger.info(data.toString(), [{ process: 'siad' }])
         console.log(data.toString())
       })
       p.stderr.on('data', data => {
+        logger.error(data.toString(), [{ process: 'siad' }])
         console.log(data.toString())
       })
       const timeout = setTimeout(() => {
