@@ -52,7 +52,7 @@ export const TransitionSiaSpinner = ({
           const spinner = n.querySelectorAll('#spinner')
 
           const drawPath = TweenMax.fromTo(
-            'path',
+            paths,
             3,
             {
               force3D: true,

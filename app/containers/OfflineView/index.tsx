@@ -1,14 +1,15 @@
-import { DragContiner, Text } from 'components/atoms'
+import LoadingScreenHeader from 'components/AppHeader/LoadingScreenHeader'
+import { Box, DragContiner, Text } from 'components/atoms'
 import { Flex } from 'components/atoms/Flex'
 import { OfflineState } from 'components/EmptyStates'
 import { TransitionSiaSpinner } from 'components/GSAP/TransitionSiaSpinner'
+import defaultConfig from 'config'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { Redirect } from 'react-router'
 import { UIReducer } from 'reducers/ui'
 import { createStructuredSelector } from 'reselect'
 import { selectSiadState } from 'selectors'
-import defaultConfig from 'config'
 
 interface StateProps {
   siad: UIReducer.SiadState
@@ -34,6 +35,7 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
     const { siad } = this.props
     return (
       <DragContiner>
+        <LoadingScreenHeader />
         <Flex
           height="100vh"
           width="100%"
@@ -43,7 +45,9 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
         >
           <TransitionSiaSpinner
             in={
-              siad.loading || (siad.isActive && !siad.isFinishedLoading) || !this.state.hasEntered
+              siad.loading ||
+              (siad.isActive && siad.isFinishedLoading === null) ||
+              !this.state.hasEntered
             }
             onEntered={this.handleEntered}
             onExited={this.handleExit}
@@ -52,9 +56,30 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
             !siad.isFinishedLoading &&
             this.state.hasEntered &&
             siad.isActive && (
-              <Text pt={3} width={200} textAlign="center">
-                Sia is not done loading the modules. It may take longer than expected.
-              </Text>
+              <>
+                <Box width={600}>
+                  <Text fontSize={3} textAlign="left">
+                    Sia is not done loading the modules. It may take longer than expected...
+                  </Text>
+                  <Box
+                    py={3}
+                    height={300}
+                    css={`
+                      overflow: auto;
+                      pre {
+                        font-size: 12px;
+                      }
+                    `}
+                  >
+                    {siad.stdout.map(l => (
+                      <pre>{l}</pre>
+                    ))}
+                    {siad.stderr.map(l => (
+                      <pre>{l}</pre>
+                    ))}
+                  </Box>
+                </Box>
+              </>
             )}
           {!siad.isActive && !siad.loading && this.state.readyForMainView && <OfflineState />}
         </Flex>
