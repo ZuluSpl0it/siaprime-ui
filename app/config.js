@@ -38,6 +38,7 @@ let defaultConfig = {
   siac: {
     path: defaultSiacPath
   },
+  logPath: userConfigFolder,
   userConfigFolder
 }
 

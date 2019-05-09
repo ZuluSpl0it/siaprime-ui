@@ -16,6 +16,8 @@ export namespace UIReducer {
     isActive: boolean
     isFinishedLoading: boolean | null
     loading: boolean
+    stderr: string[]
+    stdout: string[]
   }
 
   export interface UnlockFormState {
@@ -50,7 +52,9 @@ export namespace UIReducer {
     isInternal: true,
     isActive: false,
     isFinishedLoading: null,
-    loading: true
+    loading: true,
+    stdout: [],
+    stderr: []
   }
 
   const InitialChangePasswordState = {
@@ -157,6 +161,14 @@ export namespace UIReducer {
     .case(GatewayActions.fetchGateway.done, (state, payload) => ({
       ...state,
       isFinishedLoading: true
+    }))
+    .case(GlobalActions.siadAppendLog, (state, payload) => ({
+      ...state,
+      stdout: [...state.stdout, payload]
+    }))
+    .case(GlobalActions.siadAppendErr, (state, payload) => ({
+      ...state,
+      stderr: [...state.stderr, payload]
     }))
 
   const ChangePasswordReducer = reducerWithInitialState(InitialChangePasswordState)

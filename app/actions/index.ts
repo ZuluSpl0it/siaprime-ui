@@ -20,6 +20,10 @@ export namespace GlobalActions {
   export const siadOffline = globalActionCreator<void>('SIAD_OFFLINE')
   export const setSiadOrigin = globalActionCreator<{ isInternal: boolean }>('SET_SIAD_ORIGIN')
 
+  // append log from the siad process
+  export const siadAppendLog = globalActionCreator<string>('SIAD_LOG')
+  export const siadAppendErr = globalActionCreator<string>('SIAD_ERR')
+
   export const notification = globalActionCreator<{ type: string; title: string; message: string }>(
     'NOTIFICATION_MESS'
   )
