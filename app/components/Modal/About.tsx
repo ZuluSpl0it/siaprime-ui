@@ -11,59 +11,57 @@ interface AboutModalProps {
   onOk?(): void
 }
 
-export class AboutModal extends React.Component<AboutModalProps, {}> {
-  openSiaDir = () => {
+export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
+  const openSiaDir = React.useCallback(() => {
     const path = defaultConfig.siad.datadir
     shell.openItem(path)
-  }
-  openConfig = () => {
+  }, [])
+  const openConfig = React.useCallback(() => {
     shell.openItem(defaultConfig.userConfigFolder)
-  }
-  render() {
-    return (
-      <div>
-        <Modal
-          title="About Sia-UI"
-          visible={this.props.visible}
-          onOk={this.props.onOk}
-          onCancel={this.props.onOk}
-          closable={false}
-          footer={[
-            <Button key="submit" type="primary" onClick={this.props.onOk}>
-              Ok
-            </Button>
-          ]}
-        >
-          <Flex alignItems="center">
-            <Box width={1 / 2}>
-              <Flex flexDirection="column" alignItems="center">
-                <Flex alignItems="center" justifyContent="center">
-                  <SVGBox height="100px">
-                    <Wordmark viewBox="0 0 400 400" />
-                  </SVGBox>
-                </Flex>
+  }, [])
+  return (
+    <div>
+      <Modal
+        title="About Sia-UI"
+        visible={visible}
+        onOk={onOk}
+        onCancel={onOk}
+        closable={false}
+        footer={[
+          <Button key="submit" type="primary" onClick={onOk}>
+            Ok
+          </Button>
+        ]}
+      >
+        <Flex alignItems="center">
+          <Box width={1 / 2}>
+            <Flex flexDirection="column" alignItems="center">
+              <Flex alignItems="center" justifyContent="center">
+                <SVGBox height="100px">
+                  <Wordmark viewBox="0 0 400 400" />
+                </SVGBox>
               </Flex>
+            </Flex>
+          </Box>
+          <Box width={1 / 2} alignSelf="stretch">
+            <Box>
+              <Text fontWeight={6}>Sia UI</Text>
+              <Text fontWeight={2}> (Draco)</Text>
             </Box>
-            <Box width={1 / 2} alignSelf="stretch">
-              <Box>
-                <Text fontWeight={6}>Sia UI</Text>
-                <Text fontWeight={2}> (Draco)</Text>
-              </Box>
-              <Box>
-                <Text is="div">UI: v1.4.0</Text>
-                <Text is="div">Daemon: v1.4.0</Text>
-              </Box>
-              <Box pt={3}>
-                <Button onClick={this.openSiaDir}>Show Sia Data</Button>
-              </Box>
-              <Box pt={2}>
-                <Button onClick={this.openConfig}>Show Config</Button>
-              </Box>
-              <Box />
+            <Box>
+              <Text is="div">UI: v1.4.0</Text>
+              <Text is="div">Daemon: v1.4.0</Text>
             </Box>
-          </Flex>
-        </Modal>
-      </div>
-    )
-  }
+            <Box pt={3}>
+              <Button onClick={openSiaDir}>Show Sia Data</Button>
+            </Box>
+            <Box pt={2}>
+              <Button onClick={openConfig}>Show Config</Button>
+            </Box>
+            <Box />
+          </Box>
+        </Flex>
+      </Modal>
+    </div>
+  )
 }
