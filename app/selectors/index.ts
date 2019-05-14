@@ -84,9 +84,9 @@ export const selectContractDetails = createSelector(
   selectContracts,
   contracts => {
     return {
-      active: contracts.activecontracts.length,
-      inactive: contracts.inactivecontracts.length,
-      expired: contracts.expiredcontracts.length
+      active: (contracts.activecontracts || []).length,
+      inactive: (contracts.inactivecontracts || []).length,
+      expired: (contracts.expiredcontracts || []).length
     }
   }
 )
