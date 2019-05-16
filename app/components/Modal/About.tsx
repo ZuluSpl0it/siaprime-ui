@@ -34,6 +34,13 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
     loaded: false
   })
 
+  const [versionInfo, setVersionInfo] = React.useState({
+    version: 'Unknown',
+    gitrevision: 'Unknown',
+    buildtime: 'Unknown',
+    error: ''
+  })
+
   const openSiaLink = React.useCallback(() => {
     shell.openExternal('https://sia.tech/get-started')
   }, [])
@@ -50,6 +57,19 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
       }
     }
   }, [updateInfo])
+
+  const getVersion = React.useCallback(async () => {
+    try {
+      const versionInfo = await siad.call('/daemon/version')
+      setVersionInfo(versionInfo)
+    } catch (e) {
+      console.log('error loading version', e)
+    }
+  }, [versionInfo])
+
+  React.useEffect(() => {
+    getVersion()
+  }, [])
 
   return (
     <div>
@@ -88,7 +108,10 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
                 UI: v1.4.0
               </Text>
               <Text fontSize={2} is="div">
-                Daemon: v1.4.0
+                Daemon: {versionInfo.version}
+              </Text>
+              <Text fontSize={2} is="div">
+                Git Revision: {versionInfo.gitrevision}
               </Text>
             </Box>
             <Box>
