@@ -1,5 +1,7 @@
 import spawnAsync from '@expo/spawn-async'
 import defaultConfig from 'config'
+const pty = require('electron').remote.require('node-pty')
+const os = require('os')
 
 export const spawnSiac = async (command: any) => {
   try {
@@ -21,4 +23,21 @@ export const spawnSiac = async (command: any) => {
       throw new Error(e)
     }
   }
+}
+
+const siacPath = defaultConfig.siac.path
+
+export const createShell = (command = '') => {
+  let args = command.split(' ')
+  if (args[0] === 'siac') {
+    args = [...args.splice(1)]
+  }
+  var term = pty.spawn(siacPath, args, {
+    name: 'xterm-color',
+    cols: 80,
+    rows: 30,
+    cwd: process.env.HOME,
+    env: process.env
+  })
+  return term
 }
