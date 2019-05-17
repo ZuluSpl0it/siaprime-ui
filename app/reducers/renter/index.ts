@@ -44,9 +44,9 @@ export namespace RenterReducer {
         return state
       }
       return {
-        activecontracts: response.activecontracts,
-        inactivecontracts: response.inactivecontracts,
-        expiredcontracts: response.expiredcontracts
+        activecontracts: response.activecontracts || [],
+        inactivecontracts: response.inactivecontracts || [],
+        expiredcontracts: response.expiredcontracts || []
       }
     }
   )
