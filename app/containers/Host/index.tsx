@@ -22,6 +22,7 @@ import {
 import IntegerStep from './IntegerStep'
 import { Flex } from 'components/atoms/Flex'
 import { toSiacoins } from 'sia-typescript'
+import { StyledButton } from 'components/atoms/StyledButton'
 
 const { dialog } = require('electron').remote
 const checkDiskSpace = require('check-disk-space')
@@ -431,9 +432,9 @@ class Host extends React.Component<RenterProps, {}> {
                     It looks like you don't have any storage added.
                   </Text>
                 </Box>
-                <Button onClick={this.addFolder} type="ghost" size="large">
+                <StyledButton onClick={this.addFolder} type="ghost" size="large">
                   Add a folder
-                </Button>
+                </StyledButton>
               </Flex>
             </Flex>
           )}

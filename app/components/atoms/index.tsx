@@ -8,6 +8,7 @@ import { Box } from './Box'
 import { Flex } from './Flex'
 import { themeGet } from 'styled-system'
 import { StyledIcon } from './StyledIcon'
+import { StyledButton } from './StyledButton'
 
 export const defaultFieldState = {
   value: undefined,
@@ -130,11 +131,11 @@ export const TextWithAdornment = ({ before, after, disabled, ...props }: any) =>
 
 export const ButtonWithAdornment = ({ before, after, iconType, children, ...props }: any) => {
   return (
-    <Button {...props}>
+    <StyledButton {...props}>
       {before && <Icon style={{ marginRight: 2, verticalAlign: 'middle' }} type={iconType} />}
       {children}
       {after && <Icon style={{ marginLeft: 2, verticalAlign: 'middle' }} type={iconType} />}
-    </Button>
+    </StyledButton>
   )
 }
 

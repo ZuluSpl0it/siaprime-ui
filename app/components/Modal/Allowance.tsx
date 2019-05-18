@@ -8,6 +8,7 @@ import { Flex } from 'rebass'
 import { IndexState } from 'reducers'
 import { useDispatch, useMappedState } from 'redux-react-hook'
 import { toHastings, toSiacoins } from 'sia-typescript'
+import { StyledModal } from 'components/atoms/StyledModal'
 
 const bytes = require('bytes')
 
@@ -76,7 +77,7 @@ export const AllowanceModal = (props: any) => {
   }, [maxBalance, allowanceAmount])
 
   return (
-    <Modal
+    <StyledModal
       {...props}
       onOk={createAllowance}
       okButtonDisabled={rentStorage.error}
@@ -86,8 +87,8 @@ export const AllowanceModal = (props: any) => {
       <Box py={3}>
         <Text fontSize={3}>Rent storage on the Sia Network</Text>
       </Box>
-      <Box>
-        <Text as="p">
+      <Box pb={3}>
+        <Text color="near-black">
           To upload and download files on Sia, you must allocate funds in advance. Your allowance
           will remain locked for 3 months, after which unspent funds are refunded to your wallet.
           You can increase your allowance at any time.
@@ -123,6 +124,6 @@ export const AllowanceModal = (props: any) => {
         </Box>
       </Flex>
       <Box>{errorMessage && <Text color="red">{errorMessage} </Text>}</Box>
-    </Modal>
+    </StyledModal>
   )
 }

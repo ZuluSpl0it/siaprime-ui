@@ -8,6 +8,8 @@ import { Flex } from 'rebass'
 import { IndexState } from 'reducers'
 import { WalletRootReducer } from 'reducers/wallet'
 import { selectSeedState } from 'selectors'
+import { StyledModal } from 'components/atoms/StyledModal'
+import { StyledButton } from 'components/atoms/StyledButton'
 
 interface AboutModalProps {
   visible: boolean
@@ -29,7 +31,7 @@ class BM extends React.Component<AboutModalProps & StateProps & DispatchProp, {}
     return (
       <div>
         <RequireSeedData>
-          <Modal
+          <StyledModal
             title="Seed Backup"
             visible={this.props.visible}
             onOk={this.props.onOk}
@@ -38,9 +40,9 @@ class BM extends React.Component<AboutModalProps & StateProps & DispatchProp, {}
               <Button key="copy" type="dashed" onClick={this.handleCopy}>
                 <Icon type="copy" />
               </Button>,
-              <Button key="submit" type="ghost" onClick={this.props.onOk}>
+              <StyledButton key="submit" type="ghost" onClick={this.props.onOk}>
                 Finish
-              </Button>
+              </StyledButton>
             ]}
           >
             <Flex>
@@ -48,7 +50,7 @@ class BM extends React.Component<AboutModalProps & StateProps & DispatchProp, {}
                 <Text>{this.props.seed.primaryseed}</Text>
               </Box>
             </Flex>
-          </Modal>
+          </StyledModal>
         </RequireSeedData>
       </div>
     )

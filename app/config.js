@@ -29,6 +29,7 @@ const userConfigFolder = path.join(app.getPath('userData'), 'sia')
 const userConfigPath = path.join(userConfigFolder, 'config.json')
 // Default config
 let defaultConfig = {
+  darkMode: false,
   debugMode: false,
   developmentMode: !isProd,
   siad: {

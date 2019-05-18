@@ -7,7 +7,9 @@ import { shell, remote } from 'electron'
 import * as React from 'react'
 import { TextInput } from 'components/Forms/Inputs'
 import { merge } from 'lodash'
+import { StyledModal } from 'components/atoms/StyledModal'
 const fs = remote.require('fs')
+const { getCurrentWindow } = require('electron').remote
 
 interface SettingModalprops {
   visible: boolean
@@ -38,13 +40,14 @@ export const SettingsModal = ({ onOk, visible }) => {
     const newConfig = merge(defaultConfig, config)
     try {
       fs.writeFileSync(defaultConfig.userConfigPath, JSON.stringify(newConfig, null, 4))
+      getCurrentWindow().reload()
     } catch (err) {}
     onOk()
   }, [defaultConfig, config])
 
   return (
     <div>
-      <Modal
+      <StyledModal
         bodyStyle={{
           padding: 0
         }}
@@ -64,6 +67,15 @@ export const SettingsModal = ({ onOk, visible }) => {
       >
         <Box overflow="auto" py={2}>
           <SettingItem
+            title="Dark Mode"
+            render={
+              <Switch
+                checked={config.darkMode}
+                onChange={c => setConfig({ ...config, darkMode: c })}
+              />
+            }
+          />
+          <SettingItem
             title="Debug Mode"
             render={
               <Switch
@@ -73,7 +85,7 @@ export const SettingsModal = ({ onOk, visible }) => {
             }
           />
           <SettingItem
-            title="Consensus Path"
+            title="Data Directory"
             render={
               <TextInput
                 id="consensusPath"
@@ -119,7 +131,7 @@ export const SettingsModal = ({ onOk, visible }) => {
             }
           />
         </Box>
-      </Modal>
+      </StyledModal>
     </div>
   )
 }

@@ -106,7 +106,7 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
             </Box>
             <Box py={2}>
               <Text fontSize={2} is="div">
-                UI: v1.4.0
+                UI: v1.4.1
               </Text>
               <Text fontSize={2} is="div">
                 Daemon: {versionInfo.version}
