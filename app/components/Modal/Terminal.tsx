@@ -1,6 +1,6 @@
 import { Button, Input, Modal } from 'antd'
 import { Box } from 'components/atoms'
-import { spawnSiac } from 'components/Modal/util'
+import { spawnSiac, createShell } from 'components/Modal/util'
 import * as React from 'react'
 import styled from 'styled-components'
 import { Flex } from 'components/atoms/Flex'
@@ -33,7 +33,36 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
   const [stdout, setState] = React.useState([
     'Welcome to the Sia Terminal! Type `help` to see the available commands. Type `clear` to clear the screen.'
   ])
+  const [shell, setShell] = React.useState(null)
   const [input, setInput] = React.useState('')
+  React.useEffect(() => {
+    if (!shell) {
+      let localState = [...stdout]
+      const s = createShell()
+      s.on('data', data => {
+        localState = [...localState, data]
+        setState([...localState])
+      })
+      s.on('exit', () => {
+        console.log('done')
+        setShell(null)
+      })
+      setShell(s)
+    }
+  }, [])
+  React.useEffect(() => {
+    let localState = [...stdout]
+    if (shell) {
+      shell.on('data', data => {
+        localState = [...localState, data]
+        setState([...localState])
+      })
+      shell.on('exit', () => {
+        console.log('donezo')
+        setShell(null)
+      })
+    }
+  }, [shell])
   return (
     <div>
       <StyledModal
@@ -54,13 +83,7 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
           <OuterPreWrap>
             <PreWrap>
               {stdout.map((s, i) => (
-                <pre
-                  style={{
-                    paddingTop: '50px',
-                    fontWeight: 600
-                  }}
-                  key={i}
-                >
+                <pre style={{ fontWeight: 600 }} key={i}>
                   {s}
                 </pre>
               ))}
@@ -85,8 +108,12 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
                 const command = e.target.value
                 setInput('')
                 setState([...stdout, e.target.value])
-                const result = await spawnSiac(command)
-                setState([...stdout, result])
+                if (shell) {
+                  shell.write(command + '\n')
+                } else {
+                  const s = createShell(command)
+                  setShell(s)
+                }
               }
             } catch (e) {
               setState([`Error executing siac. Please contact the developers for help. ${e}`])
