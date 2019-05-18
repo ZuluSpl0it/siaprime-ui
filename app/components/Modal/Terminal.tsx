@@ -4,6 +4,8 @@ import { spawnSiac } from 'components/Modal/util'
 import * as React from 'react'
 import styled from 'styled-components'
 import { Flex } from 'components/atoms/Flex'
+import { StyledModal } from 'components/atoms/StyledModal'
+import { themeGet } from 'styled-system'
 
 interface TerminalModalProps {
   visible: boolean
@@ -23,6 +25,7 @@ const PreWrap = styled(Box)`
     font-size: 10px;
     white-space: pre-wrap;
     word-wrap: break-word;
+    color: ${themeGet('colors.near-black')};
   }
 `
 
@@ -33,7 +36,7 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
   const [input, setInput] = React.useState('')
   return (
     <div>
-      <Modal
+      <StyledModal
         width="80vw"
         title="Terminal"
         visible={props.visible}
@@ -51,7 +54,13 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
           <OuterPreWrap>
             <PreWrap>
               {stdout.map((s, i) => (
-                <pre style={{ paddingTop: '50px', fontWeight: 600 }} key={i}>
+                <pre
+                  style={{
+                    paddingTop: '50px',
+                    fontWeight: 600
+                  }}
+                  key={i}
+                >
                   {s}
                 </pre>
               ))}
@@ -84,7 +93,7 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
             }
           }}
         />
-      </Modal>
+      </StyledModal>
     </div>
   )
 }

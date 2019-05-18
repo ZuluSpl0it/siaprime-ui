@@ -5,6 +5,7 @@ import { Flex } from 'components/atoms/Flex'
 import defaultConfig from 'config'
 import { shell } from 'electron'
 import * as React from 'react'
+import { StyledModal } from 'components/atoms/StyledModal'
 
 interface AboutModalProps {
   visible: boolean
@@ -22,7 +23,7 @@ export class AboutModal extends React.Component<AboutModalProps, {}> {
   render() {
     return (
       <div>
-        <Modal
+        <StyledModal
           title="About Sia-UI"
           visible={this.props.visible}
           onOk={this.props.onOk}
@@ -62,7 +63,7 @@ export class AboutModal extends React.Component<AboutModalProps, {}> {
               <Box />
             </Box>
           </Flex>
-        </Modal>
+        </StyledModal>
       </div>
     )
   }

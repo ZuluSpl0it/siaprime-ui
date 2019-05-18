@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { Box } from './Box'
 import { Flex } from './Flex'
 import { themeGet } from 'styled-system'
+import { StyledIcon } from './StyledIcon'
 
 export const defaultFieldState = {
   value: undefined,
@@ -210,7 +211,7 @@ export const AppIconButton = ({ iconType }: AppIconButtonProps & any) => {
       width="40px"
       borderRadius={2}
     >
-      <Icon type={iconType} />
+      <StyledIcon type={iconType} />
     </DarkerActivationBox>
   )
 }

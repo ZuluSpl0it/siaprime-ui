@@ -8,6 +8,7 @@ import Routes from '../routes'
 import cs from '../store/configureStore'
 import { theme } from '../theme'
 import { GlobalStyle } from './App'
+import { dark } from 'theme/dark'
 
 const { configureStore, history } = cs
 export const reduxStore = configureStore()
@@ -15,7 +16,7 @@ export const reduxStore = configureStore()
 const Root = () => (
   <Provider store={reduxStore}>
     <StoreContext.Provider value={reduxStore}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={dark}>
         <>
           <GlobalStyle />
           <Router history={history}>
