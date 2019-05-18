@@ -39,7 +39,7 @@ let defaultConfig = {
     path: defaultSiacPath
   },
   logPath: userConfigFolder,
-  userConfigFolder
+  userConfigPath
 }
 
 try {
@@ -48,6 +48,12 @@ try {
   defaultConfig = merge(defaultConfig, userConfig)
 } catch (err) {
   console.error('error reading user config file:', err)
+}
+
+try {
+  fs.writeFileSync(userConfigPath, JSON.stringify(defaultConfig, null, 4))
+} catch (err) {
+  console.error('error saving user config file:', err)
 }
 
 module.exports = defaultConfig

@@ -7,7 +7,6 @@ import { shell, remote } from 'electron'
 import * as React from 'react'
 import { TextInput } from 'components/Forms/Inputs'
 import { merge } from 'lodash'
-import { StyledModal } from 'components/atoms/StyledModal'
 const fs = remote.require('fs')
 
 interface SettingModalprops {
@@ -45,7 +44,7 @@ export const SettingsModal = ({ onOk, visible }) => {
 
   return (
     <div>
-      <StyledModal
+      <Modal
         bodyStyle={{
           padding: 0
         }}
@@ -74,7 +73,7 @@ export const SettingsModal = ({ onOk, visible }) => {
             }
           />
           <SettingItem
-            title="Data Directory"
+            title="Consensus Path"
             render={
               <TextInput
                 id="consensusPath"
@@ -120,7 +119,7 @@ export const SettingsModal = ({ onOk, visible }) => {
             }
           />
         </Box>
-      </StyledModal>
+      </Modal>
     </div>
   )
 }
