@@ -7,6 +7,8 @@ let menu
 let template
 let mainWindow = null
 
+// require('electron-reload')(defaultConfig.userConfigPath)
+
 // if (process.env.NODE_ENV === 'production') {
 //   const sourceMapSupport = require('source-map-support') // eslint-disable-line
 //   sourceMapSupport.install()

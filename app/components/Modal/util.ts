@@ -1,6 +1,6 @@
 import spawnAsync from '@expo/spawn-async'
 import defaultConfig from 'config'
-const pty = require('electron').remote.require('node-pty')
+const pty = require('electron').remote.require('node-pty-prebuilt-multiarch')
 const os = require('os')
 
 export const spawnSiac = async (command: any) => {

@@ -1,6 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const merge = require('lodash/merge')
+const isEqual = require('lodash/isEqual')
 const electron = require('electron')
 const appRootDir = require('app-root-dir')
 const getPlatform = require('./get-platform')
@@ -43,16 +44,19 @@ let defaultConfig = {
   userConfigPath
 }
 
+let userConfig
 try {
   const userConfigBuffer = fs.readFileSync(userConfigPath)
-  const userConfig = JSON.parse(userConfigBuffer.toString())
+  userConfig = JSON.parse(userConfigBuffer.toString())
   defaultConfig = merge(defaultConfig, userConfig)
 } catch (err) {
   console.error('error reading user config file:', err)
 }
 
 try {
-  fs.writeFileSync(userConfigPath, JSON.stringify(defaultConfig, null, 4))
+  if (!isEqual(userConfig, defaultConfig)) {
+    fs.writeFileSync(userConfigPath, JSON.stringify(defaultConfig, null, 4))
+  }
 } catch (err) {
   console.error('error saving user config file:', err)
 }

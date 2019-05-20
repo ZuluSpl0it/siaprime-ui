@@ -44,7 +44,6 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
         setState([...localState])
       })
       s.on('exit', () => {
-        console.log('done')
         setShell(null)
       })
       setShell(s)
@@ -58,7 +57,6 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
         setState([...localState])
       })
       shell.on('exit', () => {
-        console.log('donezo')
         setShell(null)
       })
     }

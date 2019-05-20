@@ -9,7 +9,7 @@ import { TextInput } from 'components/Forms/Inputs'
 import { merge } from 'lodash'
 import { StyledModal } from 'components/atoms/StyledModal'
 const fs = remote.require('fs')
-const { getCurrentWindow } = require('electron').remote
+const { app } = require('electron').remote
 
 interface SettingModalprops {
   visible: boolean
@@ -40,7 +40,8 @@ export const SettingsModal = ({ onOk, visible }) => {
     const newConfig = merge(defaultConfig, config)
     try {
       fs.writeFileSync(defaultConfig.userConfigPath, JSON.stringify(newConfig, null, 4))
-      getCurrentWindow().reload()
+      app.relaunch()
+      app.exit(0)
     } catch (err) {}
     onOk()
   }, [defaultConfig, config])
