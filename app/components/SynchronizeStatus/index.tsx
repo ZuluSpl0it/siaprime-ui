@@ -55,7 +55,7 @@ export default ({ synced, height, currentblock, difficulty }: SyncStatusProps) =
           Synced
         </TextWithAdornment>
       ) : (
-        <TextWithAdornment after={<Icon type="loading" />} fontWeight={500}>
+        <TextWithAdornment after={<StyledIcon type="loading" />} fontWeight={500}>
           Syncing
         </TextWithAdornment>
       )}

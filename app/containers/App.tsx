@@ -84,13 +84,22 @@ class App extends React.Component<DispatchProp> {
     setTimeout(async () => {
       if (!isRunning) {
         dispatch(GlobalActions.siadLoading())
-        const loadedProcess: any = await launchSiad()
-        if (loadedProcess) {
-          setGlobalSiadProcess(loadedProcess)
-          dispatch(GlobalActions.setSiadOrigin({ isInternal: true }))
-          dispatch(GlobalActions.siadLoaded())
-        } else {
+        try {
+          const loadedProcess: any = await launchSiad()
+          if (loadedProcess) {
+            setGlobalSiadProcess(loadedProcess)
+            dispatch(GlobalActions.setSiadOrigin({ isInternal: true }))
+            dispatch(GlobalActions.siadLoaded())
+          } else {
+            dispatch(GlobalActions.siadOffline())
+          }
+        } catch (e) {
           dispatch(GlobalActions.siadOffline())
+          GlobalActions.notification({
+            type: 'open',
+            title: 'Daemon Initialization Error',
+            message: e.toString()
+          })
         }
       } else {
         dispatch(GlobalActions.setSiadOrigin({ isInternal: false }))

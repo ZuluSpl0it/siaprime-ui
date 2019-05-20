@@ -36,19 +36,21 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
   const [shell, setShell] = React.useState(null)
   const [input, setInput] = React.useState('')
   React.useEffect(() => {
-    if (!shell) {
-      let localState = [...stdout]
-      const s = createShell()
-      s.on('data', data => {
-        localState = [...localState, data]
-        setState([...localState])
-      })
-      s.on('exit', () => {
-        setShell(null)
-      })
-      setShell(s)
+    if (props.visible) {
+      if (!shell) {
+        let localState = [...stdout]
+        const s = createShell()
+        s.on('data', data => {
+          localState = [...localState, data]
+          setState([...localState])
+        })
+        s.on('exit', () => {
+          setShell(null)
+        })
+        setShell(s)
+      }
     }
-  }, [])
+  }, [props.visible])
   React.useEffect(() => {
     let localState = [...stdout]
     if (shell) {

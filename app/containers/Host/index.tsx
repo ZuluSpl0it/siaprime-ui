@@ -220,7 +220,7 @@ class Host extends React.Component<RenterProps, {}> {
           <CardHeader>Host</CardHeader>
           <Box>
             <Flex alignItems="center">
-              <Tooltip title={<Text color="white">Enable/Disable Accepting Contracts</Text>}>
+              <Tooltip title={<Text color="near-black">Enable/Disable Accepting Contracts</Text>}>
                 <Switch
                   disabled={!hasFolderAndConfig}
                   checked={hostConfig.externalsettings.acceptingcontracts}

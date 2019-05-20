@@ -8,8 +8,8 @@ import * as React from 'react'
 import { TextInput } from 'components/Forms/Inputs'
 import { merge } from 'lodash'
 import { StyledModal } from 'components/atoms/StyledModal'
+const { app, getCurrentWindow } = remote
 const fs = remote.require('fs')
-const { app } = require('electron').remote
 
 interface SettingModalprops {
   visible: boolean
@@ -31,7 +31,7 @@ const SettingItem = ({ title, render }) => {
   )
 }
 
-export const SettingsModal = ({ onOk, visible }) => {
+export const SettingsModal: React.SFC<SettingModalprops> = ({ onOk, visible }) => {
   const [config, setConfig] = React.useState(defaultConfig)
   const onReset = React.useCallback(() => {
     setConfig(defaultConfig)
@@ -40,10 +40,17 @@ export const SettingsModal = ({ onOk, visible }) => {
     const newConfig = merge(defaultConfig, config)
     try {
       fs.writeFileSync(defaultConfig.userConfigPath, JSON.stringify(newConfig, null, 4))
-      app.relaunch()
-      app.exit(0)
+
+      if (process.env.NODE_ENV === 'development') {
+        getCurrentWindow().reload()
+      } else {
+        app.relaunch()
+        app.exit(0)
+      }
     } catch (err) {}
-    onOk()
+    if (onOk) {
+      onOk()
+    }
   }, [defaultConfig, config])
 
   return (
@@ -98,29 +105,55 @@ export const SettingsModal = ({ onOk, visible }) => {
             }
           />
           <SettingItem
-            title="Daemon Path"
+            title="Use Custom Siad"
             render={
-              <TextInput
-                id="daemonPath"
-                value={config.siad.path}
-                onChange={e =>
-                  setConfig({ ...config, siad: { ...config.siad, path: e.target.value } })
+              <Switch
+                checked={config.siad.useCustomBinary}
+                onChange={c =>
+                  setConfig({ ...config, siad: { ...config.siad, useCustomBinary: c } })
                 }
               />
             }
           />
+          {config.siad.useCustomBinary && (
+            <SettingItem
+              title="Daemon Path"
+              render={
+                <TextInput
+                  id="daemonPath"
+                  value={config.siad.path}
+                  onChange={e =>
+                    setConfig({ ...config, siad: { ...config.siad, path: e.target.value } })
+                  }
+                />
+              }
+            />
+          )}
           <SettingItem
-            title="Client Path"
+            title="Use Custom Siac"
             render={
-              <TextInput
-                id="clientPath"
-                value={config.siac.path}
-                onChange={e =>
-                  setConfig({ ...config, siac: { ...config.siac, path: e.target.value } })
+              <Switch
+                checked={config.siac.useCustomBinary}
+                onChange={c =>
+                  setConfig({ ...config, siac: { ...config.siac, useCustomBinary: c } })
                 }
               />
             }
           />
+          {config.siac.useCustomBinary && (
+            <SettingItem
+              title="Client Path"
+              render={
+                <TextInput
+                  id="clientPath"
+                  value={config.siac.path}
+                  onChange={e =>
+                    setConfig({ ...config, siac: { ...config.siac, path: e.target.value } })
+                  }
+                />
+              }
+            />
+          )}
           <SettingItem
             title="Log Path"
             render={

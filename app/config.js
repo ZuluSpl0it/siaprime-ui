@@ -2,6 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const merge = require('lodash/merge')
 const isEqual = require('lodash/isEqual')
+const set = require('lodash/set')
 const electron = require('electron')
 const appRootDir = require('app-root-dir')
 const getPlatform = require('./get-platform')
@@ -34,10 +35,12 @@ let defaultConfig = {
   debugMode: false,
   developmentMode: !isProd,
   siad: {
+    useCustomBinary: false,
     path: defaultSiadPath,
     datadir: path.join(app.getPath('userData'), './sia')
   },
   siac: {
+    useCustomBinary: false,
     path: defaultSiacPath
   },
   logPath: userConfigFolder,
@@ -49,6 +52,13 @@ try {
   const userConfigBuffer = fs.readFileSync(userConfigPath)
   userConfig = JSON.parse(userConfigBuffer.toString())
   defaultConfig = merge(defaultConfig, userConfig)
+  // check useCustomBinary flags
+  if (!defaultConfig.siad.useCustomBinary) {
+    set(defaultConfig, 'siad.path', defaultSiadPath)
+  }
+  if (!defaultConfig.siac.useCustomBinary) {
+    set(defaultConfig, 'siac.path', defaultSiacPath)
+  }
 } catch (err) {
   console.error('error reading user config file:', err)
 }

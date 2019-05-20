@@ -42,6 +42,7 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
           justifyContent="center"
           alignItems="center"
           flexDirection="column"
+          bg="white"
         >
           <TransitionSiaSpinner
             in={

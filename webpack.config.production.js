@@ -108,6 +108,9 @@ module.exports = merge(baseConfig, {
     // https://webpack.github.io/docs/list-of-plugins.html#occurrenceorderplugin
     // https://github.com/webpack/webpack/issues/864
     new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production')
+    }),
 
     new MiniCssExtractPlugin({
       filename: 'style.css'

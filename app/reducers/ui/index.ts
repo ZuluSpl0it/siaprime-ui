@@ -52,7 +52,7 @@ export namespace UIReducer {
     isInternal: true,
     isActive: false,
     isFinishedLoading: null,
-    loading: true,
+    loading: false,
     stdout: [],
     stderr: []
   }

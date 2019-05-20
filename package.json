@@ -21,8 +21,8 @@
     "package-linux": "npm run build && build --linux",
     "package-all": "npm run build && build -mwl",
     "cleanup": "mop -v",
-    "rebuild": "electron-rebuild",
-    "postinstall": "npm run rebuild && install-app-deps"
+    "rebuild": "electron-rebuild -f -w node-pty-prebuilt-multiarch",
+    "postinstall": "electron-builder install-app-deps"
   },
   "build": {
     "productName": "Sia-UI",
