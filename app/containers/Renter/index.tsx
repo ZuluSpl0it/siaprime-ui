@@ -249,30 +249,28 @@ class Renter extends React.Component<RenterProps, State> {
         />
         <Flex justifyContent="space-between" alignItems="baseline">
           <CardHeader>File Manager</CardHeader>
-          {contracts.active > 0 && (
-            <Box ml="auto">
-              <Dropdown
-                overlay={
-                  <Menu>
-                    <Menu.Item onClick={this.openAllowanceModal} key="1">
-                      <a>Modify Allowance</a>
-                    </Menu.Item>
-                    <Menu.Item onClick={this.openBackupModal} key="2">
-                      <a>Backup Files</a>
-                    </Menu.Item>
-                    <Menu.Item onClick={this.openRestoreModal} key="3">
-                      <a>Restore Files</a>
-                    </Menu.Item>
-                  </Menu>
-                }
-                trigger={['click']}
-              >
-                <Text color="silver" css={{ cursor: 'pointer', textTransform: 'uppercase' }}>
-                  More <Icon type="down" />
-                </Text>
-              </Dropdown>
-            </Box>
-          )}
+          <Box ml="auto">
+            <Dropdown
+              overlay={
+                <Menu>
+                  <Menu.Item onClick={this.openAllowanceModal} key="1">
+                    <a>Modify Allowance</a>
+                  </Menu.Item>
+                  <Menu.Item onClick={this.openBackupModal} key="2">
+                    <a>Backup Files</a>
+                  </Menu.Item>
+                  <Menu.Item onClick={this.openRestoreModal} key="3">
+                    <a>Restore Files</a>
+                  </Menu.Item>
+                </Menu>
+              }
+              trigger={['click']}
+            >
+              <Text color="silver" css={{ cursor: 'pointer', textTransform: 'uppercase' }}>
+                More <Icon type="down" />
+              </Text>
+            </Dropdown>
+          </Box>
         </Flex>
         <Flex>
           <Stat content={`${contracts.active}`} title="Contracts Active" width={1 / 4} />
