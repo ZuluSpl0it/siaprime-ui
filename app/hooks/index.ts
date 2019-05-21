@@ -13,10 +13,6 @@ const actions = {
   REQUEST_END: 'REQUEST_END'
 }
 
-const initialState = {
-  loading: true
-}
-
 const client = siad
 
 function reducer(state, action) {
@@ -50,12 +46,14 @@ async function request(config, dispatch) {
 }
 
 // todo: set strict typing through type inference
-// useSiad returns a react hook with the shape: `[[loading, response, error], refetch()]`
-export default function useSiad(config) {
-  const [state, dispatch] = useReducer(reducer, initialState)
+// useSiad returns a react hook with the shape: `[{loading, response, error}, refetch()]`
+export function useSiad(config, autoTrigger = true) {
+  const [state, dispatch] = useReducer(reducer, { loading: autoTrigger ? true : false })
   useEffect(() => {
-    request(config, dispatch)
-  }, [JSON.stringify(config)])
+    if (autoTrigger) {
+      request(config, dispatch)
+    }
+  }, [JSON.stringify(config), autoTrigger])
 
   return [
     state,
