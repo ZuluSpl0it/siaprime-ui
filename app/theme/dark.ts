@@ -10,9 +10,9 @@ export const dark = Object.assign({}, theme, {
     'light-silver': '#aaa',
     'moon-gray': '#ccc',
     'light-gray': '#333',
-    'near-white': '#101010',
+    'near-white': '#202124',
     'sia-green': '#1ED660',
-    white: '#1e1e1e',
+    white: '#292C2F',
     transparent: 'transparent',
     blacks: [
       'rgba(0,0,0,.0125)',
