@@ -41,6 +41,7 @@ export const theme = {
     'near-white': '#f9f9f9',
     'sia-green': '#1ED660',
     almostwhite: '#fefdfd',
+    'text-light': '#fff',
     white: '#fff',
     transparent: 'transparent',
     blacks: [

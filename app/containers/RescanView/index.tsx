@@ -34,7 +34,7 @@ class RescanView extends React.Component<StateProps & DispatchProp & RouteCompon
     const syncPercentage = Math.ceil((wallet.height / (chooseBigger + 5)) * 100)
     return (
       <DragContiner>
-        <Flex height="100vh" width="100%" justifyContent="center" alignItems="center">
+        <Flex height="100vh" width="100%" justifyContent="center" alignItems="center" bg="white">
           <Flex
             flexDirection="column"
             alignItems="center"

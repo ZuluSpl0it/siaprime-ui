@@ -8,6 +8,7 @@ import { ConsensusRootReducer } from 'reducers/consensus'
 import { createStructuredSelector } from 'reselect'
 import { selectConsensus } from 'selectors'
 import { Flex } from 'components/atoms/Flex'
+import { StyledIcon } from 'components/atoms/StyledIcon'
 
 interface StateProps {
   consensus: ConsensusRootReducer.State
@@ -32,7 +33,7 @@ class SyncView extends React.Component<StateProps & DispatchProp & RouteComponen
     const syncPercentage = Math.ceil((consensus.height / (chooseBigger + 5)) * 100)
     return (
       <DragContiner>
-        <Flex height="100vh" width="100%" justifyContent="center" alignItems="center">
+        <Flex height="100vh" width="100%" justifyContent="center" alignItems="center" bg="white">
           <Flex
             flexDirection="column"
             alignItems="center"
@@ -41,7 +42,7 @@ class SyncView extends React.Component<StateProps & DispatchProp & RouteComponen
             height="100%"
           >
             <Box width={1 / 3} style={{ textAlign: 'center' }} pb={2}>
-              <Icon type="loading" style={{ fontSize: 14 }} spin />
+              <StyledIcon type="loading" style={{ fontSize: 14 }} spin />
             </Box>
             <Box mx={2} width={1 / 3} style={{ textAlign: 'center' }}>
               <Text is="p" color="mid-gray" fontSize={3}>

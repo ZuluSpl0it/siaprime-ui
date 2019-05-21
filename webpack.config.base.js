@@ -4,7 +4,7 @@
 
 const path = require('path')
 
-const { dependencies: externals } = require('./app/package.json')
+// const { dependencies: externals } = require('./app/package.json')
 
 module.exports = {
   module: {
@@ -49,7 +49,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.json'],
     modules: [path.join(__dirname, 'app'), 'node_modules']
-  },
+  }
 
-  externals: Object.keys(externals || {})
+  // externals: Object.keys(externals || {})
 }

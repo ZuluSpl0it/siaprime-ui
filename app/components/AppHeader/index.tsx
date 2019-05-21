@@ -8,13 +8,14 @@ import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { selectConsensus } from 'selectors'
+import { SettingsModal } from 'components/Modal/Settings'
 
 interface StateProps {
   consensus: ConsensusModel.ConsensusGETResponse
 }
 
 class AppHeader extends React.Component<StateProps & DispatchProp, {}> {
-  state = { visible: false, terminalVisible: false }
+  state = { visible: false, terminalVisible: false, settingVisible: false }
   lockWallet = () => {
     this.props.dispatch(WalletActions.lockWallet.started())
   }
@@ -30,6 +31,12 @@ class AppHeader extends React.Component<StateProps & DispatchProp, {}> {
     })
   }
 
+  showSettingsModal = () => {
+    this.setState({
+      settingVisible: true
+    })
+  }
+
   handleOk = () => {
     this.setState({
       visible: false
@@ -38,6 +45,11 @@ class AppHeader extends React.Component<StateProps & DispatchProp, {}> {
   handleTerminalOk = () => {
     this.setState({
       terminalVisible: false
+    })
+  }
+  handleSettingOk = () => {
+    this.setState({
+      settingVisible: false
     })
   }
   render() {
@@ -49,8 +61,6 @@ class AppHeader extends React.Component<StateProps & DispatchProp, {}> {
             <div onClick={this.lockWallet}>
               <AppIconButton iconType="lock" />
             </div>
-            {/* <Bar />
-            <AppIconButton iconType="setting" /> */}
             <Bar />
             <div onClick={this.showModal}>
               <AppIconButton iconType="info-circle" />
@@ -59,6 +69,10 @@ class AppHeader extends React.Component<StateProps & DispatchProp, {}> {
             <div onClick={this.showTerminalModal}>
               <AppIconButton iconType="right-square" />
             </div>
+            <Bar />
+            <div onClick={this.showSettingsModal}>
+              <AppIconButton iconType="setting" />
+            </div>
           </Flex>
           <Flex justifyContent="center" alignItems="center">
             <SynchronizeStatus {...consensus} />
@@ -66,6 +80,7 @@ class AppHeader extends React.Component<StateProps & DispatchProp, {}> {
         </HeaderBox>
         <AboutModal visible={this.state.visible} onOk={this.handleOk} />
         <TerminalModal visible={this.state.terminalVisible} onOk={this.handleTerminalOk} />
+        <SettingsModal visible={this.state.settingVisible} onOk={this.handleSettingOk} />
       </React.Fragment>
     )
   }

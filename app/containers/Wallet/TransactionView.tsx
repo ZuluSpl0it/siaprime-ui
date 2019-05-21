@@ -1,7 +1,7 @@
-import { Icon, Table, Tooltip } from 'antd'
-import { TableProps } from 'antd/lib/table'
+import { Icon, Tooltip } from 'antd'
 import { Box, StyledTag, Text } from 'components/atoms'
 import { Flex } from 'components/atoms/Flex'
+import { StyledTable } from 'components/atoms/StyledTable'
 import { transactionFormatTool } from 'components/Transaction'
 import { clipboard } from 'electron'
 import { isEqual } from 'lodash'
@@ -11,46 +11,10 @@ import { connect } from 'react-redux'
 import { IndexState } from 'reducers'
 import { ConsensusRootReducer } from 'reducers/consensus'
 import { OrganizedTx, selectConsensus, selectOrganizedTx } from 'selectors'
-import styled from 'styled-components'
-import { themeGet } from 'styled-system'
 
 interface StateProps {
   transactions: OrganizedTx
-  // groupedTransactions: GroupedTx
   consensus: ConsensusRootReducer.State
-}
-
-const StyledTable = ({ ...props }: TableProps<any>) => {
-  const Div = styled.div`
-    .ant-table-body {
-      margin: 0 !important;
-    }
-    .ant-table-tbody > tr > td {
-      border-bottom: 1px solid #efefef;
-      background-color: ${themeGet('colors.almostwhite')};
-    }
-    /* .ant-pagination-prev .ant-pagination-item-link,
-    .ant-pagination-next .ant-pagination-item-link,
-    .ant-pagination-item {
-      background-color: ${(props: any) => props.theme.colors['near-white']};
-    } */
-    .ant-table-thead > tr > th {
-      background-color: ${themeGet('colors.white')};
-      color: ${themeGet('colors.near-black')};
-      border-bottom: 1px solid #efefef;
-    }
-    .ant-table-thead > tr:first-child > th:last-child {
-      border-top-right-radius: 0;
-    }
-    .ant-table-thead > tr:first-child > th:first-child {
-      border-top-left-radius: 0;
-    }
-  `
-  return (
-    <Div>
-      <Table {...props} />
-    </Div>
-  )
 }
 
 type Props = StateProps
@@ -77,7 +41,6 @@ class TransactionView extends React.Component<Props, {}> {
       <>
         <StyledTable
           rowKey="txid"
-          // pagination={{ pageSize: 20 }}
           columns={[
             {
               title: () => <TableTitle>Amount</TableTitle>,

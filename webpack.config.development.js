@@ -116,6 +116,11 @@ module.exports = merge(baseConfig, {
       }
     ]
   },
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
+  },
 
   plugins: [
     // https://webpack.github.io/docs/hot-module-replacement-with-webpack.html
@@ -123,7 +128,6 @@ module.exports = merge(baseConfig, {
 
     new webpack.NoEmitOnErrorsPlugin(),
 
-    // NODE_ENV should be production so that modules do not perform certain development checks
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development')
     }),

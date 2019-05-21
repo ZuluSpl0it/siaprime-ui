@@ -7,6 +7,7 @@ import { useDispatch, useMappedState } from 'redux-react-hook'
 import { WalletActions } from 'actions'
 import { IndexState } from 'reducers'
 import { Text } from 'components/atoms'
+import { StyledModal } from 'components/atoms/StyledModal'
 
 const validationSchema = Yup.object().shape({
   currentPassword: Yup.string().required('Current password is required'),
@@ -48,7 +49,7 @@ export const ChangePasswordModal = ({ closeModal, ...props }) => {
         resetForm()
       }}
       render={formikProps => (
-        <Modal
+        <StyledModal
           onCancel={closeModal}
           footer={[
             <Button key="cancel" onClick={closeModal}>
@@ -63,7 +64,7 @@ export const ChangePasswordModal = ({ closeModal, ...props }) => {
         >
           {api.error && <Text>{api.error} </Text>}
           <ChangePasswordForm {...formikProps} />
-        </Modal>
+        </StyledModal>
       )}
     />
   )
