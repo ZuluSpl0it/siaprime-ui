@@ -6,6 +6,7 @@ import * as React from 'react'
 import { Flex } from 'rebass'
 import { useSiad } from 'hooks'
 import { useConsensus } from 'hooks/reduxHooks'
+import { StyledModal } from 'components/atoms/StyledModal'
 
 interface BackupObject {
   name: string
@@ -62,7 +63,7 @@ export const RestoreModal = (props: any) => {
   const isLoading = restore.loading || scanInProgress
 
   return (
-    <Modal
+    <StyledModal
       title="Snapshot Restore"
       {...props}
       okText={okText}
@@ -148,6 +149,6 @@ export const RestoreModal = (props: any) => {
               })}
         </Box>
       </Box>
-    </Modal>
+    </StyledModal>
   )
 }
