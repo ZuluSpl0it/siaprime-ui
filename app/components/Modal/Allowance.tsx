@@ -1,7 +1,7 @@
 import { RenterActions } from 'actions'
 import { InputNumber, Modal, Tag } from 'antd'
 import BigNumber from 'bignumber.js'
-import { Box, Text } from 'components/atoms'
+import { Box, Text, StyledTag } from 'components/atoms'
 import { RenterModel } from 'models'
 import * as React from 'react'
 import { Flex } from 'rebass'
@@ -114,15 +114,15 @@ export const AllowanceModal = (props: any) => {
           ) : (
             <>
               <Box>
-                <Tag>
+                <StyledTag>
                   <Text>{storageEstimates.contractfees} SC</Text>
-                </Tag>
+                </StyledTag>
                 <Text fontWeight={2}>Contract Fees</Text>
               </Box>
               <Box pt={1}>
-                <Tag>
+                <StyledTag>
                   <Text>{storageEstimates.storage}</Text>
-                </Tag>
+                </StyledTag>
                 <Text fontWeight={2}>Estimated Storage</Text>
               </Box>
             </>

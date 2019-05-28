@@ -30,6 +30,7 @@ import { TransitionGroup } from 'react-transition-group'
 import defaultConfig from 'config'
 import { BackupModal } from 'components/Modal/BackupModal'
 import { RestoreModal } from 'components/Modal/RestoreModal'
+import { StyledButton } from 'components/atoms/StyledButton'
 
 const { Panel } = Collapse
 
@@ -211,6 +212,8 @@ class Renter extends React.Component<RenterProps, State> {
   render() {
     const { match }: { match: any } = this.props
     const { contracts, spending, rentStorage, pricing, renterSummary, balances } = this.props
+    console.log('balances are', balances)
+    const { confirmedBalance } = balances
     const totalAllocated = toSiacoins(
       new BigNumber(renterSummary.financialmetrics.totalallocated)
     ).toFixed(2)
@@ -291,7 +294,7 @@ class Renter extends React.Component<RenterProps, State> {
             </Switch> */}
             <FileManager getFileNavRef={this.fileNavRef} />
           </Box>
-        ) : contracts.active > 0 ? (
+        ) : contracts.active < 0 ? (
           <Flex
             p={5}
             flexDirection="column"
@@ -320,9 +323,18 @@ class Renter extends React.Component<RenterProps, State> {
                   It looks like you don't have any contracts yet.
                 </Text>
               </Box>
-              <Button onClick={this.openModal} type="ghost" size="large">
-                Setup Allowance
-              </Button>
+              {parseFloat(confirmedBalance) > 0 ? (
+                <StyledButton onClick={this.openModal} type="ghost" size="large">
+                  Setup Allowance
+                </StyledButton>
+              ) : (
+                <Box my={3}>
+                  <Text color="mid-gray" fontSize={3}>
+                    Please send Siacoin to your wallet or wait for your pending transactions to
+                    confirm.
+                  </Text>
+                </Box>
+              )}
             </Flex>
           </Flex>
         )}

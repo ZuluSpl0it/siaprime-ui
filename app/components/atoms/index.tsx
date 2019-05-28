@@ -268,9 +268,9 @@ export const StyledTag = styled(Box)`
   padding: 4px 6px;
   border-radius: 8px;
   font-size: 10px;
-  color: #444;
+  color: ${themeGet('colors.near-black')};
   border: 1px solid #eee;
-  background: #eee;
+  background: ${themeGet('colors.near-white')};
   margin-right: 3px;
 `
 
