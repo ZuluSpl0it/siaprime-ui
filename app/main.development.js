@@ -7,13 +7,6 @@ let menu
 let template
 let mainWindow = null
 
-// require('electron-reload')(defaultConfig.userConfigPath)
-
-// if (process.env.NODE_ENV === 'production') {
-//   const sourceMapSupport = require('source-map-support') // eslint-disable-line
-//   sourceMapSupport.install()
-// }
-
 if (process.env.NODE_ENV === 'development') {
   require('electron-debug')() // eslint-disable-line global-require
   const path = require('path') // eslint-disable-line
@@ -24,10 +17,6 @@ if (process.env.NODE_ENV === 'development') {
 app.on('window-all-closed', () => {
   app.quit()
 })
-
-// app.on('before-quit', () => {
-//   console.log('err ello')
-// })
 
 const installExtensions = () => {
   if (process.env.NODE_ENV === 'development') {
