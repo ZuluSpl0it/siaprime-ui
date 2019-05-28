@@ -10,6 +10,7 @@ import { useDispatch, useMappedState } from 'redux-react-hook'
 import { toHastings, toSiacoins } from 'sia-typescript'
 import { TextInput } from 'components/Forms/Inputs'
 import { siad } from 'api/siad'
+import { StyledModal } from 'components/atoms/StyledModal'
 
 // BackupModal handles the async logic directly using React Hooks. While we
 // usually don't want app logic to exist in components, I feel like sagas has
@@ -59,7 +60,7 @@ export const BackupModal = (props: any) => {
   const okText = results.loading ? 'Creating Backup' : 'Start Backup'
 
   return (
-    <Modal
+    <StyledModal
       title="Remote Snapshot Backup"
       {...props}
       onOk={queryBackup}
@@ -118,6 +119,6 @@ export const BackupModal = (props: any) => {
           </Text>
         </Box>
       )}
-    </Modal>
+    </StyledModal>
   )
 }

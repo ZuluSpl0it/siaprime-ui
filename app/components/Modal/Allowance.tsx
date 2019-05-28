@@ -1,14 +1,14 @@
 import { RenterActions } from 'actions'
-import { InputNumber, Modal, Tag } from 'antd'
+import { InputNumber } from 'antd'
 import BigNumber from 'bignumber.js'
-import { Box, Text, StyledTag } from 'components/atoms'
+import { Box, StyledTag, Text } from 'components/atoms'
+import { StyledModal } from 'components/atoms/StyledModal'
 import { RenterModel } from 'models'
 import * as React from 'react'
 import { Flex } from 'rebass'
 import { IndexState } from 'reducers'
 import { useDispatch, useMappedState } from 'redux-react-hook'
 import { toHastings, toSiacoins } from 'sia-typescript'
-import { StyledModal } from 'components/atoms/StyledModal'
 
 const bytes = require('bytes')
 
@@ -34,6 +34,9 @@ export const AllowanceModal = (props: any) => {
     const allowanceMinusFees = allowance.minus(contractFees)
     const storageOverTime = storagePerTbMonth.times(monthsPerContract).plus(uploadPerTb)
     const estimate = allowanceMinusFees.dividedBy(storageOverTime).times(1e12)
+    // we will check if the estimated bytes is greated than 0. the ternary check
+    // prevents the estimate from ever being less than 0 bytes (edge case that
+    // occurs if allowance is less than contract fees)
     const estimatedBytes = estimate.toNumber() > 0 ? estimate.toNumber() : 0
     const result = {
       contractfees: toSiacoins(contractFees).toFixed(2),

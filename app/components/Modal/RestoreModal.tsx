@@ -14,8 +14,16 @@ interface BackupObject {
   size: number
 }
 
+// RestoreModal shows the available backups that exists from the contracts.
+// There are two main actions in this modal. This first is the ability to
+// recover contracts that exists. Once that process is complete, a list of
+// available backups will appear for the user to restore.
 export const RestoreModal = (props: any) => {
   const { closeModal, fileNav } = props
+  // confirmClose displays a modal imperatively that confirms that the user
+  // intends on closing the recovery modal. Currently, Sia does not support file
+  // recovery once allowance is set and contracts are available. Thus, the user
+  // needs to recover their files all in one go once they restore from seed.
   const consensus = useConsensus()
   const [backups, _] = useSiad('/renter/uploadedbackups')
   const [restoreName, setRestoreName] = React.useState('')
@@ -47,7 +55,7 @@ export const RestoreModal = (props: any) => {
   React.useEffect(() => {
     const pollRSP = setInterval(() => {
       rspTrigger()
-    }, 6000)
+    }, 3000)
 
     return () => clearInterval(pollRSP)
   }, [])

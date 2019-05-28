@@ -294,7 +294,7 @@ class Renter extends React.Component<RenterProps, State> {
             </Switch> */}
             <FileManager getFileNavRef={this.fileNavRef} />
           </Box>
-        ) : contracts.active < 0 ? (
+        ) : contracts.active > 0 ? (
           <Flex
             p={5}
             flexDirection="column"
@@ -324,9 +324,18 @@ class Renter extends React.Component<RenterProps, State> {
                 </Text>
               </Box>
               {parseFloat(confirmedBalance) > 0 ? (
-                <StyledButton onClick={this.openModal} type="ghost" size="large">
-                  Setup Allowance
-                </StyledButton>
+                <Flex>
+                  <Box>
+                    <StyledButton onClick={this.openAllowanceModal} type="ghost" size="large">
+                      Setup Allowance
+                    </StyledButton>
+                  </Box>
+                  <Box pl={2}>
+                    <StyledButton onClick={this.openRestoreModal} type="ghost" size="large">
+                      Restore Files
+                    </StyledButton>
+                  </Box>
+                </Flex>
               ) : (
                 <Box my={3}>
                   <Text color="mid-gray" fontSize={3}>
