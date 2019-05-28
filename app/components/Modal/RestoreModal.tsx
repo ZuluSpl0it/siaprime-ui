@@ -20,10 +20,6 @@ interface BackupObject {
 // available backups will appear for the user to restore.
 export const RestoreModal = (props: any) => {
   const { closeModal, fileNav } = props
-  // confirmClose displays a modal imperatively that confirms that the user
-  // intends on closing the recovery modal. Currently, Sia does not support file
-  // recovery once allowance is set and contracts are available. Thus, the user
-  // needs to recover their files all in one go once they restore from seed.
   const consensus = useConsensus()
   const [backups, _] = useSiad('/renter/uploadedbackups')
   const [restoreName, setRestoreName] = React.useState('')
