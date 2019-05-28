@@ -15,8 +15,8 @@ import { getTpoolFees, getTransactionsWorker, getWalletWorker } from './wallet'
 */
 
 function* globalPollCalls() {
-  yield spawn(consensusWorker)
   yield spawn(gatewayWorker)
+  yield spawn(consensusWorker)
   yield spawn(activeHostWorker)
 }
 

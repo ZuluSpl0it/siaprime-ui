@@ -1,5 +1,5 @@
 import LoadingScreenHeader from 'components/AppHeader/LoadingScreenHeader'
-import { Box, DragContiner, Text } from 'components/atoms'
+import { Box, DragContiner, Text, Spinner } from 'components/atoms'
 import { Flex } from 'components/atoms/Flex'
 import { OfflineState } from 'components/EmptyStates'
 import { TransitionSiaSpinner } from 'components/GSAP/TransitionSiaSpinner'
@@ -10,6 +10,7 @@ import { Redirect } from 'react-router'
 import { UIReducer } from 'reducers/ui'
 import { createStructuredSelector } from 'reselect'
 import { selectSiadState } from 'selectors'
+import { GlobalActions } from 'actions'
 
 interface StateProps {
   siad: UIReducer.SiadState
@@ -53,15 +54,29 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
             onEntered={this.handleEntered}
             onExited={this.handleExit}
           />
+          {/* Conditional checks to see if we need to display a module loading logs */}
           {siad.isFinishedLoading !== null &&
             !siad.isFinishedLoading &&
             this.state.hasEntered &&
             siad.isActive && (
               <>
                 <Box width={600}>
-                  <Text fontSize={3} textAlign="left">
-                    Sia is not done loading the modules. It may take longer than expected...
-                  </Text>
+                  <Flex alignItems="center">
+                    <Box pr={3}>
+                      <Spinner />
+                    </Box>
+                    <Box>
+                      <Text fontSize={3} textAlign="left">
+                        Sia daemon detected, but is not done loading the modules. It may take longer
+                        than expected to finish the loading all the modules.
+                      </Text>
+                    </Box>
+                  </Flex>
+                  <Box py={2}>
+                    <Text fontSize={1} textAlign="left">
+                      If Sia-UI is managing the daemon, the logs will be printed below:
+                    </Text>
+                  </Box>
                   <Box
                     py={3}
                     height={300}
