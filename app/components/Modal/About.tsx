@@ -5,7 +5,10 @@ import { Flex } from 'components/atoms/Flex'
 import defaultConfig from 'config'
 import { shell } from 'electron'
 import * as React from 'react'
+import * as path from 'path'
 import { siad } from 'api/siad'
+import { StyledModal } from 'components/atoms/StyledModal'
+import { version } from 'package.json'
 
 interface AboutModalProps {
   visible: boolean
@@ -24,7 +27,7 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
     shell.openItem(path)
   }, [])
   const openConfig = React.useCallback(() => {
-    shell.openItem(defaultConfig.userConfigFolder)
+    shell.openItem(path.dirname(defaultConfig.userConfigPath))
   }, [])
 
   const [updateInfo, setUpdateInfo] = React.useState({
@@ -68,12 +71,14 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
   }, [versionInfo])
 
   React.useEffect(() => {
-    getVersion()
-  }, [])
+    if (visible) {
+      getVersion()
+    }
+  }, [visible])
 
   return (
     <div>
-      <Modal
+      <StyledModal
         title="About Sia-UI"
         visible={visible}
         onOk={onOk}
@@ -99,13 +104,12 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
                 Sia UI
               </Text>
               <Text fontSize={3} fontWeight={2}>
-                {' '}
                 (Draco)
               </Text>
             </Box>
             <Box py={2}>
               <Text fontSize={2} is="div">
-                UI: v1.4.0
+                UI: {version}
               </Text>
               <Text fontSize={2} is="div">
                 Daemon: {versionInfo.version}
@@ -128,12 +132,12 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
             </Box>
             <AboutButton onClick={checkForUpdates}>Check for Updates</AboutButton>
             <AboutButton onClick={openSiaDir}>Open Data Folder</AboutButton>
-            <AboutButton onClick={openSiaDir}>Show Config Folder</AboutButton>
+            <AboutButton onClick={openConfig}>Show Config Folder</AboutButton>
             <Box pt={2}>{updateInfo.error && <Text>{updateInfo.error}</Text>}</Box>
             <Box />
           </Box>
         </Flex>
-      </Modal>
+      </StyledModal>
     </div>
   )
 }

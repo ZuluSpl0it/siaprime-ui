@@ -87,7 +87,6 @@ class MainView extends React.Component<
             </Box>
           </Box>
         </Box>
-
         <Box width={1} style={{ height: '100vh' }} bg="near-white">
           <RequireConsensusData>
             <AppHeader />

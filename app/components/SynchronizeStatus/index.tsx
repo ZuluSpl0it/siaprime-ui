@@ -4,13 +4,14 @@ import { ConsensusModel } from 'models'
 import * as React from 'react'
 import styled from 'styled-components'
 import { hashrateParser } from 'lib/hashrateParser'
+import { StyledIcon } from 'components/atoms/StyledIcon'
 
 const BoldText = ({ children }: any) => (
-  <Text fontWeight={600} color="white">
+  <Text fontWeight={600} color="text-light">
     {children}
   </Text>
 )
-const StatText = ({ children }: any) => <Text color="white">{children}</Text>
+const StatText = ({ children }: any) => <Text color="text-light">{children}</Text>
 
 interface StatProps {
   title: string
@@ -50,11 +51,11 @@ export default ({ synced, height, currentblock, difficulty }: SyncStatusProps) =
       )}
     >
       {synced ? (
-        <TextWithAdornment is="div" after={<Icon type="check-circle" />} fontWeight={500}>
+        <TextWithAdornment is="div" after={<StyledIcon type="check-circle" />} fontWeight={500}>
           Synced
         </TextWithAdornment>
       ) : (
-        <TextWithAdornment after={<Icon type="loading" />} fontWeight={500}>
+        <TextWithAdornment after={<StyledIcon type="loading" />} fontWeight={500}>
           Syncing
         </TextWithAdornment>
       )}

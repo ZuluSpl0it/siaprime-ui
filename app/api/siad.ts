@@ -23,31 +23,27 @@ export const initSiad = () => {
 
 export const launchSiad = () => {
   return new Promise((resolve, reject) => {
-    try {
-      const p = initSiad()
-      p.stdout.on('data', data => {
-        const log = data.toString()
-        reduxStore.dispatch(GlobalActions.siadAppendLog(log))
-        siadLogger.info(log)
-      })
-      p.stderr.on('data', data => {
-        const log = data.toString()
-        reduxStore.dispatch(GlobalActions.siadAppendErr(log))
-        siadLogger.error(log)
-      })
-      const timeout = setTimeout(() => {
+    const p = initSiad()
+    p.stdout.on('data', data => {
+      const log = data.toString()
+      reduxStore.dispatch(GlobalActions.siadAppendLog(log))
+      siadLogger.info(log)
+    })
+    p.stderr.on('data', data => {
+      const log = data.toString()
+      reduxStore.dispatch(GlobalActions.siadAppendErr(log))
+      siadLogger.error(log)
+    })
+    const timeout = setTimeout(() => {
+      clearInterval(pollLoaded)
+      resolve(false)
+    }, 20000)
+    const pollLoaded = setInterval(() => {
+      if (siad.isRunning()) {
         clearInterval(pollLoaded)
-        resolve(false)
-      }, 20000)
-      const pollLoaded = setInterval(() => {
-        if (siad.isRunning()) {
-          clearInterval(pollLoaded)
-          clearInterval(timeout)
-          resolve(p)
-        }
-      }, 2000)
-    } catch (e) {
-      reject(e)
-    }
+        clearInterval(timeout)
+        resolve(p)
+      }
+    }, 2000)
   })
 }

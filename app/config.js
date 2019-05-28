@@ -1,6 +1,8 @@
 const path = require('path')
 const fs = require('fs')
 const merge = require('lodash/merge')
+const isEqual = require('lodash/isEqual')
+const set = require('lodash/set')
 const electron = require('electron')
 const appRootDir = require('app-root-dir')
 const getPlatform = require('./get-platform')
@@ -29,25 +31,44 @@ const userConfigFolder = path.join(app.getPath('userData'), 'sia')
 const userConfigPath = path.join(userConfigFolder, 'config.json')
 // Default config
 let defaultConfig = {
+  darkMode: false,
   debugMode: false,
   developmentMode: !isProd,
   siad: {
+    useCustomBinary: false,
     path: defaultSiadPath,
     datadir: path.join(app.getPath('userData'), './sia')
   },
   siac: {
+    useCustomBinary: false,
     path: defaultSiacPath
   },
   logPath: userConfigFolder,
-  userConfigFolder
+  userConfigPath
+}
+
+let userConfig
+try {
+  const userConfigBuffer = fs.readFileSync(userConfigPath)
+  userConfig = JSON.parse(userConfigBuffer.toString())
+  defaultConfig = merge(defaultConfig, userConfig)
+  // check useCustomBinary flags
+  if (!defaultConfig.siad.useCustomBinary) {
+    set(defaultConfig, 'siad.path', defaultSiadPath)
+  }
+  if (!defaultConfig.siac.useCustomBinary) {
+    set(defaultConfig, 'siac.path', defaultSiacPath)
+  }
+} catch (err) {
+  console.error('error reading user config file:', err)
 }
 
 try {
-  const userConfigBuffer = fs.readFileSync(userConfigPath)
-  const userConfig = JSON.parse(userConfigBuffer.toString())
-  defaultConfig = merge(defaultConfig, userConfig)
+  if (!isEqual(userConfig, defaultConfig)) {
+    fs.writeFileSync(userConfigPath, JSON.stringify(defaultConfig, null, 4))
+  }
 } catch (err) {
-  console.error('error reading user config file:', err)
+  console.error('error saving user config file:', err)
 }
 
 module.exports = defaultConfig
