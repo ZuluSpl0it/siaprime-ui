@@ -11,6 +11,8 @@ import { UIReducer } from 'reducers/ui'
 import { createStructuredSelector } from 'reselect'
 import { selectSiadState } from 'selectors'
 import { GlobalActions } from 'actions'
+import styled from 'styled-components'
+import { themeGet } from 'styled-system'
 
 interface StateProps {
   siad: UIReducer.SiadState
@@ -34,6 +36,9 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
   }
   render() {
     const { siad } = this.props
+    const StyledPre = styled.pre`
+      color: ${themeGet('colors.near-black')};
+    `
     return (
       <DragContiner>
         <LoadingScreenHeader />
@@ -88,10 +93,10 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
                     `}
                   >
                     {siad.stdout.map(l => (
-                      <pre>{l}</pre>
+                      <StyledPre>{l}</StyledPre>
                     ))}
                     {siad.stderr.map(l => (
-                      <pre>{l}</pre>
+                      <StyledPre>{l}</StyledPre>
                     ))}
                   </Box>
                 </Box>

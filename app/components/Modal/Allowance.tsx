@@ -12,6 +12,16 @@ import { toHastings, toSiacoins } from 'sia-typescript'
 
 const bytes = require('bytes')
 
+const confirmAllowance = (balance, allowance, cb) => {
+  Modal.confirm({
+    title: 'Confirm Allowance',
+    content: `You currently have a balance of ${balance} which is below the allowance amount of ${allowance}. Continue?`,
+    onOk() {
+      cb()
+    }
+  })
+}
+
 export const AllowanceModal = (props: any) => {
   const { closeModal, rentStorage } = props
   const pricing: RenterModel.PricesGETResponse = props.pricing
@@ -75,7 +85,13 @@ export const AllowanceModal = (props: any) => {
       )
       closeModal()
     } else {
-      setError('Your wallet has insufficient funds for allowance amount.')
+      confirmAllowance(maxBalance, allowanceAmount, () => {
+        dispatch(
+          RenterActions.setAllowance.started({
+            allowance: allowanceAmount
+          })
+        )
+      })
     }
   }, [maxBalance, allowanceAmount])
 
@@ -102,7 +118,6 @@ export const AllowanceModal = (props: any) => {
         <Box width={6 / 18}>
           <InputNumber
             min={1}
-            max={maxBalance}
             style={{ marginRight: 16 }}
             value={allowanceAmount}
             onChange={e => typeof e === 'number' && setAllowanceAmount(e)}
