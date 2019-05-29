@@ -15,7 +15,7 @@ const bytes = require('bytes')
 const confirmAllowance = (balance, allowance, cb) => {
   Modal.confirm({
     title: 'Confirm Allowance',
-    content: `You currently have a balance of ${balance} which is below the allowance amount of ${allowance}. Continue?`,
+    content: `You currently have a balance of ${balance} which is below the allowance amount of ${allowance}. By setting an allowance, your Siacoin will be immediately spent on contracts once they are confirmed in your wallet. Continue?`,
     onOk() {
       cb()
     }
