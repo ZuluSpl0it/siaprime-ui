@@ -101,7 +101,7 @@ app.on('ready', () =>
         label: 'Quit',
         click: function() {
           mainWindow.isQuitting = true
-          mainWindow.quit()
+          app.quit()
         }
       }
     ])
