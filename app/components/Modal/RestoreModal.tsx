@@ -27,7 +27,7 @@ export const RestoreModal = (props: any) => {
     {
       url: '/renter/recoverbackup',
       method: 'POST',
-      // set timeout to 30min... backups can take awhile.
+      // set timeout to 30min just in case recovery takes a long time.
       timeout: 1e3 * 60 * 30,
       qs: {
         source: restoreName,
@@ -37,11 +37,10 @@ export const RestoreModal = (props: any) => {
     false
   )
 
-  const [recoveryScan, recoveryScanTrigger] = useSiad(
+  const [_, recoveryScanTrigger] = useSiad(
     {
       url: '/renter/recoveryscan',
-      method: 'POST',
-      timeout: 1e3 * 60 * 30
+      method: 'POST'
     },
     false
   )
@@ -110,7 +109,8 @@ export const RestoreModal = (props: any) => {
             <Text fontSize={2} fontWeight={3}>
               No backups were found. You may have to perform a recovery scan in order to retrieve
               active contracts found on the blockchain. You can do that by clicking the button
-              below.
+              below. If you have already performed a recovery scan, it may take up to 10 minutes to
+              find your snapshots.
             </Text>
           )}
           {!scanInProgress &&
