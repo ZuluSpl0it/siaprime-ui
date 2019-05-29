@@ -1,5 +1,5 @@
 import { RenterActions } from 'actions'
-import { InputNumber } from 'antd'
+import { InputNumber, Modal } from 'antd'
 import BigNumber from 'bignumber.js'
 import { Box, StyledTag, Text } from 'components/atoms'
 import { StyledModal } from 'components/atoms/StyledModal'

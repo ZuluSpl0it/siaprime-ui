@@ -22,7 +22,16 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
   timer: any = null
   state = {
     readyForMainView: false,
-    hasEntered: false
+    hasEntered: false,
+    daemonTimeout: false
+  }
+  componentDidMount() {
+    // wait a full 9 seconds before showing the daemon timeout screen
+    setTimeout(() => {
+      this.setState({
+        daemonTimeout: true
+      })
+    }, 9000)
   }
   handleEntered = () => {
     this.setState({
@@ -54,6 +63,7 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
             in={
               siad.loading ||
               (siad.isActive && siad.isFinishedLoading === null) ||
+              !this.state.daemonTimeout ||
               !this.state.hasEntered
             }
             onEntered={this.handleEntered}
@@ -62,6 +72,7 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
           {/* Conditional checks to see if we need to display a module loading logs */}
           {siad.isFinishedLoading !== null &&
             !siad.isFinishedLoading &&
+            this.state.daemonTimeout &&
             this.state.hasEntered &&
             siad.isActive && (
               <>
