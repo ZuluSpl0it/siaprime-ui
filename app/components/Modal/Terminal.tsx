@@ -1,6 +1,6 @@
 import { Button, Input, Modal } from 'antd'
 import { Box } from 'components/atoms'
-import { spawnSiac, createShell } from 'components/Modal/util'
+import { createShell } from 'components/Modal/util'
 import * as React from 'react'
 import styled from 'styled-components'
 import { Flex } from 'components/atoms/Flex'
