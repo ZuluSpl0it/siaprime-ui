@@ -72,6 +72,9 @@ export const GlobalStyle = createGlobalStyle`
 window.addEventListener('beforeunload', async e => {
   if (globalSiadProcess) {
     await siad.daemonStop()
+    // since the above is a promise, we can safely send SIGKILL after it
+    // returns.
+    globalSiadProcess.kill('SIGKILL')
   }
 })
 
