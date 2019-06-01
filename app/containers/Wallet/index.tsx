@@ -130,10 +130,10 @@ class Wallet extends React.Component<WalletProps, {}> {
     //   .toFixed(2)
     //   .toString()
 
-    const balanceWithSeperator = parseFloat(confirmedBalance).toLocaleString('en-US') + ' ' + 'SC'
+    const balanceWithSeperator = parseFloat(confirmedBalance).toLocaleString('en-US') + ' ' + 'SPC'
     const siafunds = parseInt(siafundBalance)
     const siafundBalanceWithSeperator =
-      parseFloat(siafundBalance).toLocaleString('en-US') + ' ' + 'SC'
+      parseFloat(siafundBalance).toLocaleString('en-US') + ' ' + 'SPC'
     return (
       <div>
         <BackupModel visible={this.state.backupModal} onOk={this.handleBackupModal} />
@@ -180,7 +180,7 @@ class Wallet extends React.Component<WalletProps, {}> {
               <Flex mx={2} pt={2} pb={3}>
                 {/* <Tag>${usdBalance} USD</Tag> */}
                 {!!parseFloat(unconfirmedBalance) && (
-                  <StyledTag>{unconfirmedBalance} SC (Unconfirmed)</StyledTag>
+                  <StyledTag>{unconfirmedBalance} SPC (Unconfirmed)</StyledTag>
                 )}
               </Flex>
             </Box>

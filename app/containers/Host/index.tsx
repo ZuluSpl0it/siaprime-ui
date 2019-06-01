@@ -265,7 +265,7 @@ class Host extends React.Component<RenterProps, {}> {
                         value: hastingsByteBlockToSCTBMonth(
                           hostConfig.internalsettings.collateral
                         ).toFixed(0),
-                        suffix: 'SC',
+                        suffix: 'SPC',
                         name: 'collateral'
                       },
                       {
@@ -273,7 +273,7 @@ class Host extends React.Component<RenterProps, {}> {
                         value: hastingsByteBlockToSCTBMonth(
                           hostConfig.externalsettings.storageprice
                         ).toFixed(0),
-                        suffix: 'SC',
+                        suffix: 'SPC',
                         name: 'storageprice'
                       },
                       {
@@ -281,7 +281,7 @@ class Host extends React.Component<RenterProps, {}> {
                         value: hastingsByteToSCTB(
                           hostConfig.externalsettings.downloadbandwidthprice
                         ).toFixed(0),
-                        suffix: 'SC',
+                        suffix: 'SPC',
                         name: 'downloadprice'
                       },
                       {
@@ -289,7 +289,7 @@ class Host extends React.Component<RenterProps, {}> {
                         value: hastingsByteToSCTB(
                           hostConfig.externalsettings.uploadbandwidthprice
                         ).toFixed(0),
-                        suffix: 'SC',
+                        suffix: 'SPC',
                         name: 'uploadprice'
                       }
                     ].map((x, i) => (

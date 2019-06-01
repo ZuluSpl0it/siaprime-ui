@@ -142,7 +142,7 @@ export namespace UIReducer {
       }
     })
     .case(GatewayActions.fetchGateway.failed, (state, payload) => {
-      if (payload.error.message.includes('siad is not ready')) {
+      if (payload.error.message.includes('spd is not ready')) {
         return {
           ...state,
           isFinishedLoading: false

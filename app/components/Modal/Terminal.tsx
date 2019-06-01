@@ -28,7 +28,7 @@ const PreWrap = styled(Box)`
 
 export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
   const [stdout, setState] = React.useState([
-    'Welcome to the Sia Terminal! Type `help` to see the available commands. Type `clear` to clear the screen.'
+    'Welcome to the SiaPrime Terminal! Type `help` to see the available commands. Type `clear` to clear the screen.'
   ])
   const [input, setInput] = React.useState('')
   return (
@@ -80,7 +80,7 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
                 setState([...stdout, result])
               }
             } catch (e) {
-              setState([`Error executing siac. Please contact the developers for help. ${e}`])
+              setState([`Error executing spc. Please contact the developers for help. ${e}`])
             }
           }}
         />

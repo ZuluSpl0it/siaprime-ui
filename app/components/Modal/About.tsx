@@ -17,10 +17,12 @@ export class AboutModal extends React.Component<AboutModalProps, {}> {
     shell.openItem(path)
   }
   render() {
+    // @ts-ignore
+    // @ts-ignore
     return (
       <div>
         <Modal
-          title="About Sia-UI"
+          title="About SiaPrime-UI"
           visible={this.props.visible}
           onOk={this.props.onOk}
           onCancel={this.props.onOk}
@@ -43,7 +45,7 @@ export class AboutModal extends React.Component<AboutModalProps, {}> {
             </Box>
             <Box width={1 / 2} alignSelf="stretch">
               <Box>
-                <Text fontWeight={6}>Sia UI</Text>
+                <Text fontWeight={6}>SiaPrime UI</Text>
                 <Text fontWeight={2}> (Draco)</Text>
               </Box>
               <Box>
@@ -51,7 +53,7 @@ export class AboutModal extends React.Component<AboutModalProps, {}> {
                 <Text is="div">Daemon: v1.4.0</Text>
               </Box>
               <Box pt={3}>
-                <Button onClick={this.openSiaDir}>Show Sia Data</Button>
+                <Button onClick={this.openSiaDir}>Show SiaPrime Data</Button>
               </Box>
               <Box />
             </Box>

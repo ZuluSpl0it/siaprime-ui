@@ -274,7 +274,7 @@ export const StyledTag = styled(Box)`
 
 export const StyledAutoComplete = styled(AutoComplete)<any>`
   .ant-input {
-    border: 1px solid ${(props: any) => (props.error ? 'red' : themeGet('colors.sia-green'))} !important;
+    border: 1px solid ${(props: any) => (props.error ? 'red' : themeGet('colors.siaprime-blue'))} !important;
   }
 `
 

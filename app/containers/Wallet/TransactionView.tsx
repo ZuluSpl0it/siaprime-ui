@@ -100,7 +100,7 @@ class TransactionView extends React.Component<Props, {}> {
                       />
                     </Box>
                     <Text fontSize="14px" fontWeight={500} color="mid-gray" ml="auto">
-                      {parseFloat(value).toLocaleString('en-US')} <Text color="gray">SC</Text>
+                      {parseFloat(value).toLocaleString('en-US')} <Text color="gray">SPC</Text>
                     </Text>
                   </Flex>
                 )

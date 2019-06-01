@@ -52,7 +52,7 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
             this.state.hasEntered &&
             siad.isActive && (
               <Text pt={3} width={200} textAlign="center">
-                Sia is not done loading the modules. It may take longer than expected.
+                SiaPrime is not done loading the modules. It may take longer than expected.
               </Text>
             )}
           {!siad.isActive && !siad.loading && this.state.readyForMainView && <OfflineState />}

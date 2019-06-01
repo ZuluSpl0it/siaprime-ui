@@ -34,11 +34,11 @@ const Metrics = () => (
       <Flex>
         <Flex width={1 / 2} mx={2}>
           <Card
-            title="Building on the Sia Platform"
+            title="Building on the SiaPrime Platform"
             style={{ alignSelf: 'stretch' }}
             extra={
               <ElectronLink
-                href="https://gitlab.com/NebulousLabs/Sia/blob/master/doc/API.md"
+                href="https://gitlab.com/SiaPrime/SiaPrime/blob/master/doc/API.md"
                 target="_blank"
               >
                 Docs
@@ -46,20 +46,20 @@ const Metrics = () => (
             }
           >
             <Text fontWeight={300} lineHeight="title">
-              Learn about how decentralized storage works on Sia. Leverage your understanding of
-              smart-contracts and blockchains to upload your first file through Sia.
+              Learn about how decentralized storage works on SiaPrime. Leverage your understanding of
+              smart-contracts and blockchains to upload your first file through SiaPrime.
             </Text>
           </Card>
         </Flex>
         <Flex width={1 / 2} mx={2}>
           <Card
-            title="Decentralized Youtube on Sia"
+            title="Decentralized Youtube on SiaPrime"
             style={{ alignSelf: 'stretch' }}
             extra={<a href="#">Learn</a>}
           >
             <Text fontWeight={300} lineHeight="title">
               Already a seasoned developer? Get your hands dirty and build a decentralized YouTube
-              clone using the Sia platform to serve video content!
+              clone using the Siaprime platform to serve video content!
             </Text>
           </Card>
         </Flex>
@@ -69,12 +69,12 @@ const Metrics = () => (
       <Flex>
         <Flex width={1 / 2} mx={2}>
           <Card
-            title="Building on the Sia Platform"
+            title="Building on the SiaPrime Platform"
             style={{ alignSelf: 'stretch' }}
             extra={<a href="#">Docs</a>}
           >
             <Text fontWeight={300} lineHeight="title">
-              Learn about how decentralized storage works on Sia. Leverage your understanding of
+              Learn about how decentralized storage works on SiaPrime. Leverage your understanding of
               smart-contracts and blockchains to build a cloud Plex-drive.
             </Text>
           </Card>
@@ -87,7 +87,7 @@ const Metrics = () => (
             </Flex>
             <Flex>
               <Stat content="50" title="Active Contracts" width={1 / 2} />
-              <Stat content="150 SC" title="Locked in Contracts" width={1 / 2} />
+              <Stat content="150 SPC" title="Locked in Contracts" width={1 / 2} />
             </Flex>
             {/* <Box mx={2}>
                         <Text>hi</Text>
@@ -100,12 +100,12 @@ const Metrics = () => (
       <Flex>
         <Flex width={1 / 2} mx={2}>
           <Card
-            title="Building on the Sia Platform"
+            title="Building on the SiaPrime Platform"
             style={{ alignSelf: 'stretch' }}
             extra={<a href="#">Docs</a>}
           >
             <Text fontWeight={300} lineHeight="title">
-              Learn about how decentralized storage works on Sia. Leverage your understanding of
+              Learn about how decentralized storage works on SiaPrime. Leverage your understanding of
               smart-contracts and blockchains to build a cloud Plex-drive.
             </Text>
           </Card>
@@ -118,7 +118,7 @@ const Metrics = () => (
             </Flex>
             <Flex>
               <Stat content="50" title="Active Contracts" width={1 / 2} />
-              <Stat content="150 SC" title="Locked in Contracts" width={1 / 2} />
+              <Stat content="150 SPC" title="Locked in Contracts" width={1 / 2} />
             </Flex>
             {/* <Box mx={2}>
                         <Text>hi</Text>
@@ -235,9 +235,9 @@ class Renter extends React.Component<RenterProps, State> {
         </Flex>
         <Flex>
           <Stat content={`${contracts.active}`} title="Contracts Active" width={1 / 4} />
-          <Stat content={`${totalAllocated} SC`} title="Total Allocated" width={1 / 4} />
-          <Stat content={`${totalSpent} SC`} title="Total Spent" width={1 / 4} />
-          <Stat content={`${storageSpending} SC`} title="Storage Spending" width={1 / 4} />
+          <Stat content={`${totalAllocated} SPC`} title="Total Allocated" width={1 / 4} />
+          <Stat content={`${totalSpent} SPC`} title="Total Spent" width={1 / 4} />
+          <Stat content={`${storageSpending} SPC`} title="Storage Spending" width={1 / 4} />
         </Flex>
         {contracts.active > 0 ? (
           <Box mx={2} pt={3}>

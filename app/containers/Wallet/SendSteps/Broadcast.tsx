@@ -45,10 +45,10 @@ class Broadcast extends React.Component<StateProps, {}> {
         <Flex>
           <Detail title="Status" content="Success" />
           <Detail title="Confirmed" content="Unconfirmed" />
-          <Detail title="Fees Paid" content={`${actualTx.totalMiner} SC`} />
+          <Detail title="Fees Paid" content={`${actualTx.totalMiner} SPC`} />
           <Detail
             title="Amount Transacted"
-            content={`${actualTransacted} SC ${selfTx ? '(Self Transaction)' : ''}`}
+            content={`${actualTransacted} SPC ${selfTx ? '(Self Transaction)' : ''}`}
           />
         </Flex>
         <Flex>

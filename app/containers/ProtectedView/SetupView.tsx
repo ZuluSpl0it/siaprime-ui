@@ -25,9 +25,9 @@ const confirm = Modal.info
 
 function showConfirm() {
   confirm({
-    title: 'Please Wait for Sia-UI to Sync',
+    title: 'Please Wait for SiaPrime-UI to Sync',
     content:
-      'Sia-UI must be fully synced with the network in order to restore your wallet. Sync status is displayed in the upper-right corner.',
+      'SiaPrime-UI must be fully synced with the network in order to restore your wallet. Sync status is displayed in the upper-right corner.',
     onOk() {}
   })
 }
@@ -74,7 +74,7 @@ class SetupView extends React.Component<Props, {}> {
         >
           <Box>
             <Text color="mid-gray" fontWeight={400} fontSize={6}>
-              Welcome to Sia
+              Welcome to SiaPrime
             </Text>
           </Box>
           <Flex width="300px" my={3} style={{ textAlign: 'center' }}>

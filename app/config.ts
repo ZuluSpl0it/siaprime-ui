@@ -12,18 +12,18 @@ const daemonPath = isProd
 // Setup the default path for Siad
 const defaultSiadPath = path.join(
   daemonPath,
-  `${process.platform === 'win32' ? 'siad.exe' : 'siad'}`
+  `${process.platform === 'win32' ? 'spd.exe' : 'spd'}`
 )
 
 const defaultSiacPath = path.join(
   daemonPath,
-  `${process.platform === 'win32' ? 'siac.exe' : 'siac'}`
+  `${process.platform === 'win32' ? 'spc.exe' : 'spc'}`
 )
 // Default config
 export const defaultConfig = {
   siad: {
     path: defaultSiadPath,
-    datadir: path.join(app.getPath('userData'), './sia')
+    datadir: path.join(app.getPath('userData'), './siaprime')
   },
   siac: {
     path: defaultSiacPath

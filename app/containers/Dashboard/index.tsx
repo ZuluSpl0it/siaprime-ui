@@ -47,13 +47,12 @@ class Dashboard extends React.Component<StateProps, {}> {
               <Flex alignItems="center" justifyContent="center" flexDirection="column" py={4}>
                 <Flex alignItems="center" justifyContent="center" flexDirection="column" pb={3}>
                   <Text is="div" fontSize="28px">
-                    Build on Sia
+                    Build on SiaPrime
                   </Text>
                   <Box width={3 / 5} style={{ textAlign: 'center' }}>
                     <Text is="div" fontSize={2} py={2} fontWeight={400}>
-                      Sia is the leading decentralized cloud storage platform. Private, redundant,
-                      fast, and affordable, Sia is great for backups and video streaming. Build your
-                      app on Sia today!
+                      SiaPrime is building the best business-class storage solution. Explore the API
+                      to build alternate interfaces and access the network.
                     </Text>
                   </Box>
                 </Flex>

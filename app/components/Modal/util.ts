@@ -4,12 +4,12 @@ import { defaultConfig } from 'config'
 export const spawnSiac = async (command: any) => {
   try {
     let args = command.split(' ')
-    if (args[0] === 'siac') {
+    if (args[0] === 'spc') {
       args = [...args.splice(1)]
     }
 
     const siac = spawnAsync(defaultConfig.siac.path, args, {
-      argv0: 'siac'
+      argv0: 'spc'
     })
     let { pid, stdout, stderr, status, signal } = await siac
 

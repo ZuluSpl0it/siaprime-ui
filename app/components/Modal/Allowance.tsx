@@ -84,11 +84,11 @@ export const AllowanceModal = (props: any) => {
       destroyOnClose
     >
       <Box py={3}>
-        <Text fontSize={3}>Rent storage on the Sia Network</Text>
+        <Text fontSize={3}>Rent storage on the SiaPrime Network</Text>
       </Box>
       <Box>
         <Text as="p">
-          To upload and download files on Sia, you must allocate funds in advance. Your allowance
+          To upload and download files on SiaPrime, you must allocate funds in advance. Your allowance
           will remain locked for 3 months, after which unspent funds are refunded to your wallet.
           You can increase your allowance at any time.
         </Text>
@@ -102,7 +102,7 @@ export const AllowanceModal = (props: any) => {
             value={allowanceAmount}
             onChange={e => typeof e === 'number' && setAllowanceAmount(e)}
           />
-          <Text>SC</Text>
+          <Text>SPC</Text>
         </Box>
         <Box width={12 / 18}>
           {rentStorage.error ? (
@@ -112,7 +112,7 @@ export const AllowanceModal = (props: any) => {
           ) : (
             <>
               <Box>
-                <Text>{storageEstimates.contractfees} SC</Text>{' '}
+                <Text>{storageEstimates.contractfees} SPC</Text>{' '}
                 <Text fontWeight={2}>Contract Fees</Text>
               </Box>
               <Box>

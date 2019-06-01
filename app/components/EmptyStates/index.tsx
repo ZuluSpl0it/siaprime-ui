@@ -21,7 +21,7 @@ export const ScanningState = () => (
   <EmptyState>
     <Box mx={2} pr={4} width={1 / 2}>
       <Text is="p" fontSize={5}>
-        The Sia Daemon is currently scanning the blockchain.
+        The SiaPrime Daemon is currently scanning the blockchain.
       </Text>
       <Text is="p" fontSize={3} fontWeight={400}>
         Please wait as we index your wallet and update the balance.
@@ -88,18 +88,18 @@ class OffState extends React.Component<DispatchProp> {
           </Box>
           <Box mx={2} width={1 / 3} style={{ textAlign: 'center' }}>
             <Text is="p" color="mid-gray" fontSize={3}>
-              {this.state.status === 'loading' ? 'Connecting' : 'Sia Daemon Unreachable'}
+              {this.state.status === 'loading' ? 'Connecting' : 'SiaPrime Daemon Unreachable'}
             </Text>
             {this.state.status !== 'loading' && (
               <Text is="p" color="silver" fontSize={2} maxWidth="300em">
-                It's likely the siad process crashed or was never started. Please start siad from
+                It's likely the spd process crashed or was never started. Please start siad from
                 your terminal or using the built-in daemon by clicking on the button below.
               </Text>
             )}
           </Box>
           {this.state.status !== 'loading' && (
             <Box>
-              <Button onClick={this.launchDaemon}>Launch Sia Daemon</Button>
+              <Button onClick={this.launchDaemon}>Launch SiaPrime Daemon</Button>
             </Box>
           )}
         </Flex>

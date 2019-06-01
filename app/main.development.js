@@ -58,7 +58,7 @@ app.on('ready', () =>
       x: mainWindowState.x,
       y: mainWindowState.y,
       autoHideMenuBar: true,
-      title: 'Sia Wallet Beta'
+      title: 'SiaPrime Wallet'
     })
     mainWindow = new BrowserWindow(browserWindowConfig)
     mainWindowState.manage(mainWindow)
@@ -89,10 +89,10 @@ app.on('ready', () =>
     if (process.platform === 'darwin') {
       template = [
         {
-          label: 'Sia-UI',
+          label: 'SiPrimea-UI',
           submenu: [
             {
-              label: 'About Sia-UI',
+              label: 'About SiaPrime-UI',
               selector: 'orderFrontStandardAboutPanel:'
             },
             {

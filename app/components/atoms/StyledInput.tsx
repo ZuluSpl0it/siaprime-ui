@@ -6,7 +6,7 @@ import { InputProps } from 'antd/lib/input'
 // TODO: not typed very well. Can get confusing.
 const inputStates = {
   error: themeGet('red'),
-  success: themeGet('sia-green')
+  success: themeGet('siaprime-blue')
 }
 
 type StyledInputProps = InputProps & { state?: 'error' | 'success' }

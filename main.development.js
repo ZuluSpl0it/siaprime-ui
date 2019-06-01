@@ -143,7 +143,7 @@ System.register('config', ['path', 'electron'], function(exports_1, context_1) {
       // Setup the default path for Siad
       defaultSiaPath = path.join(
         __dirname,
-        '../binaries/' + (process.platform === 'win32' ? 'siad.exe' : 'siad')
+        '../binaries/' + (process.platform === 'win32' ? 'spd.exe' : 'spd')
       )
       // Default config
       exports_1(
@@ -151,11 +151,11 @@ System.register('config', ['path', 'electron'], function(exports_1, context_1) {
         (defaultConfig = {
           siad: {
             path: defaultSiaPath,
-            datadir: path.join(electron_1.app.getPath('userData'), './sia'),
-            rpcaddr: ':9981',
-            hostaddr: ':9982',
+            datadir: path.join(electron_1.app.getPath('userData'), './siaprime'),
+            rpcaddr: ':4481',
+            hostaddr: ':4482',
             detchaed: false,
-            address: '127.0.0.1:9980'
+            address: '127.0.0.1:4480'
           }
         })
       )
@@ -220,29 +220,29 @@ System.register('utils/siadProcess', ['fs', 'config', 'sia.js'], function(export
                 case 2:
                   if (!_a.sent()) {
                     // do nothing but return
-                    console.log('sia path failed')
+                    console.log('siaprime path failed')
                     return [2 /*return*/]
                   }
                   try {
                     siadProcess = Sia.launch(siadConfig.path, {
-                      'sia-directory': siadConfig.datadir,
+                      'siaprime-directory': siadConfig.datadir,
                       'rpc-addr': siadConfig.rpcaddr,
                       'host-addr': siadConfig.hostaddr,
                       'api-addr': siadConfig.address,
                       modules: 'cghrtw'
                     })
                     siadProcess.on('error', function(e) {
-                      console.log('siad process err', e)
+                      console.log('spd process err', e)
                     })
                     siadProcess.on('close', function(e) {
-                      console.log('siad unexpected close', e)
+                      console.log('spd unexpected close', e)
                     })
                     siadProcess.on('exit', function(e) {
-                      console.log('siad unexpected exit', e)
+                      console.log('spd unexpected exit', e)
                     })
                     w.siadProcess = siadProcess
                   } catch (e) {
-                    console.log('error launching siad ', e)
+                    console.log('error launching spd ', e)
                   }
                   return [2 /*return*/]
               }
@@ -390,10 +390,10 @@ System.register('main.development', ['electron', 'utils/siadProcess'], function(
           if (process.platform === 'darwin') {
             template = [
               {
-                label: 'Sia-UI',
+                label: 'SiaPrime-UI',
                 submenu: [
                   {
-                    label: 'About Sia-UI',
+                    label: 'About SiaPrime-UI',
                     selector: 'orderFrontStandardAboutPanel:'
                   },
                   {

@@ -39,7 +39,7 @@ export const theme = {
     'moon-gray': '#ccc',
     'light-gray': '#eee',
     'near-white': '#f9f9f9',
-    'sia-green': '#1ED660',
+    'siaprime-blue': '#2074ee',
     almostwhite: '#fefdfd',
     white: '#fff',
     transparent: 'transparent',
@@ -87,7 +87,7 @@ export const dark = Object.assign({}, theme, {
     'moon-gray': '#ccc',
     'light-gray': '#333',
     'near-white': '#242424',
-    'sia-green': '#1ED660',
+    'siaprime-blue': '#2074ee',
     white: '#111',
     transparent: 'transparent',
     blacks: [

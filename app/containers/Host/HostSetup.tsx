@@ -9,7 +9,7 @@ class HostSetup extends React.Component {
     return (
       <Box>
         <Flex>
-          <Stat content="Hello" title="siacoin" width={1 / 3} />
+          <Stat content="Hello" title="siaprimecoin" width={1 / 3} />
         </Flex>
         <Box>
           <Box>
@@ -18,7 +18,7 @@ class HostSetup extends React.Component {
           <Flex alignItems="center">
             <Box pt={2}>
               <Text fontSize={3}>
-                Let's get started by choosing a folder to store your Sia data.
+                Let's get started by choosing a folder to store your SiaPrime data.
               </Text>
             </Box>
             <Box pt={3}>
