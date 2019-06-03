@@ -41,7 +41,12 @@ export const dark = Object.assign({}, theme, {
       'rgba(255,255,255,.7)',
       'rgba(255,255,255,.8)',
       'rgba(255,255,255,.9)'
-    ]
+    ],
     // ... and so on
+    // input
+    'input-bg': 'rgba(0,0,0,.5)',
+    'input-border': 'rgba(0,0,0,.8)',
+    // text
+    text: '#fefefe'
   }
 })

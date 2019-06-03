@@ -7,7 +7,7 @@ import StepHeader from './StepHeader'
 
 export const Detail = ({ title, content }: any) => (
   <Box mb={3} mr={3}>
-    <Text is="div" color="mid-gray" fontSize={0} lineHeight="20px">
+    <Text is="div" fontSize={0} lineHeight="20px">
       {title}
     </Text>
     <Text is="div">{content}</Text>

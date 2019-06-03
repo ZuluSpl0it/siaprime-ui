@@ -1,5 +1,5 @@
 import { RenterActions } from 'actions'
-import { InputNumber, Modal } from 'antd'
+import { InputNumber, Modal, Tabs } from 'antd'
 import BigNumber from 'bignumber.js'
 import { Box, Text } from 'components/atoms'
 import { RenterModel } from 'models'
@@ -9,6 +9,9 @@ import { IndexState } from 'reducers'
 import { useDispatch, useMappedState } from 'redux-react-hook'
 import { toHastings, toSiacoins } from 'sia-typescript'
 import { StyledModal } from 'components/atoms/StyledModal'
+import { TextInput } from 'components/Forms/Inputs'
+import { StyledTabs } from 'components/atoms/StyledTabs'
+import { Grid } from 'components/atoms/Grid'
 
 const bytes = require('bytes')
 
@@ -80,21 +83,47 @@ export const AllowanceModal = (props: any) => {
     <StyledModal
       {...props}
       onOk={createAllowance}
+      title="Rent Storage on the Sia Network"
       okButtonDisabled={rentStorage.error}
       onCancel={closeModal}
       destroyOnClose
     >
-      <Box py={3}>
-        <Text fontSize={3}>Rent storage on the Sia Network</Text>
+      <Box>
+        <StyledTabs defaultActiveKey="1" tabPosition="left">
+          <Tabs.TabPane tab="Required" key="1">
+            <Box pb={3}>
+              <Text color="near-black">
+                To upload and download files on Sia, you must allocate funds in advance.
+              </Text>
+            </Box>
+            <Box>
+              <TextInput label="Allowance" />
+              <TextInput label="Expected Storage" />
+            </Box>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Advanced" key="2">
+            <Box pb={3}>
+              <Text color="near-black">
+                By setting accurate advanced settings, Sia can better manage your contracts and
+                provide you with an optimized storage experience.
+              </Text>
+            </Box>
+            <Box>
+              <Grid gridTemplateColumns="1fr 1fr" gridGap={2}>
+                <TextInput label="Period" />
+                <TextInput label="Hosts" />
+              </Grid>
+              <TextInput label="Renew Window" />
+              <Grid gridTemplateColumns="1fr 1fr" gridGap={2}>
+                <TextInput label="Expected Download" />
+                <TextInput label="Expected Upload" />
+              </Grid>
+              <TextInput label="Expected Redundancy" />
+            </Box>
+          </Tabs.TabPane>
+        </StyledTabs>
       </Box>
-      <Box pb={3}>
-        <Text color="near-black">
-          To upload and download files on Sia, you must allocate funds in advance. Your allowance
-          will remain locked for 3 months, after which unspent funds are refunded to your wallet.
-          You can increase your allowance at any time.
-        </Text>
-      </Box>
-      <Flex>
+      {/* <Flex>
         <Box width={6 / 18}>
           <InputNumber
             min={1}
@@ -122,8 +151,8 @@ export const AllowanceModal = (props: any) => {
             </>
           )}
         </Box>
-      </Flex>
-      <Box>{errorMessage && <Text color="red">{errorMessage} </Text>}</Box>
+      </Flex> */}
+      {/* <Box>{errorMessage && <Text color="red">{errorMessage} </Text>}</Box> */}
     </StyledModal>
   )
 }
