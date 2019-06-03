@@ -5,6 +5,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { hashrateParser } from 'lib/hashrateParser'
 import { StyledIcon } from 'components/atoms/StyledIcon'
+import { StyledTooltip } from 'components/atoms/StyledTooltip'
 
 const BoldText = ({ children }: any) => (
   <Text fontWeight={600} color="text-light">

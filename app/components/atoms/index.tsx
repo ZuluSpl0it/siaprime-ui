@@ -42,7 +42,7 @@ export const Card = styled(Box)`
 Card.defaultProps = {
   p: 3,
   borderRadius: 2,
-  bg: 'white'
+  bg: 'card-bg'
 }
 
 export const Text = system(

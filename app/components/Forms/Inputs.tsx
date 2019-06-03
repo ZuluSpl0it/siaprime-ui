@@ -17,7 +17,7 @@ export const InputFactory: <T>(
 ) => ({ type = 'text', id, label, error, onChange, onBlur, value, ...props }) => {
   return (
     <Box py={2}>
-      <Text display="block" fontSize={0} mb={1} as="label" htmlFor={id}>
+      <Text display="block" mb={1} as="label" htmlFor={id}>
         {label}
       </Text>
       <Component

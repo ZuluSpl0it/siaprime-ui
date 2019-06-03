@@ -17,7 +17,7 @@ export const StyledModal = styled(Modal)<ModalProps & { children: any }>`
     background: ${themeGet('colors.white')};
   }
   .ant-modal-header {
-    background: ${themeGet('colors.white')};
+    background: ${themeGet('colors.modal-header-bg')};
     border-bottom: none;
   }
 `

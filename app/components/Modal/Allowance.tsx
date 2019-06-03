@@ -118,7 +118,6 @@ export const AllowanceModal = (props: any) => {
                 <TextInput label="Expected Download" />
                 <TextInput label="Expected Upload" />
               </Grid>
-              <TextInput label="Expected Redundancy" />
             </Box>
           </Tabs.TabPane>
         </StyledTabs>
