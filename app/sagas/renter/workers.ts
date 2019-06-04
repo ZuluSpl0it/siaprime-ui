@@ -1,7 +1,7 @@
 import { GlobalActions, RenterActions } from 'actions'
 import { siad } from 'api/siad'
 import { SagaIterator } from 'redux-saga'
-import { call, put } from 'redux-saga/effects'
+import { call, put, spawn } from 'redux-saga/effects'
 import { toHastings } from 'sia-typescript'
 import { bindAsyncAction } from 'typescript-fsa-redux-saga'
 
@@ -25,6 +25,7 @@ export const setAllowanceWorker = bindAsyncAction(RenterActions.setAllowance, {
         type: 'open'
       })
     )
+    yield spawn(getRenterWorker)
     return response
   } catch (e) {
     yield put(
