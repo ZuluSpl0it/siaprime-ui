@@ -5,26 +5,17 @@ import { call, put } from 'redux-saga/effects'
 import { toHastings } from 'sia-typescript'
 import { bindAsyncAction } from 'typescript-fsa-redux-saga'
 
-// TODO: take these values from the renter. At the moment these are set to the
-// default settings for the renter, taken from the old Sia-UI.
-export const blockMonth = 4320
-export const allowanceMonths = 3
-export const allowancePeriod = blockMonth * allowanceMonths
-
 // Worker that posts to the /renter endpoint to set the allowance. At completion
 // it will spawn a notification.
 export const setAllowanceWorker = bindAsyncAction(RenterActions.setAllowance, {
   skipStartedAction: true
 })(function*(params): SagaIterator {
   try {
-    const allowance = params.allowance
-    const hastings = toHastings(allowance).toString()
     const response = yield call(siad.call, {
       url: '/renter',
       method: 'POST',
       qs: {
-        funds: hastings,
-        period: allowancePeriod
+        ...params
       }
     })
     yield put(

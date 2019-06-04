@@ -47,6 +47,10 @@ export namespace RenterModel {
         hosts: number
         period: number
         renewwindow: number
+        expectedstorage: number
+        expectedupload: number
+        expecteddownload: number
+        expectedredundancy: number
       }
       maxuploadseed: number
       maxdownloadspeed: number

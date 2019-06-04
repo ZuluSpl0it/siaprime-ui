@@ -25,4 +25,12 @@ export const StyledInput = styled(Input)<StyledInputProps>`
 
 export const StyledInputPassword = styled(Input.Password)``
 
-export const StyledInputGroup = styled(Input)``
+export const StyledInputGroup = styled(Input)`
+  .ant-input-group,
+  &.ant-input-affix-wrapper {
+    input,
+    .ant-input {
+      ${inputStyles}
+    }
+  }
+`

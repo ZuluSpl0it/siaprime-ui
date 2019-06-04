@@ -40,8 +40,8 @@ class BM extends React.Component<AboutModalProps & StateProps & DispatchProp, {}
               <Button key="copy" type="dashed" onClick={this.handleCopy}>
                 <Icon type="copy" />
               </Button>,
-              <StyledButton key="submit" type="ghost" onClick={this.props.onOk}>
-                Finish
+              <StyledButton key="submit" type="default" onClick={this.props.onOk}>
+                OK
               </StyledButton>
             ]}
           >
