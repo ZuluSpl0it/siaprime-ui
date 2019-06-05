@@ -1,22 +1,19 @@
-const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron')
+const { app, BrowserWindow, Menu, shell, Tray } = require('electron')
 const windowStateKeeper = require('electron-window-state')
-// const { shutdown, initSiad } = require('./utils/siadProcess')
 const defaultConfig = require('./config')
+const path = require('path')
 
 let menu
 let template
 let mainWindow = null
 
-// require('electron-reload')(defaultConfig.userConfigPath)
+// Useful dynamic env constants
+const isDev = process.env.NODE_ENV === 'development'
+const isDarwin = process.platform === 'darwin'
+const isWindows = process.platform === 'win32'
 
-// if (process.env.NODE_ENV === 'production') {
-//   const sourceMapSupport = require('source-map-support') // eslint-disable-line
-//   sourceMapSupport.install()
-// }
-
-if (process.env.NODE_ENV === 'development') {
+if (isDev) {
   require('electron-debug')() // eslint-disable-line global-require
-  const path = require('path') // eslint-disable-line
   const p = path.join(__dirname, '..', 'app', 'node_modules') // eslint-disable-line
   require('module').globalPaths.push(p) // eslint-disable-line
 }
@@ -25,12 +22,8 @@ app.on('window-all-closed', () => {
   app.quit()
 })
 
-// app.on('before-quit', () => {
-//   console.log('err ello')
-// })
-
 const installExtensions = () => {
-  if (process.env.NODE_ENV === 'development') {
+  if (isDev) {
     const installer = require('electron-devtools-installer') // eslint-disable-line global-require
     const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS']
     const forceDownload = !!process.env.UPGRADE_EXTENSIONS
@@ -50,10 +43,12 @@ const windowConfig =
 
 app.on('ready', () =>
   installExtensions().then(() => {
+    // Keep the window state for app relaunch
     let mainWindowState = windowStateKeeper({
       defaultWidth: 1200,
       defaultHeight: 780
     })
+    // Setup the browser window and create the app
     const browserWindowConfig = Object.assign({}, windowConfig, {
       show: false,
       width: mainWindowState.width,
@@ -61,10 +56,26 @@ app.on('ready', () =>
       x: mainWindowState.x,
       y: mainWindowState.y,
       autoHideMenuBar: true,
-      title: 'Sia Wallet Beta'
+      title: 'Sia Wallet'
     })
     mainWindow = new BrowserWindow(browserWindowConfig)
     mainWindowState.manage(mainWindow)
+
+    // Setup close to tray settings for both minimize and close events.
+    mainWindow.on('minimize', e => {
+      app.dock.hide()
+      mainWindow.hide()
+      return false
+    })
+
+    mainWindow.on('close', e => {
+      if (!mainWindow.isQuitting) {
+        e.preventDefault()
+        app.dock.hide()
+        mainWindow.hide()
+      }
+      return false
+    })
 
     mainWindow.loadURL(`file://${__dirname}/app.html`)
 
@@ -73,7 +84,33 @@ app.on('ready', () =>
       mainWindow.focus()
     })
 
-    if (process.env.NODE_ENV === 'development' || defaultConfig.debugMode) {
+    const iconName = isWindows ? 'trayWin.png' : 'trayTemplate.png'
+    const iconPath = isDev
+      ? path.join(process.cwd(), 'resources', iconName)
+      : path.join(app.getAppPath(), 'resources', iconName)
+    const appIcon = new Tray(iconPath)
+    const trayContextMenu = Menu.buildFromTemplate([
+      {
+        label: 'Show App',
+        click: function() {
+          app.dock.show()
+          mainWindow.show()
+        }
+      },
+      {
+        label: 'Quit',
+        click: function() {
+          mainWindow.isQuitting = true
+          app.quit()
+        }
+      }
+    ])
+
+    appIcon.setToolTip('Sia-UI syncs the daemon in the background.')
+    appIcon.setContextMenu(trayContextMenu)
+    mainWindow.tray = appIcon
+
+    if (isDev || defaultConfig.debugMode) {
       mainWindow.openDevTools()
       mainWindow.webContents.on('context-menu', (e, props) => {
         const { x, y } = props
@@ -89,7 +126,7 @@ app.on('ready', () =>
       })
     }
 
-    if (process.platform === 'darwin') {
+    if (isDarwin) {
       template = [
         {
           label: 'Sia-UI',
@@ -174,40 +211,39 @@ app.on('ready', () =>
         },
         {
           label: 'View',
-          submenu:
-            process.env.NODE_ENV === 'development'
-              ? [
-                  {
-                    label: 'Reload',
-                    accelerator: 'Command+R',
-                    click() {
-                      mainWindow.webContents.reload()
-                    }
-                  },
-                  {
-                    label: 'Toggle Full Screen',
-                    accelerator: 'Ctrl+Command+F',
-                    click() {
-                      mainWindow.setFullScreen(!mainWindow.isFullScreen())
-                    }
+          submenu: isDev
+            ? [
+                {
+                  label: 'Reload',
+                  accelerator: 'Command+R',
+                  click() {
+                    mainWindow.webContents.reload()
                   }
-                ]
-              : [
-                  {
-                    label: 'Toggle Developer Tools',
-                    accelerator: 'Command+Shift+I',
-                    click() {
-                      mainWindow.toggleDevTools()
-                    }
-                  },
-                  {
-                    label: 'Toggle Full Screen',
-                    accelerator: 'Ctrl+Command+F',
-                    click() {
-                      mainWindow.setFullScreen(!mainWindow.isFullScreen())
-                    }
+                },
+                {
+                  label: 'Toggle Full Screen',
+                  accelerator: 'Ctrl+Command+F',
+                  click() {
+                    mainWindow.setFullScreen(!mainWindow.isFullScreen())
                   }
-                ]
+                }
+              ]
+            : [
+                {
+                  label: 'Toggle Developer Tools',
+                  accelerator: 'Command+Shift+I',
+                  click() {
+                    mainWindow.toggleDevTools()
+                  }
+                },
+                {
+                  label: 'Toggle Full Screen',
+                  accelerator: 'Ctrl+Command+F',
+                  click() {
+                    mainWindow.setFullScreen(!mainWindow.isFullScreen())
+                  }
+                }
+              ]
         },
         {
           label: 'Window',
@@ -284,40 +320,39 @@ app.on('ready', () =>
         },
         {
           label: '&View',
-          submenu:
-            process.env.NODE_ENV === 'development'
-              ? [
-                  {
-                    label: '&Reload',
-                    accelerator: 'Ctrl+R',
-                    click() {
-                      mainWindow.webContents.reload()
-                    }
-                  },
-                  {
-                    label: 'Toggle &Full Screen',
-                    accelerator: 'F11',
-                    click() {
-                      mainWindow.setFullScreen(!mainWindow.isFullScreen())
-                    }
+          submenu: isDev
+            ? [
+                {
+                  label: '&Reload',
+                  accelerator: 'Ctrl+R',
+                  click() {
+                    mainWindow.webContents.reload()
                   }
-                ]
-              : [
-                  {
-                    label: 'Toggle &Full Screen',
-                    accelerator: 'F11',
-                    click() {
-                      mainWindow.setFullScreen(!mainWindow.isFullScreen())
-                    }
-                  },
-                  {
-                    label: 'Toggle &Developer Tools',
-                    accelerator: 'Alt+Ctrl+I',
-                    click() {
-                      mainWindow.toggleDevTools()
-                    }
+                },
+                {
+                  label: 'Toggle &Full Screen',
+                  accelerator: 'F11',
+                  click() {
+                    mainWindow.setFullScreen(!mainWindow.isFullScreen())
                   }
-                ]
+                }
+              ]
+            : [
+                {
+                  label: 'Toggle &Full Screen',
+                  accelerator: 'F11',
+                  click() {
+                    mainWindow.setFullScreen(!mainWindow.isFullScreen())
+                  }
+                },
+                {
+                  label: 'Toggle &Developer Tools',
+                  accelerator: 'Alt+Ctrl+I',
+                  click() {
+                    mainWindow.toggleDevTools()
+                  }
+                }
+              ]
         },
         {
           label: 'Help',

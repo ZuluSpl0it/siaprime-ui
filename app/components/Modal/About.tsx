@@ -8,6 +8,7 @@ import * as React from 'react'
 import * as path from 'path'
 import { siad } from 'api/siad'
 import { StyledModal } from 'components/atoms/StyledModal'
+import { version } from 'package.json'
 
 interface AboutModalProps {
   visible: boolean
@@ -103,13 +104,12 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
                 Sia UI
               </Text>
               <Text fontSize={3} fontWeight={2}>
-                {' '}
                 (Draco)
               </Text>
             </Box>
             <Box py={2}>
               <Text fontSize={2} is="div">
-                UI: v1.4.1
+                UI: {version}
               </Text>
               <Text fontSize={2} is="div">
                 Daemon: {versionInfo.version}
