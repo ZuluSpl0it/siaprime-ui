@@ -57,18 +57,6 @@ module.exports = merge(baseConfig, {
         ],
         exclude: /node_modules/
       },
-      {
-        test: /\.global\.css$/,
-        use: ['style-loader', 'css-loader?sourceMap']
-      },
-
-      {
-        test: /^((?!\.global).)*\.css$/,
-        use: [
-          'style-loader',
-          'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
-        ]
-      },
 
       // Add SASS support  - compile all .global.scss files and pipe it to style.css
       {
