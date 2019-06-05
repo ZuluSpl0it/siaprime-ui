@@ -40,19 +40,16 @@ export const BackupModal = (props: any) => {
         loading: true
       })
       const response = await siad.call({
-        url: '/renter/backup',
+        url: '/renter/backups/create',
         method: 'POST',
-        // set timeout to 30min... backups can take awhile.
-        timeout: 1e3 * 60 * 30,
         qs: {
           // destination is basically the name of the backup. it's set this way
           // to be backwards compatible with non-remote backups.
-          destination: backupName,
-          // we set remote to true by default in the UI.
-          remote: true
+          name: backupName
         }
       })
       setResults({ response, error: null, loading: false })
+      closeModal()
     } catch (e) {
       setResults({ response: null, error: e, loading: false })
     }

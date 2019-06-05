@@ -1,17 +1,18 @@
 import { Button, Modal, Progress } from 'antd'
 import { siad } from 'api/siad'
-import { Box, Text } from 'components/atoms'
+import { Box, Text, Caps, Flex } from 'components/atoms'
 import * as moment from 'moment'
 import * as React from 'react'
-import { Flex } from 'rebass'
 import { useSiad } from 'hooks'
 import { useConsensus } from 'hooks/reduxHooks'
 import { StyledModal } from 'components/atoms/StyledModal'
+import { StyledProgress } from 'components/atoms/StyledProgress'
 
 interface BackupObject {
   name: string
   creationdate: number
   size: number
+  uploadprogress: number
 }
 
 // RestoreModal shows the available backups that exists from the contracts.
@@ -21,17 +22,17 @@ interface BackupObject {
 export const RestoreModal = (props: any) => {
   const { closeModal, fileNav } = props
   const consensus = useConsensus()
-  const [backups, _] = useSiad('/renter/uploadedbackups')
+  const [backups, backupTrigger] = useSiad('/renter/backups')
+
   const [restoreName, setRestoreName] = React.useState('')
   const [restore, restoreTrigger] = useSiad(
     {
-      url: '/renter/recoverbackup',
+      url: '/renter/backups/restore',
       method: 'POST',
       // set timeout to 30min just in case recovery takes a long time.
       timeout: 1e3 * 60 * 30,
       qs: {
-        source: restoreName,
-        remote: true
+        name: restoreName
       }
     },
     false
@@ -48,12 +49,28 @@ export const RestoreModal = (props: any) => {
   const [recoveryScanProgress, rspTrigger] = useSiad('/renter/recoveryscan')
 
   React.useEffect(() => {
+    if (restoreName) {
+      restoreTrigger()
+    }
+  }, [restoreName])
+
+  React.useEffect(() => {
+    setRestoreName('')
+    rspTrigger()
+    backupTrigger()
     const pollRSP = setInterval(() => {
       rspTrigger()
     }, 3000)
 
-    return () => clearInterval(pollRSP)
-  }, [])
+    const pollBackups = setInterval(() => {
+      backupTrigger()
+    }, 30000)
+
+    return () => {
+      clearInterval(pollRSP)
+      clearInterval(pollBackups)
+    }
+  }, [props.visible])
 
   const scanInProgress =
     (recoveryScanProgress.response && recoveryScanProgress.response.scaninprogress) || false
@@ -113,44 +130,52 @@ export const RestoreModal = (props: any) => {
               find your snapshots.
             </Text>
           )}
-          {!scanInProgress &&
-            !backups.loading &&
-            !backups.error &&
-            (backups.response as BackupObject[])
-              .sort((a, b) => b.creationdate - a.creationdate)
-              .map(x => {
-                return (
-                  <Flex
-                    key={x.name + x.creationdate}
-                    justifyContent="space-between"
-                    alignItems="center"
-                    mb={3}
-                  >
-                    <Box>
-                      <Box>
-                        <Text color="mid-gray">
+          <Box height={250} overflow="auto">
+            {!scanInProgress &&
+              !backups.loading &&
+              !backups.error &&
+              (backups.response.backups as BackupObject[])
+                .sort((a, b) => b.creationdate - a.creationdate)
+                .map(x => {
+                  return (
+                    <Flex
+                      key={x.name + x.creationdate}
+                      justifyContent="space-between"
+                      alignItems="center"
+                      py={2}
+                    >
+                      <Box width={100}>
+                        {/* <Box>
+                        <Caps fontSize={0} color="text-subdued">
                           {moment.unix(x.creationdate).format('MMM Do YY')}
-                        </Text>
+                        </Caps>
+                      </Box> */}
+                        <Box>
+                          <Text fontSize={2}>{x.name}</Text>
+                        </Box>
                       </Box>
-                      <Box>
-                        <Text fontSize={2}>{x.name}</Text>
+                      <Box width={200} ml="auto" mr="auto">
+                        <StyledProgress
+                          percent={x.uploadprogress}
+                          showInfo={false}
+                          status={x.uploadprogress < 100 ? 'active' : 'success'}
+                        />
                       </Box>
-                    </Box>
-                    <Box>
-                      <Button
-                        onClick={() => {
-                          setRestoreName(x.name)
-                          restoreTrigger()
-                        }}
-                        loading={restoreName === x.name}
-                        disabled={restore.loading}
-                      >
-                        Restore
-                      </Button>
-                    </Box>
-                  </Flex>
-                )
-              })}
+                      <Box width={100}>
+                        <Button
+                          onClick={() => {
+                            setRestoreName(x.name)
+                          }}
+                          loading={restoreName === x.name && restore.loading}
+                          disabled={restore.loading || x.uploadprogress < 100}
+                        >
+                          Restore
+                        </Button>
+                      </Box>
+                    </Flex>
+                  )
+                })}
+          </Box>
         </Box>
       </Box>
     </StyledModal>
