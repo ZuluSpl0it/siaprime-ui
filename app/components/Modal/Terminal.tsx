@@ -23,10 +23,11 @@ const OuterPreWrap = styled(Box)`
 const PreWrap = styled(Box)`
   width: 100%;
   pre {
-    font-size: 10px;
+    font-size: 11px;
     white-space: pre-wrap;
     word-wrap: break-word;
-    color: ${themeGet('colors.near-black')};
+    font-weight: 400;
+    color: ${themeGet('colors.text')};
   }
 `
 
