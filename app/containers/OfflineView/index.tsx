@@ -11,8 +11,9 @@ import { UIReducer } from 'reducers/ui'
 import { createStructuredSelector } from 'reselect'
 import { selectSiadState } from 'selectors'
 import { GlobalActions } from 'actions'
-import { themeGet } from 'styled-system'
 import { PreWrap } from 'components/Modal'
+import styled from 'styled-components'
+import { themeGet } from 'styled-system'
 
 interface StateProps {
   siad: UIReducer.SiadState
@@ -22,7 +23,16 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
   timer: any = null
   state = {
     readyForMainView: false,
-    hasEntered: false
+    hasEntered: false,
+    daemonTimeout: false
+  }
+  componentDidMount() {
+    // wait a full 9 seconds before showing the daemon timeout screen
+    setTimeout(() => {
+      this.setState({
+        daemonTimeout: true
+      })
+    }, 9000)
   }
   handleEntered = () => {
     this.setState({
@@ -36,6 +46,9 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
   }
   render() {
     const { siad } = this.props
+    const StyledPre = styled.pre`
+      color: ${themeGet('colors.near-black')};
+    `
     return (
       <DragContiner>
         <LoadingScreenHeader />
@@ -51,6 +64,7 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
             in={
               siad.loading ||
               (siad.isActive && siad.isFinishedLoading === null) ||
+              !this.state.daemonTimeout ||
               !this.state.hasEntered
             }
             onEntered={this.handleEntered}
@@ -59,6 +73,7 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
           {/* Conditional checks to see if we need to display a module loading logs */}
           {siad.isFinishedLoading !== null &&
             !siad.isFinishedLoading &&
+            this.state.daemonTimeout &&
             this.state.hasEntered &&
             siad.isActive && (
               <>
@@ -81,10 +96,10 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
                   </Box>
                   <PreWrap py={3} height={300}>
                     {siad.stdout.map(l => (
-                      <pre>{l}</pre>
+                      <StyledPre>{l}</StyledPre>
                     ))}
                     {siad.stderr.map(l => (
-                      <pre>{l}</pre>
+                      <StyledPre>{l}</StyledPre>
                     ))}
                   </PreWrap>
                 </Box>

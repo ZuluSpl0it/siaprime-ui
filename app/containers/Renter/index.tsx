@@ -323,27 +323,18 @@ class Renter extends React.Component<RenterProps, State> {
                   It looks like you don't have any contracts yet.
                 </Text>
               </Box>
-              {parseFloat(confirmedBalance) > 0 ? (
-                <Flex>
-                  <Box>
-                    <StyledButton onClick={this.openAllowanceModal} type="ghost" size="large">
-                      Setup Allowance
-                    </StyledButton>
-                  </Box>
-                  <Box pl={2}>
-                    <StyledButton onClick={this.openRestoreModal} type="ghost" size="large">
-                      Restore Files
-                    </StyledButton>
-                  </Box>
-                </Flex>
-              ) : (
-                <Box my={3}>
-                  <Text color="mid-gray" fontSize={3}>
-                    Please send Siacoin to your wallet or wait for your pending transactions to
-                    confirm.
-                  </Text>
+              <Flex>
+                <Box>
+                  <StyledButton onClick={this.openAllowanceModal} type="ghost" size="large">
+                    Setup Allowance
+                  </StyledButton>
                 </Box>
-              )}
+                <Box pl={2}>
+                  <StyledButton onClick={this.openRestoreModal} type="ghost" size="large">
+                    Restore Files
+                  </StyledButton>
+                </Box>
+              </Flex>
             </Flex>
           </Flex>
         )}
