@@ -164,6 +164,8 @@ export namespace RenterActions {
   export const restoreBackup = renterActionCreator.async<{ source: string }, void, APIModel.Error>(
     'RESTORE_BACKUP'
   )
+  // this action will call the /uploaded/backups endpoint and return the data to the reducer to handle.
+  export const listBackups = renterActionCreator.async<void, any, APIModel.Error>('LIST_BACKUPS')
 }
 
 export * from './wallet'

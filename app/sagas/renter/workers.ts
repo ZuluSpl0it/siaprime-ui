@@ -72,7 +72,8 @@ export const createBackupWorker = bindAsyncAction(RenterActions.createBackup, {
     url: '/renter/backup',
     method: 'POST',
     qs: {
-      destination: payload.destination
+      destination: payload.destination,
+      remote: true
     }
   })
   return response
@@ -90,5 +91,12 @@ export const restoreBackupWorker = bindAsyncAction(RenterActions.restoreBackup, 
       source: payload.source
     }
   })
+  return response
+})
+
+export const listBackupWorker = bindAsyncAction(RenterActions.listBackups, {
+  skipStartedAction: true
+})(function*(): SagaIterator {
+  const response = yield call(siad.call, '/renter/uploadedbackups')
   return response
 })

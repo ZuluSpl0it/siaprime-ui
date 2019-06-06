@@ -76,6 +76,10 @@ export default class fManager extends React.Component {
       <div style={{ height: 'calc(100vh - 300px)' }}>
         <ThemedManager>
           <FileNavigator
+            // this passes the filenav ref back to the parent component so the api
+            // is exposed. kind of an anti-pattern, but this will have to do for
+            // now.
+            ref={this.props.getFileNavRef}
             id="filemanager-1"
             initialResourceId="root"
             api={connectorNodeV1.api}
