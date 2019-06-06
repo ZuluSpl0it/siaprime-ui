@@ -1,6 +1,5 @@
 import { theme } from './index'
-
-const blacks = ['#202124', '#292C2F', '#3A3E42', '#5D6069', '#90939E']
+import { blacks } from './colors'
 
 export const dark = Object.assign({}, theme, {
   colors: {
@@ -18,7 +17,7 @@ export const dark = Object.assign({}, theme, {
     white: '#292C2F',
     transparent: 'transparent',
     // colors
-    blacks,
+    blacks: blacks,
     // base
     bg: blacks[0],
     'sidebar-bg': blacks[1],
