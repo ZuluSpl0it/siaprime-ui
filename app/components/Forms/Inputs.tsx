@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Box, Text } from 'components/atoms'
-import { StyledInput, StyledInputPassword } from 'components/atoms/StyledInput'
+import { StyledInput, StyledInputPassword, StyledInputGroup } from 'components/atoms/StyledInput'
 
 interface InputFieldProps {
   type?: string
@@ -17,9 +17,11 @@ export const InputFactory: <T>(
 ) => ({ type = 'text', id, label, error, onChange, onBlur, value, ...props }) => {
   return (
     <Box py={2}>
-      <Text display="block" fontSize={0} mb={1} as="label" htmlFor={id}>
-        {label}
-      </Text>
+      <Box mb={1}>
+        <Text fontSize={1} display="block" mb={1}>
+          {label}
+        </Text>
+      </Box>
       <Component
         state={error && 'error'}
         id={id}
@@ -38,4 +40,5 @@ export const InputFactory: <T>(
 }
 
 export const TextInput = InputFactory(StyledInput)
+export const TextInputGroup = InputFactory(StyledInputGroup)
 export const PasswordInput = InputFactory(StyledInputPassword)

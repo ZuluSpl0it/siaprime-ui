@@ -1,4 +1,7 @@
 import { theme } from './index'
+
+const blacks = ['#202124', '#292C2F', '#3A3E42', '#5D6069', '#90939E']
+
 export const dark = Object.assign({}, theme, {
   colors: {
     black: '#000',
@@ -14,34 +17,22 @@ export const dark = Object.assign({}, theme, {
     'sia-green': '#1ED660',
     white: '#292C2F',
     transparent: 'transparent',
-    blacks: [
-      'rgba(0,0,0,.0125)',
-      'rgba(0,0,0,.025)',
-      'rgba(0,0,0,.05)',
-      'rgba(0,0,0,.1)',
-      'rgba(0,0,0,.2)',
-      'rgba(0,0,0,.3)',
-      'rgba(0,0,0,.4)',
-      'rgba(0,0,0,.5)',
-      'rgba(0,0,0,.6)',
-      'rgba(0,0,0,.7)',
-      'rgba(0,0,0,.8)',
-      'rgba(0,0,0,.9)'
-    ],
-    whites: [
-      'rgba(255,255,255,.0125)',
-      'rgba(255,255,255,.025)',
-      'rgba(255,255,255,.05)',
-      'rgba(255,255,255,.1)',
-      'rgba(255,255,255,.2)',
-      'rgba(255,255,255,.3)',
-      'rgba(255,255,255,.4)',
-      'rgba(255,255,255,.5)',
-      'rgba(255,255,255,.6)',
-      'rgba(255,255,255,.7)',
-      'rgba(255,255,255,.8)',
-      'rgba(255,255,255,.9)'
-    ]
-    // ... and so on
+    // colors
+    blacks,
+    // base
+    bg: blacks[0],
+    'sidebar-bg': blacks[1],
+    'modal-header-bg': blacks[0],
+    'card-bg': blacks[1],
+    // input
+    'input-bg': blacks[0],
+    'input-border': blacks[3],
+    // button
+    'button-bg': blacks[2],
+    'button-bg-hover': blacks[1],
+    'button-border': blacks[3],
+    // text
+    text: '#fefefe',
+    'text-subdued': '#999'
   }
 })

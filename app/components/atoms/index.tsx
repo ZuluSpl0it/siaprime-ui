@@ -42,14 +42,14 @@ export const Card = styled(Box)`
 Card.defaultProps = {
   p: 3,
   borderRadius: 2,
-  bg: 'white'
+  bg: 'card-bg'
 }
 
 export const Text = system(
   {
     is: 'span',
     fontSize: 1,
-    color: 'near-black',
+    color: 'text',
     fontWeight: 500,
     fontFamily: 'sansSerif'
   },

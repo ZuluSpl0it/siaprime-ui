@@ -74,7 +74,7 @@ class Onboarding extends React.Component<Props, State> {
         <Flex
           justifyContent="center"
           flexDirection="column"
-          bg="near-white"
+          bg="bg"
           height="100vh"
           width="100%"
           p={4}

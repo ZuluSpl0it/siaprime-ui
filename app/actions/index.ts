@@ -113,6 +113,23 @@ export namespace ConsensusActions {
 
 const renterActionCreator = actionCreatorFactory('renter')
 
+export interface AllowanceSettings {
+  // allowance in hastings, string
+  funds: string
+  // hosts in int
+  hosts: number
+  // period in blocks int
+  period: number
+  // renewwindow in blocks int
+  renewwindow: number
+  // expectedstorage in bytes int
+  expectedstorage: number
+  // expectedupload in bytes int
+  expectedupload: number
+  // expecteddownload in bytes int
+  expecteddownload: number
+}
+
 export namespace RenterActions {
   export const startPolling = renterActionCreator<void>('START_POLL')
   export const stopPolling = renterActionCreator<void>('STOP_POLL')
@@ -123,11 +140,9 @@ export namespace RenterActions {
     APIModel.Error
   >('FETCH_CONTRACTS')
 
-  export const setAllowance = renterActionCreator.async<
-    { allowance: number },
-    void,
-    APIModel.Error
-  >('SET_ALLOWANCE')
+  export const setAllowance = renterActionCreator.async<AllowanceSettings, void, APIModel.Error>(
+    'SET_ALLOWANCE'
+  )
 
   export const getFeeEstimates = renterActionCreator.async<
     void,

@@ -42,11 +42,9 @@ function* restoreBackupWatcher() {
 function* setAllowanceWatcher() {
   while (true) {
     const params = yield take(RenterActions.setAllowance.started)
-    const { allowance } = params.payload
     yield spawn(setAllowanceWorker, {
-      allowance
+      ...params.payload
     })
-    yield spawn(getRenterWorker)
   }
 }
 
