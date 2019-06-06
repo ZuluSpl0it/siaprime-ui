@@ -84,7 +84,7 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
         centered
         footer={[
           <Button key="submit" type="primary" onClick={props.onOk}>
-            Done
+            OK
           </Button>
         ]}
       >

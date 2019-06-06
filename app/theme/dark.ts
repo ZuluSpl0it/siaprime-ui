@@ -32,6 +32,8 @@ export const dark = Object.assign({}, theme, {
     'button-border': blacks[3],
     // text
     text: '#fefefe',
-    'text-subdued': '#999'
+    'text-subdued': '#999',
+    // scrollerbar
+    'scrollbar-bg': blacks[2]
   }
 })

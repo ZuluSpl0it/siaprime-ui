@@ -72,6 +72,13 @@ export const RestoreModal = (props: any) => {
     }
   }, [props.visible])
 
+  // close modal when restore is complete
+  React.useEffect(() => {
+    if (restoreName && !restore.loading && !restore.error) {
+      closeModal()
+    }
+  }, [restore.loading])
+
   const scanInProgress =
     (recoveryScanProgress.response && recoveryScanProgress.response.scaninprogress) || false
 
@@ -161,7 +168,7 @@ export const RestoreModal = (props: any) => {
                           status={x.uploadprogress < 100 ? 'active' : 'success'}
                         />
                       </Box>
-                      <Box width={100}>
+                      <Box width={150} pl={4}>
                         <Button
                           onClick={() => {
                             setRestoreName(x.name)

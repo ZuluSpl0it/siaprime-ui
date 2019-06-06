@@ -88,6 +88,8 @@ export const theme = {
     'button-border': whites[3],
     // text
     text: '#222',
-    'text-subdued': '#999'
+    'text-subdued': '#999',
+    // scrollbar
+    'scrollbar-bg': '#fefefe'
   }
 }
