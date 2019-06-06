@@ -10,6 +10,34 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.js?$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/env', '@babel/react'],
+              plugins: [
+                [
+                  '@babel/transform-runtime',
+                  {
+                    regenerator: true
+                  }
+                ],
+                [
+                  '@babel/proposal-decorators',
+                  {
+                    legacy: true
+                  }
+                ],
+                ['@babel/plugin-proposal-class-properties', { loose: true }],
+                'lodash'
+              ]
+            }
+          }
+        ],
+        exclude: /node_modules/
+      },
+      {
         test: /\.less$/,
         loader: [
           'style-loader',
@@ -26,11 +54,25 @@ module.exports = {
               }
             }
           }
-        ] // compiles Less to CSS
+        ]
+      },
+      {
+        test: /\.(css)$/,
+        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }]
       },
       {
         test: /\.svg$/,
-        use: ['@svgr/webpack']
+        use: ['@svgr/webpack'],
+        exclude: /node_modules/
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'raw-loader'
+          }
+        ],
+        include: /node_modules/
       },
       {
         test: /\.(eot|ttf|woff|woff2|otf)$/,
