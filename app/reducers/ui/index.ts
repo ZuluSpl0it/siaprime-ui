@@ -149,13 +149,9 @@ export namespace UIReducer {
       }
     })
     .case(GatewayActions.fetchGateway.failed, (state, payload) => {
-      if (payload.error.message.includes('siad is not ready')) {
-        return {
-          ...state,
-          isFinishedLoading: false
-        }
-      } else {
-        return state
+      return {
+        ...state,
+        isFinishedLoading: false
       }
     })
     .case(GatewayActions.fetchGateway.done, (state, payload) => ({

@@ -1,28 +1,25 @@
-import { RenterActions, AllowanceSettings } from 'actions'
-import { InputNumber, Modal, Tabs } from 'antd'
+import { AllowanceSettings, RenterActions } from 'actions'
+import { Tabs } from 'antd'
 import BigNumber from 'bignumber.js'
 import { Box, Text } from 'components/atoms'
-import { RenterModel } from 'models'
-import * as React from 'react'
-import { Flex } from 'rebass'
-import { IndexState } from 'reducers'
-import { useDispatch, useMappedState } from 'redux-react-hook'
-import { toHastings, toSiacoins } from 'sia-typescript'
 import { StyledModal } from 'components/atoms/StyledModal'
-import { TextInput } from 'components/Forms/Inputs'
 import { StyledTabs } from 'components/atoms/StyledTabs'
-import { Grid } from 'components/atoms/Grid'
+import {
+  AdvancedAllowanceForm,
+  AdvancedAllowanceFormSchema
+} from 'components/Forms/AdvancedAllowanceForm'
 import {
   RequiredAllowanceForm,
   RequiredAllowanceFormSchema
 } from 'components/Forms/RequiredAllowanceForm'
 import { Formik } from 'formik'
-import {
-  AdvancedAllowanceFormSchema,
-  AdvancedAllowanceForm
-} from 'components/Forms/AdvancedAllowanceForm'
-import * as Yup from 'yup'
+import { RenterModel } from 'models'
+import * as React from 'react'
+import { IndexState } from 'reducers'
+import { useDispatch, useMappedState } from 'redux-react-hook'
+import { toHastings, toSiacoins } from 'sia-typescript'
 import { bytesToGBString } from 'utils/conversion'
+import * as Yup from 'yup'
 
 const bytes = require('bytes')
 
