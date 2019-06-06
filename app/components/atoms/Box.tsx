@@ -33,7 +33,9 @@ import {
   top,
   TopProps,
   width,
-  WidthProps
+  WidthProps,
+  maxHeight,
+  MaxHeightProps
 } from 'styled-system'
 
 export type BoxProps = SpaceProps &
@@ -50,6 +52,7 @@ export type BoxProps = SpaceProps &
   OverflowProps &
   GridColumnProps &
   BorderRadiusProps &
+  MaxHeightProps &
   LeftProps &
   TopProps
 
@@ -59,6 +62,7 @@ export const Box = styled.div<BoxProps>`
   ${space}
   ${width}
   ${maxWidth}
+  ${maxHeight}
   ${minHeight}
   ${height}
   ${color}

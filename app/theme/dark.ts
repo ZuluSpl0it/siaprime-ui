@@ -23,6 +23,7 @@ export const dark = Object.assign({}, theme, {
     'sidebar-bg': blacks[1],
     'modal-header-bg': blacks[0],
     'card-bg': blacks[1],
+    'card-bg-dark': blacks[0],
     // input
     'input-bg': blacks[0],
     'input-border': blacks[3],

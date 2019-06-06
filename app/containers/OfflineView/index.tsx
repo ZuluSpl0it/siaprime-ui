@@ -11,6 +11,8 @@ import { UIReducer } from 'reducers/ui'
 import { createStructuredSelector } from 'reselect'
 import { selectSiadState } from 'selectors'
 import { GlobalActions } from 'actions'
+import { themeGet } from 'styled-system'
+import { PreWrap } from 'components/Modal'
 
 interface StateProps {
   siad: UIReducer.SiadState
@@ -77,23 +79,14 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
                       If Sia-UI is managing the daemon, the logs will be printed below:
                     </Text>
                   </Box>
-                  <Box
-                    py={3}
-                    height={300}
-                    css={`
-                      overflow: auto;
-                      pre {
-                        font-size: 12px;
-                      }
-                    `}
-                  >
+                  <PreWrap py={3} height={300}>
                     {siad.stdout.map(l => (
                       <pre>{l}</pre>
                     ))}
                     {siad.stderr.map(l => (
                       <pre>{l}</pre>
                     ))}
-                  </Box>
+                  </PreWrap>
                 </Box>
               </>
             )}

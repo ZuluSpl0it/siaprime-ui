@@ -4,7 +4,6 @@ import { SVG } from '@opuscapita/react-svg'
 import nothingToShowIcon from '@opuscapita/svg-icons/lib/add_to_photos.svg'
 
 // TODO Add localization
-console.log('icon is', nothingToShowIcon)
 export default () => (
   <div className="oc-fm--no-files-found-stub">
     <SVG className="oc-fm--no-files-found-stub__icon" svg={nothingToShowIcon} />

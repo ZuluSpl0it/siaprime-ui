@@ -20,7 +20,7 @@ const OuterPreWrap = styled(Box)`
   flex-direction: column-reverse;
   overflow: auto;
 `
-const PreWrap = styled(Box)`
+export const PreWrap = styled(Box)`
   width: 100%;
   pre {
     font-size: 11px;

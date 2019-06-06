@@ -129,15 +129,18 @@ export const RestoreModal = (props: any) => {
             </Box>
           )}
           {!backups.loading && backups.error && <Text>{backups.error}</Text>}
-          {!scanInProgress && !backups.loading && !backups.error && backups.response.length === 0 && (
-            <Text fontSize={2} fontWeight={3}>
-              No backups were found. You may have to perform a recovery scan in order to retrieve
-              active contracts found on the blockchain. You can do that by clicking the button
-              below. If you have already performed a recovery scan, it may take up to 10 minutes to
-              find your snapshots.
-            </Text>
-          )}
-          <Box height={250} overflow="auto">
+          {!scanInProgress &&
+            !backups.loading &&
+            !backups.error &&
+            backups.response.backups.length === 0 && (
+              <Text fontSize={2} fontWeight={3}>
+                No backups were found. You may have to perform a recovery scan in order to retrieve
+                active contracts found on the blockchain. You can do that by clicking the button
+                below. If you have already performed a recovery scan, it may take up to 10 minutes
+                to find your snapshots.
+              </Text>
+            )}
+          <Box maxHeight={250} overflow="auto">
             {!scanInProgress &&
               !backups.loading &&
               !backups.error &&

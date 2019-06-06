@@ -281,7 +281,7 @@ class Renter extends React.Component<RenterProps, State> {
           <Stat content={`${totalSpent} SC`} title="Total Spent" width={1 / 4} />
           <Stat content={`${storageSpending} SC`} title="Storage Spending" width={1 / 4} />
         </Flex>
-        {contracts.active > 30 || defaultConfig.developmentMode ? (
+        {contracts.active > 30 ? (
           <Box mx={2} pt={3}>
             {/* <Switch>
               <Route exact path={`${match.path}/metrics`} component={Metrics} />
