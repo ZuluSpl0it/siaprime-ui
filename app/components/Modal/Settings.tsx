@@ -21,7 +21,7 @@ const SettingItem = ({ title, render }) => {
     <Box px={4} height={60}>
       <Flex height="100%" alignItems="center">
         <Box width={1 / 3}>
-          <Text fontSize={3}>{title}</Text>
+          <Text fontSize={2}>{title}</Text>
         </Box>
         <Box width={2 / 3} ml="auto">
           {render}

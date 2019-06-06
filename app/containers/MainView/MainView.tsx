@@ -77,7 +77,7 @@ class MainView extends React.Component<
     }
     return (
       <DragContiner>
-        <Box px={20} pt={5} width="240px" bg="white" style={{ flexShrink: 0 }}>
+        <Box px={20} pt={5} width="240px" bg="sidebar-bg" style={{ flexShrink: 0 }}>
           <SVGBox height="40px">
             <Wordmark viewBox="0 0 97 58" />
           </SVGBox>
@@ -87,7 +87,7 @@ class MainView extends React.Component<
             </Box>
           </Box>
         </Box>
-        <Box width={1} style={{ height: '100vh' }} bg="near-white">
+        <Box width={1} style={{ height: '100vh' }} bg="bg">
           <RequireConsensusData>
             <AppHeader />
           </RequireConsensusData>

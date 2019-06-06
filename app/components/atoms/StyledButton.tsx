@@ -24,7 +24,13 @@ import { NativeButtonProps } from 'antd/lib/button/button'
 
 export const StyledButton = styled(Button)<ButtonProps>`
   text-shadow: none;
+  background: ${themeGet('colors.button-bg')};
+  color: ${themeGet('colors.text')};
+  border-color: ${themeGet('colors.button-border')};
   &.ant-btn-ghost {
     color: ${themeGet('colors.near-black')};
+  }
+  &:hover {
+    background: ${themeGet('colors.button-bg-hover')};
   }
 `
