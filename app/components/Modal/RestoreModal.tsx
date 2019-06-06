@@ -7,6 +7,8 @@ import { useSiad } from 'hooks'
 import { useConsensus } from 'hooks/reduxHooks'
 import { StyledModal } from 'components/atoms/StyledModal'
 import { StyledProgress } from 'components/atoms/StyledProgress'
+import { useDispatch } from 'redux-react-hook'
+import { GlobalActions } from 'actions'
 
 interface BackupObject {
   name: string
@@ -21,6 +23,7 @@ interface BackupObject {
 // available backups will appear for the user to restore.
 export const RestoreModal = (props: any) => {
   const { closeModal, fileNav } = props
+  const dispatch = useDispatch()
   const consensus = useConsensus()
   const [backups, backupTrigger] = useSiad('/renter/backups')
 
@@ -75,6 +78,8 @@ export const RestoreModal = (props: any) => {
   // close modal when restore is complete
   React.useEffect(() => {
     if (restoreName && !restore.loading && !restore.error) {
+      // dispatch a request to refresh the file manager
+      dispatch(GlobalActions.refreshFileManager(true))
       closeModal()
     }
   }, [restore.loading])
