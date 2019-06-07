@@ -79,6 +79,7 @@ export const theme = {
     'sidebar-bg': whites[1],
     'modal-header-bg': whites[0],
     'card-bg': whites[1],
+    'card-bg-dark': whites[2],
     // input
     'input-bg': whites[0],
     'input-border': whites[3],
@@ -88,6 +89,8 @@ export const theme = {
     'button-border': whites[3],
     // text
     text: '#222',
-    'text-subdued': '#999'
+    'text-subdued': '#999',
+    // scrollbar
+    'scrollbar-bg': '#fefefe'
   }
 }

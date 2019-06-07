@@ -281,7 +281,7 @@ class Renter extends React.Component<RenterProps, State> {
           <Stat content={`${totalSpent} SC`} title="Total Spent" width={1 / 4} />
           <Stat content={`${storageSpending} SC`} title="Storage Spending" width={1 / 4} />
         </Flex>
-        {contracts.active > 30 || defaultConfig.developmentMode ? (
+        {contracts.active > 30 ? (
           <Box mx={2} pt={3}>
             {/* <Switch>
               <Route exact path={`${match.path}/metrics`} component={Metrics} />
@@ -323,27 +323,18 @@ class Renter extends React.Component<RenterProps, State> {
                   It looks like you don't have any contracts yet.
                 </Text>
               </Box>
-              {parseFloat(confirmedBalance) > 0 ? (
-                <Flex>
-                  <Box>
-                    <StyledButton onClick={this.openAllowanceModal} type="ghost" size="large">
-                      Setup Allowance
-                    </StyledButton>
-                  </Box>
-                  <Box pl={2}>
-                    <StyledButton onClick={this.openRestoreModal} type="ghost" size="large">
-                      Restore Files
-                    </StyledButton>
-                  </Box>
-                </Flex>
-              ) : (
-                <Box my={3}>
-                  <Text color="mid-gray" fontSize={3}>
-                    Please send Siacoin to your wallet or wait for your pending transactions to
-                    confirm.
-                  </Text>
+              <Flex>
+                <Box>
+                  <StyledButton onClick={this.openAllowanceModal} type="ghost" size="large">
+                    Setup Allowance
+                  </StyledButton>
                 </Box>
-              )}
+                <Box pl={2}>
+                  <StyledButton onClick={this.openRestoreModal} type="ghost" size="large">
+                    Restore Files
+                  </StyledButton>
+                </Box>
+              </Flex>
             </Flex>
           </Flex>
         )}

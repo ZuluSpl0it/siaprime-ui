@@ -21,6 +21,7 @@ import {
 
 import Send from './Send'
 import TransactionView from './TransactionView'
+import { StyledButton } from 'components/atoms/StyledButton'
 
 const TabPane = Tabs.TabPane
 const TabPanelWrap = ({ children }: any) => <Box height="calc(100vh - 200px)">{children}</Box>
@@ -233,9 +234,9 @@ class Wallet extends React.Component<WalletProps, {}> {
                     <Text color="silver" fontSize={1} style={{ textTransform: 'uppercase' }}>
                       Latest Address
                     </Text>
-                    <Button type="default" onClick={this.generateAddress}>
+                    <StyledButton type="default" onClick={this.generateAddress}>
                       Generate New Address
-                    </Button>
+                    </StyledButton>
                   </Flex>
                   <Box my={2}>
                     <Card>

@@ -20,7 +20,7 @@ const OuterPreWrap = styled(Box)`
   flex-direction: column-reverse;
   overflow: auto;
 `
-const PreWrap = styled(Box)`
+export const PreWrap = styled(Box)`
   width: 100%;
   pre {
     font-size: 11px;
@@ -84,7 +84,7 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
         centered
         footer={[
           <Button key="submit" type="primary" onClick={props.onOk}>
-            Done
+            OK
           </Button>
         ]}
       >

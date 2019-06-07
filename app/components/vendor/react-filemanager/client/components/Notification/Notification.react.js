@@ -4,9 +4,9 @@ import './Notification.less'
 import { SVG } from '@opuscapita/react-svg'
 import rawToReactElement from '../raw-to-react-element'
 
-const minimizeIcon = require('@opuscapita/svg-icons/lib/keyboard_arrow_down.svg')
-const maximizeIcon = require('@opuscapita/svg-icons/lib/keyboard_arrow_up.svg')
-const closeIcon = require('@opuscapita/svg-icons/lib/close.svg')
+import minimizeIcon from '@opuscapita/svg-icons/lib/keyboard_arrow_down.svg'
+import maximizeIcon from '@opuscapita/svg-icons/lib/keyboard_arrow_up.svg'
+import closeIcon from '@opuscapita/svg-icons/lib/close.svg'
 
 const propTypes = {
   closable: PropTypes.bool,

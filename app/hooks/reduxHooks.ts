@@ -14,3 +14,17 @@ export const useConsensus = () => {
   const { consensus } = useMappedState(mapState)
   return consensus
 }
+
+// useSiadUIState returns the redux state describing the lifecycle of the siad
+// process
+export const useSiadUIState = () => {
+  const mapState = useCallback(
+    (state: IndexState) => ({
+      siad: state.ui.siad
+    }),
+    []
+  )
+
+  const { siad } = useMappedState(mapState)
+  return siad
+}

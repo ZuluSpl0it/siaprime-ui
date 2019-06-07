@@ -1,4 +1,4 @@
-import { Button, Modal, Switch, Divider } from 'antd'
+import { Button, Modal, Switch, Divider, Card } from 'antd'
 import Wordmark from 'assets/svg/draco.svg'
 import { Box, SVGBox, Text } from 'components/atoms'
 import { Flex } from 'components/atoms/Flex'
@@ -8,6 +8,8 @@ import * as React from 'react'
 import { TextInput } from 'components/Forms/Inputs'
 import { merge } from 'lodash'
 import { StyledModal } from 'components/atoms/StyledModal'
+import { StyledCard } from 'components/atoms/StyledCard'
+import { useSiadUIState } from 'hooks/reduxHooks'
 const { app, getCurrentWindow } = remote
 const fs = remote.require('fs')
 
@@ -36,6 +38,8 @@ export const SettingsModal: React.SFC<SettingModalprops> = ({ onOk, visible }) =
   const onReset = React.useCallback(() => {
     setConfig(defaultConfig)
   }, [defaultConfig])
+
+  const siadState = useSiadUIState()
   const onSave = React.useCallback(() => {
     const newConfig = merge(defaultConfig, config)
     try {
@@ -73,6 +77,14 @@ export const SettingsModal: React.SFC<SettingModalprops> = ({ onOk, visible }) =
           </Button>
         ]}
       >
+        {!siadState.isInternal && (
+          <Box>
+            <StyledCard bordered={false}>
+              Please note that you are currently using an external instance of Sia and these
+              settings do not apply at the moment.
+            </StyledCard>
+          </Box>
+        )}
         <Box overflow="auto" py={2}>
           <SettingItem
             title="Dark Mode"
