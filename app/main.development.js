@@ -101,7 +101,7 @@ app.on('ready', () =>
     const iconName = isDarwin ? 'trayTemplate.png' : 'trayWin.png'
     const iconPath = isDev
       ? path.join(process.cwd(), 'resources', iconName)
-      : path.join(app.getAppPath(), 'resources', iconName)
+      : path.join(process.resourcesPath, iconName)
     appIcon = new Tray(iconPath)
     const trayContextMenu = Menu.buildFromTemplate([
       {

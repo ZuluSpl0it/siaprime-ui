@@ -57,6 +57,10 @@
         "filter": [
           "**/*"
         ]
+      },
+      {
+        "from": "resources/",
+        "to": "Resources"
       }
     ],
     "directories": {
