@@ -7,6 +7,7 @@ import { Flex } from 'components/atoms/Flex'
 import { StyledModal } from 'components/atoms/StyledModal'
 import { themeGet } from 'styled-system'
 import { useDebounce } from 'hooks'
+import stripAnsi from 'strip-ansi'
 
 interface TerminalModalProps {
   visible: boolean
@@ -63,7 +64,7 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
   React.useEffect(() => {
     if (shell) {
       shell.on('data', data => {
-        appendLog(data)
+        appendLog(stripAnsi(data))
       })
       shell.on('exit', () => {
         setShell(null)

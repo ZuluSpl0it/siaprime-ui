@@ -243,6 +243,7 @@
     "sia-opus-connector": "1.0.7",
     "sia-typescript": "1.2.3",
     "source-map-support": "^0.5.0",
+    "strip-ansi": "5.2.0",
     "styled-components": "4.1.3",
     "styled-system": "3.1.6",
     "ttys": "0.0.3",
