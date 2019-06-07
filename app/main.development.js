@@ -102,12 +102,7 @@ app.on('ready', () =>
     const iconName = isDarwin ? 'trayTemplate.png' : 'trayWin.png'
     const iconPath = isDev
       ? path.join(process.cwd(), 'resources', iconName)
-      : path.join(app.getAppPath(), 'assets', iconName)
-    try {
-      fs.statSync(iconPath)
-    } catch (e) {
-      throw e
-    }
+      : path.join(process.resourcesPath, 'tray', iconName)
 
     appIcon = new Tray(iconPath)
     const trayContextMenu = Menu.buildFromTemplate([
@@ -128,6 +123,11 @@ app.on('ready', () =>
         }
       }
     ])
+
+    appIcon.on('double-click', () => {
+      mainWindow.show()
+      mainWindow.focus()
+    })
 
     appIcon.setToolTip('Sia-UI syncs the daemon in the background.')
     appIcon.setContextMenu(trayContextMenu)

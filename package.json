@@ -45,6 +45,7 @@
     "files": [
       "dist/",
       "node_modules/",
+      "tray/",
       "app.html",
       "main.js",
       "main.js.map",
@@ -59,8 +60,8 @@
         ]
       },
       {
-        "from": "resources/",
-        "to": "resources",
+        "from": "tray",
+        "to": "Resources/tray",
         "filter": [
           "**/*"
         ]
