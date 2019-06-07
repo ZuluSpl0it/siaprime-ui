@@ -2,6 +2,7 @@ const { app, BrowserWindow, Menu, shell, Tray } = require('electron')
 const windowStateKeeper = require('electron-window-state')
 const defaultConfig = require('./config')
 const path = require('path')
+const fs = require('fs')
 
 let menu
 let template
@@ -101,7 +102,13 @@ app.on('ready', () =>
     const iconName = isDarwin ? 'trayTemplate.png' : 'trayWin.png'
     const iconPath = isDev
       ? path.join(process.cwd(), 'resources', iconName)
-      : path.join(process.resourcesPath, iconName)
+      : path.join(app.getAppPath(), 'assets', iconName)
+    try {
+      fs.statSync(iconPath)
+    } catch (e) {
+      throw e
+    }
+
     appIcon = new Tray(iconPath)
     const trayContextMenu = Menu.buildFromTemplate([
       {

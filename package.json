@@ -60,7 +60,10 @@
       },
       {
         "from": "resources/",
-        "to": "Resources"
+        "to": "resources",
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "directories": {
