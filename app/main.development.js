@@ -2,15 +2,19 @@ const { app, BrowserWindow, Menu, shell, Tray } = require('electron')
 const windowStateKeeper = require('electron-window-state')
 const defaultConfig = require('./config')
 const path = require('path')
+const fs = require('fs')
 
 let menu
 let template
+// tray
+let appIcon = null
+// main window process
 let mainWindow = null
-
 // Useful dynamic env constants
 const isDev = process.env.NODE_ENV === 'development'
 const isDarwin = process.platform === 'darwin'
 const isWindows = process.platform === 'win32'
+const isLinux = process.platform === 'linux'
 
 if (isDev) {
   require('electron-debug')() // eslint-disable-line global-require
@@ -33,13 +37,12 @@ const installExtensions = () => {
   return Promise.resolve([])
 }
 
-const windowConfig =
-  process.platform === 'darwin'
-    ? {
-        frame: false,
-        titleBarStyle: 'hiddenInset'
-      }
-    : {}
+const windowConfig = isDarwin
+  ? {
+      frame: false,
+      titleBarStyle: 'hiddenInset'
+    }
+  : {}
 
 app.on('ready', () =>
   installExtensions().then(() => {
@@ -56,14 +59,23 @@ app.on('ready', () =>
       x: mainWindowState.x,
       y: mainWindowState.y,
       autoHideMenuBar: true,
-      title: 'Sia Wallet'
+      title: 'Sia UI'
+      // skipTaskbar: true
     })
     mainWindow = new BrowserWindow(browserWindowConfig)
     mainWindowState.manage(mainWindow)
 
     // Setup close to tray settings for both minimize and close events.
     mainWindow.on('minimize', e => {
-      app.dock.hide()
+      // Hide the icon from the Mac Dock. Darwin specific feature.
+      if (isDarwin) {
+        app.dock.hide()
+      }
+      // https://electronjs.org/docs/api/tray Linux limitations, so we'll just
+      // minimize instead of attempting to go to system tray.
+      if (isLinux) {
+        return true
+      }
       mainWindow.hide()
       return false
     })
@@ -71,10 +83,13 @@ app.on('ready', () =>
     mainWindow.on('close', e => {
       if (!mainWindow.isQuitting) {
         e.preventDefault()
-        app.dock.hide()
+        if (isDarwin) {
+          app.dock.hide()
+        }
         mainWindow.hide()
+        return false
       }
-      return false
+      return true
     })
 
     mainWindow.loadURL(`file://${__dirname}/app.html`)
@@ -84,16 +99,19 @@ app.on('ready', () =>
       mainWindow.focus()
     })
 
-    const iconName = isWindows ? 'trayWin.png' : 'trayTemplate.png'
+    const iconName = isDarwin ? 'trayTemplate.png' : 'trayWin.png'
     const iconPath = isDev
       ? path.join(process.cwd(), 'resources', iconName)
-      : path.join(app.getAppPath(), 'resources', iconName)
-    const appIcon = new Tray(iconPath)
+      : path.join(process.resourcesPath, 'tray', iconName)
+
+    appIcon = new Tray(iconPath)
     const trayContextMenu = Menu.buildFromTemplate([
       {
         label: 'Show App',
         click: function() {
-          app.dock.show()
+          if (isDarwin) {
+            app.dock.show()
+          }
           mainWindow.show()
         }
       },
@@ -106,9 +124,13 @@ app.on('ready', () =>
       }
     ])
 
+    appIcon.on('double-click', () => {
+      mainWindow.show()
+      mainWindow.focus()
+    })
+
     appIcon.setToolTip('Sia-UI syncs the daemon in the background.')
     appIcon.setContextMenu(trayContextMenu)
-    mainWindow.tray = appIcon
 
     if (isDev || defaultConfig.debugMode) {
       mainWindow.openDevTools()

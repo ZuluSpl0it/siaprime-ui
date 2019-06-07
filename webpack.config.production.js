@@ -89,13 +89,6 @@ module.exports = merge(baseConfig, {
           }
         ]
       },
-      {
-        test: /^((?!\.global).)*\.css$/,
-        use: [
-          'style-loader',
-          'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
-        ]
-      },
       // Common Image Formats
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
