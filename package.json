@@ -71,7 +71,8 @@
       "target": [
         "deb",
         "AppImage"
-      ]
+      ],
+      "category": "Utility"
     }
   },
   "bin": {
@@ -142,7 +143,7 @@
     "css-modules-require-hook": "^4.0.6",
     "devtron": "^1.4.0",
     "electron": "4.0.4",
-    "electron-builder": "20.40.2",
+    "electron-builder": "20.43.0",
     "electron-builder-http": "19.27.5",
     "electron-devtools-installer": "^2.2.4",
     "electron-rebuild": "1.8.4",
