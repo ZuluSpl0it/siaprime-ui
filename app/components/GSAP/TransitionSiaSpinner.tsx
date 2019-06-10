@@ -71,9 +71,7 @@ export const TransitionSiaSpinner = ({
           const addGreen = TweenMax.to(greenFill, 1, {
             force3D: true,
             fill: '#1ED660',
-            onComplete: () => {
-              done()
-            }
+            onComplete: done
           })
           const addBorder = TweenMax.to(greyFill, 2, {
             force3D: true,
