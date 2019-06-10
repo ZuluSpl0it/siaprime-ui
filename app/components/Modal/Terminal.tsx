@@ -31,10 +31,10 @@ export const PreWrap = styled(Box)`
   }
 `
 
+const initialTermState =
+  'Welcome to the Sia Terminal! Type `help` to see the available commands. Type `clear` to clear the screen.\n\n'
 export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
-  const [stdout, setState] = React.useState(
-    'Welcome to the Sia Terminal! Type `help` to see the available commands. Type `clear` to clear the screen.\n\n'
-  )
+  const [stdout, setState] = React.useState(initialTermState)
   const [shell, setShell] = React.useState(null)
   const [input, setInput] = React.useState('')
 
@@ -52,9 +52,14 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
   // If modal is visible, create a shell.
   React.useEffect(() => {
     if (props.visible) {
-      if (!shell) {
-        const s = createShell()
-        setShell(s)
+      setState(initialTermState)
+      setInput('')
+      const s = createShell()
+      setShell(s)
+    } else {
+      if (shell) {
+        shell.destroy()
+        setShell(null)
       }
     }
   }, [props.visible])
@@ -68,8 +73,11 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
       shell.on('exit', () => {
         setShell(null)
       })
+      shell.resume()
       // if the shell changes, remove all listeners.
-      return shell.removeAllListeners()
+      return () => {
+        shell.removeAllListeners()
+      }
     }
   }, [shell])
   return (
@@ -118,7 +126,6 @@ export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
                 } else {
                   const s = createShell(command)
                   setShell(s)
-                  s.write(command + '\n')
                 }
               }
             } catch (e) {
