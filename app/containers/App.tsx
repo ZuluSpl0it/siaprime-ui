@@ -68,7 +68,7 @@ ipcRenderer.on('shutdown-siad', async () => {
     // start a counter loop to test if Sia is still running.
     setInterval(() => {
       // if counter reaches 10 seconds, kill the process
-      if (counter > 9) {
+      if (counter > 19) {
         globalSiadProcess.kill()
         ipcRenderer.send('shutdown-app', true)
       }
@@ -78,7 +78,7 @@ ipcRenderer.on('shutdown-siad', async () => {
         ipcRenderer.send('shutdown-app', true)
       }
       counter += 1
-    }, 1000)
+    }, 500)
   }
 })
 
