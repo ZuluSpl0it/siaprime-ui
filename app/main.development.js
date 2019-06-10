@@ -70,6 +70,13 @@ app.on('ready', () =>
       app.quit()
     })
 
+    // renderer can send a quit request that allows the main process to safely
+    // shutdown.
+    ipcMain.on('force-quit-request', () => {
+      mainWindow.isQuitting = true
+      app.quit()
+    })
+
     mainWindow.on('close', e => {
       // if isQuitting not set to true, minimize to system tray.
       if (!mainWindow.isQuitting) {
