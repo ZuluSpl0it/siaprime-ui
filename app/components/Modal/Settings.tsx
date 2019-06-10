@@ -35,8 +35,6 @@ const SettingItem = ({ title, render }) => {
   )
 }
 
-const isLinux = process.platform === 'linux'
-
 export const SettingsModal: React.SFC<SettingModalprops> = ({ onOk, visible }) => {
   const [config, setConfig] = React.useState(defaultConfig)
   const onReset = React.useCallback(() => {
