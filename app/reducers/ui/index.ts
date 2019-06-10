@@ -9,6 +9,7 @@ export namespace UIReducer {
     changePassword: ChangePasswordState
     initFromSeed: InitFromSeedState
     rentStorage: ErrorState
+    refreshFileManager: boolean
   }
 
   export interface SiadState {
@@ -184,11 +185,17 @@ export namespace UIReducer {
       loading: false
     }))
 
+  const FileManagerReducer = reducerWithInitialState(false).case(
+    GlobalActions.refreshFileManager,
+    (state, payload) => payload
+  )
+
   export const Reducer = combineReducers<State>({
     unlockForm: UnlockFormReducer,
     siad: SiadReducer,
     changePassword: ChangePasswordReducer,
     initFromSeed: InitFromSeedReducer,
-    rentStorage: RenterStorageReducer
+    rentStorage: RenterStorageReducer,
+    refreshFileManager: FileManagerReducer
   })
 }

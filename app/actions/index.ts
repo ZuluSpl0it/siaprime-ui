@@ -5,6 +5,7 @@ import Title from 'antd/lib/skeleton/Title'
 const globalActionCreator = actionCreatorFactory('global')
 
 export namespace GlobalActions {
+  export const refreshFileManager = globalActionCreator<boolean>('REFRESH_FILEMANAGER')
   export const requestPriceStats = globalActionCreator<void>('PRICE_FETCH')
   export const fetchPriceStats = globalActionCreator.async<void, APIModel.CoinGeckoPrice, string>(
     'FETCH_PRICE_STATS'

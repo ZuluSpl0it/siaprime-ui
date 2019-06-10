@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import { FileManager, FileNavigator } from '../vendor/react-filemanager/client'
 import connectorNodeV1 from 'sia-opus-connector'
 import { notification } from 'antd'
+import { connect } from 'react-redux'
+import { IndexState } from 'reducers'
+import { GlobalActions } from 'actions'
 const { dialog } = require('electron').remote
 
 const apiOptions = {
@@ -22,8 +25,9 @@ const ThemedManager = styled(FileManager)`
   }
 `
 
-export default class fManager extends React.Component {
+class fManager extends React.Component {
   poll: any = null
+  forceRefresh: any = null
   uploadHandler = uploadType => {
     let paths: any = []
     if (uploadType === 'file') {
@@ -43,6 +47,14 @@ export default class fManager extends React.Component {
       defaultPath: filename
     })
     connectorNodeV1.emitter.emit('downloadpath', paths)
+  }
+  componentWillReceiveProps(nextProps) {
+    // checks if the redux state to request a refresh has changed. if so,
+    // attempt a refresh of the filemanager component
+    if (nextProps.refreshFileManager && this.forceRefresh) {
+      this.forceRefresh()
+      this.props.dispatch(GlobalActions.refreshFileManager(false))
+    }
   }
   componentWillMount() {
     connectorNodeV1.emitter.on('uploadrequestpath', this.uploadHandler)
@@ -71,6 +83,7 @@ export default class fManager extends React.Component {
       description: description.error ? description.error.message : descriptionString
     })
   }
+
   render() {
     return (
       <div style={{ height: 'calc(100vh - 300px)' }}>
@@ -79,7 +92,9 @@ export default class fManager extends React.Component {
             // this passes the filenav ref back to the parent component so the api
             // is exposed. kind of an anti-pattern, but this will have to do for
             // now.
-            ref={this.props.getFileNavRef}
+            forceRefresh={fr => {
+              this.forceRefresh = fr
+            }}
             id="filemanager-1"
             initialResourceId="root"
             api={connectorNodeV1.api}
@@ -93,3 +108,9 @@ export default class fManager extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state: IndexState) => ({
+  refreshFileManager: state.ui.refreshFileManager
+})
+
+export default connect(mapStateToProps)(fManager)
