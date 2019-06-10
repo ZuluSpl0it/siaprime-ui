@@ -1,12 +1,11 @@
 import { Button, Icon } from 'antd'
-import { initSiad, siad, launchSiad } from 'api/siad'
+import { initSiad, siad, launchSiad, setGlobalSiadProcess, getGlobalSiadProcess } from 'api/siad'
 import Temp from 'assets/img/Bitmap.png'
 import { Box, Image, Text } from 'components/atoms'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { WalletActions, GlobalActions } from 'actions'
 import { Flex } from 'components/atoms/Flex'
-import { globalSiadProcess, getGlobalSiadProcess, setGlobalSiadProcess } from 'containers/App'
 import { ChildProcess } from 'child_process'
 import { StyledIcon } from 'components/atoms/StyledIcon'
 

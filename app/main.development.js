@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, shell, Tray } = require('electron')
+const { app, BrowserWindow, Menu, shell, Tray, ipcMain } = require('electron')
 const windowStateKeeper = require('electron-window-state')
 const defaultConfig = require('./config')
 const path = require('path')
@@ -65,6 +65,31 @@ app.on('ready', () =>
     mainWindow = new BrowserWindow(browserWindowConfig)
     mainWindowState.manage(mainWindow)
 
+    ipcMain.on('shutdown-app', () => {
+      mainWindow.siadShutdown = true
+      app.quit()
+    })
+
+    mainWindow.on('close', e => {
+      // if isQuitting not set to true, minimize to system tray.
+      if (!mainWindow.isQuitting) {
+        e.preventDefault()
+        if (isDarwin) {
+          app.dock.hide()
+        }
+        mainWindow.hide()
+        return false
+        // if siad is shutdown, this flag will be true. we can quit safely.
+      } else if (mainWindow.siadShutdown) {
+        return true
+        // we can't quit yet, siad is not shutdown. send an ipc event to
+        // renderer so the shutdown process can start.
+      } else {
+        e.preventDefault()
+        mainWindow.webContents.send('shutdown-siad', true)
+      }
+    })
+
     // Setup close to tray settings for both minimize and close events.
     mainWindow.on('minimize', e => {
       // Hide the icon from the Mac Dock. Darwin specific feature.
@@ -80,18 +105,6 @@ app.on('ready', () =>
       return false
     })
 
-    mainWindow.on('close', e => {
-      if (!mainWindow.isQuitting) {
-        e.preventDefault()
-        if (isDarwin) {
-          app.dock.hide()
-        }
-        mainWindow.hide()
-        return false
-      }
-      return true
-    })
-
     mainWindow.loadURL(`file://${__dirname}/app.html`)
 
     mainWindow.webContents.on('did-finish-load', () => {
@@ -101,7 +114,7 @@ app.on('ready', () =>
 
     const iconName = isDarwin ? 'trayTemplate.png' : 'trayWin.png'
     const iconPath = isDev
-      ? path.join(process.cwd(), 'resources', iconName)
+      ? path.join(process.cwd(), 'tray', iconName)
       : path.join(process.resourcesPath, 'tray', iconName)
 
     appIcon = new Tray(iconPath)

@@ -1,24 +1,15 @@
 import { GlobalActions } from 'actions'
-import { launchSiad, siad } from 'api/siad'
+import { launchSiad, siad, setGlobalSiadProcess, getGlobalSiadProcess } from 'api/siad'
 import { ChildProcess } from 'child_process'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { createGlobalStyle } from 'styled-components'
+import { ipcRenderer } from 'electron'
 
 import MetropolisBold from '../assets/fonts/Metropolis-Bold.otf'
 import MetropolisMedium from '../assets/fonts/Metropolis-Medium.otf'
 import MetropolisRegular from '../assets/fonts/Metropolis-Regular.ttf'
 import { themeGet } from 'styled-system'
-
-export let globalSiadProcess: any = null
-
-export const setGlobalSiadProcess = p => {
-  globalSiadProcess = p
-}
-
-export const getGlobalSiadProcess = (): ChildProcess => {
-  return globalSiadProcess
-}
 
 export const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -66,13 +57,28 @@ export const GlobalStyle = createGlobalStyle`
         background-color: #fff;
         width: .8em
   }
-
-
 `
 
-window.addEventListener('beforeunload', async e => {
+ipcRenderer.on('shutdown-siad', async () => {
+  const globalSiadProcess = getGlobalSiadProcess()
   if (globalSiadProcess) {
     await siad.daemonStop()
+
+    let counter = 0
+    // start a counter loop to test if Sia is still running.
+    setInterval(() => {
+      // if counter reaches 10 seconds, kill the process
+      if (counter > 19) {
+        globalSiadProcess.kill()
+        ipcRenderer.send('shutdown-app', true)
+      }
+      // otherwise check to see if it's still running. if it is not running
+      // anymore, then we can safely shutdown the app.
+      if (!siad.isRunning()) {
+        ipcRenderer.send('shutdown-app', true)
+      }
+      counter += 1
+    }, 500)
   }
 })
 
