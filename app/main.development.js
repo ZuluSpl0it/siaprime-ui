@@ -1,6 +1,5 @@
 const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron')
 const windowStateKeeper = require('electron-window-state')
-// const { shutdown, initSiad } = require('./utils/siadProcess')
 const defaultConfig = require('./config')
 
 let menu
@@ -54,6 +53,15 @@ app.on('ready', () =>
     })
     mainWindow = new BrowserWindow(browserWindowConfig)
     mainWindowState.manage(mainWindow)
+
+    mainWindow.on('close', e => {
+      mainWindow.webContents.send('shutdown-siad', true)
+      e.preventDefault()
+    })
+
+    ipcMain.on('shutdown-app', () => {
+      app.quit()
+    })
 
     mainWindow.loadURL(`file://${__dirname}/app.html`)
 

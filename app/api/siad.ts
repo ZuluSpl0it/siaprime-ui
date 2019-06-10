@@ -3,6 +3,8 @@ import { Client } from 'sia-typescript'
 import { siadLogger } from 'utils/logger'
 import { reduxStore } from 'containers/Root'
 import { GlobalActions } from 'actions'
+import { ChildProcess } from 'child_process'
+
 export interface SiadConfig {
   path: string
   datadir: string
@@ -10,6 +12,16 @@ export interface SiadConfig {
   hostaddr: string
   detached: boolean
   address: string
+}
+
+export let globalSiadProcess: any = null
+
+export const setGlobalSiadProcess = p => {
+  globalSiadProcess = p
+}
+
+export const getGlobalSiadProcess = (): ChildProcess => {
+  return globalSiadProcess
 }
 
 export const siad = new Client({
