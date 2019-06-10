@@ -3,15 +3,17 @@ import Wordmark from 'assets/svg/draco.svg'
 import { Box, SVGBox, Text } from 'components/atoms'
 import { Flex } from 'components/atoms/Flex'
 import defaultConfig from 'config'
-import { shell, remote } from 'electron'
+import { shell, remote, ipcRenderer } from 'electron'
 import * as React from 'react'
 import { TextInput } from 'components/Forms/Inputs'
 import { merge } from 'lodash'
 import { StyledModal } from 'components/atoms/StyledModal'
 import { StyledCard } from 'components/atoms/StyledCard'
 import { useSiadUIState } from 'hooks/reduxHooks'
+import { getGlobalSiadProcess } from 'api/siad'
 const { app, getCurrentWindow } = remote
 const fs = remote.require('fs')
+const child_process = require('child_process')
 
 interface SettingModalprops {
   visible: boolean
@@ -48,8 +50,30 @@ export const SettingsModal: React.SFC<SettingModalprops> = ({ onOk, visible }) =
       if (process.env.NODE_ENV === 'development') {
         getCurrentWindow().reload()
       } else {
-        app.relaunch()
-        app.exit(0)
+        if (!process.env.APPIMAGE) {
+          app.relaunch()
+          app.exit(0)
+        } else {
+          // https://github.com/electron-userland/electron-builder/issues/1727
+          // Since AppImage doesn't work with relaunch due to its tmp mounting,
+          // we are opting to use some bash magic to help relaunch Sia-UI when
+          // settings are udpated.
+          // This process works by sending a safe shutdown request to the main
+          // process, which triggers a shutdown of siad and subsequently the UI.
+          // The child process watches for the complete shutdown of the UI,
+          // before starting up an instance of itself again.
+          const currentFile = process.env.APPIMAGE
+          if (currentFile) {
+            const currentFileEsc = currentFile.replace(/'/g, "'\\''")
+            const cmd = `( exec '${currentFileEsc}' ) & disown $!`
+            child_process.spawn(
+              '/bin/bash',
+              ['-c', `while ps ${process.pid} >/dev/null 2>&1; do sleep 0.1; done; ${cmd}`],
+              { detached: true }
+            )
+            ipcRenderer.send('force-quit-request')
+          }
+        }
       }
     } catch (err) {}
     if (onOk) {
