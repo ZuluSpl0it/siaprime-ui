@@ -79,6 +79,8 @@ ipcRenderer.on('shutdown-siad', async () => {
       }
       counter += 1
     }, 500)
+  } else {
+    ipcRenderer.send('shutdown-app', true)
   }
 })
 
