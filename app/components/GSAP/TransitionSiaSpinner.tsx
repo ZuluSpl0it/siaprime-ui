@@ -41,9 +41,8 @@ export const TransitionSiaSpinner = ({
       appear
       mountOnEnter
       unmountOnExit
-      timeout={30000}
+      timeout={10000}
       addEndListener={(n, done) => {
-        console.log('entering', props)
         if (props.in) {
           const t = new TimelineMax()
           const paths = n.querySelectorAll('path')
@@ -53,7 +52,7 @@ export const TransitionSiaSpinner = ({
 
           const drawPath = TweenMax.fromTo(
             paths,
-            3,
+            2,
             {
               force3D: true,
               drawSVG: '50% 50%',
@@ -69,12 +68,15 @@ export const TransitionSiaSpinner = ({
             opacity: 0
           })
           const removePath = TweenMax.staggerTo(paths, 2, { force3D: true, strokeOpacity: 0 }, 0.1)
-          const addGreen = TweenMax.to(greenFill, 3, {
+          const addGreen = TweenMax.to(greenFill, 1, {
             force3D: true,
             fill: '#1ED660',
             onComplete: done
           })
-          const addBorder = TweenMax.to(greyFill, 6, { force3D: true, fill: '#7F8C8D' })
+          const addBorder = TweenMax.to(greyFill, 2, {
+            force3D: true,
+            fill: '#7F8C8D'
+          })
           const rotateCircle = TweenMax.to(spinner, 1, {
             force3D: true,
             rotation: 360,

@@ -49,6 +49,7 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
     const StyledPre = styled.pre`
       color: ${themeGet('colors.near-black')};
     `
+
     return (
       <DragContiner>
         <LoadingScreenHeader />
@@ -64,8 +65,7 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
             in={
               siad.loading ||
               (siad.isActive && siad.isFinishedLoading === null) ||
-              !this.state.daemonTimeout ||
-              !this.state.hasEntered
+              (!this.state.daemonTimeout && !this.state.hasEntered)
             }
             onEntered={this.handleEntered}
             onExited={this.handleExit}
