@@ -81,6 +81,9 @@
         "AppImage"
       ],
       "category": "Utility"
+    },
+    "appImage": {
+      "systemIntegration": "doNotAsk"
     }
   },
   "bin": {
