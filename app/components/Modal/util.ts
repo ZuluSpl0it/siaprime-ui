@@ -10,10 +10,10 @@ const siacBinName = path.basename(defaultConfig.siac.path)
 
 export const createShell = (command = '') => {
   let args = command.split(' ')
-  if (args[0] === 'siac') {
+  if (args[0] === 'siac' || args[0] === './siac' || args[0] === './siac.exe') {
     args = [...args.splice(1)]
   }
-  var term = pty.spawn(siacBinName, args, {
+  var term = pty.spawn(`./${siacBinName}`, args, {
     name: 'xterm-color',
     cols: 80,
     rows: 30,
@@ -21,5 +21,7 @@ export const createShell = (command = '') => {
     cwd: siacBasePath,
     env: process.env
   })
+
+  term.pause()
   return term
 }
