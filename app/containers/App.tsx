@@ -9,6 +9,7 @@ import { ipcRenderer } from 'electron'
 import MetropolisBold from '../assets/fonts/Metropolis-Bold.otf'
 import MetropolisMedium from '../assets/fonts/Metropolis-Medium.otf'
 import MetropolisRegular from '../assets/fonts/Metropolis-Regular.ttf'
+import { themeGet } from 'styled-system'
 
 export const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -34,20 +35,20 @@ export const GlobalStyle = createGlobalStyle`
 
     /* total width */
   ::-webkit-scrollbar {
-      background-color:#fff;
+      background-color:${themeGet('colors.scrollbar-bg')};
       width:16px
   }
 
   /* background of the scrollbar except button or resizer */
   ::-webkit-scrollbar-track {
-      background-color:#fff
+      background-color:${themeGet('colors.scrollbar-bg')};
   }
 
   /* scrollbar itself */
   ::-webkit-scrollbar-thumb {
       background-color:#babac0;
       border-radius:16px;
-      border:4px solid #fff
+      border:4px solid ${themeGet('colors.scrollbar-bg')};
   }
 
   /* set button(top and bottom of the scrollbar) */

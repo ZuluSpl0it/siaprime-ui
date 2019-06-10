@@ -10,7 +10,7 @@ export const Stat = ({ content, title, ...props }: StatProps & any) => (
     <Text fontSize={4} color="near-black" is="div">
       {content}
     </Text>
-    <Caps color="silver" fontSize={0}>
+    <Caps color="text-subdued" fontSize={0}>
       {title}
     </Caps>
   </Card>

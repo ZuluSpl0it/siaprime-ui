@@ -67,7 +67,7 @@ class SetupView extends React.Component<Props, {}> {
           justifyContent="center"
           alignItems="center"
           flexDirection="column"
-          bg="near-white"
+          bg="bg"
           height="100vh"
           width="100%"
           p={4}

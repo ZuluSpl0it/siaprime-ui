@@ -1,5 +1,5 @@
 import system from '@rebass/components'
-import { Button, Icon, AutoComplete } from 'antd'
+import { Button, Icon, AutoComplete, Spin } from 'antd'
 import { shell } from 'electron'
 import * as React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
@@ -42,14 +42,14 @@ export const Card = styled(Box)`
 Card.defaultProps = {
   p: 3,
   borderRadius: 2,
-  bg: 'white'
+  bg: 'card-bg'
 }
 
 export const Text = system(
   {
     is: 'span',
     fontSize: 1,
-    color: 'near-black',
+    color: 'text',
     fontWeight: 500,
     fontFamily: 'sansSerif'
   },
@@ -268,9 +268,9 @@ export const StyledTag = styled(Box)`
   padding: 4px 6px;
   border-radius: 8px;
   font-size: 10px;
-  color: #444;
+  color: ${themeGet('colors.near-black')};
   border: 1px solid #eee;
-  background: #eee;
+  background: ${themeGet('colors.near-white')};
   margin-right: 3px;
 `
 
@@ -279,6 +279,8 @@ export const StyledAutoComplete = styled(AutoComplete)<any>`
     border: 1px solid ${(props: any) => (props.error ? 'red' : themeGet('colors.sia-green'))} !important;
   }
 `
+const SpinIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />
+export const Spinner = () => <Spin indicator={SpinIcon} />
 
 export * from './Box'
 export * from './Flex'

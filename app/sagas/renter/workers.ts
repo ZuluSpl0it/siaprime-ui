@@ -1,15 +1,9 @@
 import { GlobalActions, RenterActions } from 'actions'
 import { siad } from 'api/siad'
 import { SagaIterator } from 'redux-saga'
-import { call, put } from 'redux-saga/effects'
+import { call, put, spawn } from 'redux-saga/effects'
 import { toHastings } from 'sia-typescript'
 import { bindAsyncAction } from 'typescript-fsa-redux-saga'
-
-// TODO: take these values from the renter. At the moment these are set to the
-// default settings for the renter, taken from the old Sia-UI.
-export const blockMonth = 4320
-export const allowanceMonths = 3
-export const allowancePeriod = blockMonth * allowanceMonths
 
 // Worker that posts to the /renter endpoint to set the allowance. At completion
 // it will spawn a notification.
@@ -17,14 +11,11 @@ export const setAllowanceWorker = bindAsyncAction(RenterActions.setAllowance, {
   skipStartedAction: true
 })(function*(params): SagaIterator {
   try {
-    const allowance = params.allowance
-    const hastings = toHastings(allowance).toString()
     const response = yield call(siad.call, {
       url: '/renter',
       method: 'POST',
       qs: {
-        funds: hastings,
-        period: allowancePeriod
+        ...params
       }
     })
     yield put(
@@ -34,6 +25,7 @@ export const setAllowanceWorker = bindAsyncAction(RenterActions.setAllowance, {
         type: 'open'
       })
     )
+    yield spawn(getRenterWorker)
     return response
   } catch (e) {
     yield put(
@@ -80,7 +72,8 @@ export const createBackupWorker = bindAsyncAction(RenterActions.createBackup, {
     url: '/renter/backup',
     method: 'POST',
     qs: {
-      destination: payload.destination
+      destination: payload.destination,
+      remote: true
     }
   })
   return response
@@ -98,5 +91,12 @@ export const restoreBackupWorker = bindAsyncAction(RenterActions.restoreBackup, 
       source: payload.source
     }
   })
+  return response
+})
+
+export const listBackupWorker = bindAsyncAction(RenterActions.listBackups, {
+  skipStartedAction: true
+})(function*(): SagaIterator {
+  const response = yield call(siad.call, '/renter/uploadedbackups')
   return response
 })

@@ -28,6 +28,9 @@ import { toSiacoins } from 'sia-typescript'
 import { TransitionSiaOnlySpin } from 'components/GSAP/TransitionSiaSpinner'
 import { TransitionGroup } from 'react-transition-group'
 import defaultConfig from 'config'
+import { BackupModal } from 'components/Modal/BackupModal'
+import { RestoreModal } from 'components/Modal/RestoreModal'
+import { StyledButton } from 'components/atoms/StyledButton'
 
 const { Panel } = Collapse
 
@@ -139,12 +142,6 @@ const FM = () => (
   </div>
 )
 
-const PaddedMenuItemLink = ({ children, ...props }: any) => (
-  <Box maxWidth={3} mx={1} pb={4}>
-    <Link {...props}>{children}</Link>
-  </Box>
-)
-
 interface StateProps {
   contracts: ContractSums
   spending: SpendingTotals
@@ -156,12 +153,20 @@ interface StateProps {
 
 interface State {
   allowanceModalVisible: boolean
+  backupModalVisible: boolean
+  restoreModalVisible: boolean
 }
 
 type RenterProps = RouteComponentProps & DispatchProp & StateProps
 class Renter extends React.Component<RenterProps, State> {
   state = {
-    allowanceModalVisible: false
+    allowanceModalVisible: false,
+    backupModalVisible: false,
+    restoreModalVisible: false
+  }
+  constructor(props) {
+    super(props)
+    this.fileNavRef = React.createRef()
   }
   componentDidMount() {
     this.props.dispatch(RenterActions.fetchContracts.started())
@@ -170,20 +175,45 @@ class Renter extends React.Component<RenterProps, State> {
   componentWillUnmount() {
     this.props.dispatch(RenterActions.stopPolling())
   }
-  openModal = () => {
+  openAllowanceModal = () => {
     this.setState({
       allowanceModalVisible: true
     })
   }
-
-  closeModal = () => {
+  closeAllowanceModal = () => {
     this.setState({
       allowanceModalVisible: false
     })
   }
+
+  openBackupModal = () => {
+    this.setState({
+      backupModalVisible: true
+    })
+  }
+  closeBackupModal = () => {
+    this.setState({
+      backupModalVisible: false
+    })
+  }
+
+  openRestoreModal = () => {
+    this.setState({
+      restoreModalVisible: true
+    })
+  }
+
+  closeRestoreModal = () => {
+    this.setState({
+      restoreModalVisible: false
+    })
+  }
+
   render() {
     const { match }: { match: any } = this.props
     const { contracts, spending, rentStorage, pricing, renterSummary, balances } = this.props
+    console.log('balances are', balances)
+    const { confirmedBalance } = balances
     const totalAllocated = toSiacoins(
       new BigNumber(renterSummary.financialmetrics.totalallocated)
     ).toFixed(2)
@@ -205,36 +235,45 @@ class Renter extends React.Component<RenterProps, State> {
           rentStorage={rentStorage}
           pricing={pricing}
           visible={this.state.allowanceModalVisible}
-          openModal={this.openModal}
-          closeModal={this.closeModal}
+          openModal={this.openAllowanceModal}
+          closeModal={this.closeAllowanceModal}
           renterSummary={renterSummary}
+        />
+        <BackupModal
+          visible={this.state.backupModalVisible}
+          openModal={this.openBackupModal}
+          closeModal={this.closeBackupModal}
+        />
+        <RestoreModal
+          visible={this.state.restoreModalVisible}
+          openModal={this.openRestoreModal}
+          closeModal={this.closeRestoreModal}
+          fileNav={this.fileNavRef}
         />
         <Flex justifyContent="space-between" alignItems="baseline">
           <CardHeader>File Manager</CardHeader>
-          {contracts.active > 0 && (
-            <Box ml="auto">
-              <Dropdown
-                overlay={
-                  <Menu>
-                    <Menu.Item onClick={this.openModal} key="1">
-                      <a>Modify Allowance</a>
-                    </Menu.Item>
-                    {/* <Menu.Item key="0">
-                      <a>Backup Files</a>
-                    </Menu.Item>
-                    <Menu.Item key="1">
-                      <a>Restore Files</a>
-                    </Menu.Item> */}
-                  </Menu>
-                }
-                trigger={['click']}
-              >
-                <Text color="silver" css={{ cursor: 'pointer', textTransform: 'uppercase' }}>
-                  More <Icon type="down" />
-                </Text>
-              </Dropdown>
-            </Box>
-          )}
+          <Box ml="auto">
+            <Dropdown
+              overlay={
+                <Menu>
+                  <Menu.Item onClick={this.openAllowanceModal} key="1">
+                    <a>Modify Allowance</a>
+                  </Menu.Item>
+                  <Menu.Item onClick={this.openBackupModal} key="2">
+                    <a>Backup Files</a>
+                  </Menu.Item>
+                  <Menu.Item onClick={this.openRestoreModal} key="3">
+                    <a>Restore Files</a>
+                  </Menu.Item>
+                </Menu>
+              }
+              trigger={['click']}
+            >
+              <Text color="silver" css={{ cursor: 'pointer', textTransform: 'uppercase' }}>
+                More <Icon type="down" />
+              </Text>
+            </Dropdown>
+          </Box>
         </Flex>
         <Flex>
           <Stat content={`${contracts.active}`} title="Contracts Active" width={1 / 4} />
@@ -242,9 +281,9 @@ class Renter extends React.Component<RenterProps, State> {
           <Stat content={`${totalSpent} SC`} title="Total Spent" width={1 / 4} />
           <Stat content={`${storageSpending} SC`} title="Storage Spending" width={1 / 4} />
         </Flex>
-        {contracts.active > 30 || defaultConfig.developmentMode ? (
+        {contracts.active > 30 ? (
           <Box mx={2} pt={3}>
-            <Switch>
+            {/* <Switch>
               <Route exact path={`${match.path}/metrics`} component={Metrics} />
               <Route
                 exact
@@ -252,7 +291,8 @@ class Renter extends React.Component<RenterProps, State> {
                 component={() => <Text>Coming soon</Text>}
               />
               <Route exact path={`${match.path}`} component={FM} />
-            </Switch>
+            </Switch> */}
+            <FileManager getFileNavRef={this.fileNavRef} />
           </Box>
         ) : contracts.active > 0 ? (
           <Flex
@@ -283,9 +323,18 @@ class Renter extends React.Component<RenterProps, State> {
                   It looks like you don't have any contracts yet.
                 </Text>
               </Box>
-              <Button onClick={this.openModal} type="ghost" size="large">
-                Setup Allowance
-              </Button>
+              <Flex>
+                <Box>
+                  <StyledButton onClick={this.openAllowanceModal} type="ghost" size="large">
+                    Setup Allowance
+                  </StyledButton>
+                </Box>
+                <Box pl={2}>
+                  <StyledButton onClick={this.openRestoreModal} type="ghost" size="large">
+                    Restore Files
+                  </StyledButton>
+                </Box>
+              </Flex>
             </Flex>
           </Flex>
         )}

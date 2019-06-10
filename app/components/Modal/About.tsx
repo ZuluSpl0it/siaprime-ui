@@ -1,6 +1,6 @@
 import { Button, Modal } from 'antd'
 import Wordmark from 'assets/svg/draco.svg'
-import { Box, SVGBox, Text } from 'components/atoms'
+import { Box, SVGBox, Text, Caps } from 'components/atoms'
 import { Flex } from 'components/atoms/Flex'
 import defaultConfig from 'config'
 import { shell } from 'electron'
@@ -9,6 +9,7 @@ import * as path from 'path'
 import { siad } from 'api/siad'
 import { StyledModal } from 'components/atoms/StyledModal'
 import { version } from 'package.json'
+import { StyledButton } from 'components/atoms/StyledButton'
 
 interface AboutModalProps {
   visible: boolean
@@ -17,8 +18,13 @@ interface AboutModalProps {
 
 const AboutButton = props => (
   <Box pt={1} width={200}>
-    <Button style={{ width: '100%' }} {...props} />
+    <StyledButton style={{ width: '100%' }} {...props} />
   </Box>
+)
+const VersionInfo = ({ title, value }) => (
+  <Text is="div" py={1}>
+    <Text color="text-subdued">{title}:</Text> {value}
+  </Text>
 )
 
 export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
@@ -100,23 +106,15 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
           </Box>
           <Box width={1 / 2} height="100%" mb="auto">
             <Box>
-              <Text fontSize={3} fontWeight={6}>
-                Sia UI
-              </Text>
-              <Text fontSize={3} fontWeight={2}>
-                (Draco)
-              </Text>
+              <Caps fontSize={3}>Sia UI</Caps>{' '}
+              <Caps fontSize={3} color="text-subdued">
+                Draco
+              </Caps>
             </Box>
             <Box py={2}>
-              <Text fontSize={2} is="div">
-                UI: {version}
-              </Text>
-              <Text fontSize={2} is="div">
-                Daemon: {versionInfo.version}
-              </Text>
-              <Text fontSize={2} is="div">
-                Git Revision: {versionInfo.gitrevision}
-              </Text>
+              <VersionInfo title="UI Version" value={version} />
+              <VersionInfo title="Daemon" value={versionInfo.version} />
+              <VersionInfo title="Git Revision" value={versionInfo.gitrevision} />
             </Box>
             <Box>
               {updateInfo.loaded ? (
