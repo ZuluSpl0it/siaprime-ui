@@ -21,6 +21,7 @@ interface StateProps {
 
 class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
   timer: any = null
+  daemonTimeoutTask: any = null
   state = {
     readyForMainView: false,
     hasEntered: false,
@@ -28,11 +29,16 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
   }
   componentDidMount() {
     // wait a full 9 seconds before showing the daemon timeout screen
-    setTimeout(() => {
+    this.daemonTimeoutTask = setTimeout(() => {
       this.setState({
         daemonTimeout: true
       })
     }, 9000)
+  }
+  componentWillUnmount() {
+    if (this.daemonTimeoutTask) {
+      clearTimeout(this.daemonTimeoutTask)
+    }
   }
   handleEntered = () => {
     this.setState({
