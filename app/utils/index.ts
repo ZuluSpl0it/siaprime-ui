@@ -164,7 +164,9 @@ export const computeTxSum = (txn: WalletModel.ProcessedTransaction) => {
     totalMinerInput = sumCurrency(walletInputs, 'miner')
   }
   if (txn.outputs) {
-    const walletOutputs = txn.outputs.filter(o => o.walletaddress && o.value)
+    const walletOutputs = txn.outputs.filter(
+      o => o.walletaddress && o.value && o.maturityheight === txn.confirmationheight
+    )
     totalSiacoinOuput = sumCurrency(walletOutputs, 'siacoin')
     totalSiafundOutput = sumCurrency(walletOutputs, 'siafund')
     totalMinerOutput = sumCurrency(txn.outputs, 'miner')
