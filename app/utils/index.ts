@@ -148,9 +148,6 @@ export function formatBytes(a: any, b?: any) {
 }
 
 export const computeTxSum = (txn: WalletModel.ProcessedTransaction) => {
-  if (txn.transactionid === '58957d60a32a45cfe20640e1435e3e6650906b03df181e8c0d4c22c1535b4b72') {
-    console.log('tx', txn)
-  }
   let totalSiacoinInput = new BigNumber(0)
   let totalSiafundInput = new BigNumber(0)
   let totalMinerInput = new BigNumber(0)
@@ -167,21 +164,12 @@ export const computeTxSum = (txn: WalletModel.ProcessedTransaction) => {
     totalMinerInput = sumCurrency(walletInputs, 'miner')
   }
   if (txn.outputs) {
-    const walletOutputs = txn.outputs.filter(o => o.walletaddress && o.value)
+    const walletOutputs = txn.outputs.filter(
+      o => o.walletaddress && o.value && o.maturityheight === txn.confirmationheight
+    )
     totalSiacoinOuput = sumCurrency(walletOutputs, 'siacoin')
     totalSiafundOutput = sumCurrency(walletOutputs, 'siafund')
     totalMinerOutput = sumCurrency(txn.outputs, 'miner')
-  }
-
-  // if there are contracts
-  if (txn.transaction.filecontracts.length > 0) {
-    // contract doesn't generate incoming value for the wallet
-    totalSiacoinOuput = new BigNumber(0)
-    // contract with a revision doesn't have outgoing value since outgoing value
-    // is determined by the latest revision.
-    if (txn.transaction.filecontractrevisions.length > 0) {
-      totalSiacoinInput = new BigNumber(0)
-    }
   }
 
   // Calculation totals
