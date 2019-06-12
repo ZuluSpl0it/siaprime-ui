@@ -343,6 +343,9 @@ export default class FileNavigator extends Component {
   handleResourceItemRightClick = async ({ event, number, rowData }) => {
     this.props.onResourceItemRightClick({ event, number, rowData })
   }
+  handleNavigateOut = async ({ event, number, rowData }) => {
+    this.navigateToDir(rowData.parentPath)
+  }
 
   handleResourceItemDoubleClick = async ({ event, number, rowData }) => {
     const { loadingView } = this.state
@@ -471,13 +474,13 @@ export default class FileNavigator extends Component {
     const hoverRowItem = resourceChildren[hoverRowIndex]
     const selectedResources = this.state.selection.filter(s => s === hoverRowId)
     // early guard against reselecting the dir in state
-    if (hoverRowItem.type === 'dir' && selectedResources.length > 0) return
+    if (hoverRowItem && hoverRowItem.type === 'dir' && selectedResources.length > 0) return
 
     const draggedResource = resourceChildren.filter(r => draggedItems.find(i => i.id === r.id))
     const remainingResource = resourceChildren.filter(r => !draggedItems.find(i => i.id === r.id))
 
     if (draggedItems.length === resourceChildren.length) return
-    if (hoverRowItem.type === 'dir') {
+    if (hoverRowId === '@navigator_opus' || (hoverRowItem && hoverRowItem.type === 'dir')) {
       this.setState({ selection: [hoverRowId] })
     } else {
       // sorts the resource children
@@ -490,7 +493,6 @@ export default class FileNavigator extends Component {
   // dropRowId should always be a directory id.
   // items should be an array of item ids that need to be moved into the dropRowId.
   handleonRowDrop = (dropRowId, items) => {
-    console.log('items are', items)
     const { initializedCapabilities } = this.state
     const moveCapability = find(initializedCapabilities, o => o.id === 'move')
     if (!moveCapability) {
@@ -503,9 +505,19 @@ export default class FileNavigator extends Component {
     const dropRowItem = resourceChildren[dropRowIndex]
     // find dragged items
     const draggedResources = resourceChildren.filter(r => items.find(i => i.id === r.id))
-    console.log('draggedResources', draggedResources)
 
-    moveCapability.handler(dropRowItem, draggedResources)
+    if (dropRowId === '@navigator_opus') {
+      moveCapability.handler(
+        {
+          siaResource: {
+            siapath: '..'
+          }
+        },
+        draggedResources
+      )
+    } else {
+      moveCapability.handler(dropRowItem, draggedResources)
+    }
   }
 
   render() {
@@ -594,6 +606,7 @@ export default class FileNavigator extends Component {
             onRowClick={this.handleResourceItemClick}
             onRowRightClick={this.handleResourceItemRightClick}
             onRowDoubleClick={this.handleResourceItemDoubleClick}
+            onRowNavigateOut={this.handleNavigateOut}
             onSelection={this.handleSelectionChange}
             onSort={this.handleSort}
             onRef={this.handleViewRef}

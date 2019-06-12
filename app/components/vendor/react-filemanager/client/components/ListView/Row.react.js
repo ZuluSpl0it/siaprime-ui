@@ -61,7 +61,7 @@ const RowDropTarget = {
   },
 
   canDrop(props, monitor) {
-    if (props.rowData.type === 'dir') {
+    if (props.rowData.type === 'dir' || props.rowData.type === 'navigator') {
       return true
     }
   }
@@ -88,6 +88,7 @@ class Row extends Component {
       onRowMouseOut,
       onRowMouseOver,
       onRowRightClick,
+      onRowNavigateOut,
       rowData,
       style,
       selection,
@@ -106,24 +107,30 @@ class Row extends Component {
 
     const a11yProps = {}
 
-    if (onRowClick || onRowDoubleClick || onRowMouseOut || onRowMouseOver || onRowRightClick) {
-      a11yProps['aria-label'] = 'row'
-      a11yProps.tabIndex = 0
+    if (rowData.type !== 'navigator') {
+      if (onRowClick || onRowDoubleClick || onRowMouseOut || onRowMouseOver || onRowRightClick) {
+        a11yProps['aria-label'] = 'row'
+        a11yProps.tabIndex = 0
 
-      if (onRowClick) {
-        a11yProps.onClick = event => onRowClick({ event, index, rowData })
+        if (onRowClick) {
+          a11yProps.onClick = event => onRowClick({ event, index, rowData })
+        }
+        if (onRowDoubleClick) {
+          a11yProps.onDoubleClick = event => onRowDoubleClick({ event, index, rowData })
+        }
+        if (onRowMouseOut) {
+          a11yProps.onMouseOut = event => onRowMouseOut({ event, index, rowData })
+        }
+        if (onRowMouseOver) {
+          a11yProps.onMouseOver = event => onRowMouseOver({ event, index, rowData })
+        }
+        if (onRowRightClick) {
+          a11yProps.onContextMenu = event => onRowRightClick({ event, index, rowData })
+        }
       }
-      if (onRowDoubleClick) {
-        a11yProps.onDoubleClick = event => onRowDoubleClick({ event, index, rowData })
-      }
-      if (onRowMouseOut) {
-        a11yProps.onMouseOut = event => onRowMouseOut({ event, index, rowData })
-      }
-      if (onRowMouseOver) {
-        a11yProps.onMouseOver = event => onRowMouseOver({ event, index, rowData })
-      }
-      if (onRowRightClick) {
-        a11yProps.onContextMenu = event => onRowRightClick({ event, index, rowData })
+    } else {
+      if (onRowNavigateOut) {
+        a11yProps.onDoubleClick = event => onRowNavigateOut({ event, index, rowData })
       }
     }
 
@@ -149,7 +156,11 @@ class Row extends Component {
                 role="row"
                 style={style}
               >
-                {rowData.navigator ? '...' : columns}
+                {rowData.type === 'navigator' ? (
+                  <div style={{ paddingLeft: 20 }}>...</div>
+                ) : (
+                  columns
+                )}
               </div>
             )
           )
@@ -166,10 +177,13 @@ export default ({
   contextMenuId,
   hasTouch,
   moveRow,
-  dropRow
+  dropRow,
+  onRowNavigateOut,
+  navigator = false
 }) => props => (
   <Row
     {...props}
+    navigator={navigator}
     selection={selection}
     lastSelected={lastSelected}
     loading={loading}
@@ -177,5 +191,6 @@ export default ({
     hasTouch={hasTouch}
     moveRow={moveRow}
     dropRow={dropRow}
+    onRowNavigateOut={onRowNavigateOut}
   />
 )

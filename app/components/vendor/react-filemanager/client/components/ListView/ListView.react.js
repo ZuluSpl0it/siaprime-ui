@@ -17,6 +17,7 @@ import WithSelection from './withSelectionHOC'
 import { isDef } from './utils'
 import { DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
+import * as path from 'path'
 
 const ROW_HEIGHT = 38
 const HEADER_HEIGHT = 38
@@ -192,7 +193,8 @@ class ListView extends Component {
       canDrop,
       isOver,
       onRowMove,
-      onRowDrop
+      onRowDrop,
+      onRowNavigateOut
     } = this.props
 
     const isDropActive = canDrop && isOver
@@ -207,32 +209,35 @@ class ListView extends Component {
     } else {
       itemsToRender = items
     }
-    console.log('itemsToRender', itemsToRender)
-    // add ...
-    // itemsToRender = [
-    //   {
-    //     type: 'navigator'
-    //     // capabilities: {
-    //     //   canCopy: false,
-    //     //   canDelete: false,
-    //     //   canDownload: false,
-    //     //   canEdit: false,
-    //     //   canRename: false
-    //     // },
-    //     // createdDate: 0,
-    //     // downloadUrl: '/renter/stream',
-    //     // health: '',
-    //     // id: '..',
-    //     // mimeType: '',
-    //     // modifiedDate: 0,
-    //     // parents: [],
-    //     // redundancy: '',
-    //     // size: undefined,
-    //     // title: '...',
-    //     // type: 'dir'
-    //   },
-    //   ...itemsToRender
-    // ]
+    if (itemsToRender.length > 0 && itemsToRender[0].id) {
+      const dirPath = path.posix.dirname(itemsToRender[0].id)
+      if (dirPath !== 'root') {
+        itemsToRender = [
+          {
+            type: 'navigator',
+            parentPath: path.posix.dirname(dirPath),
+            capabilities: {
+              canCopy: false,
+              canDelete: false,
+              canDownload: false,
+              canEdit: false,
+              canRename: false
+            },
+            createdDate: 0,
+            downloadUrl: '/renter/stream',
+            health: '',
+            id: '@navigator_opus',
+            mimeType: '',
+            modifiedDate: 0,
+            parents: [],
+            redundancy: '',
+            size: undefined,
+            title: '...'
+          },
+          ...itemsToRender
+        ]
+      }
+    }
     return (
       <AutoSizer>
         {({ width, height }) =>
@@ -293,7 +298,8 @@ class ListView extends Component {
                             contextMenuId: rowContextMenuId,
                             hasTouch: HAS_TOUCH,
                             moveRow: onRowMove,
-                            dropRow: onRowDrop
+                            dropRow: onRowDrop,
+                            onRowNavigateOut: onRowNavigateOut
                           })}
                           noRowsRenderer={NoFilesFoundStub}
                           onRowClick={onRowClick}
