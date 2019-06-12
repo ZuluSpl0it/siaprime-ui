@@ -229,7 +229,7 @@ class Host extends React.Component<RenterProps, {}> {
               </Tooltip>
               <Box ml={2}>
                 <StyledButton disabled={!hasFolderAndConfig} onClick={this.toggleAnnounce}>
-                  <Caps color="black">Announce Host</Caps>
+                  Announce Host
                 </StyledButton>
               </Box>
             </Flex>

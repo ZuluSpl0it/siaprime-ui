@@ -2,47 +2,80 @@
 
 // TODO Make sure this component can be optimised using "shouldComponentUpdate"
 
-import React, { Component } from 'react';
-import { DragSource } from 'react-dnd';
-import { ContextMenuTrigger } from "react-contextmenu";
+import React, { Component } from 'react'
+import { DragSource, DropTarget, DropTargetMonitor } from 'react-dnd'
+import { ContextMenuTrigger } from 'react-contextmenu'
 
 const RowDragSource = {
   canDrag(props) {
     // You can disallow drag based on props
-    return true;
+    return true
     // return props.isReady;
   },
 
   isDragging(props, monitor) {
     // console.log('is dragging');
     // console.log('item', monitor.getItem());
-    return monitor.getItem().id === props.rowData.id;
+    return monitor.getItem().id === props.rowData.id
   },
 
   beginDrag(props, monitor, component) {
-    const item = { id: props.rowData.id };
-    return item;
+    const draggedItem = { id: props.rowData.id }
+    let items = []
+    if (props.selection.find(id => id === draggedItem.id)) {
+      items = props.selection.map(id => ({ id }))
+    } else {
+      items = [draggedItem]
+    }
+    return { draggedItem, items }
   },
 
   endDrag(props, monitor, component) {
     if (!monitor.didDrop()) {
-      return;
+      return
     }
-
     // const item = monitor.getItem();
     // const dropResult = monitor.getDropResult();
   }
-};
+}
 
-function collect(connect, monitor) {
+function dragCollect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
     connectDragPreview: connect.dragPreview(),
     isDragging: monitor.isDragging()
-  };
+  }
 }
 
-@DragSource('filemanager-resource', RowDragSource, collect)
+const RowDropTarget = {
+  hover(props, monitor, component) {
+    const dragRowId = monitor.getItem().draggedItem.id
+    const hoverRowId = props.rowData.id
+    if (dragRowId === hoverRowId) return
+    props.moveRow(hoverRowId, monitor.getItem().items)
+  },
+
+  drop(props, monitor, component) {
+    const dropRowId = props.rowData.id
+    props.dropRow(dropRowId, monitor.getItem().items)
+  },
+
+  canDrop(props, monitor) {
+    if (props.rowData.type === 'dir') {
+      return true
+    }
+  }
+}
+
+function dropCollect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  }
+}
+
+@DragSource('filemanager-resource', RowDragSource, dragCollect)
+@DropTarget('filemanager-resource', RowDropTarget, dropCollect)
 class Row extends Component {
   render() {
     /* eslint-disable  react/prop-types */
@@ -63,76 +96,86 @@ class Row extends Component {
       isDragging,
       connectDragSource,
       connectDragPreview,
+      connectDropTarget,
       contextMenuId,
+      navigator,
       hasTouch
-    } = this.props;
+    } = this.props
     /* eslint-enable react/prop-types */
+    // console.log('row data', )
 
-    const a11yProps = {};
+    const a11yProps = {}
 
-    if (
-      onRowClick ||
-        onRowDoubleClick ||
-        onRowMouseOut ||
-        onRowMouseOver ||
-        onRowRightClick
-    ) {
-      a11yProps['aria-label'] = 'row';
-      a11yProps.tabIndex = 0;
+    if (onRowClick || onRowDoubleClick || onRowMouseOut || onRowMouseOver || onRowRightClick) {
+      a11yProps['aria-label'] = 'row'
+      a11yProps.tabIndex = 0
 
       if (onRowClick) {
-        a11yProps.onClick = event => onRowClick({ event, index, rowData });
+        a11yProps.onClick = event => onRowClick({ event, index, rowData })
       }
       if (onRowDoubleClick) {
-        a11yProps.onDoubleClick = event =>
-          onRowDoubleClick({ event, index, rowData });
+        a11yProps.onDoubleClick = event => onRowDoubleClick({ event, index, rowData })
       }
       if (onRowMouseOut) {
-        a11yProps.onMouseOut = event => onRowMouseOut({ event, index, rowData });
+        a11yProps.onMouseOut = event => onRowMouseOut({ event, index, rowData })
       }
       if (onRowMouseOver) {
-        a11yProps.onMouseOver = event => onRowMouseOver({ event, index, rowData });
+        a11yProps.onMouseOver = event => onRowMouseOver({ event, index, rowData })
       }
       if (onRowRightClick) {
-        a11yProps.onContextMenu = event =>
-          onRowRightClick({ event, index, rowData });
+        a11yProps.onContextMenu = event => onRowRightClick({ event, index, rowData })
       }
     }
 
-    const isSelected = selection.indexOf(rowData.id) !== -1;
-    const isLastSelected = lastSelected === rowData.id;
+    const isSelected = selection.indexOf(rowData.id) !== -1
+    const isLastSelected = lastSelected === rowData.id
 
     return (
       <ContextMenuTrigger id={contextMenuId} holdToDisplay={hasTouch ? 1000 : -1}>
-        {connectDragPreview(connectDragSource((
-          <div
-            {...a11yProps}
-            className={`
+        {connectDragPreview(
+          connectDragSource(
+            connectDropTarget(
+              <div
+                {...a11yProps}
+                className={`
               ReactVirtualized__Table__row
               oc-fm--list-view__row
-              ${(! loading && isSelected) ? 'oc-fm--list-view__row--selected' : ''}
-              ${(!loading && isLastSelected) ? 'oc-fm--list-view__row--last-selected' : ''}
-              ${(!loading && isDragging) ? 'oc-fm--list-view__row--dragging' : ''}
+              ${!loading && isSelected ? 'oc-fm--list-view__row--selected' : ''}
+              ${!loading && isLastSelected ? 'oc-fm--list-view__row--last-selected' : ''}
+              ${!loading && isDragging ? 'oc-fm--list-view__row--dragging' : ''}
               ${loading ? 'oc-fm--list-view__row--loading' : ''}
             `}
-            key={rowData.id}
-            role="row"
-            style={style}
-          >
-            {columns}
-          </div>
-        )))}
+                key={rowData.id}
+                role="row"
+                style={style}
+              >
+                {rowData.navigator ? '...' : columns}
+              </div>
+            )
+          )
+        )}
       </ContextMenuTrigger>
-    );
+    )
   }
 }
 
-export default ({ selection, lastSelected, loading, contextMenuId }) => (props) => (
+export default ({
+  selection,
+  lastSelected,
+  loading,
+  contextMenuId,
+  hasTouch,
+  moveRow,
+  dropRow
+}) => props => (
   <Row
     {...props}
     selection={selection}
     lastSelected={lastSelected}
     loading={loading}
     contextMenuId={contextMenuId}
+    hasTouch={hasTouch}
+    moveRow={moveRow}
+    dropRow={dropRow}
   />
-);
+)
