@@ -11256,10 +11256,10 @@ shellwords@^0.1.1:
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
 
-sia-opus-connector@1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/sia-opus-connector/-/sia-opus-connector-1.0.7.tgz#298b4cb2257f6dc7ad260e77bc3b4858a578c303"
-  integrity sha512-r0S5gx45KNOnjCvVrHx7iteLVMZ+p9E6haDtGfNKOHVmgRPRpZukW+NDGTms6yMjQTxIF6eUCIr24JpxGa3f8A==
+sia-opus-connector@1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/sia-opus-connector/-/sia-opus-connector-1.0.8.tgz#6f1085d3829f8f598d0df3fb4994249fbcc5c9ab"
+  integrity sha512-w48GhV2Ip3sxN9dERpLRup7WW2eGRH6SX7CrjTeGDF/WB/1BBkfbKs7wnqZRHJiVhucmqYjA2kLr8V9sEntZYA==
   dependencies:
     "@eddiewang/sia.js" "0.4.4"
     fecha "3.0.2"

@@ -343,6 +343,9 @@ export default class FileNavigator extends Component {
   handleResourceItemRightClick = async ({ event, number, rowData }) => {
     this.props.onResourceItemRightClick({ event, number, rowData })
   }
+  handleNavigateOut = async ({ event, number, rowData }) => {
+    this.navigateToDir(rowData.parentPath)
+  }
 
   handleResourceItemDoubleClick = async ({ event, number, rowData }) => {
     const { loadingView } = this.state
@@ -455,6 +458,68 @@ export default class FileNavigator extends Component {
       })
   }
 
+  // hoverRowId represents the row that is currently being hovered over.
+  // draggedItems is the list of items that are being moved.
+
+  // the goal of this handler function is to visually show what action the user
+  // is trying to perform. for file moves, we'll simply slice the list of files
+  // and rotate the index so the file appears moved in the list.
+
+  // in the event that the user is trying to move file(s) into a dir, we'll have
+  // to highlight the dir and show that if the user drops onto the folder
+  // target, then the file will be moved inside of the dir.
+  handleonRowMove = (hoverRowId, draggedItems) => {
+    const resourceChildren = this.state.resourceChildren.slice()
+    const hoverRowIndex = resourceChildren.findIndex(r => r.id === hoverRowId)
+    const hoverRowItem = resourceChildren[hoverRowIndex]
+    const selectedResources = this.state.selection.filter(s => s === hoverRowId)
+    // early guard against reselecting the dir in state
+    if (hoverRowItem && hoverRowItem.type === 'dir' && selectedResources.length > 0) return
+
+    const draggedResource = resourceChildren.filter(r => draggedItems.find(i => i.id === r.id))
+    const remainingResource = resourceChildren.filter(r => !draggedItems.find(i => i.id === r.id))
+
+    if (draggedItems.length === resourceChildren.length) return
+    if (hoverRowId === '@navigator_opus' || (hoverRowItem && hoverRowItem.type === 'dir')) {
+      this.setState({ selection: [hoverRowId] })
+    } else {
+      // sorts the resource children
+      remainingResource.splice(hoverRowIndex, 0, ...draggedResource)
+      this.setState({ resourceChildren: remainingResource })
+    }
+  }
+
+  // handleOnRowDrop
+  // dropRowId should always be a directory id.
+  // items should be an array of item ids that need to be moved into the dropRowId.
+  handleonRowDrop = (dropRowId, items) => {
+    const { initializedCapabilities } = this.state
+    const moveCapability = find(initializedCapabilities, o => o.id === 'move')
+    if (!moveCapability) {
+      return
+    }
+    // get a slice of the children
+    const resourceChildren = this.state.resourceChildren.slice()
+    // find the droprow item
+    const dropRowIndex = resourceChildren.findIndex(r => r.id === dropRowId)
+    const dropRowItem = resourceChildren[dropRowIndex]
+    // find dragged items
+    const draggedResources = resourceChildren.filter(r => items.find(i => i.id === r.id))
+
+    if (dropRowId === '@navigator_opus') {
+      moveCapability.handler(
+        {
+          siaResource: {
+            siapath: '..'
+          }
+        },
+        draggedResources
+      )
+    } else {
+      moveCapability.handler(dropRowItem, draggedResources)
+    }
+  }
+
   render() {
     const {
       id,
@@ -533,12 +598,15 @@ export default class FileNavigator extends Component {
         </div>
         <div className="oc-fm--file-navigator__view">
           <ListView
+            onRowMove={this.handleonRowMove}
+            onRowDrop={this.handleonRowDrop}
             rowContextMenuId={rowContextMenuId}
             filesViewContextMenuId={filesViewContextMenuId}
             onKeyDown={this.handleViewKeyDown}
             onRowClick={this.handleResourceItemClick}
             onRowRightClick={this.handleResourceItemRightClick}
             onRowDoubleClick={this.handleResourceItemDoubleClick}
+            onRowNavigateOut={this.handleNavigateOut}
             onSelection={this.handleSelectionChange}
             onSort={this.handleSort}
             onRef={this.handleViewRef}

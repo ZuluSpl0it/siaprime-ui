@@ -212,7 +212,6 @@ class Renter extends React.Component<RenterProps, State> {
   render() {
     const { match }: { match: any } = this.props
     const { contracts, spending, rentStorage, pricing, renterSummary, balances } = this.props
-    console.log('balances are', balances)
     const { confirmedBalance } = balances
     const totalAllocated = toSiacoins(
       new BigNumber(renterSummary.financialmetrics.totalallocated)

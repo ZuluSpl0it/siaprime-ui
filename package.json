@@ -243,7 +243,7 @@
     "redux-saga": "1.0.2",
     "redux-thunk": "^2.1.0",
     "reselect": "4.0.0",
-    "sia-opus-connector": "1.0.7",
+    "sia-opus-connector": "1.0.9",
     "sia-typescript": "1.2.3",
     "source-map-support": "^0.5.0",
     "strip-ansi": "5.2.0",
