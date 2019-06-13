@@ -20,6 +20,7 @@ import { useDispatch, useMappedState } from 'redux-react-hook'
 import { toHastings, toSiacoins } from 'sia-typescript'
 import { bytesToGBString } from 'utils/conversion'
 import * as Yup from 'yup'
+import { useSiad } from 'hooks'
 
 const bytes = require('bytes')
 
@@ -31,6 +32,8 @@ const CombinedFormSchema = Yup.object().shape({
 export const AllowanceModal = (props: any) => {
   const { closeModal, rentStorage } = props
   const summary: RenterModel.RenterGETResponse = props.renterSummary
+
+  const [siadConstants, _] = useSiad('/daemon/constants')
 
   const mapState = React.useCallback(
     (state: IndexState) => ({
@@ -48,21 +51,43 @@ export const AllowanceModal = (props: any) => {
   }, [])
 
   // set the initial required allowance form values from redux state.
-  const initialFormValues = React.useMemo(
-    () => ({
-      allowance: toSiacoins(new BigNumber(renterSettings.allowance.funds)).toFixed(0),
-      expectedStorage: bytesToGBString(renterSettings.allowance.expectedstorage),
-      storageUnit: 'gb',
-      period: renterSettings.allowance.period.toString(),
-      hosts: renterSettings.allowance.hosts.toString(),
-      renewWindow: renterSettings.allowance.renewwindow.toString(),
-      expectedDownload: bytesToGBString(renterSettings.allowance.expecteddownload),
-      expectedDownloadUnit: 'gb',
-      expectedUpload: bytesToGBString(renterSettings.allowance.expectedupload),
-      expectedUploadUnit: 'gb'
-    }),
-    [renterSettings.allowance]
-  )
+  const initialFormValues = React.useMemo(() => {
+    if (!siadConstants.loading && siadConstants.response) {
+      const { defaultallowance } = siadConstants.response
+
+      const allowance =
+        renterSettings.allowance.funds === '0'
+          ? defaultallowance.funds
+          : renterSettings.allowance.funds
+      const expectedStorage =
+        renterSettings.allowance.expectedstorage || defaultallowance.expectedstorage
+      const expectedUpload =
+        renterSettings.allowance.expectedupload || defaultallowance.expectedupload
+      const expectedDownload =
+        renterSettings.allowance.expecteddownload || defaultallowance.expecteddownload
+      const period = renterSettings.allowance.period || defaultallowance.period
+      const hosts = renterSettings.allowance.hosts || defaultallowance.hosts
+      const renewWindow = renterSettings.allowance.renewwindow || defaultallowance.renewwindow
+
+      return {
+        allowance: toSiacoins(new BigNumber(allowance)).toFixed(0),
+        expectedStorage: bytesToGBString(expectedStorage),
+        storageUnit: 'gb',
+        period: period.toString(),
+        hosts: hosts.toString(),
+        renewWindow: renewWindow.toString(),
+        expectedDownload: bytesToGBString(expectedDownload),
+        expectedDownloadUnit: 'gb',
+        expectedUpload: bytesToGBString(expectedUpload),
+        expectedUploadUnit: 'gb'
+      }
+    }
+    return {}
+  }, [renterSettings.allowance, siadConstants])
+
+  if (siadConstants.loading) {
+    return null
+  }
 
   return (
     <Formik
@@ -108,7 +133,8 @@ export const AllowanceModal = (props: any) => {
                 <Tabs.TabPane tab="Required" key="1">
                   <Box pb={3}>
                     <Text color="near-black">
-                      To upload and download files on Sia, you must allocate funds in advance.
+                      To upload and download files on Sia, you must allocate funds in advance. If
+                      this is your first time, your settings are prefilled with default settings.
                     </Text>
                   </Box>
                   <Box>
