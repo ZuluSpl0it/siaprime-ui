@@ -130,11 +130,11 @@ export const AllowanceModal = (props: any) => {
           >
             <Box>
               <StyledTabs defaultActiveKey="1" tabPosition="left">
-                <Tabs.TabPane tab="Required" key="1">
+                <Tabs.TabPane tab="Basic" key="1">
                   <Box pb={3}>
                     <Text color="near-black">
-                      To upload and download files on Sia, you must allocate funds in advance. If
-                      this is your first time, your settings are prefilled with default settings.
+                      To store files on Sia, you must allocate funds in advance. If this is your
+                      first time using Sia-UI, the below settings are set with default values.
                     </Text>
                   </Box>
                   <Box>

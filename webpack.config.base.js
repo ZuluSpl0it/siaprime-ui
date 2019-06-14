@@ -50,7 +50,7 @@ module.exports = {
                 'primary-color': '#1ED660',
                 'link-color': '#1ED660',
                 'font-family': `"Metropolis", -apple-system,"Helvetica Neue", Helvetica`,
-                'tooltip-bg': '#292C2F'
+                'tooltip-bg': '#202124'
               }
             }
           }
