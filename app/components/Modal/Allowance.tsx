@@ -72,7 +72,7 @@ export const AllowanceModal = (props: any) => {
       const targetPrice = (
         toSiacoins(new BigNumber(allowance)).toNumber() /
         (tbInMonths * periodInMonths)
-      ).toFixed(2)
+      ).toFixed(0)
 
       return {
         targetPrice,
@@ -113,13 +113,13 @@ export const AllowanceModal = (props: any) => {
         expecteddownload,
         expectedupload
       }
+
+      const message = `Are you sure you want to set a ${payload.allowance} SC allowance for ${
+        payload.periodMonth
+      } months that will be used to rent storage?`
       StyledModal.confirm({
         title: 'Confirm Allowance',
-        content: `You are setting an allowance of ${payload.allowance} SC for ${
-          payload.periodMonth
-        } months. This equates to ${payload.targetPrice} SC/TB at ${
-          payload.expectedStorage
-        } TB stored.`,
+        content: message,
         onOk() {
           createAllowance(allowanceBody)
         },

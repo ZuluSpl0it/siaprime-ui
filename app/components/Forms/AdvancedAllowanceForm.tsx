@@ -91,7 +91,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           suffix={
             <Flex alignItems="center">
               <StyledTag>SC</StyledTag>
-              <Tooltip placement="right" title="Total funds allocated over the allowance period.">
+              <Tooltip placement="right" title="Total Siacoin allocated over the period.">
                 <StyledIcon type="info-circle" />
               </Tooltip>
             </Flex>
@@ -115,10 +115,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           suffix={
             <Flex alignItems="center">
               <StyledTag>TB</StyledTag>
-              <Tooltip
-                placement="right"
-                title="Expected amount of TB to store a month. Synonymous with Target Storage."
-              >
+              <Tooltip placement="right" title="Amount of storage you'd like to receive in TB.">
                 <StyledIcon type="info-circle" />
               </Tooltip>
             </Flex>
@@ -199,7 +196,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           suffix={
             <Flex alignItems="center">
               <StyledTag>TB</StyledTag>
-              <Tooltip placement="right" title="Estimated Download Bandwidth for the Period">
+              <Tooltip placement="right" title="Estimated Download Bandwidth per Month.">
                 <StyledIcon type="info-circle" />
               </Tooltip>
             </Flex>
@@ -216,7 +213,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           suffix={
             <Flex alignItems="center">
               <StyledTag>TB</StyledTag>
-              <Tooltip placement="right" title="Estimated Upload Bandwidth for the Period">
+              <Tooltip placement="right" title="Estimated Upload Bandwidth per Month.">
                 <StyledIcon type="info-circle" />
               </Tooltip>
             </Flex>

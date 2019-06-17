@@ -52,7 +52,7 @@ export const RequiredAllowanceForm = (
         const tp = parseFloat(targetPrice)
         const periodInMonths = parseInt(values.periodMonth)
         const allowance = tp * parseFloat(expectedStorage) * periodInMonths
-        setFieldValue('allowance', allowance)
+        setFieldValue('allowance', allowance.toFixed(0))
       } catch (e) {
         console.log('error setting allowance', e)
       }
@@ -69,7 +69,7 @@ export const RequiredAllowanceForm = (
         <TextInputGroup
           value={values.targetPrice}
           id="targetPrice"
-          label="Target Price (SC/TB/Month)"
+          label="Target Price (TB per Month)"
           onChange={e => {
             setFieldValue('targetPrice', e.target.value)
             recomputeAllowance({
@@ -82,7 +82,10 @@ export const RequiredAllowanceForm = (
           suffix={
             <Flex alignItems="center">
               <StyledTag>SC</StyledTag>
-              <Tooltip placement="right" title="Amount of SC paid per TB of Storage, per month.">
+              <Tooltip
+                placement="right"
+                title="Amount of Siacoin you'd like to pay per TB of storage each month."
+              >
                 <StyledIcon type="info-circle" />
               </Tooltip>
             </Flex>
@@ -90,11 +93,11 @@ export const RequiredAllowanceForm = (
         />
       </Flex>
 
-      <Flex width={200}>
+      <Flex width={200} pb={3}>
         <TextInputGroup
           value={values.expectedStorage}
           id="expectedStorage"
-          label="Target Storage (TB/Month)"
+          label="Expected Storage"
           onChange={e => {
             setFieldValue('expectedStorage', e.target.value)
             recomputeAllowance({
@@ -107,7 +110,7 @@ export const RequiredAllowanceForm = (
           suffix={
             <Flex alignItems="center">
               <StyledTag>TB</StyledTag>
-              <Tooltip placement="right" title="Target amount of TB to store, per month.">
+              <Tooltip placement="right" title="Amount of storage you'd like to receive in TB.">
                 <StyledIcon type="info-circle" />
               </Tooltip>
             </Flex>
@@ -115,7 +118,7 @@ export const RequiredAllowanceForm = (
         />
       </Flex>
       <Text>
-        Allowance: {values.allowance} SC for {values.periodMonth} Months
+        Allowance: {values.allowance} SC for {values.periodMonth} Months of Storage.
       </Text>
     </form>
   )
