@@ -116,7 +116,7 @@ const renterActionCreator = actionCreatorFactory('renter')
 
 export interface AllowanceSettings {
   // allowance in hastings, string
-  funds: string
+  funds: string | number
   // hosts in int
   hosts: number
   // period in blocks int
@@ -129,6 +129,8 @@ export interface AllowanceSettings {
   expectedupload: number
   // expecteddownload in bytes int
   expecteddownload: number
+  // expectedredundancy in int
+  expectedredundancy?: number
 }
 
 export namespace RenterActions {
