@@ -7,6 +7,7 @@ import { YupPositiveNumber, YupStorageUnit } from 'utils/schema'
 import { Flex, Text, Box } from 'components/atoms'
 import { StyledIcon } from 'components/atoms/StyledIcon'
 import { BLOCKS_PER_MONTH } from 'utils/conversion'
+import { StyledTag } from 'components/atoms/StyledTag'
 
 export const RequiredAllowanceFormSchema = {
   targetPrice: YupPositiveNumber,
@@ -80,7 +81,7 @@ export const RequiredAllowanceForm = (
           error={touched.targetPrice && errors.targetPrice}
           suffix={
             <Flex alignItems="center">
-              <Tag>SC</Tag>
+              <StyledTag>SC</StyledTag>
               <Tooltip placement="right" title="Amount of SC paid per TB of Storage, per month.">
                 <StyledIcon type="info-circle" />
               </Tooltip>
@@ -105,7 +106,7 @@ export const RequiredAllowanceForm = (
           error={touched.expectedStorage && errors.expectedStorage}
           suffix={
             <Flex alignItems="center">
-              <Tag>TB</Tag>
+              <StyledTag>TB</StyledTag>
               <Tooltip placement="right" title="Target amount of TB to store, per month.">
                 <StyledIcon type="info-circle" />
               </Tooltip>

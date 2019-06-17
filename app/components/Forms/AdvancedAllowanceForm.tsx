@@ -9,6 +9,7 @@ import { StorageUnitSelector } from './RequiredAllowanceForm'
 import { BLOCKS_PER_MONTH } from 'utils/conversion'
 import { Flex } from 'components/atoms'
 import { StyledIcon } from 'components/atoms/StyledIcon'
+import { StyledTag } from 'components/atoms/StyledTag'
 
 export interface AdvancedAllowanceFormItems {
   periodMonth: string
@@ -89,7 +90,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           label="Allowance Funds"
           suffix={
             <Flex alignItems="center">
-              <Tag>SC</Tag>
+              <StyledTag>SC</StyledTag>
               <Tooltip placement="right" title="Total funds allocated over the allowance period.">
                 <StyledIcon type="info-circle" />
               </Tooltip>
@@ -113,7 +114,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           label="Expected Storage"
           suffix={
             <Flex alignItems="center">
-              <Tag>TB</Tag>
+              <StyledTag>TB</StyledTag>
               <Tooltip
                 placement="right"
                 title="Expected amount of TB to store a month. Synonymous with Target Storage."
@@ -142,7 +143,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           label="Period"
           suffix={
             <Flex alignItems="center">
-              <Tag>Months</Tag>
+              <StyledTag>Months</StyledTag>
               <Tooltip placement="right" title="Length of the storage contracts.">
                 <StyledIcon type="info-circle" />
               </Tooltip>
@@ -176,7 +177,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
         label="Renew Window"
         suffix={
           <Flex alignItems="center">
-            <Tag>Months</Tag>
+            <StyledTag>Months</StyledTag>
             <Tooltip
               placement="right"
               title="Number of months to act as a buffer window to renew contracts with hosts."
@@ -197,7 +198,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           label="Expected Download"
           suffix={
             <Flex alignItems="center">
-              <Tag>TB</Tag>
+              <StyledTag>TB</StyledTag>
               <Tooltip placement="right" title="Estimated Download Bandwidth for the Period">
                 <StyledIcon type="info-circle" />
               </Tooltip>
@@ -214,7 +215,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           label="Expected Upload"
           suffix={
             <Flex alignItems="center">
-              <Tag>TB</Tag>
+              <StyledTag>TB</StyledTag>
               <Tooltip placement="right" title="Estimated Upload Bandwidth for the Period">
                 <StyledIcon type="info-circle" />
               </Tooltip>
