@@ -1,5 +1,5 @@
 import { AllowanceSettings, RenterActions } from 'actions'
-import { Tabs } from 'antd'
+import { Tabs, Modal } from 'antd'
 import BigNumber from 'bignumber.js'
 import { Box, Text } from 'components/atoms'
 import { StyledModal } from 'components/atoms/StyledModal'
@@ -91,6 +91,44 @@ export const AllowanceModal = (props: any) => {
     return {}
   }, [renterSettings.allowance, siadConstants])
 
+  const showConfirm = React.useCallback(
+    payload => {
+      // we can safely parse here since Yup already prevalidates the schema.
+      const funds = toHastings(new BigNumber(payload.allowance)).toString()
+      const hosts = parseInt(payload.hosts)
+      const period = parseFloat(payload.periodMonth) * BLOCKS_PER_MONTH
+      const renewwindow = parseFloat(payload.renewWindowMonth) * BLOCKS_PER_MONTH
+      const expectedstorage = bytes.parse(`${payload.expectedStorage} ${payload.storageUnit}`)
+      const expecteddownload = bytes.parse(
+        `${payload.expectedDownload} ${payload.expectedDownloadUnit}`
+      )
+      const expectedupload = bytes.parse(`${payload.expectedUpload} ${payload.expectedUploadUnit}`)
+
+      const allowanceBody: AllowanceSettings = {
+        funds,
+        hosts,
+        period,
+        renewwindow,
+        expectedstorage,
+        expecteddownload,
+        expectedupload
+      }
+      StyledModal.confirm({
+        title: 'Confirm Allowance',
+        content: `You are setting an allowance of ${payload.allowance} SC for ${
+          payload.periodMonth
+        } months. This equates to ${payload.targetPrice} SC/TB at ${
+          payload.expectedStorage
+        } TB stored.`,
+        onOk() {
+          createAllowance(allowanceBody)
+        },
+        onCancel() {}
+      })
+    },
+    [createAllowance]
+  )
+
   if (siadConstants.loading) {
     return null
   }
@@ -100,29 +138,7 @@ export const AllowanceModal = (props: any) => {
       validationSchema={CombinedFormSchema}
       initialValues={initialFormValues}
       onSubmit={(payload, formikBag) => {
-        // we can safely parse here since Yup already prevalidates the schema.
-        const funds = toHastings(new BigNumber(payload.allowance)).toString()
-        const hosts = parseInt(payload.hosts)
-        const period = parseFloat(payload.periodMonth) * BLOCKS_PER_MONTH
-        const renewwindow = parseFloat(payload.renewWindowMonth) * BLOCKS_PER_MONTH
-        const expectedstorage = bytes.parse(`${payload.expectedStorage} ${payload.storageUnit}`)
-        const expecteddownload = bytes.parse(
-          `${payload.expectedDownload} ${payload.expectedDownloadUnit}`
-        )
-        const expectedupload = bytes.parse(
-          `${payload.expectedUpload} ${payload.expectedUploadUnit}`
-        )
-
-        const allowanceBody: AllowanceSettings = {
-          funds,
-          hosts,
-          period,
-          renewwindow,
-          expectedstorage,
-          expecteddownload,
-          expectedupload
-        }
-        createAllowance(allowanceBody)
+        showConfirm(payload)
       }}
       render={formikProps => {
         return (
