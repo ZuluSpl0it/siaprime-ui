@@ -31,6 +31,7 @@ import defaultConfig from 'config'
 import { BackupModal } from 'components/Modal/BackupModal'
 import { RestoreModal } from 'components/Modal/RestoreModal'
 import { StyledButton } from 'components/atoms/StyledButton'
+import { StyledModal } from 'components/atoms/StyledModal'
 
 const { Panel } = Collapse
 
@@ -208,6 +209,32 @@ class Renter extends React.Component<RenterProps, State> {
       restoreModalVisible: false
     })
   }
+  confirmCancelAllowance = () => {
+    const props = this.props
+    StyledModal.confirm({
+      title: 'Confirm Cancel Allowance',
+      content:
+        'Are you sure you want to cancel your allowance? Your files will be lost at the end of the allowance period.',
+      onOk() {
+        return new Promise((resolve, reject) => {
+          props.dispatch(
+            RenterActions.setAllowance.started({
+              expecteddownload: 0,
+              expectedstorage: 0,
+              expectedupload: 0,
+              funds: '0',
+              hosts: 0,
+              period: 0,
+              renewwindow: 0,
+              expectedredundancy: 0
+            })
+          )
+          resolve(true)
+        })
+      },
+      onCancel() {}
+    })
+  }
 
   render() {
     const { match }: { match: any } = this.props
@@ -227,6 +254,9 @@ class Renter extends React.Component<RenterProps, State> {
     const storageSpending = toSiacoins(
       new BigNumber(renterSummary.financialmetrics.storagespending)
     ).toFixed(2)
+
+    const hasEnoughContracts = contracts.active > 30
+    const hasFiles = contracts.inactive > 0
 
     return (
       <Box>
@@ -258,10 +288,13 @@ class Renter extends React.Component<RenterProps, State> {
                   <Menu.Item onClick={this.openAllowanceModal} key="1">
                     <a>Modify Allowance</a>
                   </Menu.Item>
-                  <Menu.Item onClick={this.openBackupModal} key="2">
+                  <Menu.Item onClick={this.confirmCancelAllowance} key="2">
+                    <a>Cancel Allowance</a>
+                  </Menu.Item>
+                  <Menu.Item onClick={this.openBackupModal} key="3">
                     <a>Backup Files</a>
                   </Menu.Item>
-                  <Menu.Item onClick={this.openRestoreModal} key="3">
+                  <Menu.Item onClick={this.openRestoreModal} key="4">
                     <a>Restore Files</a>
                   </Menu.Item>
                 </Menu>
@@ -280,7 +313,7 @@ class Renter extends React.Component<RenterProps, State> {
           <Stat content={`${totalSpent} SC`} title="Total Spent" width={1 / 4} />
           <Stat content={`${storageSpending} SC`} title="Storage Spending" width={1 / 4} />
         </Flex>
-        {contracts.active > 30 ? (
+        {hasFiles || hasEnoughContracts ? (
           <Box mx={2} pt={3}>
             {/* <Switch>
               <Route exact path={`${match.path}/metrics`} component={Metrics} />
