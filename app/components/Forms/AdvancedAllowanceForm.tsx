@@ -4,27 +4,37 @@ import { FormikProps } from 'formik'
 import { Grid } from 'components/atoms/Grid'
 import { TextInput, TextInputGroup } from './Inputs'
 import { YupPositiveNumber, YupPostiveInteger, YupStorageUnit } from 'utils/schema'
-import { Tag } from 'antd'
+import { Tag, Tooltip } from 'antd'
 import { StorageUnitSelector } from './RequiredAllowanceForm'
+import { BLOCKS_PER_MONTH } from 'utils/conversion'
+import { Flex } from 'components/atoms'
+import { StyledIcon } from 'components/atoms/StyledIcon'
+import { StyledTag } from 'components/atoms/StyledTag'
 
 export interface AdvancedAllowanceFormItems {
-  period: string
+  periodMonth: string
+  expectedStorage: string
   hosts: string
-  renewWindow: string
+  renewWindowMonth: string
   expectedDownload: string
   expectedDownloadUnit: string
   expectedUpload: string
   expectedUploadUnit: string
+  allowance: string
+  targetPrice: string
 }
 
 export const AdvancedAllowanceFormSchema = {
-  period: YupPostiveInteger,
-  hosts: YupPostiveInteger,
-  renewWindow: YupPostiveInteger,
-  expectedDownload: YupPositiveNumber,
+  allowance: YupPositiveNumber.required('Please set a valid allowance fund.'),
+  expectedStorage: YupPositiveNumber.required('Please enter a valid storage amount.'),
+  periodMonth: YupPositiveNumber.required('Please set a valid period.'),
+  hosts: YupPostiveInteger.required('Please set a valid number of hosts.'),
+  renewWindowMonth: YupPositiveNumber.required('Please set a valid renew window.'),
+  expectedDownload: YupPositiveNumber.required('Please set a valid expected download bandwidth.'),
   expectedDownloadUnit: YupStorageUnit,
-  expectedUpload: YupPositiveNumber,
-  expectedUploadUnit: YupStorageUnit
+  expectedUpload: YupPositiveNumber.required('Please set a valid expected upload bandwidth.'),
+  expectedUploadUnit: YupStorageUnit,
+  targetPrice: YupPositiveNumber
 }
 
 export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormItems>) => {
@@ -41,6 +51,21 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
     setFieldValue
   } = props
 
+  const recomputeTargetPrice = React.useCallback(
+    ({ allowance, expectedStorage, periodMonth }) => {
+      try {
+        const a = parseFloat(allowance)
+        const e = parseFloat(expectedStorage)
+        const m = parseFloat(periodMonth)
+        const targetPrice = a / (m * e)
+        setFieldValue('targetPrice', targetPrice.toFixed(2))
+      } catch (e) {
+        console.log('error setting target price', e)
+      }
+    },
+    [values]
+  )
+
   return (
     <form
       onSubmit={e => {
@@ -49,34 +74,115 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
     >
       <Grid gridTemplateColumns="1fr 1fr" gridGap={2}>
         <TextInputGroup
-          value={values.period}
-          name="period"
-          id="period"
-          onChange={handleChange}
+          value={values.allowance}
+          name="allowance"
+          id="allowance"
+          onChange={e => {
+            setFieldValue('allowance', e.target.value)
+            recomputeTargetPrice({
+              allowance: e.target.value,
+              expectedStorage: values.expectedStorage,
+              periodMonth: values.periodMonth
+            })
+          }}
           onBlur={handleBlur}
-          error={touched.period && errors.period}
-          label="Period"
-          suffix={<Tag>Blocks</Tag>}
+          error={touched.allowance && errors.allowance}
+          label="Allowance Funds"
+          suffix={
+            <Flex alignItems="center">
+              <StyledTag>SC</StyledTag>
+              <Tooltip placement="right" title="Total Siacoin allocated over the period.">
+                <StyledIcon type="info-circle" />
+              </Tooltip>
+            </Flex>
+          }
         />
-        <TextInput
+        <TextInputGroup
+          value={values.expectedStorage}
+          id="expectedStorage"
+          name="expectedStorage"
+          onChange={e => {
+            setFieldValue('expectedStorage', e.target.value)
+            recomputeTargetPrice({
+              allowance: values.allowance,
+              expectedStorage: e.target.value,
+              periodMonth: values.periodMonth
+            })
+          }}
+          onBlur={handleBlur}
+          error={touched.expectedStorage && errors.expectedStorage}
+          label="Expected Storage"
+          suffix={
+            <Flex alignItems="center">
+              <StyledTag>TB</StyledTag>
+              <Tooltip placement="right" title="Amount of storage you'd like to receive in TB.">
+                <StyledIcon type="info-circle" />
+              </Tooltip>
+            </Flex>
+          }
+        />
+      </Grid>
+      <Grid gridTemplateColumns="1fr 1fr" gridGap={2}>
+        <TextInputGroup
+          value={values.periodMonth}
+          name="periodMonth"
+          id="periodMonth"
+          onChange={e => {
+            setFieldValue('periodMonth', e.target.value)
+            recomputeTargetPrice({
+              allowance: values.allowance,
+              expectedStorage: values.expectedStorage,
+              periodMonth: e.target.value
+            })
+          }}
+          onBlur={handleBlur}
+          error={touched.periodMonth && errors.periodMonth}
+          label="Period"
+          suffix={
+            <Flex alignItems="center">
+              <StyledTag>Months</StyledTag>
+              <Tooltip placement="right" title="Length of the storage contracts.">
+                <StyledIcon type="info-circle" />
+              </Tooltip>
+            </Flex>
+          }
+        />
+        <TextInputGroup
           value={values.hosts}
           id="hosts"
           name="hosts"
+          label="Hosts"
           onChange={handleChange}
           onBlur={handleBlur}
           error={touched.hosts && errors.hosts}
-          label="Hosts"
+          suffix={
+            <Flex alignItems="center">
+              <Tooltip placement="right" title="Number of Hosts to create contracts with.">
+                <StyledIcon type="info-circle" />
+              </Tooltip>
+            </Flex>
+          }
         />
       </Grid>
       <TextInputGroup
-        value={values.renewWindow}
-        name="renewWindow"
-        id="renewWindow"
+        value={values.renewWindowMonth}
+        name="renewWindowMonth"
+        id="renewWindowMonth"
         onChange={handleChange}
         onBlur={handleBlur}
-        error={touched.renewWindow && errors.renewWindow}
+        error={touched.renewWindowMonth && errors.renewWindowMonth}
         label="Renew Window"
-        suffix={<Tag>Blocks</Tag>}
+        suffix={
+          <Flex alignItems="center">
+            <StyledTag>Months</StyledTag>
+            <Tooltip
+              placement="right"
+              title="Number of months to act as a buffer window to renew contracts with hosts."
+            >
+              <StyledIcon type="info-circle" />
+            </Tooltip>
+          </Flex>
+        }
       />
       <Grid gridTemplateColumns="1fr 1fr" gridGap={2}>
         <TextInputGroup
@@ -87,14 +193,13 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           onBlur={handleBlur}
           error={touched.expectedDownload && errors.expectedDownload}
           label="Expected Download"
-          addonAfter={
-            <StorageUnitSelector
-              name="storageUnit"
-              id="storageUnit"
-              value={values.expectedDownloadUnit}
-              defaultValue={values.expectedDownloadUnit}
-              onChange={v => setFieldValue('expectedDownloadUnit', v)}
-            />
+          suffix={
+            <Flex alignItems="center">
+              <StyledTag>TB</StyledTag>
+              <Tooltip placement="right" title="Estimated Download Bandwidth per Month.">
+                <StyledIcon type="info-circle" />
+              </Tooltip>
+            </Flex>
           }
         />
         <TextInputGroup
@@ -105,14 +210,13 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           onBlur={handleBlur}
           error={touched.expectedUpload && errors.expectedUpload}
           label="Expected Upload"
-          addonAfter={
-            <StorageUnitSelector
-              name="storageUnit"
-              id="storageUnit"
-              value={values.expectedUploadUnit}
-              defaultValue={values.expectedUploadUnit}
-              onChange={v => setFieldValue('expectedUploadUnit', v)}
-            />
+          suffix={
+            <Flex alignItems="center">
+              <StyledTag>TB</StyledTag>
+              <Tooltip placement="right" title="Estimated Upload Bandwidth per Month.">
+                <StyledIcon type="info-circle" />
+              </Tooltip>
+            </Flex>
           }
         />
       </Grid>

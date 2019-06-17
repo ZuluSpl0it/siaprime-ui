@@ -91,6 +91,9 @@ export const theme = {
     text: '#222',
     'text-subdued': '#999',
     // scrollbar
-    'scrollbar-bg': '#fefefe'
+    'scrollbar-bg': '#fefefe',
+    // tag
+    'tag-bg': whites[3],
+    'tag-text': '#111'
   }
 }

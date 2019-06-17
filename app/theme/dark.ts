@@ -35,6 +35,9 @@ export const dark = Object.assign({}, theme, {
     text: '#fefefe',
     'text-subdued': '#999',
     // scrollerbar
-    'scrollbar-bg': blacks[2]
+    'scrollbar-bg': blacks[2],
+    // tag
+    'tag-bg': blacks[3],
+    'tag-text': '#fefefe'
   }
 })

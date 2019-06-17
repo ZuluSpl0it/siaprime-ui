@@ -1,5 +1,5 @@
 import { AllowanceSettings, RenterActions } from 'actions'
-import { Tabs } from 'antd'
+import { Tabs, Modal } from 'antd'
 import BigNumber from 'bignumber.js'
 import { Box, Text } from 'components/atoms'
 import { StyledModal } from 'components/atoms/StyledModal'
@@ -18,7 +18,7 @@ import * as React from 'react'
 import { IndexState } from 'reducers'
 import { useDispatch, useMappedState } from 'redux-react-hook'
 import { toHastings, toSiacoins } from 'sia-typescript'
-import { bytesToGBString } from 'utils/conversion'
+import { bytesToGBString, bytesToTBString, BLOCKS_PER_MONTH, bytesToTB } from 'utils/conversion'
 import * as Yup from 'yup'
 import { useSiad } from 'hooks'
 
@@ -31,8 +31,6 @@ const CombinedFormSchema = Yup.object().shape({
 
 export const AllowanceModal = (props: any) => {
   const { closeModal, rentStorage } = props
-  const summary: RenterModel.RenterGETResponse = props.renterSummary
-
   const [siadConstants, _] = useSiad('/daemon/constants')
 
   const mapState = React.useCallback(
@@ -69,21 +67,67 @@ export const AllowanceModal = (props: any) => {
       const hosts = renterSettings.allowance.hosts || defaultallowance.hosts
       const renewWindow = renterSettings.allowance.renewwindow || defaultallowance.renewwindow
 
+      const periodInMonths = period / BLOCKS_PER_MONTH
+      const tbInMonths = bytesToTB(expectedStorage)
+      const targetPrice = (
+        toSiacoins(new BigNumber(allowance)).toNumber() /
+        (tbInMonths * periodInMonths)
+      ).toFixed(0)
+
       return {
+        targetPrice,
         allowance: toSiacoins(new BigNumber(allowance)).toFixed(0),
-        expectedStorage: bytesToGBString(expectedStorage),
-        storageUnit: 'gb',
-        period: period.toString(),
+        expectedStorage: bytesToTBString(expectedStorage),
+        storageUnit: 'tb',
+        periodMonth: (period / BLOCKS_PER_MONTH).toString(),
         hosts: hosts.toString(),
-        renewWindow: renewWindow.toString(),
-        expectedDownload: bytesToGBString(expectedDownload),
-        expectedDownloadUnit: 'gb',
-        expectedUpload: bytesToGBString(expectedUpload),
-        expectedUploadUnit: 'gb'
+        renewWindowMonth: (renewWindow / BLOCKS_PER_MONTH).toString(),
+        expectedDownload: bytesToTBString(expectedDownload),
+        expectedDownloadUnit: 'tb',
+        expectedUpload: bytesToTBString(expectedUpload),
+        expectedUploadUnit: 'tb'
       }
     }
     return {}
   }, [renterSettings.allowance, siadConstants])
+
+  const showConfirm = React.useCallback(
+    payload => {
+      // we can safely parse here since Yup already prevalidates the schema.
+      const funds = toHastings(new BigNumber(payload.allowance)).toString()
+      const hosts = parseInt(payload.hosts)
+      const period = parseFloat(payload.periodMonth) * BLOCKS_PER_MONTH
+      const renewwindow = parseFloat(payload.renewWindowMonth) * BLOCKS_PER_MONTH
+      const expectedstorage = bytes.parse(`${payload.expectedStorage} ${payload.storageUnit}`)
+      const expecteddownload = bytes.parse(
+        `${payload.expectedDownload} ${payload.expectedDownloadUnit}`
+      )
+      const expectedupload = bytes.parse(`${payload.expectedUpload} ${payload.expectedUploadUnit}`)
+
+      const allowanceBody: AllowanceSettings = {
+        funds,
+        hosts,
+        period,
+        renewwindow,
+        expectedstorage,
+        expecteddownload,
+        expectedupload
+      }
+
+      const message = `Are you sure you want to set a ${payload.allowance} SC allowance for ${
+        payload.periodMonth
+      } months that will be used to rent storage?`
+      StyledModal.confirm({
+        title: 'Confirm Allowance',
+        content: message,
+        onOk() {
+          createAllowance(allowanceBody)
+        },
+        onCancel() {}
+      })
+    },
+    [createAllowance]
+  )
 
   if (siadConstants.loading) {
     return null
@@ -94,47 +138,25 @@ export const AllowanceModal = (props: any) => {
       validationSchema={CombinedFormSchema}
       initialValues={initialFormValues}
       onSubmit={(payload, formikBag) => {
-        // we can safely parse here since Yup already prevalidates the schema.
-        const funds = toHastings(new BigNumber(payload.allowance)).toString()
-        const hosts = parseInt(payload.hosts)
-        const period = parseInt(payload.period)
-        const renewwindow = parseInt(payload.renewWindow)
-        const expectedstorage = bytes.parse(`${payload.expectedStorage} ${payload.storageUnit}`)
-        const expecteddownload = bytes.parse(
-          `${payload.expectedDownload} ${payload.expectedDownloadUnit}`
-        )
-        const expectedupload = bytes.parse(
-          `${payload.expectedUpload} ${payload.expectedUploadUnit}`
-        )
-
-        const allowanceBody: AllowanceSettings = {
-          funds,
-          hosts,
-          period,
-          renewwindow,
-          expectedstorage,
-          expecteddownload,
-          expectedupload
-        }
-        createAllowance(allowanceBody)
+        showConfirm(payload)
       }}
       render={formikProps => {
         return (
           <StyledModal
             {...props}
             onOk={formikProps.handleSubmit}
-            title="Rent Storage on the Sia Network"
+            title="Allowance"
             okButtonDisabled={rentStorage.error}
             onCancel={closeModal}
             destroyOnClose
           >
             <Box>
               <StyledTabs defaultActiveKey="1" tabPosition="left">
-                <Tabs.TabPane tab="Required" key="1">
+                <Tabs.TabPane tab="Basic" key="1">
                   <Box pb={3}>
                     <Text color="near-black">
-                      To upload and download files on Sia, you must allocate funds in advance. If
-                      this is your first time, your settings are prefilled with default settings.
+                      To store files on Sia, you must allocate funds in advance. If this is your
+                      first time using Sia-UI, the below settings are set with default values.
                     </Text>
                   </Box>
                   <Box>
