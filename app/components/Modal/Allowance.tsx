@@ -18,7 +18,7 @@ import * as React from 'react'
 import { IndexState } from 'reducers'
 import { useDispatch, useMappedState } from 'redux-react-hook'
 import { toHastings, toSiacoins } from 'sia-typescript'
-import { bytesToGBString } from 'utils/conversion'
+import { bytesToGBString, bytesToTBString, BLOCKS_PER_MONTH, bytesToTB } from 'utils/conversion'
 import * as Yup from 'yup'
 import { useSiad } from 'hooks'
 
@@ -31,8 +31,6 @@ const CombinedFormSchema = Yup.object().shape({
 
 export const AllowanceModal = (props: any) => {
   const { closeModal, rentStorage } = props
-  const summary: RenterModel.RenterGETResponse = props.renterSummary
-
   const [siadConstants, _] = useSiad('/daemon/constants')
 
   const mapState = React.useCallback(
@@ -69,17 +67,25 @@ export const AllowanceModal = (props: any) => {
       const hosts = renterSettings.allowance.hosts || defaultallowance.hosts
       const renewWindow = renterSettings.allowance.renewwindow || defaultallowance.renewwindow
 
+      const periodInMonths = period / BLOCKS_PER_MONTH
+      const tbInMonths = bytesToTB(expectedStorage)
+      const targetPrice = (
+        toSiacoins(new BigNumber(allowance)).toNumber() /
+        (tbInMonths * periodInMonths)
+      ).toFixed(2)
+
       return {
+        targetPrice,
         allowance: toSiacoins(new BigNumber(allowance)).toFixed(0),
-        expectedStorage: bytesToGBString(expectedStorage),
-        storageUnit: 'gb',
-        period: period.toString(),
+        expectedStorage: bytesToTBString(expectedStorage),
+        storageUnit: 'tb',
+        periodMonth: (period / BLOCKS_PER_MONTH).toString(),
         hosts: hosts.toString(),
-        renewWindow: renewWindow.toString(),
-        expectedDownload: bytesToGBString(expectedDownload),
-        expectedDownloadUnit: 'gb',
-        expectedUpload: bytesToGBString(expectedUpload),
-        expectedUploadUnit: 'gb'
+        renewWindowMonth: (renewWindow / BLOCKS_PER_MONTH).toString(),
+        expectedDownload: bytesToTBString(expectedDownload),
+        expectedDownloadUnit: 'tb',
+        expectedUpload: bytesToTBString(expectedUpload),
+        expectedUploadUnit: 'tb'
       }
     }
     return {}
@@ -97,8 +103,8 @@ export const AllowanceModal = (props: any) => {
         // we can safely parse here since Yup already prevalidates the schema.
         const funds = toHastings(new BigNumber(payload.allowance)).toString()
         const hosts = parseInt(payload.hosts)
-        const period = parseInt(payload.period)
-        const renewwindow = parseInt(payload.renewWindow)
+        const period = parseFloat(payload.periodMonth) * BLOCKS_PER_MONTH
+        const renewwindow = parseFloat(payload.renewWindowMonth) * BLOCKS_PER_MONTH
         const expectedstorage = bytes.parse(`${payload.expectedStorage} ${payload.storageUnit}`)
         const expecteddownload = bytes.parse(
           `${payload.expectedDownload} ${payload.expectedDownloadUnit}`
@@ -123,7 +129,7 @@ export const AllowanceModal = (props: any) => {
           <StyledModal
             {...props}
             onOk={formikProps.handleSubmit}
-            title="Rent Storage on the Sia Network"
+            title="Allowance"
             okButtonDisabled={rentStorage.error}
             onCancel={closeModal}
             destroyOnClose
