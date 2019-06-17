@@ -11,6 +11,7 @@ import { Flex } from 'components/atoms/Flex'
 import { WalletModel, ConsensusModel } from 'models'
 import { UIReducer } from 'reducers/ui'
 import LockScreenHeader from 'components/AppHeader/LockScreenHeader'
+import { StyledButtonGroup } from 'components/atoms/StyledButton'
 
 interface StateProps {
   seed: WalletRootReducer.SeedState
@@ -83,7 +84,7 @@ class SetupView extends React.Component<Props, {}> {
             </Text>
           </Flex>
           <Box pt={3}>
-            <Button.Group>
+            <StyledButtonGroup>
               <ButtonWithAdornment
                 onClick={this.generateWallet}
                 before
@@ -101,7 +102,7 @@ class SetupView extends React.Component<Props, {}> {
               >
                 Restore from seed
               </ButtonWithAdornment>
-            </Button.Group>
+            </StyledButtonGroup>
           </Box>
         </Flex>
       </DragContiner>

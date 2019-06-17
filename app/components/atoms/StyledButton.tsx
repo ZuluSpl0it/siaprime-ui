@@ -32,5 +32,12 @@ export const StyledButton = styled(Button)<ButtonProps>`
   }
   &:hover {
     background: ${themeGet('colors.button-bg-hover')};
+    color: ${themeGet('colors.text')};
+  }
+`
+
+export const StyledButtonGroup = styled(Button.Group)`
+  & > .ant-btn:hover {
+    border-color: ${themeGet('colors.sia-green')} !important;
   }
 `
