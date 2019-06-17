@@ -59,7 +59,14 @@ export const getRenterWorker = bindAsyncAction(RenterActions.getRenterDetails, {
 export const getContractsWorker = bindAsyncAction(RenterActions.fetchContracts, {
   skipStartedAction: true
 })(function*(): SagaIterator {
-  const response = yield call(siad.call, '/renter/contracts')
+  const response = yield call(siad.call, {
+    url: '/renter/contracts',
+    method: 'GET',
+    qs: {
+      inactive: true,
+      recoverable: true
+    }
+  })
   return response
 })
 
