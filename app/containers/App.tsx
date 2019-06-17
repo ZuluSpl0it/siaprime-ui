@@ -72,6 +72,14 @@ export const GlobalStyle = createGlobalStyle`
   .ant-tooltip-placement-right .ant-tooltip-arrow {
     border-right-color: ${themeGet('colors.tooltip-bg')} !important;
   }
+
+  /* Notification */
+  & .ant-notification-notice {
+    background: ${themeGet('colors.notify-bg')} !important;
+  }
+  .ant-notification-notice-message, .ant-notification-notice-description, .ant-notification-notice-close {
+    color: ${themeGet('colors.text')} !important;
+  }
 `
 
 ipcRenderer.on('shutdown-siad', async () => {

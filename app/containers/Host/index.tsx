@@ -216,7 +216,7 @@ class Host extends React.Component<RenterProps, {}> {
     const contractCount = hostConfig.financialmetrics.contractcount
     const storageRevenue = toSiacoins(
       new BigNumber(hostConfig.financialmetrics.storagerevenue)
-    ).toFixed(4)
+    ).toFixed(2)
     const hasFolderAndConfig = folders.length > 0 && hostConfig
     return (
       <Box>
@@ -242,7 +242,7 @@ class Host extends React.Component<RenterProps, {}> {
         <Flex>
           <Stat title="Host Connectability" content={connectable} width={1 / 4} />
           <Stat title="Total Storage" content={totalStorage} width={1 / 4} />
-          <Stat title="Storage Revenue" content={storageRevenue} width={1 / 4} />
+          <Stat title="Storage Revenue" content={`${storageRevenue} SC`} width={1 / 4} />
           <Stat title="Contract Count" content={contractCount} width={1 / 4} />
         </Flex>
         <StyledModal

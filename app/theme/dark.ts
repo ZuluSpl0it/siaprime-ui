@@ -41,6 +41,8 @@ export const dark = Object.assign({}, theme, {
     'tag-text': '#fefefe',
     // tooltip
     'tooltip-bg': blacks[2],
-    'tooltip-text': '#fefefe'
+    'tooltip-text': '#fefefe',
+    // notification
+    'notify-bg': blacks[2]
   }
 })

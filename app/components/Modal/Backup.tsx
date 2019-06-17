@@ -34,8 +34,8 @@ class BM extends React.Component<AboutModalProps & StateProps & DispatchProp, {}
           <StyledModal
             title="Seed Backup"
             visible={this.props.visible}
+            onCancel={this.props.onOk}
             onOk={this.props.onOk}
-            closable={false}
             footer={[
               <Button key="copy" type="dashed" onClick={this.handleCopy}>
                 <Icon type="copy" />
