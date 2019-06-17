@@ -23,6 +23,10 @@ import IntegerStep from './IntegerStep'
 import { Flex } from 'components/atoms/Flex'
 import { toSiacoins } from 'sia-typescript'
 import { StyledButton } from 'components/atoms/StyledButton'
+import { StyledModal } from 'components/atoms/StyledModal'
+import { StyledTable } from 'components/atoms/StyledTable'
+import { StyledIcon } from 'components/atoms/StyledIcon'
+import { StyledInput, StyledInputGroup } from 'components/atoms/StyledInput'
 
 const { dialog } = require('electron').remote
 const checkDiskSpace = require('check-disk-space')
@@ -241,14 +245,14 @@ class Host extends React.Component<RenterProps, {}> {
           <Stat title="Storage Revenue" content={storageRevenue} width={1 / 4} />
           <Stat title="Contract Count" content={contractCount} width={1 / 4} />
         </Flex>
-        <Modal
+        <StyledModal
           title="Set Folder Storage Size"
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
           <IntegerStep ref={this.sliderRef} min={minMB} max={maxMB} />
-        </Modal>
+        </StyledModal>
         <Box>
           {hasFolderAndConfig ? (
             <Box mx={2} pt={3}>
@@ -256,7 +260,7 @@ class Host extends React.Component<RenterProps, {}> {
                 <Card width={1 / 2} mr={2}>
                   <Flex justifyContent="space-between" alignItems="baseline">
                     <CardHeaderInner>Host Settings</CardHeaderInner>
-                    <Button onClick={this.updateHostSettings}>Update</Button>
+                    <StyledButton onClick={this.updateHostSettings}>Update</StyledButton>
                   </Flex>
                   <Form layout="inline">
                     {[
@@ -312,7 +316,11 @@ class Host extends React.Component<RenterProps, {}> {
                                 }
                               ]
                             })(
-                              <Input type="number" size="small" suffix={<Text>{x.suffix}</Text>} />
+                              <StyledInputGroup
+                                type="number"
+                                size="small"
+                                suffix={<Text color="text">{x.suffix}</Text>}
+                              />
                             )}
                           </Form.Item>
                         </Box>
@@ -323,10 +331,10 @@ class Host extends React.Component<RenterProps, {}> {
                 <Card width={1 / 2} ml={2}>
                   <Flex justifyContent="space-between" alignItems="baseline">
                     <CardHeaderInner>Storage Folders</CardHeaderInner>
-                    <Button onClick={this.addFolder}>Add Folder</Button>
+                    <StyledButton onClick={this.addFolder}>Add Folder</StyledButton>
                   </Flex>
                   <Box>
-                    <Table rowKey="path" size="small" dataSource={folders} pagination={false}>
+                    <StyledTable rowKey="path" size="small" dataSource={folders} pagination={false}>
                       <Table.Column
                         title={<Text>Storage Location</Text>}
                         dataIndex="path"
@@ -341,7 +349,7 @@ class Host extends React.Component<RenterProps, {}> {
                           }
                         }}
                         render={v => (
-                          <Tooltip title={<Text>{v}</Text>}>
+                          <Tooltip placement="bottom" title={<Text>{v}</Text>}>
                             <Text
                               is="div"
                               style={{
@@ -395,7 +403,7 @@ class Host extends React.Component<RenterProps, {}> {
                                 onClick={this.editFolder(path)}
                               />
                               <Divider type="vertical" /> */}
-                              <Icon
+                              <StyledIcon
                                 style={{ cursor: 'pointer' }}
                                 onClick={() =>
                                   this.props.dispatch(
@@ -410,7 +418,7 @@ class Host extends React.Component<RenterProps, {}> {
                           )
                         }}
                       />
-                    </Table>
+                    </StyledTable>
                     {/* {folders.map(f => (
                       <Text>{f.path}</Text>
                     ))} */}

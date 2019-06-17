@@ -57,6 +57,21 @@ export const GlobalStyle = createGlobalStyle`
         background-color: #fff;
         width: .8em
   }
+
+  /* set tooltip styling */
+  .ant-tooltip-inner{
+    background: ${themeGet('colors.tooltip-bg')} !important;
+    color: ${themeGet('colors.tooltip-text')} !important;
+  }
+  .ant-tooltip-placement-leftTop .ant-tooltip-arrow {
+    border-left-color: ${themeGet('colors.tooltip-bg')} !important;
+  }
+  .ant-tooltip-placement-bottom .ant-tooltip-arrow {
+    border-bottom-color: ${themeGet('colors.tooltip-bg')} !important;
+  }
+  .ant-tooltip-placement-right .ant-tooltip-arrow {
+    border-right-color: ${themeGet('colors.tooltip-bg')} !important;
+  }
 `
 
 ipcRenderer.on('shutdown-siad', async () => {

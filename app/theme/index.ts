@@ -94,6 +94,9 @@ export const theme = {
     'scrollbar-bg': '#fefefe',
     // tag
     'tag-bg': whites[3],
-    'tag-text': '#111'
+    'tag-text': '#111',
+    // tooltip
+    'tooltip-bg': whites[2],
+    'tooltip-text': '#222'
   }
 }

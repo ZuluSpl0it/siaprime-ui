@@ -38,6 +38,9 @@ export const dark = Object.assign({}, theme, {
     'scrollbar-bg': blacks[2],
     // tag
     'tag-bg': blacks[3],
-    'tag-text': '#fefefe'
+    'tag-text': '#fefefe',
+    // tooltip
+    'tooltip-bg': blacks[2],
+    'tooltip-text': '#fefefe'
   }
 })

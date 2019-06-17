@@ -82,7 +82,7 @@ class TransactionView extends React.Component<Props, {}> {
                 const len = 8
                 const transformId = value.slice(0, len) + '...' + value.slice(value.length - len)
                 return (
-                  <Tooltip placement="bottom" title={<Text color="text-light">{value}</Text>}>
+                  <Tooltip placement="bottom" title={<Text color="text">{value}</Text>}>
                     <Text
                       css={{ cursor: 'pointer' }}
                       onClick={copy}

@@ -232,7 +232,7 @@ class ListView extends Component {
             parents: [],
             redundancy: '',
             size: undefined,
-            title: '...'
+            title: '..'
           },
           ...itemsToRender
         ]
