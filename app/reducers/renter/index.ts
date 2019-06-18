@@ -6,6 +6,7 @@ import { reducerWithInitialState, reducerWithoutInitialState } from 'typescript-
 
 export namespace RenterReducer {
   export interface State {
+    isLoaded: boolean
     summary: RenterModel.RenterGETResponse
     contracts: RenterModel.ContractsGETResponse
     pricing: RenterModel.PricesGETResponse
@@ -82,7 +83,13 @@ export namespace RenterReducer {
     }
   }).case(RenterActions.getRenterDetails.done, (_, payload) => payload.result)
 
+  const LoadedReducer = reducerWithInitialState(false).case(
+    RenterActions.fetchContracts.done,
+    (_, payload) => true
+  )
+
   export const Reducer = combineReducers<State>({
+    isLoaded: LoadedReducer,
     contracts: ContractReducer,
     pricing: PricingReducer,
     summary: SummaryReducer
