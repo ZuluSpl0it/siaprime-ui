@@ -23,7 +23,18 @@ export const StyledInput = styled(Input)<StyledInputProps>`
   ${inputStyles}
 `
 
-export const StyledInputPassword = styled(Input.Password)``
+export const StyledInputPassword = styled(Input.Password)`
+  .ant-input-group,
+  &.ant-input-affix-wrapper {
+    input,
+    .ant-input {
+      ${inputStyles}
+    }
+  }
+  .ant-input-suffix > i {
+    color: ${themeGet('colors.text')};
+  }
+`
 
 export const StyledInputGroup = styled(Input)`
   .ant-input-group,

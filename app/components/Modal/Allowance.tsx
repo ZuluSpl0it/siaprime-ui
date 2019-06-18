@@ -18,7 +18,13 @@ import * as React from 'react'
 import { IndexState } from 'reducers'
 import { useDispatch, useMappedState } from 'redux-react-hook'
 import { toHastings, toSiacoins } from 'sia-typescript'
-import { bytesToGBString, bytesToTBString, BLOCKS_PER_MONTH, bytesToTB } from 'utils/conversion'
+import {
+  bytesToGBString,
+  bytesToTBString,
+  BLOCKS_PER_MONTH,
+  bytesToTB,
+  tbToBytes
+} from 'utils/conversion'
 import * as Yup from 'yup'
 import { useSiad } from 'hooks'
 
@@ -67,12 +73,15 @@ export const AllowanceModal = (props: any) => {
       const hosts = renterSettings.allowance.hosts || defaultallowance.hosts
       const renewWindow = renterSettings.allowance.renewwindow || defaultallowance.renewwindow
 
+      // these are calculated to make it human readable
       const periodInMonths = period / BLOCKS_PER_MONTH
       const tbInMonths = bytesToTB(expectedStorage)
       const targetPrice = (
         toSiacoins(new BigNumber(allowance)).toNumber() /
         (tbInMonths * periodInMonths)
       ).toFixed(0)
+      const expectedDownloadMonth = expectedDownload * BLOCKS_PER_MONTH
+      const expectedUploadMonth = expectedUpload * BLOCKS_PER_MONTH
 
       return {
         targetPrice,
@@ -82,9 +91,9 @@ export const AllowanceModal = (props: any) => {
         periodMonth: (period / BLOCKS_PER_MONTH).toString(),
         hosts: hosts.toString(),
         renewWindowMonth: (renewWindow / BLOCKS_PER_MONTH).toString(),
-        expectedDownload: bytesToTBString(expectedDownload),
+        expectedDownloadMonth: bytesToTBString(expectedDownloadMonth),
         expectedDownloadUnit: 'tb',
-        expectedUpload: bytesToTBString(expectedUpload),
+        expectedUploadMonth: bytesToTBString(expectedUploadMonth),
         expectedUploadUnit: 'tb'
       }
     }
@@ -98,11 +107,9 @@ export const AllowanceModal = (props: any) => {
       const hosts = parseInt(payload.hosts)
       const period = parseFloat(payload.periodMonth) * BLOCKS_PER_MONTH
       const renewwindow = parseFloat(payload.renewWindowMonth) * BLOCKS_PER_MONTH
-      const expectedstorage = bytes.parse(`${payload.expectedStorage} ${payload.storageUnit}`)
-      const expecteddownload = bytes.parse(
-        `${payload.expectedDownload} ${payload.expectedDownloadUnit}`
-      )
-      const expectedupload = bytes.parse(`${payload.expectedUpload} ${payload.expectedUploadUnit}`)
+      const expectedstorage = tbToBytes(payload.expectedStorage)
+      const expecteddownload = tbToBytes(payload.expectedDownloadMonth / BLOCKS_PER_MONTH)
+      const expectedupload = tbToBytes(payload.expectedUploadMonth / BLOCKS_PER_MONTH)
 
       const allowanceBody: AllowanceSettings = {
         funds,

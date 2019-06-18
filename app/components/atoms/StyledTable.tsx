@@ -31,6 +31,11 @@ export const StyledTable = ({ ...props }: TableProps<any>) => {
         color: ${themeGet('colors.near-black')};
       }
     }
+    .ant-pagination-prev .ant-pagination-item-link,
+    .ant-pagination-next .ant-pagination-item-link {
+      background: transparent;
+      color: ${themeGet('colors.text')};
+    }
     .ant-table-thead > tr:first-child > th:last-child {
       border-top-right-radius: 0;
     }

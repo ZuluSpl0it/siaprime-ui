@@ -156,11 +156,7 @@ class Row extends Component {
                 role="row"
                 style={style}
               >
-                {rowData.type === 'navigator' ? (
-                  <div style={{ paddingLeft: 20 }}>...</div>
-                ) : (
-                  columns
-                )}
+                {rowData.type === 'navigator' ? <div style={{ paddingLeft: 20 }}>..</div> : columns}
               </div>
             )
           )

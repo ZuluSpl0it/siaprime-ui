@@ -1,7 +1,8 @@
 import { Icon, Tooltip } from 'antd'
-import { Box, StyledTag, Text } from 'components/atoms'
+import { Box, Text } from 'components/atoms'
 import { Flex } from 'components/atoms/Flex'
 import { StyledTable } from 'components/atoms/StyledTable'
+import { StyledTag } from 'components/atoms/StyledTag'
 import { transactionFormatTool } from 'components/Transaction'
 import { clipboard } from 'electron'
 import { isEqual } from 'lodash'
@@ -82,7 +83,7 @@ class TransactionView extends React.Component<Props, {}> {
                 const len = 8
                 const transformId = value.slice(0, len) + '...' + value.slice(value.length - len)
                 return (
-                  <Tooltip placement="bottom" title={<Text color="text-light">{value}</Text>}>
+                  <Tooltip placement="bottom" title={<Text color="text">{value}</Text>}>
                     <Text
                       css={{ cursor: 'pointer' }}
                       onClick={copy}

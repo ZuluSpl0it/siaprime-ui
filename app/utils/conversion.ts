@@ -1,28 +1,26 @@
 import * as bytes from 'bytes'
 
+// converts byte amount to TB. returns a string without the unit 'TB'.
+export const bytesToGB = (b: number) => {
+  return b / 1e9
+}
+
 // converts byte amount to GB. returns a string without the unit 'GB'.
 export const bytesToGBString = (b: number) => {
-  const GBString = bytes(b, {
-    unit: 'GB'
-  })
-  return parseFloat(GBString).toString()
+  return bytesToGB(b).toFixed(2)
 }
 
 // converts byte amount to TB. returns a string without the unit 'TB'.
 export const bytesToTB = (b: number) => {
-  const TBString = bytes(b, {
-    unit: 'TB'
-  })
-  return parseFloat(TBString)
+  return b / 1e12
 }
 
 // converts byte amount to TB. returns a string without the unit 'TB'.
 export const bytesToTBString = (b: number) => {
-  const TBString = bytes(b, {
-    unit: 'TB'
-  })
-  return parseFloat(TBString).toString()
+  return bytesToTB(b).toFixed(2)
 }
+
+export const tbToBytes = (tb: number) => Math.ceil(tb * 1e12)
 
 export const BLOCKS_PER_HOUR = 6
 export const BLOCKS_PER_DAY = BLOCKS_PER_HOUR * 24
