@@ -8,11 +8,11 @@ import { StyledIcon } from 'components/atoms/StyledIcon'
 import { StyledTooltip } from 'components/atoms/StyledTooltip'
 
 const BoldText = ({ children }: any) => (
-  <Text fontWeight={600} color="text-light">
+  <Text fontWeight={600} color="text">
     {children}
   </Text>
 )
-const StatText = ({ children }: any) => <Text color="text-light">{children}</Text>
+const StatText = ({ children }: any) => <Text color="text">{children}</Text>
 
 interface StatProps {
   title: string

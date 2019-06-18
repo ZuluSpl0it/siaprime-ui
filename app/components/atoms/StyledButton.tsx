@@ -30,7 +30,16 @@ export const StyledButton = styled(Button)<ButtonProps>`
   &.ant-btn-ghost {
     color: ${themeGet('colors.near-black')};
   }
-  &:hover {
+  &:hover,
+  &:focus,
+  &:active {
     background: ${themeGet('colors.button-bg-hover')};
+    color: ${themeGet('colors.text')};
+  }
+`
+
+export const StyledButtonGroup = styled(Button.Group)`
+  & > .ant-btn:hover {
+    border-color: ${themeGet('colors.sia-green')} !important;
   }
 `

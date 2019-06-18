@@ -16,9 +16,9 @@ export interface AdvancedAllowanceFormItems {
   expectedStorage: string
   hosts: string
   renewWindowMonth: string
-  expectedDownload: string
+  expectedDownloadMonth: string
   expectedDownloadUnit: string
-  expectedUpload: string
+  expectedUploadMonth: string
   expectedUploadUnit: string
   allowance: string
   targetPrice: string
@@ -30,9 +30,11 @@ export const AdvancedAllowanceFormSchema = {
   periodMonth: YupPositiveNumber.required('Please set a valid period.'),
   hosts: YupPostiveInteger.required('Please set a valid number of hosts.'),
   renewWindowMonth: YupPositiveNumber.required('Please set a valid renew window.'),
-  expectedDownload: YupPositiveNumber.required('Please set a valid expected download bandwidth.'),
+  expectedDownloadMonth: YupPositiveNumber.required(
+    'Please set a valid expected download bandwidth.'
+  ),
   expectedDownloadUnit: YupStorageUnit,
-  expectedUpload: YupPositiveNumber.required('Please set a valid expected upload bandwidth.'),
+  expectedUploadMonth: YupPositiveNumber.required('Please set a valid expected upload bandwidth.'),
   expectedUploadUnit: YupStorageUnit,
   targetPrice: YupPositiveNumber
 }
@@ -186,12 +188,12 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
       />
       <Grid gridTemplateColumns="1fr 1fr" gridGap={2}>
         <TextInputGroup
-          value={values.expectedDownload}
-          name="expectedDownload"
-          id="expectedDownload"
+          value={values.expectedDownloadMonth}
+          name="expectedDownloadMonth"
+          id="expectedDownloadMonth"
           onChange={handleChange}
           onBlur={handleBlur}
-          error={touched.expectedDownload && errors.expectedDownload}
+          error={touched.expectedDownloadMonth && errors.expectedDownloadMonth}
           label="Expected Download"
           suffix={
             <Flex alignItems="center">
@@ -203,12 +205,12 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           }
         />
         <TextInputGroup
-          value={values.expectedUpload}
-          name="expectedUpload"
-          id="expectedUpload"
+          value={values.expectedUploadMonth}
+          name="expectedUploadMonth"
+          id="expectedUploadMonth"
           onChange={handleChange}
           onBlur={handleBlur}
-          error={touched.expectedUpload && errors.expectedUpload}
+          error={touched.expectedUploadMonth && errors.expectedUploadMonth}
           label="Expected Upload"
           suffix={
             <Flex alignItems="center">

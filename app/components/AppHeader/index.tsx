@@ -1,14 +1,15 @@
 import { WalletActions } from 'actions'
-import { AppIconButton, Bar, HeaderBox } from 'components/atoms'
+import { Bar, HeaderBox } from 'components/atoms'
 import { Flex } from 'components/atoms/Flex'
+import { HeaderButton } from 'components/atoms/HeaderButton'
 import { AboutModal, TerminalModal } from 'components/Modal'
+import { SettingsModal } from 'components/Modal/Settings'
 import SynchronizeStatus from 'components/SynchronizeStatus'
 import { ConsensusModel } from 'models'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { selectConsensus } from 'selectors'
-import { SettingsModal } from 'components/Modal/Settings'
 
 interface StateProps {
   consensus: ConsensusModel.ConsensusGETResponse
@@ -58,21 +59,29 @@ class AppHeader extends React.Component<StateProps & DispatchProp, {}> {
       <React.Fragment>
         <HeaderBox px={3} height={2} justifyContent="space-between" alignItems="center">
           <Flex justifyContent="center" alignItems="center">
-            <div onClick={this.lockWallet}>
-              <AppIconButton iconType="lock" />
-            </div>
+            <HeaderButton
+              handleClick={this.lockWallet}
+              iconType="lock"
+              tooltipTitle="Lock Wallet"
+            />
             <Bar />
-            <div onClick={this.showModal}>
-              <AppIconButton iconType="info-circle" />
-            </div>
+            <HeaderButton
+              handleClick={this.showModal}
+              iconType="info-circle"
+              tooltipTitle="About"
+            />
             <Bar />
-            <div onClick={this.showTerminalModal}>
-              <AppIconButton iconType="right-square" />
-            </div>
+            <HeaderButton
+              handleClick={this.showTerminalModal}
+              iconType="right-square"
+              tooltipTitle="Terminal"
+            />
             <Bar />
-            <div onClick={this.showSettingsModal}>
-              <AppIconButton iconType="setting" />
-            </div>
+            <HeaderButton
+              handleClick={this.showSettingsModal}
+              iconType="setting"
+              tooltipTitle="Settings"
+            />
           </Flex>
           <Flex justifyContent="center" alignItems="center">
             <SynchronizeStatus {...consensus} />

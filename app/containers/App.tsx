@@ -10,6 +10,7 @@ import MetropolisBold from '../assets/fonts/Metropolis-Bold.otf'
 import MetropolisMedium from '../assets/fonts/Metropolis-Medium.otf'
 import MetropolisRegular from '../assets/fonts/Metropolis-Regular.ttf'
 import { themeGet } from 'styled-system'
+import { ModalStyles } from 'components/atoms/StyledModal'
 
 export const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -56,6 +57,38 @@ export const GlobalStyle = createGlobalStyle`
   ::-webkit-scrollbar {     
         background-color: #fff;
         width: .8em
+  }
+
+  /* set tooltip styling */
+  .ant-tooltip-inner{
+    background: ${themeGet('colors.tooltip-bg')} !important;
+    color: ${themeGet('colors.tooltip-text')} !important;
+  }
+  .ant-tooltip-placement-leftTop .ant-tooltip-arrow {
+    border-left-color: ${themeGet('colors.tooltip-bg')} !important;
+  }
+  .ant-tooltip-placement-bottom .ant-tooltip-arrow {
+    border-bottom-color: ${themeGet('colors.tooltip-bg')} !important;
+  }
+  .ant-tooltip-placement-right .ant-tooltip-arrow {
+    border-right-color: ${themeGet('colors.tooltip-bg')} !important;
+  }
+
+  /* Notification */
+  & .ant-notification-notice {
+    background: ${themeGet('colors.notify-bg')} !important;
+  }
+  .ant-notification-notice-message, .ant-notification-notice-description, .ant-notification-notice-close {
+    color: ${themeGet('colors.text')} !important;
+  }
+
+  /* Modal */
+  .ant-modal-content {
+    background: ${themeGet('colors.white')} !important;
+  }
+
+  .ant-modal-confirm-content, .ant-modal-confirm-title {
+    color: ${themeGet('colors.text')} !important;
   }
 `
 
