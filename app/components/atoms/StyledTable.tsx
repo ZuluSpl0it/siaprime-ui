@@ -37,6 +37,9 @@ export const StyledTable = ({ ...props }: TableProps<any>) => {
     .ant-table-thead > tr:first-child > th:first-child {
       border-top-left-radius: 0;
     }
+    .ant-pagination-item-ellipsis {
+      color: ${themeGet('colors.near-black')} !important;
+    }
   `
   return (
     <Div>
