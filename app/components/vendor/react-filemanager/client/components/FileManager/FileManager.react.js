@@ -1,23 +1,22 @@
-import PropTypes from 'prop-types';
-import React, { Component, Children } from 'react';
-import './FileManager.less';
-import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContextProvider } from 'react-dnd';
+import PropTypes from 'prop-types'
+import React, { Component, Children } from 'react'
+import './FileManager.less'
+import HTML5Backend from 'react-dnd-html5-backend'
+import { DragDropContextProvider } from 'react-dnd'
 
 const propTypes = {
   className: PropTypes.string
-};
-const defaultProps = {};
+}
+const defaultProps = {}
 
-export default
-class FileManager extends Component {
+export default class FileManager extends Component {
   constructor(props) {
-    super(props);
-    this.state = { };
+    super(props)
+    this.state = {}
   }
 
   render() {
-    const { children, className } = this.props;
+    const { children, className } = this.props
 
     return (
       <div className={`oc-fm--file-manager ${className || ''}`}>
@@ -31,9 +30,9 @@ class FileManager extends Component {
           </div>
         </DragDropContextProvider>
       </div>
-    );
+    )
   }
 }
 
-FileManager.propTypes = propTypes;
-FileManager.defaultProps = defaultProps;
+FileManager.propTypes = propTypes
+FileManager.defaultProps = defaultProps
