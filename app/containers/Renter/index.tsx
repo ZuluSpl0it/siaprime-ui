@@ -32,6 +32,8 @@ import { BackupModal } from 'components/Modal/BackupModal'
 import { RestoreModal } from 'components/Modal/RestoreModal'
 import { StyledButton } from 'components/atoms/StyledButton'
 import { StyledModal } from 'components/atoms/StyledModal'
+import { IsLoadedHOC } from 'components/IsLoadedHOC/IsLoadedHOC'
+import { useMappedState, useDispatch } from 'redux-react-hook'
 
 const { Panel } = Collapse
 
@@ -384,7 +386,27 @@ export const mapStateToProps = (state: IndexState) => ({
   balances: selectWalletBalanceDetails(state)
 })
 
-export default connect(mapStateToProps)(withRouter(Renter))
+const RenterComp = connect(mapStateToProps)(withRouter(Renter))
+
+// RenterHOC wraps the Renter Component with the IsLoadedHOC with some
+// additional side-effects. We ensure contract fetching is dispatched, and watch
+// for the `renterLoaded` state before rendering the view.
+const RenterHOC = () => {
+  const dispatch = useDispatch()
+  const mapState = React.useCallback(
+    (state: IndexState) => ({
+      renterLoaded: state.renter.isLoaded
+    }),
+    []
+  )
+  const { renterLoaded } = useMappedState(mapState)
+  React.useEffect(() => {
+    dispatch(RenterActions.fetchContracts.started())
+  }, [])
+
+  return <IsLoadedHOC loading={!renterLoaded} Component={RenterComp} />
+}
+export default RenterHOC
 
 {
   /* <Flex>

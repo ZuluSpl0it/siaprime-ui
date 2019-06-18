@@ -3,53 +3,57 @@
    https://github.com/OpusCapita/react-showroom-client/blob/master/docs/scope-component.md
 */
 
-import React, { Component } from 'react';
-import { showroomScopeDecorator } from '@opuscapita/react-showroom-client';
-import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContextProvider } from 'react-dnd';
-import connectorNodeV1 from '@opuscapita/react-filemanager-connector-node-v1';
+import React, { Component } from 'react'
+import { showroomScopeDecorator } from '@opuscapita/react-showroom-client'
+import HTML5Backend from 'react-dnd-html5-backend'
+import { DragDropContextProvider } from 'react-dnd'
+import connectorNodeV1 from '@opuscapita/react-filemanager-connector-node-v1'
 
 window.connectors = {
   nodeV1: connectorNodeV1
-};
+}
 
 @showroomScopeDecorator
-export default
-class FileNavigatorScope extends Component {
+export default class FileNavigatorScope extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       nodejsInitPath: '/',
       nodejsInitId: ''
-    };
+    }
   }
 
   componentDidMount() {
-    this.handleNodejsInitPathChange('');
+    this.handleNodejsInitPathChange('')
   }
 
-  handleNodejsLocationChange = (resourceLocation) => {
-    const resourceLocationString = '/' + resourceLocation.slice(1, resourceLocation.length).map(o => o.name).join('/');
+  handleNodejsLocationChange = resourceLocation => {
+    const resourceLocationString =
+      '/' +
+      resourceLocation
+        .slice(1, resourceLocation.length)
+        .map(o => o.name)
+        .join('/')
     this.setState({
       nodejsInitPath: resourceLocationString,
       nodejsInitId: resourceLocation[resourceLocation.length - 1].id
-    });
+    })
   }
 
-  handleNodejsInitPathChange = async (path) => {
+  handleNodejsInitPathChange = async path => {
     this.setState({
       nodejsInitPath: path || '/'
-    });
+    })
 
     const apiOptions = {
       apiRoot: `${window.env.SERVER_URL}`
-    };
+    }
 
-    const nodejsInitId = await window.connectors.nodeV1.api.getIdForPath(apiOptions, path || '/');
+    const nodejsInitId = await window.connectors.nodeV1.api.getIdForPath(apiOptions, path || '/')
 
     if (nodejsInitId) {
-      this.setState({ nodejsInitId });
+      this.setState({ nodejsInitId })
     }
   }
 
@@ -60,6 +64,6 @@ class FileNavigatorScope extends Component {
           {this._renderChildren()}
         </DragDropContextProvider>
       </div>
-    );
+    )
   }
 }

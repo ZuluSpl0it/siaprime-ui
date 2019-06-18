@@ -15,7 +15,8 @@ import { connect, DispatchProp } from 'react-redux'
 import { Redirect, Route, RouteComponentProps, Switch, withRouter } from 'react-router'
 import { IndexState } from 'reducers'
 import { UIReducer } from 'reducers/ui'
-import { selectSiadState, selectWalletSummary } from 'selectors'
+import { selectSiadState, selectWalletSummary, selectIsRenterLoaded } from 'selectors'
+import { IsLoadedHOC } from 'components/IsLoadedHOC/IsLoadedHOC'
 
 const routes: SidebarItem[] = [
   {
@@ -65,7 +66,7 @@ class MainView extends React.Component<
     this.props.dispatch(WalletActions.stopPolling())
   }
   render() {
-    const { wallet, siad, location } = this.props
+    const { wallet, siad, location, isRenterLoaded } = this.props
     if (!siad.isActive) {
       return <Redirect to="/offline" />
     }
@@ -114,7 +115,8 @@ class MainView extends React.Component<
 const mapStateToProps = (state: IndexState) => ({
   pathname: state.router.location.pathname,
   wallet: selectWalletSummary(state),
-  siad: selectSiadState(state)
+  siad: selectSiadState(state),
+  isRenterLoaded: selectIsRenterLoaded(state)
 })
 
 export default connect(mapStateToProps)(withRouter(MainView))
