@@ -6,7 +6,7 @@ import { ModalProps } from 'antd/lib/modal'
 
 export const StyledModal = styled(Modal)<ModalProps & { children: any }>`
   .ant-modal-body {
-    background: ${themeGet('colors.white')};
+    background: ${themeGet('colors.modal-body')};
     color: ${themeGet('colors.near-black')};
   }
   .ant-modal-title {

@@ -9,6 +9,7 @@ import { StyledModal } from 'components/atoms/StyledModal'
 import { StyledProgress } from 'components/atoms/StyledProgress'
 import { useDispatch } from 'redux-react-hook'
 import { GlobalActions } from 'actions'
+import { StyledButton, StyledButtonGroup } from 'components/atoms/StyledButton'
 
 interface BackupObject {
   name: string
@@ -159,7 +160,7 @@ export const RestoreModal = (props: any) => {
                       alignItems="center"
                       py={2}
                     >
-                      <Box width={100}>
+                      <Box width={150}>
                         {/* <Box>
                         <Caps fontSize={0} color="text-subdued">
                           {moment.unix(x.creationdate).format('MMM Do YY')}
@@ -169,15 +170,19 @@ export const RestoreModal = (props: any) => {
                           <Text fontSize={2}>{x.name}</Text>
                         </Box>
                       </Box>
-                      <Box width={200} ml="auto" mr="auto">
-                        <StyledProgress
-                          percent={x.uploadprogress}
-                          showInfo={false}
-                          status={x.uploadprogress < 100 ? 'active' : 'success'}
-                        />
+                      <Box width={150} ml="auto" mr="auto">
+                        {x.uploadprogress < 100 ? (
+                          <StyledProgress
+                            percent={x.uploadprogress}
+                            showInfo={false}
+                            status={'success'}
+                          />
+                        ) : (
+                          moment.unix(x.creationdate).format('MMMM Do Y')
+                        )}
                       </Box>
                       <Box width={150} pl={4}>
-                        <Button
+                        <StyledButton
                           onClick={() => {
                             setRestoreName(x.name)
                           }}
@@ -185,7 +190,7 @@ export const RestoreModal = (props: any) => {
                           disabled={restore.loading || x.uploadprogress < 100}
                         >
                           Restore
-                        </Button>
+                        </StyledButton>
                       </Box>
                     </Flex>
                   )

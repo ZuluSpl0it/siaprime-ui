@@ -90,6 +90,10 @@ export const GlobalStyle = createGlobalStyle`
   .ant-modal-confirm-content, .ant-modal-confirm-title {
     color: ${themeGet('colors.text')} !important;
   }
+
+  .ant-modal-confirm-warning .ant-modal-confirm-body > .anticon, .ant-modal-confirm-confirm .ant-modal-confirm-body > .anticon {
+    color: ${themeGet('colors.sia-green')} !important;
+  }
 `
 
 ipcRenderer.on('shutdown-siad', async () => {

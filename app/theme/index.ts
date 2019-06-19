@@ -77,7 +77,8 @@ export const theme = {
     // base
     bg: whites[0],
     'sidebar-bg': whites[1],
-    'modal-header-bg': whites[0],
+    'modal-body': whites[1],
+    'modal-header-bg': whites[1],
     'card-bg': whites[1],
     'card-bg-dark': whites[2],
     // input

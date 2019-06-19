@@ -1,4 +1,4 @@
-import { RenterActions } from 'actions'
+import { RenterActions, GlobalActions } from 'actions'
 import { InputNumber, Modal, Icon } from 'antd'
 import BigNumber from 'bignumber.js'
 import { Box, Text, Spinner } from 'components/atoms'
@@ -20,6 +20,7 @@ import { StyledModal } from 'components/atoms/StyledModal'
 export const BackupModal = (props: any) => {
   const { closeModal } = props
 
+  const dispatch = useDispatch()
   const [backupName, setBackupName] = React.useState('')
   const [backupFieldError, setBackupFieldError] = React.useState('')
   const [results, setResults] = React.useState({
@@ -49,6 +50,14 @@ export const BackupModal = (props: any) => {
         }
       })
       setResults({ response, error: null, loading: false })
+      setBackupName('')
+      dispatch(
+        GlobalActions.notification({
+          type: 'open',
+          title: 'Backup Initiated',
+          message: `${backupName} in progress`
+        })
+      )
       closeModal()
     } catch (e) {
       setResults({ response: null, error: e, loading: false })
