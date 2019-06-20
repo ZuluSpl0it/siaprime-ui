@@ -208,6 +208,7 @@ app.on('ready', () =>
               label: 'Quit',
               accelerator: 'Command+Q',
               click() {
+                mainWindow.isQuitting = true
                 app.quit()
               }
             }
