@@ -161,7 +161,7 @@ class ProtectedView extends React.Component<Props, State> {
                       </Tooltip>
                     </Form.Item>
                     <Button onClick={this.handleLogin} type="primary" size="large">
-                      Login
+                      Unlock
                     </Button>
                   </Flex>
                 </TransitionFade>

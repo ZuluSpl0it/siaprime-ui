@@ -10,7 +10,6 @@ import MetropolisBold from '../assets/fonts/Metropolis-Bold.otf'
 import MetropolisMedium from '../assets/fonts/Metropolis-Medium.otf'
 import MetropolisRegular from '../assets/fonts/Metropolis-Regular.ttf'
 import { themeGet } from 'styled-system'
-import { ModalStyles } from 'components/atoms/StyledModal'
 
 export const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -73,6 +72,9 @@ export const GlobalStyle = createGlobalStyle`
   .ant-tooltip-placement-right .ant-tooltip-arrow {
     border-right-color: ${themeGet('colors.tooltip-bg')} !important;
   }
+  .ant-tooltip-placement-left .ant-tooltip-arrow {
+    border-left-color: ${themeGet('colors.tooltip-bg')} !important;
+  }
 
   /* Notification */
   & .ant-notification-notice {
@@ -110,6 +112,14 @@ export const GlobalStyle = createGlobalStyle`
     &:hover {
       color: ${themeGet('colors.text-subdued')} !important;
     }
+  }
+  .ant-dropdown-menu-item {
+    color: ${themeGet('colors.text')} !important;
+
+  }
+  .ant-table-filter-dropdown-btns {
+    background: ${themeGet('colors.dropdown-bg')} !important;
+    border-top-color: ${themeGet('colors.dropdown-border')} !important;
   }
 `
 
