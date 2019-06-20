@@ -17,7 +17,7 @@ interface AboutModalProps {
 }
 
 const AboutButton = props => (
-  <Box pt={1} width={200}>
+  <Box pt={2} width={200}>
     <StyledButton style={{ width: '100%' }} {...props} />
   </Box>
 )
@@ -31,9 +31,6 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
   const openSiaDir = React.useCallback(() => {
     const path = defaultConfig.siad.datadir
     shell.openItem(path)
-  }, [])
-  const openConfig = React.useCallback(() => {
-    shell.openItem(path.dirname(defaultConfig.userConfigPath))
   }, [])
 
   const [updateInfo, setUpdateInfo] = React.useState({
@@ -130,7 +127,6 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
             </Box>
             <AboutButton onClick={checkForUpdates}>Check for Updates</AboutButton>
             <AboutButton onClick={openSiaDir}>Open Data Folder</AboutButton>
-            <AboutButton onClick={openConfig}>Show Config Folder</AboutButton>
             <Box pt={2}>{updateInfo.error && <Text>{updateInfo.error}</Text>}</Box>
             <Box />
           </Box>

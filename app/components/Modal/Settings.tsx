@@ -93,11 +93,11 @@ export const SettingsModal: React.SFC<SettingModalprops> = ({ onOk, visible }) =
         onCancel={onOk}
         closable={true}
         footer={[
-          <Button key="save" type="primary" onClick={onSave}>
-            Save
-          </Button>,
           <Button key="reset" type="dashed" onClick={onReset}>
             Reset
+          </Button>,
+          <Button key="save" type="primary" onClick={onSave}>
+            Save
           </Button>
         ]}
       >

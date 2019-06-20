@@ -30,12 +30,12 @@ const routes: SidebarItem[] = [
     path: 'wallet'
   },
   {
-    title: 'Files',
+    title: 'Rent',
     iconType: 'file',
     path: 'renter'
   },
   {
-    title: 'Hosting',
+    title: 'Host',
     iconType: 'database',
     path: 'host'
   }
