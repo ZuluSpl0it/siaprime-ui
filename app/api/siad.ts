@@ -10,6 +10,10 @@ export interface SiadConfig {
 }
 
 export const siad = new Client({
+  apiPort: 4280,
+  hostPort: 4282,
+  rpcPort: 4281,
+  agent: 'SiaPrime-Agent',
   dataDirectory: defaultConfig.siad.datadir
 })
 
