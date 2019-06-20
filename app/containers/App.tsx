@@ -121,6 +121,11 @@ export const GlobalStyle = createGlobalStyle`
     background: ${themeGet('colors.dropdown-bg')} !important;
     border-top-color: ${themeGet('colors.dropdown-border')} !important;
   }
+  .ant-btn[disabled] {
+    background: ${themeGet('colors.dropdown-bg', 'initial')} !important;
+    border: ${themeGet('colors.dropdown-border', 'initial')} !important;
+    color: ${themeGet('colors.text-subdued')} !important;
+  }
 `
 
 ipcRenderer.on('shutdown-siad', async () => {

@@ -79,7 +79,6 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
           {siad.isFinishedLoading !== null &&
             !siad.isFinishedLoading &&
             this.state.daemonTimeout &&
-            this.state.hasEntered &&
             siad.isActive && (
               <>
                 <Box width={600}>
