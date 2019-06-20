@@ -214,9 +214,9 @@ class Renter extends React.Component<RenterProps, State> {
   confirmCancelAllowance = () => {
     const props = this.props
     StyledModal.confirm({
-      title: 'Confirm Cancel Allowance',
+      title: 'Confirm Allowance Cancellation',
       content:
-        'Are you sure you want to cancel your allowance? Your files will be lost at the end of the allowance period.',
+        'Are you sure you want to cancel your allowance? Your files will be lost at the end of the period.',
       onOk() {
         return new Promise((resolve, reject) => {
           props.dispatch(
