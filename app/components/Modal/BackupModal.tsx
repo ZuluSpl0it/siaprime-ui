@@ -67,7 +67,7 @@ export const BackupModal = (props: any) => {
 
   return (
     <StyledModal
-      title="Remote Snapshot Backup"
+      title="Backup Files"
       {...props}
       onOk={queryBackup}
       okText={okText}
@@ -81,9 +81,9 @@ export const BackupModal = (props: any) => {
     >
       <Box>
         <Text as="p">
-          This feature allows you to take a snapshot backup of your current files. As long as your
-          contracts with your hosts remain valid, you will be able to restore your files from your
-          seed.
+          This feature allows you to back up your files. This backup is
+          stored on Sia and linked to your seed. As long as your contracts
+          are active, you will be able to restore your files using only your seed.
         </Text>
       </Box>
       <Flex
@@ -107,12 +107,12 @@ export const BackupModal = (props: any) => {
       </Flex>
       {results.loading && (
         <Box>
-          <Spinner /> <Text pl={2}>Creating Snapshot...</Text>
+          <Spinner /> <Text pl={2}>Creating Backup...</Text>
         </Box>
       )}
       {results.response && (
         <Box>
-          <Icon type="check" /> <Text pl={2}>Snapshot Created Successfully!</Text>
+          <Icon type="check" /> <Text pl={2}>Backup Created Successfully!</Text>
         </Box>
       )}
       {results.error && (

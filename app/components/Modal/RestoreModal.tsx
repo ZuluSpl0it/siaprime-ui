@@ -88,16 +88,16 @@ export const RestoreModal = (props: any) => {
   const scanInProgress =
     (recoveryScanProgress.response && recoveryScanProgress.response.scaninprogress) || false
 
-  let okText = !restore.loading ? 'Start Contract Recovery' : 'Restoring Backup'
+  let okText = !restore.loading ? 'Start Recovery Scan' : 'Restoring Backup'
   if (scanInProgress) {
-    okText = 'Recovering Contracts'
+    okText = 'Recovering Backups'
   }
 
   const isLoading = restore.loading || scanInProgress
 
   return (
     <StyledModal
-      title="Snapshot Restore"
+      title="Restore Files"
       {...props}
       okText={okText}
       onOk={() => recoveryScanTrigger()}
@@ -110,8 +110,8 @@ export const RestoreModal = (props: any) => {
     >
       <Box>
         <Text as="p">
-          Restore an available snapshot found on the blockchain. If the contracts are still active,
-          and enough hosts are online, your file contracts will be restored.
+          Restore an available backup from the blockchain. If your contracts are still active
+          and enough hosts are online, your files will be restored.
         </Text>
       </Box>
       <Box>
@@ -140,10 +140,9 @@ export const RestoreModal = (props: any) => {
             !backups.error &&
             backups.response.backups.length === 0 && (
               <Text fontSize={2} fontWeight={3}>
-                No backups were found. You may have to perform a recovery scan in order to retrieve
-                active contracts found on the blockchain. You can do that by clicking the button
-                below. If you have already performed a recovery scan, it may take up to 10 minutes
-                to find your snapshots.
+                No backups were found. If you have previously created a backup, perform
+                a recovery scan by clicking the button below. It can take up to 10 minutes
+                for your backups to reappear after the scan completes.
               </Text>
             )}
           <Box maxHeight={250} overflow="auto">

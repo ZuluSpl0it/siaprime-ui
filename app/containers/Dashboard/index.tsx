@@ -51,8 +51,8 @@ class Dashboard extends React.Component<StateProps, {}> {
                   </Text>
                   <Box width={3 / 5} style={{ textAlign: 'center' }}>
                     <Text is="div" fontSize={2} py={2} fontWeight={400}>
-                      Sia is the leading decentralized cloud storage platform. Private, redundant,
-                      fast, and affordable, Sia is great for backups and video streaming. Build your
+                      Sia is the leading decentralized cloud storage platform. Private, robust,
+                      and affordable, Sia is great for backups and video streaming. Build your
                       app on Sia today!
                     </Text>
                   </Box>

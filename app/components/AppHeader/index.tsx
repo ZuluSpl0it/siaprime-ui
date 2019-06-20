@@ -62,7 +62,7 @@ class AppHeader extends React.Component<StateProps & DispatchProp, {}> {
             <HeaderButton
               handleClick={this.lockWallet}
               iconType="lock"
-              tooltipTitle="Lock Wallet"
+              tooltipTitle="Lock"
             />
             <Bar />
             <HeaderButton

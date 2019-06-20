@@ -103,7 +103,7 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
           </Box>
           <Box width={1 / 2} height="100%" mb="auto">
             <Box>
-              <Caps fontSize={3}>Sia UI</Caps>{' '}
+              <Caps fontSize={3}>Sia-UI</Caps>{' '}
               <Caps fontSize={3} color="text-subdued">
                 Draco
               </Caps>

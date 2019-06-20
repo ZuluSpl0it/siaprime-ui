@@ -93,7 +93,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           suffix={
             <Flex alignItems="center">
               <StyledTag>SC</StyledTag>
-              <Tooltip placement="right" title="Total Siacoin allocated over the period.">
+              <Tooltip placement="right" title="Amount of Siacoins you'd like to spend for the period.">
                 <StyledIcon type="info-circle" />
               </Tooltip>
             </Flex>
@@ -117,7 +117,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           suffix={
             <Flex alignItems="center">
               <StyledTag>TB</StyledTag>
-              <Tooltip placement="right" title="Amount of storage you'd like to receive in TB.">
+              <Tooltip placement="right" title="Amount of storage you'd like to rent in TB.">
                 <StyledIcon type="info-circle" />
               </Tooltip>
             </Flex>
@@ -159,7 +159,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           error={touched.hosts && errors.hosts}
           suffix={
             <Flex alignItems="center">
-              <Tooltip placement="right" title="Number of Hosts to create contracts with.">
+              <Tooltip placement="right" title="Number of hosts to create contracts with.">
                 <StyledIcon type="info-circle" />
               </Tooltip>
             </Flex>
@@ -179,7 +179,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
             <StyledTag>Months</StyledTag>
             <Tooltip
               placement="right"
-              title="Number of months to act as a buffer window to renew contracts with hosts."
+              title="Number of months prior to contract expiration that Sia will attempt to renew your contracts."
             >
               <StyledIcon type="info-circle" />
             </Tooltip>
@@ -198,7 +198,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           suffix={
             <Flex alignItems="center">
               <StyledTag>TB</StyledTag>
-              <Tooltip placement="right" title="Estimated Download Bandwidth per Month.">
+              <Tooltip placement="right" title="Amount of download bandwidth you plan to use each month.">
                 <StyledIcon type="info-circle" />
               </Tooltip>
             </Flex>
@@ -215,7 +215,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           suffix={
             <Flex alignItems="center">
               <StyledTag>TB</StyledTag>
-              <Tooltip placement="right" title="Estimated Upload Bandwidth per Month.">
+              <Tooltip placement="right" title="Amount of upload bandwidth you plan to use each month.">
                 <StyledIcon type="info-circle" />
               </Tooltip>
             </Flex>

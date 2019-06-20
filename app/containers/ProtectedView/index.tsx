@@ -147,7 +147,7 @@ class ProtectedView extends React.Component<Props, State> {
                     >
                       <Tooltip
                         placement="left"
-                        title="If you don't have a custom password set, or have restored from your seed, your password is set to your seed."
+                        title="If you are a new user or are restoring from your seed, your password is your seed."
                       >
                         <Input
                           onPressEnter={this.handleLogin}
