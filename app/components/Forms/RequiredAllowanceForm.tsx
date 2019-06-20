@@ -84,7 +84,7 @@ export const RequiredAllowanceForm = (
               <StyledTag>SC</StyledTag>
               <Tooltip
                 placement="right"
-                title="Amount of Siacoin you'd like to pay per TB of storage each month."
+                title="Amount of Siacoins you'd like to pay per TB of storage each month."
               >
                 <StyledIcon type="info-circle" />
               </Tooltip>
@@ -110,7 +110,7 @@ export const RequiredAllowanceForm = (
           suffix={
             <Flex alignItems="center">
               <StyledTag>TB</StyledTag>
-              <Tooltip placement="right" title="Amount of storage you'd like to receive in TB.">
+              <Tooltip placement="right" title="Amount of storage you'd like to rent in TB.">
                 <StyledIcon type="info-circle" />
               </Tooltip>
             </Flex>
@@ -118,7 +118,7 @@ export const RequiredAllowanceForm = (
         />
       </Flex>
       <Text>
-        Allowance: {values.allowance} SC for {values.periodMonth} Months of Storage.
+        Allowance: {values.allowance} SC for {values.periodMonth} months of storage.
       </Text>
     </form>
   )

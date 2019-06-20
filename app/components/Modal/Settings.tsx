@@ -126,8 +126,8 @@ export const SettingsModal: React.SFC<SettingModalprops> = ({ onOk, visible }) =
         {!siadState.isInternal && (
           <Box>
             <StyledCard bordered={false}>
-              Please note that you are currently using an external instance of Sia and these
-              settings do not apply at the moment.
+              Please note that you are currently using an external instance of Sia and some
+              of these settings may not apply.
             </StyledCard>
           </Box>
         )}

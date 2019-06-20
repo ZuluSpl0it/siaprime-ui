@@ -59,7 +59,7 @@ app.on('ready', () =>
       x: mainWindowState.x,
       y: mainWindowState.y,
       autoHideMenuBar: true,
-      title: 'Sia UI'
+      title: 'Sia-UI'
       // skipTaskbar: true
     })
     mainWindow = new BrowserWindow(browserWindowConfig)

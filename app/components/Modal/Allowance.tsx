@@ -123,7 +123,7 @@ export const AllowanceModal = (props: any) => {
 
       const message = `Are you sure you want to set a ${payload.allowance} SC allowance for ${
         payload.periodMonth
-      } months that will be used to rent storage?`
+      } months to rent storage on Sia?`
       StyledModal.confirm({
         title: 'Confirm Allowance',
         content: message,
@@ -163,7 +163,7 @@ export const AllowanceModal = (props: any) => {
                   <Box pb={3}>
                     <Text color="near-black">
                       To store files on Sia, you must allocate funds in advance. If this is your
-                      first time using Sia-UI, the below settings are set with default values.
+                      first time using Sia-UI, the below settings are filled with default values.
                     </Text>
                   </Box>
                   <Box>
