@@ -42,6 +42,7 @@ class ProtectedView extends React.Component<Props, State> {
   componentDidMount() {
     this.props.dispatch(WalletActions.resetForm())
     this.props.dispatch(WalletActions.startPolling())
+    this.props.dispatch(GlobalActions.startPolling())
   }
   handleLogin = () => {
     const { password } = this.state
@@ -50,7 +51,6 @@ class ProtectedView extends React.Component<Props, State> {
         encryptionpassword: password.value as any
       })
     )
-    this.props.dispatch(GlobalActions.startPolling())
   }
   handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value

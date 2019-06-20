@@ -98,6 +98,11 @@ export const theme = {
     'tag-text': '#111',
     // tooltip
     'tooltip-bg': whites[2],
-    'tooltip-text': '#222'
+    'tooltip-text': '#222',
+    // notification
+    'notify-bg': whites[1],
+    // dropdown
+    'dropdown-bg': whites[1],
+    'dropdown-border': whites[2]
   }
 }

@@ -94,6 +94,23 @@ export const GlobalStyle = createGlobalStyle`
   .ant-modal-confirm-warning .ant-modal-confirm-body > .anticon, .ant-modal-confirm-confirm .ant-modal-confirm-body > .anticon {
     color: ${themeGet('colors.sia-green')} !important;
   }
+
+  /* Dropdown */
+  .ant-dropdown-menu-item-divider {
+    background: ${themeGet('colors.dropdown-border')} !important;
+  }
+  .ant-dropdown-menu {
+    background: ${themeGet('colors.dropdown-bg')} !important;
+  }
+  .ant-dropdown-menu-item:hover {
+      background: ${themeGet('colors.dropdown-bg')} !important;
+  }
+  .ant-dropdown-menu-item > a, .ant-dropdown-menu-submenu-title > a {
+    color: ${themeGet('colors.text')} !important;
+    &:hover {
+      color: ${themeGet('colors.text-subdued')} !important;
+    }
+  }
 `
 
 ipcRenderer.on('shutdown-siad', async () => {

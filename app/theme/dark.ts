@@ -44,6 +44,9 @@ export const dark = Object.assign({}, theme, {
     'tooltip-bg': blacks[2],
     'tooltip-text': '#fefefe',
     // notification
-    'notify-bg': blacks[2]
+    'notify-bg': blacks[2],
+    // dropdown
+    'dropdown-bg': blacks[1],
+    'dropdown-border': blacks[2]
   }
 })
