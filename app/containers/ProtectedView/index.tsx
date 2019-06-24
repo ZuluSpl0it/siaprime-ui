@@ -152,7 +152,7 @@ class ProtectedView extends React.Component<Props, State> {
                         <Input
                           onPressEnter={this.handleLogin}
                           onChange={this.handleInput}
-                          placeholder="Enter Your Password"
+                          placeholder="Enter Your Password or Seed"
                           type="password"
                           name="password"
                           value={this.state.password.value}
