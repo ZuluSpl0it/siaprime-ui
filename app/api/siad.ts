@@ -14,8 +14,6 @@ export const siad = new Client({
 })
 
 export const initSiad = () => {
-  console.log('SIAD_CONFIG', defaultConfig)
-  console.log('SIAD', siad)
   const p = siad.launch(defaultConfig.siad.path)
   return p
 }
