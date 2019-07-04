@@ -47,3 +47,31 @@ If you're the type to jump right into code, simply search through the project
 (Linux & OSX) system, run `grep -r 'TODO:' js plugins` in a terminal at the
 root level of the project
 
+
+## Development
+
+#### Dev Environment
+1. run `./spd --disable-api-security`
+2. npm install && npm run dev
+
+#### Release build
+You will need to create a `bin` folder in the siaprime-ui directory.
+Then using the following folder structure, place your binaries (`spd, spc`) in there.
+
+<ul>
+bin
+<ul>linux</ul>
+<ul>win</ul>
+<ul>mac</ul>
+</ul>
+
+
+1. install dependencies with `npm install`
+2. Run the build scripts
+
+npm run package-win<br>
+npm run package-linux"<br>
+npm run package-mac
+
+If you're on linux, you will need to install wine to run a windows build.
+
