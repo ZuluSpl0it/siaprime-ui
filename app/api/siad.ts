@@ -10,15 +10,12 @@ export interface SiadConfig {
 }
 
 export const siad = new Client({
-  apiPort: 4280,
-  hostPort: 4282,
-  rpcPort: 4281,
-  agent: 'SiaPrime-Agent',
-  dataDirectory: defaultConfig.siad.datadir
+  dataDirectory: defaultConfig.siad.datadir,
 })
 
 export const initSiad = () => {
-  console.log(defaultConfig.siad.path)
+  console.log('SIAD_CONFIG', defaultConfig)
+  console.log('SIAD', siad)
   const p = siad.launch(defaultConfig.siad.path)
   return p
 }
@@ -27,9 +24,11 @@ export const launchSiad = () => {
   return new Promise((resolve, reject) => {
     try {
       const p = initSiad()
+      // @ts-ignore
       p.stdout.on('data', data => {
         console.log(data.toString())
       })
+      // @ts-ignore
       p.stderr.on('data', data => {
         console.log(data.toString())
       })

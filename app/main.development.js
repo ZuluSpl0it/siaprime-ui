@@ -89,7 +89,7 @@ app.on('ready', () =>
     if (process.platform === 'darwin') {
       template = [
         {
-          label: 'SiPrimea-UI',
+          label: 'SiaPrime-UI',
           submenu: [
             {
               label: 'About SiaPrime-UI',

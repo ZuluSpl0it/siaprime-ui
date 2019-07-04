@@ -76,6 +76,7 @@ export default class fManager extends React.Component {
     })
   }
   render() {
+    console.log("FILE_MANAGER", apiOptions)
     return (
       <div style={{ height: 'calc(100vh - 300px)' }}>
         <ThemedManager>

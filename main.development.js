@@ -152,10 +152,10 @@ System.register('config', ['path', 'electron'], function(exports_1, context_1) {
           siad: {
             path: defaultSiaPath,
             datadir: path.join(electron_1.app.getPath('userData'), './siaprime'),
-            rpcaddr: ':4481',
-            hostaddr: ':4482',
+            rpcaddr: ':4281',
+            hostaddr: ':4282',
             detchaed: false,
-            address: '127.0.0.1:4480'
+            address: '127.0.0.1:4280'
           }
         })
       )
@@ -168,6 +168,8 @@ System.register('utils/siadProcess', ['fs', 'config', 'sia.js'], function(export
   var _this, fs_1, config_1, Sia, w, siadConfig, checkSiaPath, initSiad, sleep, shutdown
   _this = this
   var __moduleName = context_2 && context_2.id
+
+  console.log('ELECTRON')
   return {
     setters: [
       function(fs_1_1) {
@@ -225,7 +227,7 @@ System.register('utils/siadProcess', ['fs', 'config', 'sia.js'], function(export
                   }
                   try {
                     siadProcess = Sia.launch(siadConfig.path, {
-                      'siaprime-directory': siadConfig.datadir,
+                      'sia-directory': siadConfig.datadir,
                       'rpc-addr': siadConfig.rpcaddr,
                       'host-addr': siadConfig.hostaddr,
                       'api-addr': siadConfig.address,
