@@ -102,7 +102,7 @@ export const AllowanceModal = (props: any) => {
             value={allowanceAmount}
             onChange={e => typeof e === 'number' && setAllowanceAmount(e)}
           />
-          <Text>SPC</Text>
+          <Text>SCP</Text>
         </Box>
         <Box width={12 / 18}>
           {rentStorage.error ? (
@@ -112,7 +112,7 @@ export const AllowanceModal = (props: any) => {
           ) : (
             <>
               <Box>
-                <Text>{storageEstimates.contractfees} SPC</Text>{' '}
+                <Text>{storageEstimates.contractfees} SCP</Text>{' '}
                 <Text fontWeight={2}>Contract Fees</Text>
               </Box>
               <Box>

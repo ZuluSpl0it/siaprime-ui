@@ -157,8 +157,8 @@ export namespace WalletModel {
   }
 
   export enum TransactionTypes {
-    SIACOIN = 'SIACOIN',
-    SIAFUND = 'SIAFUND',
+    SIAPRIMECOIN = 'SIAPRIMECOIN',
+    SIAPRIMEFUND = 'SIAPRIMEFUND',
     CONTRACT = 'CONTRACT',
     PROOF = 'PROOF',
     REVISION = 'REVISION',
@@ -170,7 +170,7 @@ export namespace WalletModel {
   export const TransactionTypesList = Object.keys(TransactionTypes).map(x => TransactionTypes[x])
 
   export enum CurrencyTypes {
-    SC = 'SPC',
+    SC = 'SCP',
     SF = 'SPF'
   }
 

@@ -159,14 +159,14 @@ export const computeTxSum = (txn: WalletModel.ProcessedTransaction) => {
 
   if (txn.inputs) {
     const walletInputs = txn.inputs.filter(i => i.walletaddress && i.value)
-    totalSiacoinInput = sumCurrency(walletInputs, 'siacoin')
-    totalSiafundInput = sumCurrency(walletInputs, 'siafund')
+    totalSiacoinInput = sumCurrency(walletInputs, 'siaprimecoin')
+    totalSiafundInput = sumCurrency(walletInputs, 'siaprimefund')
     totalMinerInput = sumCurrency(walletInputs, 'miner')
   }
   if (txn.outputs) {
     const walletOutputs = txn.outputs.filter(o => o.walletaddress && o.value)
-    totalSiacoinOuput = sumCurrency(walletOutputs, 'siacoin')
-    totalSiafundOutput = sumCurrency(walletOutputs, 'siafund')
+    totalSiacoinOuput = sumCurrency(walletOutputs, 'siaprimecoin')
+    totalSiafundOutput = sumCurrency(walletOutputs, 'siaprimefund')
     totalMinerOutput = sumCurrency(txn.outputs, 'miner')
   }
 
@@ -177,11 +177,11 @@ export const computeTxSum = (txn: WalletModel.ProcessedTransaction) => {
 
   // add labels
   if (parseFloat(totalSiacoin) !== 0) {
-    labels.push(WalletModel.TransactionTypes.SIACOIN)
+    labels.push(WalletModel.TransactionTypes.SIAPRIMECOIN)
   }
 
   if (parseFloat(totalSiafund) !== 0) {
-    labels.push(WalletModel.TransactionTypes.SIAFUND)
+    labels.push(WalletModel.TransactionTypes.SIAPRIMEFUND)
   }
 
   if (txn.transaction.filecontracts && txn.transaction.filecontracts.length > 0) {

@@ -72,12 +72,12 @@ export default connect(mapStateToProps)(
           <Form.Item {...amount}>
             <Input.Group compact>
               <Select defaultValue={currencyType} onChange={setCurrency} style={{ width: '100px' }}>
-                <Option value={CurrencyTypes.SC}>SiaPrimecoin</Option>
+                <Option value={CurrencyTypes.SC}>SiaPrime</Option>
                 <Option
                   disabled={parseFloat(siafundBalance) > 0 ? false : true}
                   value={CurrencyTypes.SF}
                 >
-                  Siafund
+                  SiaPrimeFund
                 </Option>
               </Select>
               <Input

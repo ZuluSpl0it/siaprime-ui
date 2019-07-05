@@ -27,6 +27,6 @@ export default ({ transaction }: { transaction: TransactionType }) => (
       <Detail title="Amount" content={`${transaction.amount} ${transaction.type}`} />
     </Flex>
     <Detail title="Recipient Address" content={transaction.destination} />
-    <Detail title="Est. Network Fees" content={`${transaction.fee} SPC / KB`} />
+    <Detail title="Est. Network Fees" content={`${transaction.fee} SCP / KB`} />
   </Box>
 )

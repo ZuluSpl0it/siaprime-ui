@@ -130,10 +130,10 @@ class Wallet extends React.Component<WalletProps, {}> {
     //   .toFixed(2)
     //   .toString()
 
-    const balanceWithSeperator = parseFloat(confirmedBalance).toLocaleString('en-US') + ' ' + 'SPC'
+    const balanceWithSeperator = parseFloat(confirmedBalance).toLocaleString('en-US') + ' ' + 'SCP'
     const siafunds = parseInt(siafundBalance)
     const siafundBalanceWithSeperator =
-      parseFloat(siafundBalance).toLocaleString('en-US') + ' ' + 'SPC'
+      parseFloat(siafundBalance).toLocaleString('en-US') + ' ' + 'SCP'
     return (
       <div>
         <BackupModel visible={this.state.backupModal} onOk={this.handleBackupModal} />
@@ -171,16 +171,16 @@ class Wallet extends React.Component<WalletProps, {}> {
               </Box>
             </Flex>
             <Flex>
-              <Stat content={balanceWithSeperator} title="siacoins" width={1 / 3} />
+              <Stat content={balanceWithSeperator} title="siaprimecoins" width={1 / 3} />
               {siafunds > 0 && (
-                <Stat content={siafundBalanceWithSeperator} title="siafunds" width={1 / 3} />
+                <Stat content={siafundBalanceWithSeperator} title="siaprimefunds" width={1 / 3} />
               )}
             </Flex>
             <Box height="25px">
               <Flex mx={2} pt={2} pb={3}>
                 {/* <Tag>${usdBalance} USD</Tag> */}
                 {!!parseFloat(unconfirmedBalance) && (
-                  <StyledTag>{unconfirmedBalance} SPC (Unconfirmed)</StyledTag>
+                  <StyledTag>{unconfirmedBalance} SCP (Unconfirmed)</StyledTag>
                 )}
               </Flex>
             </Box>

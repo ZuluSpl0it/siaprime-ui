@@ -87,7 +87,7 @@ const Metrics = () => (
             </Flex>
             <Flex>
               <Stat content="50" title="Active Contracts" width={1 / 2} />
-              <Stat content="150 SPC" title="Locked in Contracts" width={1 / 2} />
+              <Stat content="150 SCP" title="Locked in Contracts" width={1 / 2} />
             </Flex>
             {/* <Box mx={2}>
                         <Text>hi</Text>
@@ -118,7 +118,7 @@ const Metrics = () => (
             </Flex>
             <Flex>
               <Stat content="50" title="Active Contracts" width={1 / 2} />
-              <Stat content="150 SPC" title="Locked in Contracts" width={1 / 2} />
+              <Stat content="150 SCP" title="Locked in Contracts" width={1 / 2} />
             </Flex>
             {/* <Box mx={2}>
                         <Text>hi</Text>
@@ -235,9 +235,9 @@ class Renter extends React.Component<RenterProps, State> {
         </Flex>
         <Flex>
           <Stat content={`${contracts.active}`} title="Contracts Active" width={1 / 4} />
-          <Stat content={`${totalAllocated} SPC`} title="Total Allocated" width={1 / 4} />
-          <Stat content={`${totalSpent} SPC`} title="Total Spent" width={1 / 4} />
-          <Stat content={`${storageSpending} SPC`} title="Storage Spending" width={1 / 4} />
+          <Stat content={`${totalAllocated} SCP`} title="Total Allocated" width={1 / 4} />
+          <Stat content={`${totalSpent} SCP`} title="Total Spent" width={1 / 4} />
+          <Stat content={`${storageSpending} SCP`} title="Storage Spending" width={1 / 4} />
         </Flex>
         {contracts.active > 0 ? (
           <Box mx={2} pt={3}>
