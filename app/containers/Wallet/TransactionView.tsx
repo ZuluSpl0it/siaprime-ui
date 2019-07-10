@@ -121,7 +121,9 @@ class TransactionView extends React.Component<Props, {}> {
                 return (
                   <span>
                     {filteredTags.map((t: string) => (
-                      <StyledTag key={t}>{t}</StyledTag>
+                      <Box py={2}>
+                        <StyledTag key={t}>{t}</StyledTag>
+                      </Box>
                     ))}
                   </span>
                 )

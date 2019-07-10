@@ -178,7 +178,7 @@ class Wallet extends React.Component<WalletProps, {}> {
               </Box>
             </Flex>
             <Flex>
-              <Stat content={balanceWithSeperator} title="siacoins" width={1 / 3} />
+              <Stat content={balanceWithSeperator} title="siacoin" width={1 / 3} />
               {siafunds > 0 && (
                 <Stat content={siafundBalanceWithSeperator} title="siafunds" width={1 / 3} />
               )}

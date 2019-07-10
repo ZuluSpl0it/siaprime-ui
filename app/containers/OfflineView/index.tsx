@@ -73,14 +73,12 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
               (siad.isActive && siad.isFinishedLoading === null) ||
               (!this.state.daemonTimeout && !this.state.hasEntered)
             }
-            onEntered={this.handleEntered}
-            onExited={this.handleExit}
+            onExit={this.handleExit}
           />
           {/* Conditional checks to see if we need to display a module loading logs */}
           {siad.isFinishedLoading !== null &&
             !siad.isFinishedLoading &&
             this.state.daemonTimeout &&
-            this.state.hasEntered &&
             siad.isActive && (
               <>
                 <Box width={600}>
@@ -113,9 +111,7 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
             )}
           {!siad.isActive && !siad.loading && this.state.readyForMainView && <OfflineState />}
         </Flex>
-        {(this.state.readyForMainView || defaultConfig.developmentMode) &&
-          siad.isFinishedLoading &&
-          siad.isActive && <Redirect to="/" />}
+        {siad.isFinishedLoading && siad.isActive && <Redirect to="/" />}
       </DragContiner>
     )
   }

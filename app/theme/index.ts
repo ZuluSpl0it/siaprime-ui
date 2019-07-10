@@ -94,10 +94,15 @@ export const theme = {
     // scrollbar
     'scrollbar-bg': '#fefefe',
     // tag
-    'tag-bg': whites[3],
-    'tag-text': '#111',
+    'tag-bg': whites[0],
+    'tag-text': '#555',
     // tooltip
     'tooltip-bg': whites[2],
-    'tooltip-text': '#222'
+    'tooltip-text': '#222',
+    // notification
+    'notify-bg': whites[1],
+    // dropdown
+    'dropdown-bg': whites[1],
+    'dropdown-border': whites[2]
   }
 }

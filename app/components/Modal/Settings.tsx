@@ -10,7 +10,7 @@ import { merge } from 'lodash'
 import { StyledModal } from 'components/atoms/StyledModal'
 import { StyledCard } from 'components/atoms/StyledCard'
 import { useSiadUIState } from 'hooks/reduxHooks'
-import { getGlobalSiadProcess } from 'api/siad'
+import { getGlobalSiadProcess, siad } from 'api/siad'
 const { app, getCurrentWindow } = remote
 const fs = remote.require('fs')
 const child_process = require('child_process')
@@ -51,8 +51,30 @@ export const SettingsModal: React.SFC<SettingModalprops> = ({ onOk, visible }) =
         getCurrentWindow().reload()
       } else {
         if (!process.env.APPIMAGE) {
-          app.relaunch()
-          app.exit(0)
+          const globalSiadProcess = getGlobalSiadProcess()
+          if (globalSiadProcess) {
+            siad.daemonStop()
+            let counter = 0
+            // start a counter loop to test if Sia is still running.
+            setInterval(() => {
+              // if counter reaches 10 seconds, kill the process
+              if (counter > 19) {
+                globalSiadProcess.kill()
+                app.relaunch()
+                app.exit(0)
+              }
+              // otherwise check to see if it's still running. if it is not running
+              // anymore, then we can safely shutdown the app.
+              if (!siad.isRunning()) {
+                app.relaunch()
+                app.exit(0)
+              }
+              counter += 1
+            }, 100)
+          } else {
+            app.relaunch()
+            app.exit(0)
+          }
         } else {
           // https://github.com/electron-userland/electron-builder/issues/1727
           // Since AppImage doesn't work with relaunch due to its tmp mounting,

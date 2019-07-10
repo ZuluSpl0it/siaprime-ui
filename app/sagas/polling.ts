@@ -63,6 +63,7 @@ function* renterPollTask() {
 function* hostPollTask() {
   while (true) {
     yield put(HostActions.getHostConfig.started())
+    yield put(HostActions.getHostStorage.started())
     yield delay(5000)
   }
 }

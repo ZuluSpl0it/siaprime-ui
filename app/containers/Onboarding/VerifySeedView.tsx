@@ -106,7 +106,7 @@ export const VerifySeedView = ({ seed, setAllValid }) => {
                 <StyledAutoComplete
                   error={!validation[i]}
                   dataSource={
-                    seedInputs[i].length > 1 && mnemonics.filter(x => x.includes(seedInputs[i]))
+                    seedInputs[i].length > 1 && mnemonics.filter(x => x.startsWith(seedInputs[i]))
                   }
                   value={seedInputs[i]}
                   filterOption={false}

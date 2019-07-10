@@ -42,6 +42,7 @@ class ProtectedView extends React.Component<Props, State> {
   componentDidMount() {
     this.props.dispatch(WalletActions.resetForm())
     this.props.dispatch(WalletActions.startPolling())
+    this.props.dispatch(GlobalActions.startPolling())
   }
   handleLogin = () => {
     const { password } = this.state
@@ -50,7 +51,6 @@ class ProtectedView extends React.Component<Props, State> {
         encryptionpassword: password.value as any
       })
     )
-    this.props.dispatch(GlobalActions.startPolling())
   }
   handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -152,7 +152,7 @@ class ProtectedView extends React.Component<Props, State> {
                         <Input
                           onPressEnter={this.handleLogin}
                           onChange={this.handleInput}
-                          placeholder="Enter Your Password"
+                          placeholder="Enter Your Password or Seed"
                           type="password"
                           name="password"
                           value={this.state.password.value}
@@ -161,7 +161,7 @@ class ProtectedView extends React.Component<Props, State> {
                       </Tooltip>
                     </Form.Item>
                     <Button onClick={this.handleLogin} type="primary" size="large">
-                      Login
+                      Unlock
                     </Button>
                   </Flex>
                 </TransitionFade>

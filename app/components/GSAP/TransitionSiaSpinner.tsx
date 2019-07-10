@@ -70,12 +70,12 @@ export const TransitionSiaSpinner = ({
           const removePath = TweenMax.staggerTo(paths, 2, { force3D: true, strokeOpacity: 0 }, 0.1)
           const addGreen = TweenMax.to(greenFill, 1, {
             force3D: true,
-            fill: '#1ED660',
-            onComplete: done
+            fill: '#1ED660'
           })
           const addBorder = TweenMax.to(greyFill, 2, {
             force3D: true,
-            fill: '#7F8C8D'
+            fill: '#7F8C8D',
+            onComplete: done
           })
           const rotateCircle = TweenMax.to(spinner, 1, {
             force3D: true,
