@@ -69,6 +69,7 @@ export default class fManager extends React.Component {
     clearInterval(this.poll)
   }
   notificationHandler = description => {
+    console.log('ERR')
     const descriptionString = '' + description
     notification.open({
       message: 'File Manager',
@@ -76,7 +77,6 @@ export default class fManager extends React.Component {
     })
   }
   render() {
-    console.log("FILE_MANAGER", apiOptions)
     return (
       <div style={{ height: 'calc(100vh - 300px)' }}>
         <ThemedManager>
