@@ -157,8 +157,8 @@ export namespace WalletModel {
   }
 
   export enum TransactionTypes {
-    SIAPRIMECOIN = 'SIAPRIMECOIN',
-    SIAPRIMEFUND = 'SIAPRIMEFUND',
+    SIAPRIMECOIN = 'SIACOIN',
+    SIAPRIMEFUND = 'SIAFUND',
     CONTRACT = 'CONTRACT',
     PROOF = 'PROOF',
     REVISION = 'REVISION',

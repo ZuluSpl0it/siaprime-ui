@@ -159,14 +159,14 @@ export const computeTxSum = (txn: WalletModel.ProcessedTransaction) => {
 
   if (txn.inputs) {
     const walletInputs = txn.inputs.filter(i => i.walletaddress && i.value)
-    totalSiacoinInput = sumCurrency(walletInputs, 'siaprimecoin')
-    totalSiafundInput = sumCurrency(walletInputs, 'siaprimefund')
+    totalSiacoinInput = sumCurrency(walletInputs, 'siacoin')
+    totalSiafundInput = sumCurrency(walletInputs, 'siafund')
     totalMinerInput = sumCurrency(walletInputs, 'miner')
   }
   if (txn.outputs) {
     const walletOutputs = txn.outputs.filter(o => o.walletaddress && o.value)
-    totalSiacoinOuput = sumCurrency(walletOutputs, 'siaprimecoin')
-    totalSiafundOutput = sumCurrency(walletOutputs, 'siaprimefund')
+    totalSiacoinOuput = sumCurrency(walletOutputs, 'siacoin')
+    totalSiafundOutput = sumCurrency(walletOutputs, 'siafund')
     totalMinerOutput = sumCurrency(txn.outputs, 'miner')
   }
 
