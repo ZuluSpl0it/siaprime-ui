@@ -37,16 +37,15 @@ export class AboutModal extends React.Component<AboutModalProps, {}> {
             <Box width={1 / 2}>
               <Flex flexDirection="column" alignItems="center">
                 <Flex alignItems="center" justifyContent="center">
-                  <SVGBox height="100px">
+                  {/*<SVGBox height="100px"> TODO: Insert Prime Logo later
                     <Wordmark viewBox="0 0 400 400" />
-                  </SVGBox>
+                  </SVGBox>*/}
                 </Flex>
               </Flex>
             </Box>
             <Box width={1 / 2} alignSelf="stretch">
               <Box>
                 <Text fontWeight={6}>SiaPrime UI</Text>
-                <Text fontWeight={2}> (Draco)</Text>
               </Box>
               <Box>
                 <Text is="div">UI: v1.4.0</Text>
