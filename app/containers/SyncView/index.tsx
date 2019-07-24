@@ -51,7 +51,7 @@ class SyncView extends React.Component<StateProps & DispatchProp & RouteComponen
             <Box mx={2} width={1 / 3}>
               <Progress
                 showInfo={false}
-                strokeColor="#1ED660"
+                strokeColor="#2074ee"
                 percent={syncPercentage}
                 status="active"
               />

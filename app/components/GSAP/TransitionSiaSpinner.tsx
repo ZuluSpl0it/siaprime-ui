@@ -19,10 +19,10 @@ export const SiaLogo = ({ width, height }) => (
                 id="dot"
               />
             </g>
-            <path
+            {/*<path
               d="M165.544113,127.920482 L165.544113,165.544454 L127.920994,165.544454 C107.14159,165.544454 90.2970214,148.699032 90.2970214,127.920482 C90.2970214,107.141079 107.14159,90.2965097 127.920994,90.2965097 C148.699544,90.2965097 165.544113,107.141079 165.544113,127.920482 M128.395152,65.2164201 C93.5462017,64.9580207 65.2143733,93.1303748 65.2143733,127.920482 C65.2143733,162.551968 93.2886551,190.626249 127.920994,190.626249 L190.626761,190.626249 L190.626761,128.707619 C190.626761,94.1315658 162.970353,65.472261 128.395152,65.2164201"
               id="center"
-            />
+            />*/}
           </g>
         </g>
       </svg>
@@ -71,7 +71,7 @@ export const TransitionSiaSpinner = ({
           const removePath = TweenMax.staggerTo(paths, 2, { force3D: true, strokeOpacity: 0 }, 0.1)
           const addGreen = TweenMax.to(greenFill, 3, {
             force3D: true,
-            fill: '#1ED660',
+            fill: '#2074ee',
             onComplete: done
           })
           const addBorder = TweenMax.to(greyFill, 6, { force3D: true, fill: '#7F8C8D' })
@@ -124,7 +124,7 @@ export const TransitionSiaOnlySpin = ({
             transform: 'translateY(100%)',
             opacity: 0
           })
-          const addGreen = TweenMax.to(greenFill, 0.5, { fill: '#1ED660' })
+          const addGreen = TweenMax.to(greenFill, 0.5, { fill: '#2074ee' })
           const addBorder = TweenMax.to(greyFill, 0.5, { fill: '#7F8C8D', onComplete: done })
           const rotateCircle = TweenMax.to(spinner, 1, {
             force3D: true,

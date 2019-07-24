@@ -17,8 +17,8 @@ export default ({ data }: Props) => (
     <ComposedChart data={data} margin={{ top: 5, bottom: 5 }}>
       <defs>
         <linearGradient id="colorLux" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="5%" stopColor="#1ED660" stopOpacity={0.8} />
-          <stop offset="95%" stopColor="#1ED660" stopOpacity={0} />
+          <stop offset="5%" stopColor="#2074ee" stopOpacity={0.8} />
+          <stop offset="95%" stopColor="##2074ee" stopOpacity={0} />
         </linearGradient>
       </defs>
       {/* <XAxis dataKey="date" /> */}
@@ -50,7 +50,7 @@ export default ({ data }: Props) => (
         type="monotone"
         fillOpacity={1}
         dataKey="usdPrice"
-        stroke="#1ED660"
+        stroke="#2074ee"
         // strokeWidth={2}
         yAxisId={1}
         // fill="url(#colorLux)"

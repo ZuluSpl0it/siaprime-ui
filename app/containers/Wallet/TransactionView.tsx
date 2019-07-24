@@ -92,7 +92,7 @@ class TransactionView extends React.Component<Props, {}> {
                     <Box pr="2px">
                       <Icon
                         style={{
-                          color: isRed ? '#999' : '#1ED660',
+                          color: isRed ? '#999' : '#2074ee',
                           fontWeight: 800,
                           opacity: 1
                         }}
@@ -192,7 +192,7 @@ class TransactionView extends React.Component<Props, {}> {
                 ) : (
                   <Flex alignItems="center" justifyContent="center">
                     <Tooltip title={`${confs} Confirmations`}>
-                      <Icon style={{ color: '#1ED660' }} type="check-circle" />
+                      <Icon style={{ color: '#2074ee' }} type="check-circle" />
                     </Tooltip>
                   </Flex>
                 )
