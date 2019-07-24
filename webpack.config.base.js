@@ -19,8 +19,8 @@ module.exports = {
             options: {
               javascriptEnabled: true,
               modifyVars: {
-                'primary-color': '#1ED660',
-                'link-color': '#1ED660',
+                'primary-color': '#2074ee',
+                'link-color': '#2074ee',
                 'font-family': `"Metropolis", -apple-system,"Helvetica Neue", Helvetica`
               }
             }
