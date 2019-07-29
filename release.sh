@@ -22,7 +22,7 @@ npm install
 rm -rf ./dist
 npm run build
 
-uiVersion=${3:-v1.4.0.1}
+uiVersion=${3:-v1.4.0-1}
 siaPrimeVersion=${4:-v1.4.0.1}
 electronVersion=${5:-v2.0.8}
 
