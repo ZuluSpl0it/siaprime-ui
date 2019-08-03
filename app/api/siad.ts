@@ -1,4 +1,5 @@
-import { defaultConfig } from 'config'
+import defaultConfig from 'config'
+
 import { Client } from 'sia-typescript'
 export interface SiadConfig {
   path: string
@@ -10,7 +11,7 @@ export interface SiadConfig {
 }
 
 export const siad = new Client({
-  dataDirectory: defaultConfig.siad.datadir,
+  dataDirectory: defaultConfig.siad.datadir
 })
 
 export const initSiad = () => {
@@ -22,11 +23,9 @@ export const launchSiad = () => {
   return new Promise((resolve, reject) => {
     try {
       const p = initSiad()
-      // @ts-ignore
       p.stdout.on('data', data => {
         console.log(data.toString())
       })
-      // @ts-ignore
       p.stderr.on('data', data => {
         console.log(data.toString())
       })

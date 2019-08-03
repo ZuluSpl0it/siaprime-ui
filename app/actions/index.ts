@@ -46,6 +46,9 @@ export namespace GatewayActions {
 const hostActionCreator = actionCreatorFactory('host')
 
 export namespace HostActions {
+  export const startPolling = hostActionCreator<void>('START_POLL')
+  export const stopPolling = hostActionCreator<void>('STOP_POLL')
+
   export const getActiveHosts = hostActionCreator.async<
     void,
     HostModel.hostdbActiveGET,

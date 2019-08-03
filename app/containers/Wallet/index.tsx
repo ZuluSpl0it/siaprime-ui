@@ -47,6 +47,7 @@ export interface WalletDetails {
   confirmedBalance: string
   unconfirmedBalance: string
   siafundBalance: string
+  siacoinClaimBalance: string
 }
 
 export interface TransactionGroup {
@@ -123,7 +124,12 @@ class Wallet extends React.Component<WalletProps, {}> {
     clipboard.writeText(value)
   }
   render() {
-    const { confirmedBalance, unconfirmedBalance, siafundBalance } = this.props.balances
+    const {
+      confirmedBalance,
+      unconfirmedBalance,
+      siafundBalance,
+      siacoinClaimBalance
+    } = this.props.balances
     const { transactions, feeEstimate, receiveAddresses, currAddress } = this.props
     // const usdBalance = new BigNumber(confirmedBalance)
     //   .multipliedBy(usdPrice)
@@ -133,7 +139,7 @@ class Wallet extends React.Component<WalletProps, {}> {
     const balanceWithSeperator = parseFloat(confirmedBalance).toLocaleString('en-US') + ' ' + 'SCP'
     const siafunds = parseInt(siafundBalance)
     const siafundBalanceWithSeperator =
-      parseFloat(siafundBalance).toLocaleString('en-US') + ' ' + 'SCP'
+      parseFloat(siafundBalance).toLocaleString('en-US') + ' ' + 'SPF'
     return (
       <div>
         <BackupModel visible={this.state.backupModal} onOk={this.handleBackupModal} />
@@ -174,6 +180,9 @@ class Wallet extends React.Component<WalletProps, {}> {
               <Stat content={balanceWithSeperator} title="siaprimecoins" width={1 / 3} />
               {siafunds > 0 && (
                 <Stat content={siafundBalanceWithSeperator} title="siaprimefunds" width={1 / 3} />
+              )}
+              {parseFloat(siacoinClaimBalance) > 0 && (
+                <Stat content={siacoinClaimBalance} title="SiaPrimeFund Revenue" width={1 / 3} />
               )}
             </Flex>
             <Box height="25px">

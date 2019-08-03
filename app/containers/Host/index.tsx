@@ -62,6 +62,11 @@ class Host extends React.Component<RenterProps, {}> {
   componentDidMount() {
     this.props.dispatch(HostActions.getHostStorage.started())
     this.props.dispatch(HostActions.getHostConfig.started())
+    this.props.dispatch(HostActions.startPolling())
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(HostActions.stopPolling())
   }
 
   addFolder = async () => {

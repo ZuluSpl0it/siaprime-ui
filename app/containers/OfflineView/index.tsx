@@ -8,6 +8,7 @@ import { Redirect } from 'react-router'
 import { UIReducer } from 'reducers/ui'
 import { createStructuredSelector } from 'reselect'
 import { selectSiadState } from 'selectors'
+import defaultConfig from 'config'
 
 interface StateProps {
   siad: UIReducer.SiadState
@@ -57,9 +58,9 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
             )}
           {!siad.isActive && !siad.loading && this.state.readyForMainView && <OfflineState />}
         </Flex>
-        {this.state.readyForMainView && siad.isFinishedLoading && siad.isActive && (
-          <Redirect to="/" />
-        )}
+        {(this.state.readyForMainView || defaultConfig.developmentMode) &&
+          siad.isFinishedLoading &&
+          siad.isActive && <Redirect to="/" />}
       </DragContiner>
     )
   }

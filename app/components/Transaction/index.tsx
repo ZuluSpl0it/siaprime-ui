@@ -6,7 +6,6 @@ import * as React from 'react'
 import { StructuredTransaction } from 'selectors'
 import { ThemeProps, withTheme } from 'styled-components'
 import { Flex } from 'components/atoms/Flex'
-import CurrencyTypes = WalletModel.CurrencyTypes
 
 const Checkmark = ({ color }: any) => (
   <Icon style={{ fontSize: 16, color: color || 'green' }} type="check-circle" />
@@ -53,7 +52,7 @@ export const TransactionItem = withTheme(
               )}
             </Flex>
             <Box mr={4} width="120px" style={{ flexShrink: 0 }}>
-              <Text is="div">{sc} {CurrencyTypes.SC}</Text>
+              <Text is="div">{sc} SCP</Text>
             </Box>
             <Box>
               <Text is="div" color="mid-gray">

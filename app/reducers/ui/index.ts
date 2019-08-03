@@ -78,12 +78,15 @@ export namespace UIReducer {
     }))
 
   const UnlockFormReducer = reducerWithInitialState(InitialUnlockState)
+    .case(WalletActions.resetForm, (state, payload) => InitialUnlockState)
     .case(WalletActions.unlockWallet.failed, (_, payload) => {
       // We should really have status messages for this, and not rely on string matching.
       const errorMessage = payload.error.message
       let help: any = null
       if (errorMessage.includes('provided encryption key is incorrect')) {
         help = 'Provided password is incorrect'
+      } else if (errorMessage.includes('ESOCKETTIMEDOUT')) {
+        help = 'API Timed Out. Please try again.'
       } else {
         help = errorMessage
       }

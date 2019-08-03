@@ -55,6 +55,7 @@ class Onboarding extends React.Component<Props, State> {
         })
       )
       this.props.dispatch(GlobalActions.startPolling())
+      this.props.dispatch(WalletActions.startPolling())
       this.props.history.push('/protected')
     }
   }
