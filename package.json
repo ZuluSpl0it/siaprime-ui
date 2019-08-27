@@ -1,7 +1,7 @@
 {
   "name": "SiaPrime-UI",
   "productName": "SiaPrime-UI",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "SiaPrime-UI is a GUI for interfacing with the SiaPrime Storage Network.",
   "main": "main.js",
   "scripts": {
@@ -21,7 +21,9 @@
     "package-linux": "npm run build && build --linux",
     "package-mac": "npm run build && build --mac --x64",
     "package-all": "npm run build && build -mwl",
-    "cleanup": "mop -v"
+    "cleanup": "mop -v",
+    "rebuild": "electron-rebuild -f -w node-pty-prebuilt-multiarch",
+    "postinstall": "electron-builder install-app-deps"
   },
   "build": {
     "productName": "SiaPrime-UI",
@@ -44,6 +46,7 @@
     "files": [
       "dist/",
       "node_modules/",
+      "tray/",
       "app.html",
       "main.js",
       "main.js.map",
@@ -53,6 +56,13 @@
       {
         "from": "bin/${os}",
         "to": "Resources/bin",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "tray",
+        "to": "Resources/tray",
         "filter": [
           "**/*"
         ]
@@ -70,7 +80,11 @@
       "target": [
         "deb",
         "AppImage"
-      ]
+      ],
+      "category": "Utility"
+    },
+    "appImage": {
+      "systemIntegration": "doNotAsk"
     }
   },
   "bin": {
@@ -101,11 +115,14 @@
   "homepage": "https://siaprime.net",
   "devDependencies": {
     "@babel/core": "7.1.2",
+    "@babel/plugin-proposal-class-properties": "7.4.4",
+    "@babel/plugin-proposal-decorators": "7.4.4",
     "@babel/plugin-transform-react-constant-elements": "7.0.0",
-    "@babel/plugin-transform-runtime": "7.2.0",
-    "@babel/preset-env": "7.3.1",
+    "@babel/plugin-transform-runtime": "7.4.4",
+    "@babel/preset-env": "7.4.5",
     "@babel/preset-react": "7.0.0",
-    "@hot-loader/react-dom": "16.8.3",
+    "@babel/preset-stage-0": "7.0.0",
+    "@hot-loader/react-dom": "16.8.1",
     "@svgr/webpack": "4.0.3",
     "@types/enzyme": "^3.1.1",
     "@types/history": "^4.5.2",
@@ -125,19 +142,20 @@
     "@types/sinon": "^4.0.0",
     "@types/styled-system": "3.0.4",
     "asar": "^0.14.0",
+    "autoprefixer": "9.6.0",
     "awesome-typescript-loader": "5.2.1",
     "babel-loader": "8.0.4",
     "babel-plugin-import": "1.9.1",
+    "babel-plugin-lodash": "3.3.4",
     "babel-plugin-styled-components": "1.10.0",
-    "babel-preset-es2015": "6.24.1",
     "boiler-room-custodian": "^0.6.2",
     "concurrently": "^3.1.0",
     "cross-env": "^5.0.1",
     "css-loader": "^0.28.4",
     "css-modules-require-hook": "^4.0.6",
     "devtron": "^1.4.0",
-    "electron": "4.0.5",
-    "electron-builder": "20.38.5",
+    "electron": "4.0.4",
+    "electron-builder": "20.43.0",
     "electron-builder-http": "19.27.5",
     "electron-devtools-installer": "^2.2.4",
     "electron-rebuild": "1.8.4",
@@ -152,6 +170,8 @@
     "less-loader": "4.1.0",
     "mini-css-extract-plugin": "0.4.4",
     "node-sass": "^4.1.1",
+    "postcss-loader": "3.0.0",
+    "raw-loader": "3.0.0",
     "react-hot-loader": "4.7.1",
     "react-test-renderer": "^16.0.0",
     "redux-logger": "^3.0.6",
@@ -169,13 +189,16 @@
     "webpack-cli": "3.1.2",
     "webpack-dev-middleware": "^2.0.3",
     "webpack-hot-middleware": "^2.13.2",
-    "webpack-merge": "^4.1.1"
+    "webpack-merge": "^4.1.1",
+    "webpack-node-externals": "1.7.2"
   },
   "dependencies": {
     "@eddiewang/react-filemanager": "1.1.0-beta.12",
     "@eddiewang/sia.js": "git+https://gitlab.com/SiaPrime/Nodejs-Sia.git#e679cfe",
     "@expo/spawn-async": "1.4.0",
     "@opuscapita/react-filemanager-connector-node-v1": "1.1.0-beta.4",
+    "@opuscapita/react-svg": "4.0.0",
+    "@opuscapita/svg-icons": "1.1.4",
     "@rebass/components": "4.0.0-1",
     "@types/gsap": "1.20.1",
     "@types/qs": "6.5.1",
@@ -184,6 +207,7 @@
     "@types/yup": "0.26.10",
     "antd": "3.13.6",
     "app-root-dir": "1.0.2",
+    "aws-sdk": "2.458.0",
     "axios": "0.18.0",
     "babel-runtime": "6.26.0",
     "bignumber.js": "8.0.2",
@@ -192,8 +216,8 @@
     "check-disk-space": "1.5.0",
     "classnames": "2.2.6",
     "connected-react-router": "4.5.0",
-    "diskusage": "1.0.0",
     "electron-debug": "^1.1.0",
+    "electron-reload": "1.4.0",
     "electron-window-state": "5.0.3",
     "font-awesome": "^4.7.0",
     "formik": "1.5.1",
@@ -201,15 +225,18 @@
     "gsap": "2.1.1",
     "history": "^4.6.1",
     "lodash": "4.17.11",
+    "node-pty-prebuilt-multiarch": "0.8.1",
     "qs": "6.5.2",
     "react": "16.8.1",
     "react-addons-transition-group": "15.6.2",
-    "react-dom": "npm:@hot-loader/react-dom",
+    "react-contextmenu": "2.11.0",
+    "react-dom": "16.8.1",
     "react-player": "1.9.3",
     "react-redux": "6.0.1",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-transition-group": "2.6.0",
+    "react-virtualized": "9.21.1",
     "rebass": "3.0.0-9",
     "recharts": "1.3.3",
     "redux": "4.0.1",
@@ -220,11 +247,14 @@
     "sia-opus-connector": "git+https://gitlab.com/SiaPrime/sia-opus-connector.git#2c5b65b",
     "sia-typescript": "git+https://gitlab.com/SiaPrime/sia-typescript.git#3e64dad",
     "source-map-support": "^0.5.0",
+    "strip-ansi": "5.2.0",
     "styled-components": "4.1.3",
     "styled-system": "3.1.6",
+    "ttys": "0.0.3",
     "typescript-fsa": "3.0.0-beta-2",
     "typescript-fsa-reducers": "1.0.0",
     "typescript-fsa-redux-saga": "2.0.0-beta.1",
+    "winston": "3.2.1",
     "yup": "0.26.10"
   },
   "resolutions": {

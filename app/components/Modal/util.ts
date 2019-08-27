@@ -1,24 +1,31 @@
-import spawnAsync from '@expo/spawn-async'
 import defaultConfig from 'config'
+import * as path from 'path'
+const pty = require('electron').remote.require('node-pty-prebuilt-multiarch')
 
-export const spawnSiac = async (command: any) => {
-  try {
-    let args = command.split(' ')
-    if (args[0] === 'spc') {
-      args = [...args.splice(1)]
-    }
+const isWindows = process.platform === 'win32'
 
-    const siac = spawnAsync(defaultConfig.siac.path, args, {
-      argv0: 'spc'
-    })
-    let { pid, stdout, stderr, status, signal } = await siac
+// find the dirname for siac instead of the direct binary path
+const siacBasePath = path.dirname(defaultConfig.siac.path)
 
-    return stdout
-  } catch (e) {
-    if (e.stderr) {
-      return e.stderr
-    } else {
-      throw new Error(e)
-    }
+// use the bin name (usually siac), but can be set in the config.json file
+const siacBinName = isWindows
+  ? defaultConfig.siac.path
+  : `./${path.basename(defaultConfig.siac.path)}`
+
+export const createShell = (command = '') => {
+  let args = command.split(' ')
+  if (args[0] === 'siac' || args[0] === './siac' || args[0] === './siac.exe') {
+    args = [...args.splice(1)]
   }
+  var term = pty.spawn(siacBinName, args, {
+    name: 'xterm-color',
+    cols: 80,
+    rows: 30,
+    // use base path as cwd so arv0 is siac
+    cwd: siacBasePath,
+    env: process.env
+  })
+
+  term.pause()
+  return term
 }

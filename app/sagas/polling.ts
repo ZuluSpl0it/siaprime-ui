@@ -5,7 +5,7 @@ import { consensusWorker, gatewayWorker } from 'sagas'
 import { selectTransactionHeight } from 'selectors'
 
 import { activeHostWorker } from './host'
-import { getContractsWorker, getFeeWorker } from './renter'
+import { getContractsWorker, getFeeWorker, getRenterWorker } from './renter'
 import { getTpoolFees, getTransactionsWorker, getWalletWorker } from './wallet'
 
 /* Poll Calls
@@ -15,8 +15,8 @@ import { getTpoolFees, getTransactionsWorker, getWalletWorker } from './wallet'
 */
 
 function* globalPollCalls() {
-  yield call(consensusWorker)
   yield spawn(gatewayWorker)
+  yield spawn(consensusWorker)
   yield spawn(activeHostWorker)
 }
 
@@ -30,6 +30,7 @@ function* walletPollCalls() {
 function* renterPollCalls() {
   yield spawn(getContractsWorker)
   yield spawn(getFeeWorker)
+  yield spawn(getRenterWorker)
 }
 
 /* Poll Tasks
@@ -62,6 +63,7 @@ function* renterPollTask() {
 function* hostPollTask() {
   while (true) {
     yield put(HostActions.getHostConfig.started())
+    yield put(HostActions.getHostStorage.started())
     yield delay(5000)
   }
 }

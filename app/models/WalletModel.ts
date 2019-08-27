@@ -285,7 +285,7 @@ export namespace WalletModel {
   export interface ProcessedOutput {
     id: string
     fundtype: string
-    maturityheight: string
+    maturityheight: number
     walletaddress: boolean
     relatedaddress: string
     value: number

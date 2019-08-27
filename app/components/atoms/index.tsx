@@ -1,5 +1,5 @@
 import system from '@rebass/components'
-import { Button, Icon, AutoComplete } from 'antd'
+import { Button, Icon, AutoComplete, Spin } from 'antd'
 import { shell } from 'electron'
 import * as React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
@@ -7,6 +7,8 @@ import styled from 'styled-components'
 import { Box } from './Box'
 import { Flex } from './Flex'
 import { themeGet } from 'styled-system'
+import { StyledIcon } from './StyledIcon'
+import { StyledButton } from './StyledButton'
 
 export const defaultFieldState = {
   value: undefined,
@@ -40,14 +42,14 @@ export const Card = styled(Box)`
 Card.defaultProps = {
   p: 3,
   borderRadius: 2,
-  bg: 'white'
+  bg: 'card-bg'
 }
 
 export const Text = system(
   {
     is: 'span',
     fontSize: 1,
-    color: 'near-black',
+    color: 'text',
     fontWeight: 500,
     fontFamily: 'sansSerif'
   },
@@ -129,11 +131,11 @@ export const TextWithAdornment = ({ before, after, disabled, ...props }: any) =>
 
 export const ButtonWithAdornment = ({ before, after, iconType, children, ...props }: any) => {
   return (
-    <Button {...props}>
+    <StyledButton {...props}>
       {before && <Icon style={{ marginRight: 2, verticalAlign: 'middle' }} type={iconType} />}
       {children}
       {after && <Icon style={{ marginLeft: 2, verticalAlign: 'middle' }} type={iconType} />}
-    </Button>
+    </StyledButton>
   )
 }
 
@@ -174,10 +176,7 @@ export const MenuItem = ({ title, active = false, iconType }: MenuItemProps) => 
       position="relative"
       active={active}
     >
-      <TextWithAdornment
-        before={<Icon style={{ color: '#444' }} type={iconType} />}
-        fontWeight={500}
-      >
+      <TextWithAdornment before={<StyledIcon type={iconType} />} fontWeight={500}>
         {title}
       </TextWithAdornment>
     </ActivationBox>
@@ -210,7 +209,7 @@ export const AppIconButton = ({ iconType }: AppIconButtonProps & any) => {
       width="40px"
       borderRadius={2}
     >
-      <Icon type={iconType} />
+      <StyledIcon type={iconType} />
     </DarkerActivationBox>
   )
 }
@@ -266,9 +265,9 @@ export const StyledTag = styled(Box)`
   padding: 4px 6px;
   border-radius: 8px;
   font-size: 10px;
-  color: #444;
+  color: ${themeGet('colors.near-black')};
   border: 1px solid #eee;
-  background: #eee;
+  background: ${themeGet('colors.near-white')};
   margin-right: 3px;
 `
 
@@ -281,6 +280,8 @@ export const StyledAutoComplete = styled(AutoComplete)<any>`
 >>>>>>> c2c03d96
   }
 `
+const SpinIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />
+export const Spinner = () => <Spin indicator={SpinIcon} />
 
 export * from './Box'
 export * from './Flex'

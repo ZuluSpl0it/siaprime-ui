@@ -7,7 +7,8 @@ import {
   getContractsWorker,
   getRenterWorker,
   restoreBackupWorker,
-  setAllowanceWorker
+  setAllowanceWorker,
+  listBackupWorker
 } from './workers'
 
 /**
@@ -27,6 +28,14 @@ function* createBackupWatcher() {
   }
 }
 
+// watches for a list backup call and passes on the worker to handle the api request (1.4.1+ only)
+function* listBackupWatcher() {
+  while (true) {
+    yield take(RenterActions.listBackups.started)
+    yield spawn(listBackupWorker)
+  }
+}
+
 // takes a source string and attempts to restore from a backup file (1.4.0 only)
 function* restoreBackupWatcher() {
   while (true) {
@@ -42,11 +51,9 @@ function* restoreBackupWatcher() {
 function* setAllowanceWatcher() {
   while (true) {
     const params = yield take(RenterActions.setAllowance.started)
-    const { allowance } = params.payload
     yield spawn(setAllowanceWorker, {
-      allowance
+      ...params.payload
     })
-    yield spawn(getRenterWorker)
   }
 }
 
@@ -54,7 +61,8 @@ export const renterSagas = [
   takeLatest(RenterActions.fetchContracts.started, wrapSpawn(getContractsWorker)),
   createBackupWatcher(),
   restoreBackupWatcher(),
-  setAllowanceWatcher()
+  setAllowanceWatcher(),
+  listBackupWatcher()
 ]
 
 export * from './workers'

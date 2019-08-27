@@ -1,45 +1,18 @@
 import { Button, Icon } from 'antd'
-import { initSiad, siad, launchSiad } from 'api/siad'
+import { initSiad, siad, launchSiad, setGlobalSiadProcess, getGlobalSiadProcess } from 'api/siad'
 import Temp from 'assets/img/Bitmap.png'
 import { Box, Image, Text } from 'components/atoms'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
 import { WalletActions, GlobalActions } from 'actions'
 import { Flex } from 'components/atoms/Flex'
-import { globalSiadProcess, getGlobalSiadProcess, setGlobalSiadProcess } from 'containers/App'
 import { ChildProcess } from 'child_process'
-
-const EmptyState = ({ children }: any) => (
-  <Flex height="100vh" width="100vw" justifyContent="center" alignItems="center">
-    <Flex justifyContent="center" alignItems="center">
-      {children}
-    </Flex>
-  </Flex>
-)
-
-export const ScanningState = () => (
-  <EmptyState>
-    <Box mx={2} pr={4} width={1 / 2}>
-      <Text is="p" fontSize={5}>
-        The SiaPrime Daemon is currently scanning the blockchain.
-      </Text>
-      <Text is="p" fontSize={3} fontWeight={400}>
-        Please wait as we index your wallet and update the balance.
-      </Text>
-    </Box>
-    <Box mx={2} width={1 / 2}>
-      <Image src={Temp} />
-    </Box>
-  </EmptyState>
-)
+import { StyledIcon } from 'components/atoms/StyledIcon'
 
 // I don't think scanning state belongs to the wallet plugin - should be global.
 class OffState extends React.Component<DispatchProp> {
   state = {
     status: 'exclamation-circle'
-  }
-  componentDidMount = async () => {
-    this.props.dispatch(GlobalActions.stopPolling())
   }
   launchDaemon = async () => {
     this.setState({
@@ -54,16 +27,30 @@ class OffState extends React.Component<DispatchProp> {
       if (gsp) {
         gsp.kill('SIGKILL')
       }
-      const loaded = await launchSiad()
-      if (loaded) {
-        setGlobalSiadProcess(loaded)
-        dispatch(GlobalActions.siadLoaded())
-        dispatch(GlobalActions.startSiadPolling())
-      } else {
+      try {
+        const loaded = await launchSiad()
+        if (loaded) {
+          setGlobalSiadProcess(loaded)
+          dispatch(GlobalActions.siadLoaded())
+          dispatch(GlobalActions.startSiadPolling())
+        } else {
+          dispatch(GlobalActions.siadOffline())
+          this.setState({
+            status: 'close-circle'
+          })
+        }
+      } catch (e) {
         dispatch(GlobalActions.siadOffline())
         this.setState({
           status: 'close-circle'
         })
+        dispatch(
+          GlobalActions.notification({
+            type: 'open',
+            title: 'Daemon Error',
+            message: e.toString()
+          })
+        )
       }
     } else {
       dispatch(GlobalActions.setSiadOrigin({ isInternal: false }))
@@ -71,7 +58,7 @@ class OffState extends React.Component<DispatchProp> {
   }
   render() {
     return (
-      <Flex height="100vh" width="100%" justifyContent="center" alignItems="center">
+      <Flex bg="white" height="100vh" width="100%" justifyContent="center" alignItems="center">
         <Flex
           flexDirection="column"
           alignItems="center"
@@ -80,7 +67,7 @@ class OffState extends React.Component<DispatchProp> {
           height="100%"
         >
           <Box width={1 / 3} style={{ textAlign: 'center' }} pb={2}>
-            <Icon
+            <StyledIcon
               type={this.state.status}
               spin={this.state.status === 'loading'}
               style={{ fontSize: 18 }}

@@ -1,5 +1,5 @@
 import { GlobalActions, WalletActions } from 'actions'
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, Tooltip } from 'antd'
 import Wordmark from 'assets/svg/wordmark.svg'
 import LockScreenHeader from 'components/AppHeader/LockScreenHeader'
 import { Box, defaultFieldState, DragContiner, FormItemProps, SVGBox, Text } from 'components/atoms'
@@ -42,6 +42,7 @@ class ProtectedView extends React.Component<Props, State> {
   componentDidMount() {
     this.props.dispatch(WalletActions.resetForm())
     this.props.dispatch(WalletActions.startPolling())
+    this.props.dispatch(GlobalActions.startPolling())
   }
   handleLogin = () => {
     const { password } = this.state
@@ -50,7 +51,6 @@ class ProtectedView extends React.Component<Props, State> {
         encryptionpassword: password.value as any
       })
     )
-    this.props.dispatch(GlobalActions.startPolling())
   }
   handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -62,11 +62,6 @@ class ProtectedView extends React.Component<Props, State> {
         }
       }
     } as any)
-  }
-  handleEnter = (e: any) => {
-    if (e.keyCode === 13) {
-      this.handleLogin()
-    }
   }
   handleFinishedLoading = () => {
     const { wallet, consensus } = this.props
@@ -114,7 +109,7 @@ class ProtectedView extends React.Component<Props, State> {
           justifyContent="center"
           alignItems="center"
           flexDirection="column"
-          bg="near-white"
+          bg="bg"
           height="100vh"
           width="100%"
         >
@@ -150,18 +145,23 @@ class ProtectedView extends React.Component<Props, State> {
                       help={unlockFormHelp.help}
                       validateStatus={unlockFormHelp.validateStatus as any}
                     >
-                      <Input
-                        onKeyDown={this.handleEnter}
-                        onChange={this.handleInput}
-                        placeholder="Enter Your Password"
-                        type="password"
-                        name="password"
-                        value={this.state.password.value}
-                        size="large"
-                      />
+                      <Tooltip
+                        placement="left"
+                        title="If you are a new user or are restoring from your seed, your password is your seed."
+                      >
+                        <Input
+                          onPressEnter={this.handleLogin}
+                          onChange={this.handleInput}
+                          placeholder="Enter Your Password or Seed"
+                          type="password"
+                          name="password"
+                          value={this.state.password.value}
+                          size="large"
+                        />
+                      </Tooltip>
                     </Form.Item>
                     <Button onClick={this.handleLogin} type="primary" size="large">
-                      Login
+                      Unlock
                     </Button>
                   </Flex>
                 </TransitionFade>

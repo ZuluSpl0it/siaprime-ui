@@ -1,6 +1,7 @@
 import { WalletActions } from 'actions'
-import { AppIconButton, Bar, HeaderBox } from 'components/atoms'
+import { Bar, HeaderBox } from 'components/atoms'
 import { Flex } from 'components/atoms/Flex'
+import { HeaderButton } from 'components/atoms/HeaderButton'
 import { AboutModal, TerminalModal } from 'components/Modal'
 import SynchronizeStatus from 'components/SynchronizeStatus'
 import { ConsensusModel } from 'models'
@@ -46,13 +47,17 @@ class LockScreenHeader extends React.Component<StateProps & DispatchProp, {}> {
       <React.Fragment>
         <HeaderBox px={3} height={2} justifyContent="flex-end" alignItems="center">
           <Flex justifyContent="center" alignItems="center">
-            <div onClick={this.showModal}>
-              <AppIconButton iconType="info-circle" />
-            </div>
+            <HeaderButton
+              handleClick={this.showModal}
+              iconType="info-circle"
+              tooltipTitle="About"
+            />
             <Bar />
-            <div onClick={this.showTerminalModal}>
-              <AppIconButton iconType="right-square" />
-            </div>
+            <HeaderButton
+              handleClick={this.showTerminalModal}
+              iconType="right-square"
+              tooltipTitle="Terminal"
+            />
             <Bar />
           </Flex>
           <Flex justifyContent="center" alignItems="center">

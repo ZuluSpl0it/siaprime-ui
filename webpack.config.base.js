@@ -4,11 +4,39 @@
 
 const path = require('path')
 
-const { dependencies: externals } = require('./app/package.json')
+// const { dependencies: externals } = require('./app/package.json')
 
 module.exports = {
   module: {
     rules: [
+      {
+        test: /\.js?$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/env', '@babel/react'],
+              plugins: [
+                [
+                  '@babel/transform-runtime',
+                  {
+                    regenerator: true
+                  }
+                ],
+                [
+                  '@babel/proposal-decorators',
+                  {
+                    legacy: true
+                  }
+                ],
+                ['@babel/plugin-proposal-class-properties', { loose: true }],
+                'lodash'
+              ]
+            }
+          }
+        ],
+        exclude: /node_modules/
+      },
       {
         test: /\.less$/,
         loader: [
@@ -21,15 +49,30 @@ module.exports = {
               modifyVars: {
                 'primary-color': '#2074ee',
                 'link-color': '#2074ee',
-                'font-family': `"Metropolis", -apple-system,"Helvetica Neue", Helvetica`
+                'font-family': `"Metropolis", -apple-system,"Helvetica Neue", Helvetica`,
+                'tooltip-bg': '#202124'
               }
             }
           }
-        ] // compiles Less to CSS
+        ]
+      },
+      {
+        test: /\.(css)$/,
+        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }]
       },
       {
         test: /\.svg$/,
-        use: ['@svgr/webpack']
+        use: ['@svgr/webpack'],
+        exclude: /node_modules/
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'raw-loader'
+          }
+        ],
+        include: /node_modules/
       },
       {
         test: /\.(eot|ttf|woff|woff2|otf)$/,
@@ -49,7 +92,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.json'],
     modules: [path.join(__dirname, 'app'), 'node_modules']
-  },
+  }
 
-  externals: Object.keys(externals || {})
+  // externals: Object.keys(externals || {})
 }

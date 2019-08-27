@@ -1,6 +1,11 @@
 import defaultConfig from 'config'
 
 import { Client } from 'sia-typescript'
+import { siadLogger } from 'utils/logger'
+import { reduxStore } from 'containers/Root'
+import { GlobalActions } from 'actions'
+import { ChildProcess } from 'child_process'
+
 export interface SiadConfig {
   path: string
   datadir: string
@@ -8,6 +13,16 @@ export interface SiadConfig {
   hostaddr: string
   detached: boolean
   address: string
+}
+
+export let globalSiadProcess: any = null
+
+export const setGlobalSiadProcess = p => {
+  globalSiadProcess = p
+}
+
+export const getGlobalSiadProcess = (): ChildProcess => {
+  return globalSiadProcess
 }
 
 export const siad = new Client({
@@ -21,27 +36,27 @@ export const initSiad = () => {
 
 export const launchSiad = () => {
   return new Promise((resolve, reject) => {
-    try {
-      const p = initSiad()
-      p.stdout.on('data', data => {
-        console.log(data.toString())
-      })
-      p.stderr.on('data', data => {
-        console.log(data.toString())
-      })
-      const timeout = setTimeout(() => {
+    const p = initSiad()
+    p.stdout.on('data', data => {
+      const log = data.toString()
+      reduxStore.dispatch(GlobalActions.siadAppendLog(log))
+      siadLogger.info(log)
+    })
+    p.stderr.on('data', data => {
+      const log = data.toString()
+      reduxStore.dispatch(GlobalActions.siadAppendErr(log))
+      siadLogger.error(log)
+    })
+    const timeout = setTimeout(() => {
+      clearInterval(pollLoaded)
+      resolve(false)
+    }, 20000)
+    const pollLoaded = setInterval(() => {
+      if (siad.isRunning()) {
         clearInterval(pollLoaded)
-        resolve(false)
-      }, 20000)
-      const pollLoaded = setInterval(() => {
-        if (siad.isRunning()) {
-          clearInterval(pollLoaded)
-          clearInterval(timeout)
-          resolve(p)
-        }
-      }, 2000)
-    } catch (e) {
-      reject(e)
-    }
+        clearInterval(timeout)
+        resolve(p)
+      }
+    }, 2000)
   })
 }

@@ -12,26 +12,36 @@ const inputStates = {
 type StyledInputProps = InputProps & { state?: 'error' | 'success' }
 
 const inputStyles = css<StyledInputProps>`
-  background: ${themeGet('colors.indigo.4')};
+  background: ${themeGet('colors.input-bg')};
   font-size: ${themeGet('fontSizes.1')}px;
   color: ${themeGet('colors.text')};
   border: 1px solid
-    ${props => (props.state ? inputStates[props.state] : themeGet('colors.indigo.2'))};
-  &:hover {
-    border: 1px solid ${themeGet('colors.indigo.0')};
+    ${props => (props.state ? inputStates[props.state] : themeGet('colors.input-border'))};
+`
+
+export const StyledInput = styled(Input)<StyledInputProps>`
+  ${inputStyles}
+`
+
+export const StyledInputPassword = styled(Input.Password)`
+  .ant-input-group,
+  &.ant-input-affix-wrapper {
+    input,
+    .ant-input {
+      ${inputStyles}
+    }
   }
-  &:focus,
-  &:active {
-    box-shadow: none;
-    border: 1px solid ${themeGet('colors.brand')};
-  }
-  &.ant-input-lg {
-    padding: 8px 18px;
+  .ant-input-suffix > i {
+    color: ${themeGet('colors.text')};
   }
 `
 
-export const StyledInput = styled(Input)<StyledInputProps>``
-
-export const StyledInputPassword = styled(Input.Password)``
-
-export const StyledInputGroup = styled(Input)``
+export const StyledInputGroup = styled(Input)`
+  .ant-input-group,
+  &.ant-input-affix-wrapper {
+    input,
+    .ant-input {
+      ${inputStyles}
+    }
+  }
+`

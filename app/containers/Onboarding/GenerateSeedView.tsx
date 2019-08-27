@@ -28,9 +28,9 @@ export const GenerateSeedView = ({ seed }) => {
           </Box>
           <Box>
             <Text fontSize={2}>
-              This is your generated seed. It will also be your initial wallet password. Please copy
-              and store this seed somewhere safe. It is used to unlock the wallet, as well as to
-              recover funds in case the wallet is lost.
+              This is your Sia seed. It is your wallet password until you change it. Please
+              copy and store your seed somewhere safe, because there's no way to recover it.
+              Your seed is used to unlock your wallet and can recover your Siacoins and uploaded files.
             </Text>
             <Box pt={2}>
               <ButtonWithAdornment onClick={copySeed} before iconType="copy">

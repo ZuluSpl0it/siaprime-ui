@@ -15,7 +15,8 @@ import { connect, DispatchProp } from 'react-redux'
 import { Redirect, Route, RouteComponentProps, Switch, withRouter } from 'react-router'
 import { IndexState } from 'reducers'
 import { UIReducer } from 'reducers/ui'
-import { selectSiadState, selectWalletSummary } from 'selectors'
+import { selectSiadState, selectWalletSummary, selectIsRenterLoaded } from 'selectors'
+import { IsLoadedHOC } from 'components/IsLoadedHOC/IsLoadedHOC'
 
 const routes: SidebarItem[] = [
   {
@@ -29,12 +30,12 @@ const routes: SidebarItem[] = [
     path: 'wallet'
   },
   {
-    title: 'Files',
+    title: 'Rent',
     iconType: 'file',
     path: 'renter'
   },
   {
-    title: 'Hosting',
+    title: 'Host',
     iconType: 'database',
     path: 'host'
   }
@@ -65,7 +66,7 @@ class MainView extends React.Component<
     this.props.dispatch(WalletActions.stopPolling())
   }
   render() {
-    const { wallet, siad, location } = this.props
+    const { wallet, siad, location, isRenterLoaded } = this.props
     if (!siad.isActive) {
       return <Redirect to="/offline" />
     }
@@ -77,7 +78,7 @@ class MainView extends React.Component<
     }
     return (
       <DragContiner>
-        <Box px={20} pt={5} width="240px" bg="white" style={{ flexShrink: 0 }}>
+        <Box px={20} pt={5} width="240px" bg="sidebar-bg" style={{ flexShrink: 0 }}>
           <SVGBox height="40px">
             <Wordmark viewBox="0 0 97 58" />
           </SVGBox>
@@ -87,8 +88,7 @@ class MainView extends React.Component<
             </Box>
           </Box>
         </Box>
-
-        <Box width={1} style={{ height: '100vh' }} bg="near-white">
+        <Box width={1} style={{ height: '100vh' }} bg="bg">
           <RequireConsensusData>
             <AppHeader />
           </RequireConsensusData>
@@ -115,7 +115,8 @@ class MainView extends React.Component<
 const mapStateToProps = (state: IndexState) => ({
   pathname: state.router.location.pathname,
   wallet: selectWalletSummary(state),
-  siad: selectSiadState(state)
+  siad: selectSiadState(state),
+  isRenterLoaded: selectIsRenterLoaded(state)
 })
 
 export default connect(mapStateToProps)(withRouter(MainView))

@@ -1,20 +1,23 @@
-const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron')
+const { app, BrowserWindow, Menu, shell, Tray, ipcMain } = require('electron')
 const windowStateKeeper = require('electron-window-state')
-// const { shutdown, initSiad } = require('./utils/siadProcess')
 const defaultConfig = require('./config')
+const path = require('path')
+const fs = require('fs')
 
 let menu
 let template
+// tray
+let appIcon = null
+// main window process
 let mainWindow = null
+// Useful dynamic env constants
+const isDev = process.env.NODE_ENV === 'development'
+const isDarwin = process.platform === 'darwin'
+const isWindows = process.platform === 'win32'
+const isLinux = process.platform === 'linux'
 
-// if (process.env.NODE_ENV === 'production') {
-//   const sourceMapSupport = require('source-map-support') // eslint-disable-line
-//   sourceMapSupport.install()
-// }
-
-if (process.env.NODE_ENV === 'development') {
+if (isDev) {
   require('electron-debug')() // eslint-disable-line global-require
-  const path = require('path') // eslint-disable-line
   const p = path.join(__dirname, '..', 'app', 'node_modules') // eslint-disable-line
   require('module').globalPaths.push(p) // eslint-disable-line
 }
@@ -23,12 +26,8 @@ app.on('window-all-closed', () => {
   app.quit()
 })
 
-// app.on('before-quit', () => {
-//   console.log('err ello')
-// })
-
 const installExtensions = () => {
-  if (process.env.NODE_ENV === 'development') {
+  if (isDev) {
     const installer = require('electron-devtools-installer') // eslint-disable-line global-require
     const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS']
     const forceDownload = !!process.env.UPGRADE_EXTENSIONS
@@ -38,20 +37,21 @@ const installExtensions = () => {
   return Promise.resolve([])
 }
 
-const windowConfig =
-  process.platform === 'darwin'
-    ? {
-        frame: false,
-        titleBarStyle: 'hiddenInset'
-      }
-    : {}
+const windowConfig = isDarwin
+  ? {
+      frame: false,
+      titleBarStyle: 'hiddenInset'
+    }
+  : {}
 
 app.on('ready', () =>
   installExtensions().then(() => {
+    // Keep the window state for app relaunch
     let mainWindowState = windowStateKeeper({
       defaultWidth: 1200,
       defaultHeight: 780
     })
+    // Setup the browser window and create the app
     const browserWindowConfig = Object.assign({}, windowConfig, {
       show: false,
       width: mainWindowState.width,
@@ -60,9 +60,57 @@ app.on('ready', () =>
       y: mainWindowState.y,
       autoHideMenuBar: true,
       title: 'SiaPrime Wallet'
+      // skipTaskbar: true
     })
     mainWindow = new BrowserWindow(browserWindowConfig)
     mainWindowState.manage(mainWindow)
+
+    ipcMain.on('shutdown-app', () => {
+      mainWindow.siadShutdown = true
+      app.quit()
+    })
+
+    // renderer can send a quit request that allows the main process to safely
+    // shutdown.
+    ipcMain.on('force-quit-request', () => {
+      mainWindow.isQuitting = true
+      app.quit()
+    })
+
+    mainWindow.on('close', e => {
+      // if isQuitting not set to true, minimize to system tray.
+      if (!mainWindow.isQuitting) {
+        e.preventDefault()
+        if (isDarwin) {
+          app.dock.hide()
+        }
+        mainWindow.hide()
+        return false
+        // if siad is shutdown, this flag will be true. we can quit safely.
+      } else if (mainWindow.siadShutdown) {
+        return true
+        // we can't quit yet, siad is not shutdown. send an ipc event to
+        // renderer so the shutdown process can start.
+      } else {
+        e.preventDefault()
+        mainWindow.webContents.send('shutdown-siad', true)
+      }
+    })
+
+    // Setup close to tray settings for both minimize and close events.
+    mainWindow.on('minimize', e => {
+      // Hide the icon from the Mac Dock. Darwin specific feature.
+      if (isDarwin) {
+        app.dock.hide()
+      }
+      // https://electronjs.org/docs/api/tray Linux limitations, so we'll just
+      // minimize instead of attempting to go to system tray.
+      if (isLinux) {
+        return true
+      }
+      mainWindow.hide()
+      return false
+    })
 
     mainWindow.loadURL(`file://${__dirname}/app.html`)
 
@@ -71,7 +119,40 @@ app.on('ready', () =>
       mainWindow.focus()
     })
 
-    if (process.env.NODE_ENV === 'development' || defaultConfig.debugMode) {
+    const iconName = isDarwin ? 'trayTemplate.png' : 'trayWin.png'
+    const iconPath = isDev
+      ? path.join(process.cwd(), 'tray', iconName)
+      : path.join(process.resourcesPath, 'tray', iconName)
+
+    appIcon = new Tray(iconPath)
+    const trayContextMenu = Menu.buildFromTemplate([
+      {
+        label: 'Show App',
+        click: function() {
+          if (isDarwin) {
+            app.dock.show()
+          }
+          mainWindow.show()
+        }
+      },
+      {
+        label: 'Quit',
+        click: function() {
+          mainWindow.isQuitting = true
+          app.quit()
+        }
+      }
+    ])
+
+    appIcon.on('double-click', () => {
+      mainWindow.show()
+      mainWindow.focus()
+    })
+
+    appIcon.setToolTip('Sia-UI syncs the daemon in the background.')
+    appIcon.setContextMenu(trayContextMenu)
+
+    if (isDev || defaultConfig.debugMode) {
       mainWindow.openDevTools()
       mainWindow.webContents.on('context-menu', (e, props) => {
         const { x, y } = props
@@ -87,7 +168,7 @@ app.on('ready', () =>
       })
     }
 
-    if (process.platform === 'darwin') {
+    if (isDarwin) {
       template = [
         {
           label: 'SiaPrime-UI',
@@ -127,6 +208,7 @@ app.on('ready', () =>
               label: 'Quit',
               accelerator: 'Command+Q',
               click() {
+                mainWindow.isQuitting = true
                 app.quit()
               }
             }
@@ -172,40 +254,39 @@ app.on('ready', () =>
         },
         {
           label: 'View',
-          submenu:
-            process.env.NODE_ENV === 'development'
-              ? [
-                  {
-                    label: 'Reload',
-                    accelerator: 'Command+R',
-                    click() {
-                      mainWindow.webContents.reload()
-                    }
-                  },
-                  {
-                    label: 'Toggle Full Screen',
-                    accelerator: 'Ctrl+Command+F',
-                    click() {
-                      mainWindow.setFullScreen(!mainWindow.isFullScreen())
-                    }
+          submenu: isDev
+            ? [
+                {
+                  label: 'Reload',
+                  accelerator: 'Command+R',
+                  click() {
+                    mainWindow.webContents.reload()
                   }
-                ]
-              : [
-                  {
-                    label: 'Toggle Developer Tools',
-                    accelerator: 'Command+Shift+I',
-                    click() {
-                      mainWindow.toggleDevTools()
-                    }
-                  },
-                  {
-                    label: 'Toggle Full Screen',
-                    accelerator: 'Ctrl+Command+F',
-                    click() {
-                      mainWindow.setFullScreen(!mainWindow.isFullScreen())
-                    }
+                },
+                {
+                  label: 'Toggle Full Screen',
+                  accelerator: 'Ctrl+Command+F',
+                  click() {
+                    mainWindow.setFullScreen(!mainWindow.isFullScreen())
                   }
-                ]
+                }
+              ]
+            : [
+                {
+                  label: 'Toggle Developer Tools',
+                  accelerator: 'Command+Shift+I',
+                  click() {
+                    mainWindow.toggleDevTools()
+                  }
+                },
+                {
+                  label: 'Toggle Full Screen',
+                  accelerator: 'Ctrl+Command+F',
+                  click() {
+                    mainWindow.setFullScreen(!mainWindow.isFullScreen())
+                  }
+                }
+              ]
         },
         {
           label: 'Window',
@@ -282,40 +363,39 @@ app.on('ready', () =>
         },
         {
           label: '&View',
-          submenu:
-            process.env.NODE_ENV === 'development'
-              ? [
-                  {
-                    label: '&Reload',
-                    accelerator: 'Ctrl+R',
-                    click() {
-                      mainWindow.webContents.reload()
-                    }
-                  },
-                  {
-                    label: 'Toggle &Full Screen',
-                    accelerator: 'F11',
-                    click() {
-                      mainWindow.setFullScreen(!mainWindow.isFullScreen())
-                    }
+          submenu: isDev
+            ? [
+                {
+                  label: '&Reload',
+                  accelerator: 'Ctrl+R',
+                  click() {
+                    mainWindow.webContents.reload()
                   }
-                ]
-              : [
-                  {
-                    label: 'Toggle &Full Screen',
-                    accelerator: 'F11',
-                    click() {
-                      mainWindow.setFullScreen(!mainWindow.isFullScreen())
-                    }
-                  },
-                  {
-                    label: 'Toggle &Developer Tools',
-                    accelerator: 'Alt+Ctrl+I',
-                    click() {
-                      mainWindow.toggleDevTools()
-                    }
+                },
+                {
+                  label: 'Toggle &Full Screen',
+                  accelerator: 'F11',
+                  click() {
+                    mainWindow.setFullScreen(!mainWindow.isFullScreen())
                   }
-                ]
+                }
+              ]
+            : [
+                {
+                  label: 'Toggle &Full Screen',
+                  accelerator: 'F11',
+                  click() {
+                    mainWindow.setFullScreen(!mainWindow.isFullScreen())
+                  }
+                },
+                {
+                  label: 'Toggle &Developer Tools',
+                  accelerator: 'Alt+Ctrl+I',
+                  click() {
+                    mainWindow.toggleDevTools()
+                  }
+                }
+              ]
         },
         {
           label: 'Help',

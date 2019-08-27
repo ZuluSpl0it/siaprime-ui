@@ -1,3 +1,5 @@
+import { whites } from './colors'
+
 export const theme = {
   breakpoints: [32, 48, 64],
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
@@ -41,6 +43,7 @@ export const theme = {
     'near-white': '#f9f9f9',
     'siaprime-blue': '#2074ee',
     almostwhite: '#fefdfd',
+    'text-light': '#fff',
     white: '#fff',
     transparent: 'transparent',
     blacks: [
@@ -70,54 +73,36 @@ export const theme = {
       'rgba(255,255,255,.7)',
       'rgba(255,255,255,.8)',
       'rgba(255,255,255,.9)'
-    ]
-    // ... and so on
+    ],
+    // base
+    bg: whites[0],
+    'sidebar-bg': whites[1],
+    'modal-body': whites[1],
+    'modal-header-bg': whites[1],
+    'card-bg': whites[1],
+    'card-bg-dark': whites[2],
+    // input
+    'input-bg': whites[0],
+    'input-border': whites[3],
+    // button
+    'button-bg': whites[2],
+    'button-bg-hover': whites[1],
+    'button-border': whites[3],
+    // text
+    text: '#222',
+    'text-subdued': '#999',
+    // scrollbar
+    'scrollbar-bg': '#fefefe',
+    // tag
+    'tag-bg': whites[0],
+    'tag-text': '#555',
+    // tooltip
+    'tooltip-bg': whites[2],
+    'tooltip-text': '#222',
+    // notification
+    'notify-bg': whites[1],
+    // dropdown
+    'dropdown-bg': whites[1],
+    'dropdown-border': whites[2]
   }
 }
-
-export const dark = Object.assign({}, theme, {
-  colors: {
-    black: '#000',
-    'near-black': '#fff',
-    'dark-gray': '#eee',
-    'mid-gray': '#555',
-    gray: ' #777',
-    silver: '#999',
-    'light-silver': '#aaa',
-    'moon-gray': '#ccc',
-    'light-gray': '#333',
-    'near-white': '#242424',
-    'siaprime-blue': '#2074ee',
-    white: '#111',
-    transparent: 'transparent',
-    blacks: [
-      'rgba(0,0,0,.0125)',
-      'rgba(0,0,0,.025)',
-      'rgba(0,0,0,.05)',
-      'rgba(0,0,0,.1)',
-      'rgba(0,0,0,.2)',
-      'rgba(0,0,0,.3)',
-      'rgba(0,0,0,.4)',
-      'rgba(0,0,0,.5)',
-      'rgba(0,0,0,.6)',
-      'rgba(0,0,0,.7)',
-      'rgba(0,0,0,.8)',
-      'rgba(0,0,0,.9)'
-    ],
-    whites: [
-      'rgba(255,255,255,.0125)',
-      'rgba(255,255,255,.025)',
-      'rgba(255,255,255,.05)',
-      'rgba(255,255,255,.1)',
-      'rgba(255,255,255,.2)',
-      'rgba(255,255,255,.3)',
-      'rgba(255,255,255,.4)',
-      'rgba(255,255,255,.5)',
-      'rgba(255,255,255,.6)',
-      'rgba(255,255,255,.7)',
-      'rgba(255,255,255,.8)',
-      'rgba(255,255,255,.9)'
-    ]
-    // ... and so on
-  }
-})

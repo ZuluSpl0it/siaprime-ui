@@ -29,6 +29,8 @@ export const selectInitFromSeedState = (state: IndexState) => state.ui.initFromS
 
 export const selectSiadState = (state: IndexState) => state.ui.siad
 
+export const selectIsRenterLoaded = (state: IndexState) => state.renter.isLoaded
+
 export const selectWalletSummary = (state: IndexState) => state.wallet.summary
 
 export const selectGateway = (state: IndexState) => state.gateway
@@ -84,9 +86,9 @@ export const selectContractDetails = createSelector(
   selectContracts,
   contracts => {
     return {
-      active: contracts.activecontracts.length,
-      inactive: contracts.inactivecontracts.length,
-      expired: contracts.expiredcontracts.length
+      active: (contracts.activecontracts || []).length,
+      inactive: (contracts.inactivecontracts || []).length,
+      expired: (contracts.expiredcontracts || []).length
     }
   }
 )

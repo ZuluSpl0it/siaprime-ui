@@ -9,6 +9,7 @@ export namespace UIReducer {
     changePassword: ChangePasswordState
     initFromSeed: InitFromSeedState
     rentStorage: ErrorState
+    refreshFileManager: boolean
   }
 
   export interface SiadState {
@@ -16,6 +17,8 @@ export namespace UIReducer {
     isActive: boolean
     isFinishedLoading: boolean | null
     loading: boolean
+    stderr: string[]
+    stdout: string[]
   }
 
   export interface UnlockFormState {
@@ -50,7 +53,9 @@ export namespace UIReducer {
     isInternal: true,
     isActive: false,
     isFinishedLoading: null,
-    loading: true
+    loading: false,
+    stdout: [],
+    stderr: []
   }
 
   const InitialChangePasswordState = {
@@ -145,18 +150,22 @@ export namespace UIReducer {
       }
     })
     .case(GatewayActions.fetchGateway.failed, (state, payload) => {
-      if (payload.error.message.includes('spd is not ready')) {
-        return {
-          ...state,
-          isFinishedLoading: false
-        }
-      } else {
-        return state
+      return {
+        ...state,
+        isFinishedLoading: false
       }
     })
     .case(GatewayActions.fetchGateway.done, (state, payload) => ({
       ...state,
       isFinishedLoading: true
+    }))
+    .case(GlobalActions.siadAppendLog, (state, payload) => ({
+      ...state,
+      stdout: [...state.stdout, payload]
+    }))
+    .case(GlobalActions.siadAppendErr, (state, payload) => ({
+      ...state,
+      stderr: [...state.stderr, payload]
     }))
 
   const ChangePasswordReducer = reducerWithInitialState(InitialChangePasswordState)
@@ -176,11 +185,17 @@ export namespace UIReducer {
       loading: false
     }))
 
+  const FileManagerReducer = reducerWithInitialState(false).case(
+    GlobalActions.refreshFileManager,
+    (state, payload) => payload
+  )
+
   export const Reducer = combineReducers<State>({
     unlockForm: UnlockFormReducer,
     siad: SiadReducer,
     changePassword: ChangePasswordReducer,
     initFromSeed: InitFromSeedReducer,
-    rentStorage: RenterStorageReducer
+    rentStorage: RenterStorageReducer,
+    refreshFileManager: FileManagerReducer
   })
 }

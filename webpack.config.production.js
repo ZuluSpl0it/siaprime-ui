@@ -89,13 +89,6 @@ module.exports = merge(baseConfig, {
           }
         ]
       },
-      {
-        test: /^((?!\.global).)*\.css$/,
-        use: [
-          'style-loader',
-          'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
-        ]
-      },
       // Common Image Formats
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
@@ -108,6 +101,9 @@ module.exports = merge(baseConfig, {
     // https://webpack.github.io/docs/list-of-plugins.html#occurrenceorderplugin
     // https://github.com/webpack/webpack/issues/864
     new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production')
+    }),
 
     new MiniCssExtractPlugin({
       filename: 'style.css'

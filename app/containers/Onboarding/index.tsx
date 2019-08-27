@@ -11,6 +11,8 @@ import { selectSeedState } from 'selectors'
 
 import { GenerateSeedView } from './GenerateSeedView'
 import { VerifySeedView } from './VerifySeedView'
+import { StyledSteps } from 'components/atoms/StyledSteps'
+import { StyledButton } from 'components/atoms/StyledButton'
 
 const { Step } = Steps
 
@@ -74,17 +76,17 @@ class Onboarding extends React.Component<Props, State> {
         <Flex
           justifyContent="center"
           flexDirection="column"
-          bg="near-white"
+          bg="bg"
           height="100vh"
           width="100%"
           p={4}
         >
           <Box mx={5}>
-            <Steps current={step}>
+            <StyledSteps current={step}>
               <Step title="Generated Seed" />
               <Step title="Verify Seed" />
               {/* <Step title="Set Password" /> */}
-            </Steps>
+            </StyledSteps>
             <Box mt={4} height="450px">
               {step === 0 && <GenerateSeedView seed={primaryseed} />}
               {step === 1 && (
@@ -95,9 +97,9 @@ class Onboarding extends React.Component<Props, State> {
             <Flex justifyContent="space-between">
               <Button.Group>
                 {step !== 0 && (
-                  <Button type="ghost" size="large" onClick={this.prevStep}>
+                  <StyledButton type="ghost" size="large" onClick={this.prevStep}>
                     Previous
-                  </Button>
+                  </StyledButton>
                 )}
               </Button.Group>
               {step < 1 && (

@@ -57,18 +57,6 @@ module.exports = merge(baseConfig, {
         ],
         exclude: /node_modules/
       },
-      {
-        test: /\.global\.css$/,
-        use: ['style-loader', 'css-loader?sourceMap']
-      },
-
-      {
-        test: /^((?!\.global).)*\.css$/,
-        use: [
-          'style-loader',
-          'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
-        ]
-      },
 
       // Add SASS support  - compile all .global.scss files and pipe it to style.css
       {
@@ -116,6 +104,11 @@ module.exports = merge(baseConfig, {
       }
     ]
   },
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
+  },
 
   plugins: [
     // https://webpack.github.io/docs/hot-module-replacement-with-webpack.html
@@ -123,7 +116,6 @@ module.exports = merge(baseConfig, {
 
     new webpack.NoEmitOnErrorsPlugin(),
 
-    // NODE_ENV should be production so that modules do not perform certain development checks
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development')
     }),

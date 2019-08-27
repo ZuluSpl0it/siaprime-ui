@@ -14,6 +14,8 @@ import {
 
 import { SendState } from '../Send'
 import StepHeader from './StepHeader'
+import { StyledInputGroup } from 'components/atoms/StyledInput'
+import { StyledIcon } from 'components/atoms/StyledIcon'
 
 const { Step } = Steps
 const { Option } = Select
@@ -56,10 +58,10 @@ export default connect(mapStateToProps)(
             <Text color="mid-gray">Recipient Address</Text>
           </Box>
           <Form.Item hasFeedback {...walletAddress}>
-            <Input
+            <StyledInputGroup
               placeholder="Wallet Address"
               name="walletAddress"
-              prefix={<Icon type="wallet" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              prefix={<StyledIcon type="wallet" />}
               value={walletAddress.value}
               onChange={setField(validateSiaAddress)}
             />
@@ -80,7 +82,7 @@ export default connect(mapStateToProps)(
                   SiaPrimeFund
                 </Option>
               </Select>
-              <Input
+              <StyledInputGroup
                 step={1}
                 name="amount"
                 onChange={

@@ -15,7 +15,9 @@ import {
   AlignSelfProps,
   JustifyContentProps,
   FlexWrapProps,
-  FlexDirectionProps
+  FlexDirectionProps,
+  background,
+  BackgroundProps
 } from 'styled-system'
 import styled from 'styled-components'
 import { Box, BoxProps } from './Box'
@@ -28,7 +30,8 @@ export type FlexBoxProps = BoxProps &
   JustifyContentProps &
   FlexWrapProps &
   FlexBasisProps &
-  FlexDirectionProps
+  FlexDirectionProps &
+  BackgroundProps
 
 export const Flex = styled(Box)<FlexBoxProps>`
   ${flex}
@@ -39,6 +42,7 @@ export const Flex = styled(Box)<FlexBoxProps>`
   ${flexWrap}
   ${flexBasis}
   ${flexDirection}
+  ${background}
 `
 
 Flex.defaultProps = {
