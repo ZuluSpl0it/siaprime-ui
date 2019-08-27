@@ -1,6 +1,5 @@
 import { Button, Icon } from 'antd'
 import { initSiad, siad, launchSiad } from 'api/siad'
-import Temp from 'assets/img/Bitmap.png'
 import { Box, Image, Text } from 'components/atoms'
 import * as React from 'react'
 import { connect, DispatchProp } from 'react-redux'
@@ -26,9 +25,6 @@ export const ScanningState = () => (
       <Text is="p" fontSize={3} fontWeight={400}>
         Please wait as we index your wallet and update the balance.
       </Text>
-    </Box>
-    <Box mx={2} width={1 / 2}>
-      <Image src={Temp} />
     </Box>
   </EmptyState>
 )
