@@ -82,7 +82,7 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
   return (
     <div>
       <StyledModal
-        title="About Sia-UI"
+        title="About SCPrime-UI"
         visible={visible}
         onOk={onOk}
         onCancel={onOk}
@@ -94,19 +94,16 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
         ]}
       >
         <Flex alignItems="center" height="100%">
-          <Box width={1 / 2} my="auto">
+          {/*<Box width={1 / 2} my="auto"> // TODO: replace with SCP logo
             <Flex flexDirection="column" alignItems="center" height="100%">
               <SVGBox height="150px">
                 <Wordmark viewBox="0 0 400 400" />
               </SVGBox>
             </Flex>
-          </Box>
+          </Box>*/}
           <Box width={1 / 2} height="100%" mb="auto">
             <Box>
-              <Caps fontSize={3}>Sia-UI</Caps>{' '}
-              <Caps fontSize={3} color="text-subdued">
-                Draco
-              </Caps>
+              <Caps fontSize={3}>SCPrime-UI</Caps>{' '}
             </Box>
             <Box py={2}>
               <VersionInfo title="UI Version" value={version} />
