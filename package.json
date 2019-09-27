@@ -55,14 +55,14 @@
     "extraFiles": [
       {
         "from": "bin/${os}",
-        "to": "Resources/bin",
+        "to": "resources/bin",
         "filter": [
           "**/*"
         ]
       },
       {
         "from": "tray",
-        "to": "Resources/tray",
+        "to": "resources/tray",
         "filter": [
           "**/*"
         ]
