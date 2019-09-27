@@ -172,8 +172,9 @@ export type OrganizedTx = ReturnType<typeof selectOrganizedTx>
 export const selectOrganizedTx = createSelector(
   selectWalletTx,
   tx => {
-    const { confirmedtransactions, unconfirmedtransactions } = tx
-    const transformedConfirmedTxs = confirmedtransactions.map(t => {
+    const { confirmedtransactionids, unconfirmedtransactionids, byID } = tx
+    const transformedConfirmedTxs = confirmedtransactionids.map(id => {
+      const t = byID[id]
       return {
         id: t.transactionid,
         date: t.confirmationtimestamp,
@@ -181,7 +182,8 @@ export const selectOrganizedTx = createSelector(
         details: computeTxSum(t)
       } as StructuredTransaction
     })
-    const transformUnconfirmedTx = unconfirmedtransactions.map(t => {
+    const transformUnconfirmedTx = unconfirmedtransactionids.map(id => {
+      const t = byID[id]
       return {
         id: t.transactionid,
         date: t.confirmationtimestamp,

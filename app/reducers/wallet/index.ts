@@ -4,6 +4,7 @@ import { WalletModel } from 'models'
 import { combineReducers } from 'redux'
 import { reducerWithInitialState } from 'typescript-fsa-reducers'
 import { merge } from 'lodash'
+import { arrayUnique } from 'utils'
 
 export namespace WalletRootReducer {
   export interface ReceiveState {
@@ -18,7 +19,7 @@ export namespace WalletRootReducer {
 
   export interface State {
     summary: WalletModel.WalletGET
-    transactions: WalletModel.TransactionsGETResponse
+    transactions: TransactionState
     siacoinBroadcastResponse: WalletModel.ProcessedTransaction[]
     receive: ReceiveState
     seed: SeedState
@@ -38,14 +39,17 @@ export namespace WalletRootReducer {
     dustthreshold: 0
   }
 
-  const InitialTransactionsState: WalletModel.TransactionsGETResponse & any = {
-    confirmedtransactions: [],
-    unconfirmedtransactions: [],
-    sinceHeight: 0,
-    toJSON: () => ({
-      confirmedtransactions: '[TRANSACTIONS]',
-      unconfirmedtransactions: '[TRANSACTIONS]'
-    })
+  interface TransactionState {
+    byID: { [id: string]: WalletModel.ProcessedTransaction }
+    confirmedtransactionids: string[]
+    unconfirmedtransactionids: string[]
+    sinceHeight: number
+  }
+  const InitialTransactionsState: TransactionState = {
+    byID: {},
+    confirmedtransactionids: [],
+    unconfirmedtransactionids: [],
+    sinceHeight: 0
   }
 
   const InitialReceiveState: ReceiveState = {
@@ -86,6 +90,7 @@ export namespace WalletRootReducer {
   const TransactionReducer = reducerWithInitialState(InitialTransactionsState).case(
     WalletActions.getTransactions.done,
     (state, payload) => {
+      const newState = { ...state }
       let ctx = payload.result.confirmedtransactions
       let utx = payload.result.unconfirmedtransactions
       if (!ctx) {
@@ -94,18 +99,25 @@ export namespace WalletRootReducer {
       if (!utx) {
         utx = []
       }
-      if (ctx.length === 0 && utx.length === 0) {
-        return state
+      for (let c of ctx) {
+        newState.byID[c.transactionid] = c
       }
-      const latestSeenTransaction = ctx[ctx.length - 1]
-      const latestSeenHeight = latestSeenTransaction
-        ? latestSeenTransaction.confirmationheight + 1
-        : 0
-      const newState = {
-        confirmedtransactions: merge(state.confirmedtransactions, ctx),
-        unconfirmedtransactions: merge(state.unconfirmedtransactions, utx),
-        sinceHeight: latestSeenHeight
+      for (let u of utx) {
+        newState.byID[u.transactionid] = u
       }
+
+      const latestSeenTransaction = ctx.length > 0 ? ctx[ctx.length - 1] : false
+      const latestSeenHeight = latestSeenTransaction ? latestSeenTransaction.confirmationheight : 0
+      newState.sinceHeight = latestSeenHeight
+
+      const ctxIDs = ctx.map(c => c.transactionid)
+      const utxIDs = utx.map(u => u.transactionid)
+      newState.confirmedtransactionids = arrayUnique([...state.confirmedtransactionids, ...ctxIDs])
+      newState.unconfirmedtransactionids = arrayUnique([
+        ...state.unconfirmedtransactionids,
+        ...utxIDs
+      ])
+
       return newState
     }
   )
