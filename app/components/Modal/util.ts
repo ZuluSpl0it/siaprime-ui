@@ -1,6 +1,15 @@
 import defaultConfig from 'config'
 import * as path from 'path'
-const pty = require('electron').remote.require('node-pty-prebuilt-multiarch')
+
+let pty: any;
+
+try {
+  pty = require('electron').remote.require('node-pty-prebuilt-multiarch')
+} catch(e) {
+  console.log('Require Pty Err: ' , e)
+}
+
+// const pty = require('electron').remote.require('node-pty-prebuilt-multiarch')
 
 const isWindows = process.platform === 'win32'
 
@@ -14,7 +23,7 @@ const siacBinName = isWindows
 
 export const createShell = (command = '') => {
   let args = command.split(' ')
-  if (args[0] === 'siac' || args[0] === './siac' || args[0] === './siac.exe') {
+  if (args[0] === 'spc' || args[0] === './spc' || args[0] === './spc.exe') {
     args = [...args.splice(1)]
   }
   var term = pty.spawn(siacBinName, args, {
