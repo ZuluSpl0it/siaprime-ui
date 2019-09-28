@@ -55,7 +55,8 @@ root level of the project
 2. npm install && npm run dev
 
 #### Release build
-You will need to create a `bin` folder in the siaprime-ui directory.
+git pull && git checkout integration \
+You will need to create a `bin` folder in the siaprime-ui directory. \
 Then using the following folder structure, place your binaries (`spd, spc`) in there.
 
 <ul>
