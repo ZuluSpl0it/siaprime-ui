@@ -19,10 +19,10 @@
     "package": "npm run build && build --publish never",
     "package-win": "npm run build && build --win --x64",
     "package-linux": "npm run build && build --linux",
-    "package-mac": "npm run build && build --mac --x64",
+    "package-mac": "npm run build && build --mac",
     "package-all": "npm run build && build -mwl",
     "cleanup": "mop -v",
-    "rebuild": "electron-rebuild -f -w node-pty-prebuilt-multiarch",
+    "rebuild": "electron-rebuild -f -w node-pty-prebuilt-multiarch"
   },
   "build": {
     "productName": "SiaPrime-UI",
