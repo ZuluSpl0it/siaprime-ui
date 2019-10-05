@@ -67,12 +67,14 @@ bin
 </ul>
 
 
-1. install dependencies with `npm install`
-2. Run the build scripts
+1. install dependencies with `npm install` 
+2. `/usr/bin/node /usr/lib/node_modules/npm/bin/npm-cli.js install --scripts-prepend-node-path=auto`
+4. Run the build scripts
 
-npm run package-win<br>
+npm run package-win <br>
 npm run package-linux"<br>
 npm run package-mac
 
-If you're on linux, you will need to install wine to run a windows build.
+If you're on linux, you will need to install wine to run a windows build. <br>
+Building .dmg requires a mac.
 
