@@ -23,7 +23,6 @@
     "package-all": "npm run build && build -mwl",
     "cleanup": "mop -v",
     "rebuild": "electron-rebuild -f -w node-pty-prebuilt-multiarch",
-    "postinstall": "electron-builder install-app-deps"
   },
   "build": {
     "productName": "SiaPrime-UI",
