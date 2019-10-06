@@ -69,6 +69,7 @@ bin
 
 1. install dependencies with `npm install` 
 2. `/usr/bin/node /usr/lib/node_modules/npm/bin/npm-cli.js install --scripts-prepend-node-path=auto`
+3. npm run rebuild
 4. Run the build scripts
 
 npm run package-win <br>
