@@ -121,9 +121,9 @@ export const AllowanceModal = (props: any) => {
         expectedupload
       }
 
-      const message = `Are you sure you want to set a ${payload.allowance} SC allowance for ${
+      const message = `Are you sure you want to set a ${payload.allowance} SCP allowance for ${
         payload.periodMonth
-      } months to rent storage on Sia?`
+      } months to rent storage on SiaPrime?`
       StyledModal.confirm({
         title: 'Confirm Allowance',
         content: message,
@@ -173,7 +173,7 @@ export const AllowanceModal = (props: any) => {
                 <Tabs.TabPane tab="Advanced" key="2">
                   <Box pb={3}>
                     <Text color="near-black">
-                      By setting accurate advanced settings, Sia can better manage your contracts
+                      By setting accurate advanced settings, SiaPrime can better manage your contracts
                       and provide you with an optimized storage experience.
                     </Text>
                   </Box>

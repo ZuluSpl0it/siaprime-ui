@@ -109,7 +109,7 @@ export const SettingsModal: React.SFC<SettingModalprops> = ({ onOk, visible }) =
         bodyStyle={{
           padding: 0
         }}
-        title="Sia-UI Settings"
+        title="SiaPrime-UI Settings"
         visible={visible}
         onOk={onOk}
         onCancel={onOk}
@@ -126,7 +126,7 @@ export const SettingsModal: React.SFC<SettingModalprops> = ({ onOk, visible }) =
         {!siadState.isInternal && (
           <Box>
             <StyledCard bordered={false}>
-              Please note that you are currently using an external instance of Sia and some
+              Please note that you are currently using an external instance of SiaPrime and some
               of these settings may not apply.
             </StyledCard>
           </Box>

@@ -92,8 +92,8 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
           label="Allowance Funds"
           suffix={
             <Flex alignItems="center">
-              <StyledTag>SC</StyledTag>
-              <Tooltip placement="right" title="Amount of Siacoins you'd like to spend for the period.">
+              <StyledTag>SCP</StyledTag>
+              <Tooltip placement="right" title="Amount of SiaPrimecoins you'd like to spend for the period.">
                 <StyledIcon type="info-circle" />
               </Tooltip>
             </Flex>
@@ -179,7 +179,7 @@ export const AdvancedAllowanceForm = (props: FormikProps<AdvancedAllowanceFormIt
             <StyledTag>Months</StyledTag>
             <Tooltip
               placement="right"
-              title="Number of months prior to contract expiration that Sia will attempt to renew your contracts."
+              title="Number of months prior to contract expiration that SiaPrime will attempt to renew your contracts."
             >
               <StyledIcon type="info-circle" />
             </Tooltip>

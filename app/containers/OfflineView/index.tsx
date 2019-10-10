@@ -95,7 +95,7 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
                   </Flex>
                   <Box py={2}>
                     <Text fontSize={1} textAlign="left">
-                      If Sia-UI is managing the daemon, the logs will be printed below:
+                      If SiaPrime-UI is managing the daemon, the logs will be printed below:
                     </Text>
                   </Box>
                   <PreWrap py={3} height={300}>

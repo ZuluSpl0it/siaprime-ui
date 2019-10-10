@@ -41,7 +41,7 @@ class Dashboard extends React.Component<StateProps, {}> {
             <Stat content={activeHostCount} title="Active Hosts" width={1 / 3} />
           </Flex>
         </Box>
-        <Box m={2} pt={2}>
+        {/*<Box m={2} pt={2}>
           <AtomCard>
             <Flex justifyContent="center" alignItems="center">
               <Flex alignItems="center" justifyContent="center" flexDirection="column" py={4}>
@@ -66,7 +66,7 @@ class Dashboard extends React.Component<StateProps, {}> {
               </Flex>
             </Flex>
           </AtomCard>
-        </Box>
+        </Box>*/}
       </div>
     )
   }

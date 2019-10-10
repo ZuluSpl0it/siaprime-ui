@@ -149,7 +149,7 @@ app.on('ready', () =>
       mainWindow.focus()
     })
 
-    appIcon.setToolTip('Sia-UI syncs the daemon in the background.')
+    appIcon.setToolTip('SiaPrime-UI syncs the daemon in the background.')
     appIcon.setContextMenu(trayContextMenu)
 
     if (isDev || defaultConfig.debugMode) {

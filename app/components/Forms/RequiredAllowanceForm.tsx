@@ -81,10 +81,10 @@ export const RequiredAllowanceForm = (
           error={touched.targetPrice && errors.targetPrice}
           suffix={
             <Flex alignItems="center">
-              <StyledTag>SC</StyledTag>
+              <StyledTag>SCP</StyledTag>
               <Tooltip
                 placement="right"
-                title="Amount of Siacoins you'd like to pay per TB of storage each month."
+                title="Amount of SiaPrimecoins you'd like to pay per TB of storage each month."
               >
                 <StyledIcon type="info-circle" />
               </Tooltip>

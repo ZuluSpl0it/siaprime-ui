@@ -242,7 +242,7 @@ class Host extends React.Component<RenterProps, {}> {
         <Flex>
           <Stat title="Host Connectability" content={connectable} width={1 / 4} />
           <Stat title="Total Storage" content={totalStorage} width={1 / 4} />
-          <Stat title="Storage Revenue" content={`${storageRevenue} SC`} width={1 / 4} />
+          <Stat title="Storage Revenue" content={`${storageRevenue} SCP`} width={1 / 4} />
           <Stat title="Contract Count" content={contractCount} width={1 / 4} />
         </Flex>
         <StyledModal
