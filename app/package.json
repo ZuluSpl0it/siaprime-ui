@@ -1,0 +1,19 @@
+{
+  "name": "SiaPrime-UI",
+  "productName": "SiaPrime-UI",
+  "version": "1.4.1",
+  "description": "A electron webapp to manage and interface with the SiaPrime daemon",
+  "main": "./main.js",
+  "author": {
+    "name": "Eddie Wang",
+    "email": "eddie@sia.tech",
+    "url": "https://github.com/eddiewang"
+  },
+  "scripts": {
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "node-pty-prebuilt-multiarch": "0.8.1"
+  }
+}
