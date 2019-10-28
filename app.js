@@ -14,7 +14,7 @@ app.disableHardwareAcceleration()
 // https://github.com/electron/electron/issues/10732
 app.commandLine.appendSwitch('force-color-profile', 'srgb')
 
-// Allow only one instance of SiaPrime-UI
+// Allow only one instance of ScPrime-UI
 const shouldQuit = app.makeSingleInstance(() => {
   if (mainWindow) {
     if (mainWindow.isMinimized()) {
@@ -28,7 +28,7 @@ if (shouldQuit) {
   app.quit()
 }
 
-// When Electron loading has finished, start SiaPrime-UI.
+// When Electron loading has finished, start ScPrime-UI.
 app.on('ready', () => {
   // Load mainWindow
   mainWindow = initWindow(config)

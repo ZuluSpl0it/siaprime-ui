@@ -97,7 +97,7 @@ ipcRenderer.on('quit', async () => {
 
 // If closeToTray is set, hide the window and cancel the close.
 // On windows, display a balloon notification on first hide
-// to inform users that SiaPrime-UI is still running.  NOTE: returning any value
+// to inform users that ScPrime-UI is still running.  NOTE: returning any value
 // other than `undefined` cancels the close.
 let hasClosed = false
 window.onbeforeunload = () => {
@@ -118,7 +118,7 @@ window.onbeforeunload = () => {
 
     if (process.platform === 'win32' && !hasClosed) {
       mainWindow.tray.displayBalloon({
-        title: 'SiaPrime-UI information',
+        title: 'ScPrime-UI information',
         content:
           'SiaPrime is still running.  Right click this tray icon to quit or restore Sia.'
       })

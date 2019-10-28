@@ -15,7 +15,7 @@ export const siafundRate = 0.12
 // sendError sends the error given by e to the ui for display.
 export const sendError = e => {
   SiaAPI.showError({
-    title: 'SiaPrime-UI Files Error',
+    title: 'ScPrime-UI Files Error',
     content: typeof e.message !== 'undefined' ? e.message : e.toString()
   })
 }
@@ -351,5 +351,5 @@ export const rangeSelect = (file, files, selectedFiles) => {
   return files.slice(startSelectionIndex, endSelectionIndex + 1).toOrderedSet()
 }
 
-// allFiles returns all the files in the state, including SiaPrime-UI folders
+// allFiles returns all the files in the state, including ScPrime-UI folders
 export const allFiles = state => state.get('files').concat(state.get('folders'))

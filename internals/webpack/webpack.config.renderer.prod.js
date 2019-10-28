@@ -10,7 +10,7 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 
 CheckNodeEnv('production')
 
-// Compute entrypoints for SiaPrime-UI
+// Compute entrypoints for ScPrime-UI
 const entrypoints = {}
 const plugins = glob.sync('./plugins/*/js/index.js')
 plugins.forEach(plugin => {

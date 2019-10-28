@@ -12,7 +12,7 @@ CheckNodeEnv('development')
 const port = process.env.PORT || 1212
 const publicPath = `http://localhost:${port}/dist`
 
-// Compute entrypoints for SiaPrime-UI
+// Compute entrypoints for ScPrime-UI
 const entrypoints = {}
 const plugins = glob.sync('./plugins/*/js/index.js')
 plugins.forEach(plugin => {

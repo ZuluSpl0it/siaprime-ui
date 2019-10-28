@@ -1,4 +1,4 @@
-// index.js: main entrypoint for the SiaPrime-UI wallet plugin.
+// index.js: main entrypoint for the ScPrime-UI wallet plugin.
 import React from 'react'
 import ReactDOM from 'react-dom'
 import CommandLine from './components/app.js'
