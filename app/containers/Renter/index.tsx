@@ -43,7 +43,7 @@ const Metrics = () => (
       <Flex>
         <Flex width={1 / 2} mx={2}>
           <Card
-            title="Building on the SiaPrime Platform"
+            title="Building on the ScPrime Platform"
             style={{ alignSelf: 'stretch' }}
             extra={
               <ElectronLink
@@ -55,20 +55,20 @@ const Metrics = () => (
             }
           >
             <Text fontWeight={300} lineHeight="title">
-              Learn about how decentralized storage works on SiaPrime. Leverage your understanding of
-              smart-contracts and blockchains to upload your first file through SiaPrime.
+              Learn about how decentralized storage works on ScPrime. Leverage your understanding of
+              smart-contracts and blockchains to upload your first file through ScPrime.
             </Text>
           </Card>
         </Flex>
         <Flex width={1 / 2} mx={2}>
           <Card
-            title="Decentralized Youtube on SiaPrime"
+            title="Decentralized Youtube on ScPrime"
             style={{ alignSelf: 'stretch' }}
             extra={<a href="#">Learn</a>}
           >
             <Text fontWeight={300} lineHeight="title">
               Already a seasoned developer? Get your hands dirty and build a decentralized YouTube
-              clone using the Siaprime platform to serve video content!
+              clone using the ScPrime platform to serve video content!
             </Text>
           </Card>
         </Flex>
@@ -78,12 +78,12 @@ const Metrics = () => (
       <Flex>
         <Flex width={1 / 2} mx={2}>
           <Card
-            title="Building on the SiaPrime Platform"
+            title="Building on the ScPrime Platform"
             style={{ alignSelf: 'stretch' }}
             extra={<a href="#">Docs</a>}
           >
             <Text fontWeight={300} lineHeight="title">
-              Learn about how decentralized storage works on SiaPrime. Leverage your understanding of
+              Learn about how decentralized storage works on ScPrime. Leverage your understanding of
               smart-contracts and blockchains to build a cloud Plex-drive.
             </Text>
           </Card>
@@ -109,12 +109,12 @@ const Metrics = () => (
       <Flex>
         <Flex width={1 / 2} mx={2}>
           <Card
-            title="Building on the SiaPrime Platform"
+            title="Building on the ScPrime Platform"
             style={{ alignSelf: 'stretch' }}
             extra={<a href="#">Docs</a>}
           >
             <Text fontWeight={300} lineHeight="title">
-              Learn about how decentralized storage works on SiaPrime. Leverage your understanding of
+              Learn about how decentralized storage works on ScPrime. Leverage your understanding of
               smart-contracts and blockchains to build a cloud Plex-drive.
             </Text>
           </Card>

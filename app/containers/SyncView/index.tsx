@@ -46,7 +46,7 @@ class SyncView extends React.Component<StateProps & DispatchProp & RouteComponen
             </Box>
             <Box mx={2} width={1 / 3} style={{ textAlign: 'center' }}>
               <Text is="p" color="mid-gray" fontSize={3}>
-                SiaPrime is currently syncing with the network
+                ScPrime is currently syncing with the network
               </Text>
             </Box>
             <Box mx={2} width={1 / 3}>

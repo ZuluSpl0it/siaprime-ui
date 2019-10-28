@@ -84,7 +84,7 @@ export const RequiredAllowanceForm = (
               <StyledTag>SCP</StyledTag>
               <Tooltip
                 placement="right"
-                title="Amount of SiaPrimecoins you'd like to pay per TB of storage each month."
+                title="Amount of ScPrimecoins you'd like to pay per TB of storage each month."
               >
                 <StyledIcon type="info-circle" />
               </Tooltip>

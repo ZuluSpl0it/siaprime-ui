@@ -59,7 +59,7 @@ app.on('ready', () =>
       x: mainWindowState.x,
       y: mainWindowState.y,
       autoHideMenuBar: true,
-      title: 'SiaPrime Wallet'
+      title: 'ScPrime Wallet'
       // skipTaskbar: true
     })
     mainWindow = new BrowserWindow(browserWindowConfig)
@@ -149,7 +149,7 @@ app.on('ready', () =>
       mainWindow.focus()
     })
 
-    appIcon.setToolTip('SiaPrime-UI syncs the daemon in the background.')
+    appIcon.setToolTip('ScPrime-UI syncs the daemon in the background.')
     appIcon.setContextMenu(trayContextMenu)
 
     if (isDev || defaultConfig.debugMode) {
@@ -171,10 +171,10 @@ app.on('ready', () =>
     if (isDarwin) {
       template = [
         {
-          label: 'SiaPrime-UI',
+          label: 'ScPrime-UI',
           submenu: [
             {
-              label: 'About SiaPrime-UI',
+              label: 'About ScPrime-UI',
               selector: 'orderFrontStandardAboutPanel:'
             },
             {

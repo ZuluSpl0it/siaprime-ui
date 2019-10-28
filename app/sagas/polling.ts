@@ -122,7 +122,7 @@ function* pollSiad() {
         yield put(
           GlobalActions.notification({
             title: 'Started Polling',
-            message: 'SiaPrime-UI established a connection with SiaPrime',
+            message: 'ScPrime-UI established a connection with ScPrime',
             type: 'open'
           })
         )

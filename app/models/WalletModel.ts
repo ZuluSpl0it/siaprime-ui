@@ -156,9 +156,12 @@ export namespace WalletModel {
     outputs: ProcessedOutput[]
   }
 
+  // we require the value to be SIACOIN and SIAFUND to match coin calculation either
+  // from daemon or one of our packages
+  //TODO: change to match SCPRIME(COIN|FUND) for price calcuation.
   export enum TransactionTypes {
-    SIAPRIMECOIN = 'SIACOIN',
-    SIAPRIMEFUND = 'SIAFUND',
+    SCPRIMECOIN = 'SIACOIN',
+    SCPRIMEFUND = 'SIAFUND',
     CONTRACT = 'CONTRACT',
     PROOF = 'PROOF',
     REVISION = 'REVISION',

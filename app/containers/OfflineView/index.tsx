@@ -88,14 +88,14 @@ class OfflineView extends React.Component<StateProps & DispatchProp, {}> {
                     </Box>
                     <Box>
                       <Text fontSize={3} textAlign="left">
-                        SiaPrime daemon detected, but is not done loading the modules. It may take longer
+                        ScPrime daemon detected, but is not done loading the modules. It may take longer
                         than expected to finish the loading all the modules.
                       </Text>
                     </Box>
                   </Flex>
                   <Box py={2}>
                     <Text fontSize={1} textAlign="left">
-                      If SiaPrime-UI is managing the daemon, the logs will be printed below:
+                      If ScPrime-UI is managing the daemon, the logs will be printed below:
                     </Text>
                   </Box>
                   <PreWrap py={3} height={300}>

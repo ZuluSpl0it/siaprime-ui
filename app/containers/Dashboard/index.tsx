@@ -47,11 +47,11 @@ class Dashboard extends React.Component<StateProps, {}> {
               <Flex alignItems="center" justifyContent="center" flexDirection="column" py={4}>
                 <Flex alignItems="center" justifyContent="center" flexDirection="column" pb={3}>
                   <Text is="div" fontSize="28px">
-                    Build on SiaPrime
+                    Build on ScPrime
                   </Text>
                   <Box width={3 / 5} style={{ textAlign: 'center' }}>
                     <Text is="div" fontSize={2} py={2} fontWeight={400}>
-                      SiaPrime is building the best business-class storage solution. Explore the API
+                      ScPrime is building the best business-class storage solution. Explore the API
                       to build alternate interfaces and access the network.
                     </Text>
                   </Box>

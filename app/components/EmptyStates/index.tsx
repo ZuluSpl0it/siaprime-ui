@@ -75,7 +75,7 @@ class OffState extends React.Component<DispatchProp> {
           </Box>
           <Box mx={2} width={1 / 3} style={{ textAlign: 'center' }}>
             <Text is="p" color="mid-gray" fontSize={3}>
-              {this.state.status === 'loading' ? 'Connecting' : 'SiaPrime Daemon Unreachable'}
+              {this.state.status === 'loading' ? 'Connecting' : 'ScPrime Daemon Unreachable'}
             </Text>
             {this.state.status !== 'loading' && (
               <Text is="p" color="silver" fontSize={2} maxWidth="300em">
@@ -86,7 +86,7 @@ class OffState extends React.Component<DispatchProp> {
           </Box>
           {this.state.status !== 'loading' && (
             <Box>
-              <Button onClick={this.launchDaemon}>Launch SiaPrime Daemon</Button>
+              <Button onClick={this.launchDaemon}>Launch ScPrime Daemon</Button>
             </Box>
           )}
         </Flex>

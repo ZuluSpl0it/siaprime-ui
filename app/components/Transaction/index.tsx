@@ -46,7 +46,7 @@ export const TransactionItem = withTheme(
           <Flex alignItems="center" py={2}>
             <Flex justifyContent="center" alignItems="center" pr={3}>
               {parseFloat(sc) > 0 ? (
-                <ReceiveIcon color={theme.colors['siaprime-blue']} />
+                <ReceiveIcon color={theme.colors['scprime-blue']} />
               ) : (
                 <SendIcon />
               )}

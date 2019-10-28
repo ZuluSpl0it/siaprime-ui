@@ -1,6 +1,6 @@
 # Testing
 
-Testing SiaPrime-UI is fairly immature and needs many more tests written to aide
+Testing ScPrime-UI is fairly immature and needs many more tests written to aide
 development.
 
 ## Technologies
