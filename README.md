@@ -1,4 +1,4 @@
-# [![SiaPrime Logo](/assets/siaPrimeLogo.png)](https://siaprime.net/) User Interface
+# [![SiaPrime Logo](/assets/scPrime-logo.png)](https://siaprime.net/) User Interface
 
 [![Build Status](https://travis-ci.org/NebulousLabs/SiaPrime-UI.svg?branch=master)](https://travis-ci.org/NebulousLabs/SiaPrime-UI)
 [![devDependency Status](https://david-dm.org/NebulousLabs/SiaPrime-UI/dev-status.svg)](https://david-dm.org/NebulousLabs/SiaPrime-UI#info=devDependencies)
@@ -47,17 +47,11 @@ If you're the type to jump right into code, simply search through the project
 (Linux & OSX) system, run `grep -r 'TODO:' js plugins` in a terminal at the
 root level of the project
 
-
-## Development
-
-#### Dev Environment
-1. run `./spd --disable-api-security`
-2. npm install && npm run dev
-
-#### Release build
-git pull && git checkout integration \
-You will need to create a `bin` folder in the siaprime-ui directory. \
+## Setting Up
+<p>git pull && git checkout integration. 
+You will need to create a `bin` folder in the siaprime-ui directory. 
 Then using the following folder structure, place your binaries (`spd, spc`) in there.
+</p>
 
 <ul>
 bin
@@ -65,17 +59,20 @@ bin
 <ul>win</ul>
 <ul>mac</ul>
 </ul>
+ 
 
-
-1. install dependencies with `npm install` 
+1. install node 10 LTS 
 2. `/usr/bin/node /usr/lib/node_modules/npm/bin/npm-cli.js install --scripts-prepend-node-path=auto`
-3. npm run rebuild
-4. Run the build scripts
+3. npm run rebuild  
 
-npm run package-win <br>
-npm run package-linux"<br>
+***Dev environment***  
+npm run dev
+
+***Build Executables***  
+npm run package-win  
+npm run package-linux   
 npm run package-mac
 
-If you're on linux, you will need to install wine to run a windows build. <br>
+For linux, you will need to install wine to run a windows build. 
 Building .dmg requires a mac.
 

@@ -123,7 +123,7 @@ export const AllowanceModal = (props: any) => {
 
       const message = `Are you sure you want to set a ${payload.allowance} SCP allowance for ${
         payload.periodMonth
-      } months to rent storage on SiaPrime?`
+      } months to rent storage on ScPrime?`
       StyledModal.confirm({
         title: 'Confirm Allowance',
         content: message,
@@ -162,8 +162,8 @@ export const AllowanceModal = (props: any) => {
                 <Tabs.TabPane tab="Basic" key="1">
                   <Box pb={3}>
                     <Text color="near-black">
-                      To store files on SiaPrime, you must allocate funds in advance. If this is your
-                      first time using SiaPrime-UI, the below settings are filled with default values.
+                      To store files on ScPrime, you must allocate funds in advance. If this is your
+                      first time using ScPrime-UI, the below settings are filled with default values.
                     </Text>
                   </Box>
                   <Box>
@@ -173,7 +173,7 @@ export const AllowanceModal = (props: any) => {
                 <Tabs.TabPane tab="Advanced" key="2">
                   <Box pb={3}>
                     <Text color="near-black">
-                      By setting accurate advanced settings, SiaPrime can better manage your contracts
+                      By setting accurate advanced settings, ScPrime can better manage your contracts
                       and provide you with an optimized storage experience.
                     </Text>
                   </Box>

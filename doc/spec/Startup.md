@@ -1,8 +1,8 @@
-# SiaPrime-UI Startup Behaviour Specification
+# ScPrime-UI Startup Behaviour Specification
 
 ## Introduction
 
-This specification outlines the desired behaviour of SiaPrime-UI when it first launches.
+This specification outlines the desired behaviour of ScPrime-UI when it first launches.
 
 ## Desired Functionality
 

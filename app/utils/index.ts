@@ -179,11 +179,11 @@ export const computeTxSum = (txn: WalletModel.ProcessedTransaction) => {
 
   // add labels
   if (parseFloat(totalSiacoin) !== 0) {
-    labels.push(WalletModel.TransactionTypes.SIAPRIMECOIN)
+    labels.push(WalletModel.TransactionTypes.SCPRIMECOIN)
   }
 
   if (parseFloat(totalSiafund) !== 0) {
-    labels.push(WalletModel.TransactionTypes.SIAPRIMEFUND)
+    labels.push(WalletModel.TransactionTypes.SCPRIMEFUND)
   }
 
   if (txn.transaction.filecontracts && txn.transaction.filecontracts.length > 0) {

@@ -273,11 +273,7 @@ export const StyledTag = styled(Box)`
 
 export const StyledAutoComplete = styled(AutoComplete)<any>`
   .ant-input {
-<<<<<<< HEAD
-    border: 1px solid ${(props: any) => (props.error ? 'red' : themeGet('colors.siaprime-blue'))} !important;
-=======
-    border: 1px solid ${(props: any) => (props.error ? 'red' : themeGet('colors.sia-green'))} !important;
->>>>>>> c2c03d96
+    border: 1px solid ${(props: any) => (props.error ? 'red' : themeGet('colors.scprime-blue'))} !important;
   }
 `
 const SpinIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />

@@ -1,12 +1,12 @@
 # Development Flow
 
-## Packaging & Releasing SiaPrime-UI
+## Packaging & Releasing ScPrime-UI
 
 There are some packaging scripts (using electron-packager) in the package.json.
 
 For them to work, you will need to have release archives of the correct version
 in the `release` folder of the Sia package in your GOPATH. To do so, run `make
-xc` from the Sia repository followed by `npm run release` from the SiaPrime-UI
+xc` from the Sia repository followed by `npm run release` from the ScPrime-UI
 repository.
 
 ## Building Distributables

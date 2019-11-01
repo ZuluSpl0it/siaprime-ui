@@ -42,7 +42,7 @@ export const initPlugin = () =>
       }
       SiaAPI.showError({
         title: 'Spc not found',
-        content: "SiaPrime-UI couldn't locate spc. Please navigate to siac."
+        content: "ScPrime-UI couldn't locate spc. Please navigate to siac."
       })
       const siacPath = SiaAPI.openFile({
         title: 'Please locate spc.',

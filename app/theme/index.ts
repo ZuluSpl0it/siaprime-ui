@@ -41,7 +41,7 @@ export const theme = {
     'moon-gray': '#ccc',
     'light-gray': '#eee',
     'near-white': '#f9f9f9',
-    'siaprime-blue': '#2074ee',
+    'scprime-blue': '#2074ee',
     almostwhite: '#fefdfd',
     'text-light': '#fff',
     white: '#fff',
