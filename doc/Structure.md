@@ -6,9 +6,9 @@ electron app standards.
 The full root level structure is as follows
 
 ```diff
- SiaPrime-UI/
+ ScPrime-UI/
  ├── .git/                // Git folder
-+├── SiaPrime/            // Contains spd and wallet files
++├── ScPrime/            // Contains spd and wallet files
  ├── assets/              // Font & image files
  ├── css/                 // General CSS
  ├── doc/                 // Documentation like this file
@@ -105,7 +105,7 @@ Created upon a user opening the UI. Records error notifications for the UI.
 The starting point of the renderer process. This file structures the layout of
 the general UI and loads `/js/rendererjs/uiManager.js` and
 `/js/rendererjs/pluginManager.js`. This is the only non-plugin html file since
-SiaPrime-UI is intended to be a one-page desktop app.
+ScPrime-UI is intended to be a one-page desktop app.
 
 ## index.js
 The entry point of the app and main process. This:

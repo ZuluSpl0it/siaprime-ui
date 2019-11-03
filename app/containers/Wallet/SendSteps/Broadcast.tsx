@@ -26,7 +26,7 @@ class Broadcast extends React.Component<StateProps, {}> {
     // future as we make the wallet more efficient. Setup transactions are not
     // necessary for wallet txs.
     const actualTx = computedTxs.filter(t =>
-      t.labels.includes(WalletModel.TransactionTypes.SIAPRIMECOIN)
+      t.labels.includes(WalletModel.TransactionTypes.SCPRIMECOIN)
     )[0]
     // If the actualTx also includes the SETUP label, it's likely a self
     // transaction.

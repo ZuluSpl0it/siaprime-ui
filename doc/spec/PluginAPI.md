@@ -1,15 +1,15 @@
-# SiaPrime-UI Plugin API Specification
+# ScPrime-UI Plugin API Specification
 
 ## Introduction
 
-This specification outlines the functionality that SiaPrime-UI's plugin API exposes to developers.
+This specification outlines the functionality that ScPrime-UI's plugin API exposes to developers.
 
 ## Functionality
 
-The SiaPrime-UI Plugin api exposes a simple interface for making API calls to siad, creating file dialogs, displaying notifications, and displaying error messages.  This interface is assigned to the `window` object of each plugin, and has the following functions:
+The ScPrime-UI Plugin api exposes a simple interface for making API calls to siad, creating file dialogs, displaying notifications, and displaying error messages.  This interface is assigned to the `window` object of each plugin, and has the following functions:
 
 - `SiaAPI.call()`, a wrapper to the configured `siaprime.js`'s `.apiCall` function.
-- `SiaAPI.config`, the current SiaPrime-UI config.
+- `SiaAPI.config`, the current ScPrime-UI config.
 - `SiaAPI.hastingsToSiacoins`, conversion function from hastings to siacoins.  Returns a `BigNumber` and takes either a `BigNumber` or `string`.
 - `SiaAPI.siacoinsToHastings`, conversion function from siacoins to hastings.
 - `SiaAPI.openFile(options)`, a wrapper which calls Electron.dialog.showOpenDialog with `options`.

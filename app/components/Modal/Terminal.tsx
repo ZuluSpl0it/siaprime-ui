@@ -33,7 +33,7 @@ export const PreWrap = styled(Box)`
 `
 
 const initialTermState =
-  'Welcome to the SiaPrime Terminal! Type `help` to see the available commands. Type `clear` to clear the screen.\n\n'
+  'Welcome to the ScPrime Terminal! Type `help` to see the available commands. Type `clear` to clear the screen.\n\n'
 export const TerminalModal: React.FunctionComponent<any> = (props: any) => {
   const [stdout, setState] = React.useState(initialTermState)
   const [shell, setShell] = React.useState(null)

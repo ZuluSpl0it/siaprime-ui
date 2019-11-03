@@ -15,8 +15,8 @@ export const Detail = ({ title, content }: any) => (
 )
 
 const currMap = {
-  SC: 'SiaPrimecoin',
-  SF: 'SiaPrimefund'
+  SC: 'ScPrimecoin',
+  SF: 'ScPrimefund'
 }
 
 export default ({ transaction }: { transaction: TransactionType }) => (

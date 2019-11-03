@@ -130,7 +130,7 @@ const SettingsList = ({
       {shouldShowToggleAcceptingModal && acceptingContracts ? (
         <Modal
           title='Stop accepting contracts?'
-          message='You must still keep SiaPrime-UI open until the existing contracts have expired otherwise you will lose collateral.'
+          message='You must still keep ScPrime-UI open until the existing contracts have expired otherwise you will lose collateral.'
           actions={{
             acceptModal: toggleAcceptingContracts,
             declineModal: hideToggleAcceptingModal
@@ -140,7 +140,7 @@ const SettingsList = ({
       {shouldShowToggleAcceptingModal && !acceptingContracts ? (
         <Modal
           title='Start accepting contracts?'
-          message='To host files you must keep the SiaPrime-UI open. Collateral will also be locked and you will be unable to spend that SCP until the contract is expired.'
+          message='To host files you must keep the ScPrime-UI open. Collateral will also be locked and you will be unable to spend that SCP until the contract is expired.'
           actions={{
             acceptModal: toggleAcceptingContracts,
             declineModal: hideToggleAcceptingModal

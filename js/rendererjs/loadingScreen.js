@@ -125,7 +125,7 @@ export default async function loadingScreen (initUI) {
     // config.path doesn't exist.  Prompt the user for siad's location
     dialog.showErrorBox(
       'Spd not found',
-      "SiaPrime-UI couldn't locate spd.  Please navigate to spd."
+      "ScPrime-UI couldn't locate spd.  Please navigate to spd."
     )
     const siadPath = dialog.showOpenDialog({
       title: 'Please locate spd.',

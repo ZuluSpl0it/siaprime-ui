@@ -1,4 +1,4 @@
-// This module handles the construction of SiaPrime-UI plugins.
+// This module handles the construction of ScPrime-UI plugins.
 import { List } from 'immutable'
 import Path from 'path'
 import fs from 'graceful-fs'

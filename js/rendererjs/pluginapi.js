@@ -1,4 +1,4 @@
-// pluginapi.js: SiaPrime-UI plugin API interface exposed to all plugins.
+// pluginapi.js: ScPrime-UI plugin API interface exposed to all plugins.
 // This is injected into every plugin's global namespace.
 import * as Siad from '../../js/siaprime.js'
 import { remote } from 'electron'

@@ -29,6 +29,8 @@ const defaultSiacPath = path.join(
 // User config path
 const userConfigFolder = path.join(app.getPath('userData'), 'siaprime')
 const userConfigPath = path.join(userConfigFolder, 'config.json')
+
+console.log('PATH', userConfigFolder, userConfigPath)
 // Default config
 let defaultConfig = {
   darkMode: false,

@@ -4,17 +4,17 @@ export default function (window) {
   // Template for SiaPrime-UI tray menu.
   const menutemplate = [
     {
-      label: 'Show SiaPrime',
+      label: 'Show ScPrime',
       click: () => window.show()
     },
     { type: 'separator' },
     {
-      label: 'Hide SiaPrime',
+      label: 'Hide ScPrime',
       click: () => window.hide()
     },
     { type: 'separator' },
     {
-      label: 'Quit SiaPrime',
+      label: 'Quit ScPrime',
       click: () => {
         window.webContents.send('quit')
       }

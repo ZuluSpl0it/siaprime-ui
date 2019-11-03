@@ -7,7 +7,7 @@ const UploadButton = ({ contracts = minimumContracts, actions }) => {
   const onUploadClick = type => () => {
     if (contracts < minimumContracts) {
       SiaAPI.showError({
-        title: 'SiaPrime-UI files error',
+        title: 'ScPrime-UI files error',
         content:
           'Not enough contracts to upload.  You must buy storage before uploading, or wait for contracts to form.'
       })

@@ -95,7 +95,7 @@ const template = [
 ]
 
 if (process.platform === 'darwin') {
-  const appName = 'SiaPrime-UI'
+  const appName = 'ScPrime-UI'
   template.unshift({
     label: appName,
     submenu: [
