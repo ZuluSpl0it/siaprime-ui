@@ -1,7 +1,7 @@
 {
-  "name": "ScPrime-UI",
-  "productName": "ScPrime-UI",
-  "version": "1.4.1-1",
+  "name": "SiaPrime-UI",
+  "productName": "SiaPrime-UI",
+  "version": "1.4.1-2",
   "description": "ScPrime-UI is a GUI for interfacing with the ScPrime Storage Network.",
   "main": "main.js",
   "scripts": {
@@ -25,7 +25,7 @@
     "rebuild": "electron-rebuild -f -w node-pty-prebuilt-multiarch"
   },
   "build": {
-    "productName": "ScPrime-UI",
+    "productName": "SiaPrime-UI",
     "appId": "com.gitlab.SiaPrime.SiaUI",
     "dmg": {
       "contents": [
