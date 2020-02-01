@@ -48,7 +48,7 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
   })
 
   const openSiaLink = React.useCallback(() => {
-    shell.openExternal('https://sia.tech/get-started')
+    shell.openExternal('https://scpri.me/software')
   }, [])
 
   const checkForUpdates = React.useCallback(async () => {
