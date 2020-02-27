@@ -1,7 +1,7 @@
 {
   "name": "SiaPrime-UI",
   "productName": "SiaPrime-UI",
-  "version": "1.4.1-3",
+  "version": "1.4.2",
   "description": "ScPrime-UI is a GUI for interfacing with the ScPrime Storage Network.",
   "main": "main.js",
   "scripts": {
