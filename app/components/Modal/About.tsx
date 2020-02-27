@@ -122,7 +122,7 @@ export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
               ) : null}
               {updateInfo.error && <Text>{updateInfo.error}</Text>}
             </Box>
-            <AboutButton onClick={checkForUpdates}>Check for Updates</AboutButton>
+          {/*  <AboutButton onClick={checkForUpdates}>Check for Updates</AboutButton> */}
             <AboutButton onClick={openSiaDir}>Open Data Folder</AboutButton>
             <Box pt={2}>{updateInfo.error && <Text>{updateInfo.error}</Text>}</Box>
             <Box />
