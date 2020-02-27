@@ -1,5 +1,5 @@
 import { Button, Modal } from 'antd'
-import Wordmark from 'assets/svg/draco.svg'
+import Wordmark from 'assets/svg/scprime.svg'
 import { Box, SVGBox, Text, Caps } from 'components/atoms'
 import { Flex } from 'components/atoms/Flex'
 import defaultConfig from 'config'
