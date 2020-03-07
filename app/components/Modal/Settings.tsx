@@ -163,7 +163,7 @@ export const SettingsModal: React.SFC<SettingModalprops> = ({ onOk, visible }) =
             }
           />
           <SettingItem
-            title="Use Custom Siad"
+            title="Use Custom spd"
             render={
               <Switch
                 checked={config.siad.useCustomBinary}
@@ -188,7 +188,7 @@ export const SettingsModal: React.SFC<SettingModalprops> = ({ onOk, visible }) =
             />
           )}
           <SettingItem
-            title="Use Custom Siac"
+            title="Use Custom spc"
             render={
               <Switch
                 checked={config.siac.useCustomBinary}
