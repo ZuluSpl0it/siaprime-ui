@@ -7,9 +7,9 @@ export default function (window) {
     {
       label: 'SiaPrime',
       submenu: [
-        { label: 'About SiaPrime', selector: 'orderFrontStandardAboutPanel:' },
+        { label: 'About ScPrime', selector: 'orderFrontStandardAboutPanel:' },
         { type: 'separator' },
-        { label: 'Hide SiaPrime', accelerator: 'CmdOrCtrl+H', selector: 'hide:' },
+        { label: 'Hide ScPrime', accelerator: 'CmdOrCtrl+H', selector: 'hide:' },
         { type: 'separator' },
         {
           label: 'Quit',
