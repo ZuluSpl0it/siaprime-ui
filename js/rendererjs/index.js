@@ -120,7 +120,7 @@ window.onbeforeunload = () => {
       mainWindow.tray.displayBalloon({
         title: 'ScPrime-UI information',
         content:
-          'SiaPrime is still running.  Right click this tray icon to quit or restore Sia.'
+          'ScPrime is still running.  Right click this tray icon to quit or restore.'
       })
       hasClosed = true
     }
