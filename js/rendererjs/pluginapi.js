@@ -60,10 +60,10 @@ window.onload = async function () {
     siadProcess.on('exit', renderSiadCrashlog)
     window.siadProcess = siadProcess
   }
-  // Continuously check (every 2000ms) if siad is running.
-  // If siad is not running, disable the plugin by mounting
+  // Continuously check (every 2000ms) if spd is running.
+  // If spd is not running, disable the plugin by mounting
   // the `DisabledPlugin` component in the DOM's body.
-  // If siad is running and the plugin has been disabled,
+  // If spd is running and the plugin has been disabled,
   // reload the plugin.
   while (true) {
     const running = await Siad.isRunning(siadConfig.address)
@@ -79,19 +79,19 @@ window.onload = async function () {
   }
 }
 
-// Get the Sia API Password from disk
+// Get the ScPrime API Password from disk
 const getSiaPassword = () => {
   let configPath
   switch (process.platform) {
     case 'win32':
-      configPath = Path.join(process.env.LOCALAPPDATA, 'SiaPrime')
+      configPath = Path.join(process.env.LOCALAPPDATA, 'ScPrime')
       break
     case 'darwin':
       configPath = Path.join(
         os.homedir(),
         'Library',
         'Application Support',
-        'SiaPrime'
+        'ScPrime'
       )
       break
     default:
