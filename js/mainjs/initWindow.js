@@ -19,7 +19,7 @@ export default function (config) {
   const iconPath = Path.join(__dirname, '../', 'assets', 'icon.png')
   const mainWindow = new BrowserWindow({
     icon: iconPath,
-    title: 'SiaPrime-UI'
+    title: 'ScPrime-UI'
   })
   // Set mainWindow's closeToTray flag from config.
   // This should be used in the renderer to cancel close() events using window.onbeforeunload
@@ -58,7 +58,7 @@ export default function (config) {
 
     // Set the about panel's properties
     app.setAboutPanelOptions({
-      applicationName: 'SiaPrime-UI',
+      applicationName: 'ScPrime-UI',
       applicationVersion: version,
       copyright: 'Nebulous Inc.',
       version: releaseName
