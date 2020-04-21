@@ -42,7 +42,7 @@ export const makeRequest = (address, opts) => {
     callOptions.timeout = 10000
   }
   callOptions.headers = {
-    'User-Agent': 'SiaPrime-Agent'
+    'User-Agent': 'ScPrime-Agent'
   }
   callOptions.pool = agent
 
