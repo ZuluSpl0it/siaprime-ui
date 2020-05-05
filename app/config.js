@@ -14,6 +14,24 @@ const isProd = process.env.NODE_ENV === 'production'
 const daemonPath = isProd
   ? path.join(process.resourcesPath, 'bin')
   : path.join(appRootDir.get(), 'bin', getPlatform())
+  
+  
+ //Try to move metadata
+    newPath = path.join(app.getPath('home'), '/Appdata/Local/ScPrime')
+    newPathExists = fs.existsSync(newPath)
+    if (!newPathExists) {
+        currentPath = path.join(app.getPath('userData'), './siaprime')
+        currentPathExists = fs.existsSync(currentPath)
+        if (currentPathExists) {
+            try {
+                fs.renameSync(currentPath, newPath)
+            } catch (err) {
+                console.error('Cant move metadata to new location:', err)
+              
+           }
+       }
+   }
+
 
 // Setup the default path for Siad
 const defaultSiadPath = path.join(
@@ -26,8 +44,11 @@ const defaultSiacPath = path.join(
   `${process.platform === 'win32' ? 'spc.exe' : 'spc'}`
 )
 
+
+
+
 // User config path
-const userConfigFolder = path.join(app.getPath('userData'), 'siaprime')
+const userConfigFolder = path.join(app.getPath('home'), '/Appdata/Local/ScPrime')
 const userConfigPath = path.join(userConfigFolder, 'config.json')
 
 console.log('PATH', userConfigFolder, userConfigPath)
@@ -39,7 +60,7 @@ let defaultConfig = {
   siad: {
     useCustomBinary: false,
     path: defaultSiadPath,
-    datadir: path.join(app.getPath('userData'), './siaprime')
+    datadir: path.join(app.getPath('home'), '/Appdata/Local/ScPrime')
   },
   siac: {
     useCustomBinary: false,

@@ -25,7 +25,7 @@ overlayText.textContent = 'Loading ScPrime...'
 const showError = error => {
   overlayText.style.display = 'none'
   errorLog.textContent =
-    'A critical error loading SiaPrime has occurred: ' + error
+    'A critical error loading ScPrime has occurred: ' + error
   errorLog.style.display = 'inline-block'
   spinner.style.display = 'none'
 }

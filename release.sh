@@ -107,9 +107,9 @@ buildWindows() {
 	(
 		cd resources/app
 		cp $siaWindows .
-		unzip ./SiaPrime-*
-		rm ./SiaPrime*.zip
-		mv ./SiaPrime-* ./SiaPrime
+		unzip ./ScPrime-*
+		rm ./ScPrime*.zip
+		mv ./ScPrime-* ./ScPrime
 	)
 	package "../../" "resources/app"
 	rm -r electron*.zip
