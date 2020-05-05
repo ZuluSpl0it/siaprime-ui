@@ -120,7 +120,7 @@ window.onbeforeunload = () => {
       mainWindow.tray.displayBalloon({
         title: 'ScPrime-UI information',
         content:
-          'ScPrime is still running.  Right click this tray icon to quit or restore.'
+          'ScPrime is still running.  Right click this tray icon to quit or restore Scp.'
       })
       hasClosed = true
     }

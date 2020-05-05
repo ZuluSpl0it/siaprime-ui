@@ -35,7 +35,7 @@ export default function (config) {
         Path.join(app.getAppPath(), 'assets', 'trayTemplate.png')
       )
     }
-    mainWindow.tray.setToolTip('SiaPrime - The Collaborative Cloud.')
+    mainWindow.tray.setToolTip('ScPrime - The Collaborative Cloud.')
     mainWindow.tray.setContextMenu(appTray(mainWindow))
   }
 
