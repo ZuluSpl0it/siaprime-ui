@@ -15,22 +15,6 @@ const daemonPath = isProd
   ? path.join(process.resourcesPath, 'bin')
   : path.join(appRootDir.get(), 'bin', getPlatform())
   
-  
- //Try to move metadata
-    newPath = path.join(app.getPath('home'), '/Appdata/Local/ScPrime')
-    newPathExists = fs.existsSync(newPath)
-    if (!newPathExists) {
-        currentPath = path.join(app.getPath('userData'), './siaprime')
-        currentPathExists = fs.existsSync(currentPath)
-        if (currentPathExists) {
-            try {
-                fs.renameSync(currentPath, newPath)
-            } catch (err) {
-                console.error('Cant move metadata to new location:', err)
-              
-           }
-       }
-   }
 
 
 // Setup the default path for Siad
@@ -43,9 +27,8 @@ const defaultSiacPath = path.join(
   daemonPath,
   `${process.platform === 'win32' ? 'spc.exe' : 'spc'}`
 )
-
-
-
+  
+ 
 
 // User config path
 const userConfigFolder = path.join(app.getPath('home'), '/Appdata/Local/ScPrime')
@@ -69,6 +52,102 @@ let defaultConfig = {
   logPath: userConfigFolder,
   userConfigPath
 }
+
+//Try to move consensus metadata
+    newcPath = path.join(app.getPath('home'), '/Appdata/Local/ScPrime/consensus')
+    newcPathExists = fs.existsSync(newcPath)
+    if (!newcPathExists) {
+        currentcPath = path.join(app.getPath('userData'), './siaprime/consensus')
+        currentcPathExists = fs.existsSync(currentcPath)
+        if (currentcPathExists) {
+            try {
+                fs.renameSync(currentcPath, newcPath)
+            } catch (err) {
+                alert('Cant move consensus to new location')
+              
+           }
+       }
+   }
+ //Try to move gateway metadata
+    newgPath = path.join(app.getPath('home'), '/Appdata/Local/ScPrime/gateway')
+    newgPathExists = fs.existsSync(newgPath)
+    if (!newgPathExists) {
+        currentgPath = path.join(app.getPath('userData'), './siaprime/gateway')
+        currentgPathExists = fs.existsSync(currentgPath)
+        if (currentgPathExists) {
+            try {
+                fs.renameSync(currentgPath, newgPath)
+            } catch (err) {
+                alert('Cant move gateway metadata to new location')
+              
+           }
+       }
+   }
+   
+   //Try to move host metadata
+    newhPath = path.join(app.getPath('home'), '/Appdata/Local/ScPrime/host')
+    newhPathExists = fs.existsSync(newhPath)
+    if (!newhPathExists) {
+        currenthPath = path.join(app.getPath('userData'), './siaprime/host')
+        currenthPathExists = fs.existsSync(currenthPath)
+        if (currenthPathExists) {
+            try {
+                fs.renameSync(currenthPath, newhPath)
+            } catch (err) {
+                alert('Cant move host metadata to new location')
+              
+           }
+       }
+   }
+   
+//Try to move renter metadata
+ newrPath = path.join(app.getPath('home'), '/Appdata/Local/ScPrime/renter')
+    newrPathExists = fs.existsSync(newrPath)
+    if (!newrPathExists) {
+        currentrPath = path.join(app.getPath('userData'), './siaprime/renter')
+        currentrPathExists = fs.existsSync(currentrPath)
+        if (currentrPathExists) {
+            try {
+                fs.renameSync(currentrPath, newrPath)
+            } catch (err) {
+                alert('Cant move renter metadata to new location')
+              
+           }
+       }
+   }
+   //Try to move transactionpool metadata
+    newtPath = path.join(app.getPath('home'), '/Appdata/Local/ScPrime/transactionpool')
+    newtPathExists = fs.existsSync(newtPath)
+    if (!newtPathExists) {
+        currenttPath = path.join(app.getPath('userData'), './siaprime/transactionpool')
+        currenttPathExists = fs.existsSync(currenttPath)
+        if (currenttPathExists) {
+            try {
+                fs.renameSync(currenttPath, newtPath)
+            } catch (err) {
+                alert('Cant move transactionpool metadata to new location')
+              
+           }
+       }
+   }
+
+ //Try to move wallet metadata
+  newwPath = path.join(app.getPath('home'), '/Appdata/Local/ScPrime/wallet')
+    newwPathExists = fs.existsSync(newwPath)
+    if (!newwPathExists) {
+        currentwPath = path.join(app.getPath('userData'), './siaprime/wallet')
+        currentwPathExists = fs.existsSync(currentwPath)
+        if (currentwPathExists) {
+            try {
+                fs.renameSync(currentwPath, newwPath)
+            } catch (err) {
+                alert('Cant move wallet metadata to new location')
+              
+           }
+       }
+   }
+
+
 
 let userConfig
 try {
@@ -95,3 +174,4 @@ try {
 }
 
 module.exports = defaultConfig
+
