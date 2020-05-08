@@ -63,7 +63,7 @@ let defaultConfig = {
             try {
                 fs.renameSync(currentcPath, newcPath)
             } catch (err) {
-                alert('Cant move consensus to new location')
+              console.error('Cant move consensus metadata to new location:', err)
               
            }
        }
@@ -78,7 +78,7 @@ let defaultConfig = {
             try {
                 fs.renameSync(currentgPath, newgPath)
             } catch (err) {
-                alert('Cant move gateway metadata to new location')
+              console.error('Cant move gateway metadata to new location:', err)
               
            }
        }
@@ -94,7 +94,7 @@ let defaultConfig = {
             try {
                 fs.renameSync(currenthPath, newhPath)
             } catch (err) {
-                alert('Cant move host metadata to new location')
+             console.error('Cant move host metadata to new location:', err)
               
            }
        }
@@ -110,7 +110,7 @@ let defaultConfig = {
             try {
                 fs.renameSync(currentrPath, newrPath)
             } catch (err) {
-                alert('Cant move renter metadata to new location')
+             console.error('Cant move renter metadata to new location:', err)
               
            }
        }
@@ -125,7 +125,7 @@ let defaultConfig = {
             try {
                 fs.renameSync(currenttPath, newtPath)
             } catch (err) {
-                alert('Cant move transactionpool metadata to new location')
+              console.error('Cant move transactionpool to new location:', err)
               
            }
        }
@@ -141,7 +141,7 @@ let defaultConfig = {
             try {
                 fs.renameSync(currentwPath, newwPath)
             } catch (err) {
-                alert('Cant move wallet metadata to new location')
+              console.error('Cant wallet metadata to new location:', err)
               
            }
        }
