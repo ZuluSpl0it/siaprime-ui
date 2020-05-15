@@ -40,9 +40,9 @@ const defaultSiacPath = path.join(
               try {
                  fs.renameSync(currentcPath, newcPath)
              } catch (err) {
-          message = 'Source of error:\n' + err
-          dialog.showErrorBox('Metadata move error occurred in the main process', message)
-
+          message = 'Close any open folders, ensure the program is no longer running and try again\n\n' + err
+          dialog.showErrorBox('Error moving/renaming directories', message)
+          app.exit()
          }
      }
   }

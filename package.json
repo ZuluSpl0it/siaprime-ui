@@ -245,7 +245,7 @@
     "redux-thunk": "^2.1.0",
     "reselect": "4.0.0",
     "sia-typescript": "git+https://gitlab.com/scpcorp/sia-typescript#e75e53a1",
-    "sia-opus-connector": "git+https://gitlab.com/SiaPrime/sia-opus-connector.git#2c5b65b",
+    "sia-opus-connector": "git+https://gitlab.com/scpcorp/sia-opus-connector.git#9f52b0b7",
     "source-map-support": "^0.5.0",
     "strip-ansi": "5.2.0",
     "styled-components": "4.1.3",
