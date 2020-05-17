@@ -16,20 +16,7 @@ const daemonPath = isProd
   ? path.join(process.resourcesPath, 'bin')
   : path.join(appRootDir.get(), 'bin', getPlatform())
 
-
-
-// Setup the default path for Siad
-const defaultSiadPath = path.join(
-  daemonPath,
-  `${process.platform === 'win32' ? 'spd.exe' : 'spd'}`
-)
-
-const defaultSiacPath = path.join(
-  daemonPath,
-  `${process.platform === 'win32' ? 'spc.exe' : 'spc'}`
-)
-
-
+   //Try to move metadata
     newcPath = path.join(app.getPath('home'), '/AppData/Local/ScPrime')
     newcPathExists = fs.existsSync(newcPath)
     if (!newcPathExists) {
@@ -47,9 +34,20 @@ const defaultSiacPath = path.join(
      }
   }
 
+// Setup the default path for Siad
+const defaultSiadPath = path.join(
+  daemonPath,
+  `${process.platform === 'win32' ? 'spd.exe' : 'spd'}`
+)
+
+const defaultSiacPath = path.join(
+  daemonPath,
+  `${process.platform === 'win32' ? 'spc.exe' : 'spc'}`
+)
+
 // User config path
-const userConfigFolder = path.join(app.getPath('home'), '/Appdata/Local/ScPrime/uiconfig')
-const userConfigPath = path.join(userConfigFolder, 'config.json')
+const userConfigFolder = path.join(app.getPath('home'), '/Appdata/Local/ScPrime')
+const userConfigPath = path.join(userConfigFolder, 'current-UIconfig.json')
 
 console.log('PATH', userConfigFolder, userConfigPath)
 // Default config
