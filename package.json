@@ -91,16 +91,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/SiaPrime/SiaPrime-UI"
+    "url": "git+https://gitlab.com/scpcorp/siaprime-ui"
   },
   "author": {
-    "name": "Eddie Wang",
-    "email": "eddie@sia.tech",
-    "url": "https://github.com/eddiewang"
-  },
+    "name": "SCP, Corp",
+    "email": "contact@scpri.me"
+    },
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/SiaPrime/SiaPrime-UI"
+    "url": "https://gitlab.com/scpcorp/siaprime-ui"
   },
   "keywords": [
     "electron",
@@ -111,7 +110,7 @@
     "webpack",
     "react-hot"
   ],
-  "homepage": "https://siaprime.net",
+  "homepage": "https://scpri.me",
   "devDependencies": {
     "@babel/core": "7.1.2",
     "@babel/plugin-proposal-class-properties": "7.4.4",
