@@ -390,10 +390,10 @@ System.register('main.development', ['electron', 'utils/siadProcess'], function(
           if (process.platform === 'darwin') {
             template = [
               {
-                label: 'SiaPrime-UI',
+                label: 'ScPrime-UI',
                 submenu: [
                   {
-                    label: 'About SiaPrime-UI',
+                    label: 'About ScPrime-UI',
                     selector: 'orderFrontStandardAboutPanel:'
                   },
                   {

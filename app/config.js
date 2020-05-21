@@ -6,6 +6,7 @@ const set = require('lodash/set')
 const electron = require('electron')
 const appRootDir = require('app-root-dir')
 const getPlatform = require('./get-platform')
+const { dialog } = require('electron')
 
 const app = electron.app || electron.remote.app
 
@@ -14,6 +15,24 @@ const isProd = process.env.NODE_ENV === 'production'
 const daemonPath = isProd
   ? path.join(process.resourcesPath, 'bin')
   : path.join(appRootDir.get(), 'bin', getPlatform())
+
+   //Try to move metadata
+    newcPath = path.join(app.getPath('home'), '/AppData/Local/ScPrime')
+    newcPathExists = fs.existsSync(newcPath)
+    if (!newcPathExists) {
+        currentcPath = path.join(app.getPath('userData'), './siaprime')
+        currentcPathExists = fs.existsSync(currentcPath)
+        if (currentcPathExists) {
+
+              try {
+                 fs.renameSync(currentcPath, newcPath)
+             } catch (err) {
+          message = 'Close any open folders, ensure the program is no longer running and try again\n\n' + err
+          dialog.showErrorBox('Error moving/renaming directories', message)
+          app.exit()
+         }
+     }
+  }
 
 // Setup the default path for Siad
 const defaultSiadPath = path.join(
@@ -27,8 +46,8 @@ const defaultSiacPath = path.join(
 )
 
 // User config path
-const userConfigFolder = path.join(app.getPath('userData'), 'siaprime')
-const userConfigPath = path.join(userConfigFolder, 'config.json')
+const userConfigFolder = path.join(app.getPath('home'), '/Appdata/Local/ScPrime')
+const userConfigPath = path.join(userConfigFolder, 'current-UIconfig.json')
 
 console.log('PATH', userConfigFolder, userConfigPath)
 // Default config
@@ -39,7 +58,7 @@ let defaultConfig = {
   siad: {
     useCustomBinary: false,
     path: defaultSiadPath,
-    datadir: path.join(app.getPath('userData'), './siaprime')
+    datadir: path.join(app.getPath('home'), '/Appdata/Local/ScPrime')
   },
   siac: {
     useCustomBinary: false,
@@ -48,6 +67,7 @@ let defaultConfig = {
   logPath: userConfigFolder,
   userConfigPath
 }
+
 
 let userConfig
 try {
@@ -72,5 +92,7 @@ try {
 } catch (err) {
   console.error('error saving user config file:', err)
 }
+
+
 
 module.exports = defaultConfig

@@ -1,6 +1,6 @@
-// loadingScreen.js: display a loading screen until communication with Siad has been established.
+// loadingScreen.js: display a loading screen until communication with Spd has been established.
 // if an available daemon is not running on the host,
-// launch an instance of siad using config.js.
+// launch an instance of spd using config.js.
 import { remote, shell } from 'electron'
 import * as Siad from '../../js/siaprime.js'
 import Path from 'path'
@@ -20,12 +20,12 @@ const overlayText = overlay
   .getElementsByClassName('centered')[0]
   .getElementsByTagName('p')[0]
 const errorLog = document.getElementById('errorlog')
-overlayText.textContent = 'Loading SiaPrime...'
+overlayText.textContent = 'Loading ScPrime...'
 
 const showError = error => {
   overlayText.style.display = 'none'
   errorLog.textContent =
-    'A critical error loading SiaPrime has occurred: ' + error
+    'A critical error loading ScPrime has occurred: ' + error
   errorLog.style.display = 'inline-block'
   spinner.style.display = 'none'
 }
@@ -36,7 +36,7 @@ const startUI = (welcomeMsg, initUI) => {
   // Display a welcome message, then initialize the ui
   overlayText.innerHTML = welcomeMsg
 
-  // Construct the status bar component and poll for updates from Siad
+  // Construct the status bar component and poll for updates from Spd
   const updateSyncStatus = async function () {
     try {
       const consensusData = await Siad.call(siadConfig.address, {
@@ -70,7 +70,7 @@ const startUI = (welcomeMsg, initUI) => {
   })
 }
 
-// checkSiaPath validates config's Sia path.  returns a promise that is
+// checkScpPath validates config's Scprime path.  returns a promise that is
 // resolved with `true` if siadConfig.path exists or `false` if it does not
 // exist.
 const checkSiaPath = () =>
@@ -97,9 +97,9 @@ const unexpectedExitHandler = () => {
   }
 }
 
-// Check if Siad is already running on this host.
+// Check if Spd is already running on this host.
 // If it is, start the UI and display a welcome message to the user.
-// Otherwise, start a new instance of Siad using config.js.
+// Otherwise, start a new instance of Spd using config.js.
 export default async function loadingScreen (initUI) {
   // Create the Sia data directory if it does not exist
   try {
@@ -107,22 +107,22 @@ export default async function loadingScreen (initUI) {
   } catch (e) {
     fs.mkdirSync(siadConfig.datadir)
   }
-  // If Sia is already running, start the UI with a 'Welcome Back' message.
+  // If Spd is already running, start the UI with a 'Welcome Back' message.
   const running = await Siad.isRunning(siadConfig.address)
   if (running) {
     startUI('Welcome back', initUI)
     return
   }
 
-  // check siadConfig.path, if it doesn't exist optimistically set it to the
+  // check spdConfig.path, if it doesn't exist optimistically set it to the
   // default path
   if (!await checkSiaPath()) {
     siadConfig.path = config.defaultSpdPath
   }
 
-  // check siadConfig.path, and ask for a new path if siad doesn't exist.
+  // check spdConfig.path, and ask for a new path if siad doesn't exist.
   if (!await checkSiaPath()) {
-    // config.path doesn't exist.  Prompt the user for siad's location
+    // config.path doesn't exist.  Prompt the user for spd's location
     dialog.showErrorBox(
       'Spd not found',
       "ScPrime-UI couldn't locate spd.  Please navigate to spd."
@@ -134,13 +134,13 @@ export default async function loadingScreen (initUI) {
       filters: [{ name: 'spd', extensions: ['*'] }]
     })
     if (typeof siadPath === 'undefined') {
-      // The user didn't choose siad, we should just close.
+      // The user didn't choose spd, we should just close.
       app.quit()
     }
     siadConfig.path = siadPath[0]
   }
 
-  // Launch the new Siad process
+  // Launch the new Spd process
   try {
     const siadProcess = Siad.launch(siadConfig.path, {
       'siaprime-directory': siadConfig.datadir,
@@ -162,7 +162,7 @@ export default async function loadingScreen (initUI) {
 
   // Set a timeout to display a warning message about long load times caused by rescan.
   setTimeout(() => {
-    if (overlayText.textContent === 'Loading SiaPrime...') {
+    if (overlayText.textContent === 'Loading ScPrime...') {
       overlayText.innerHTML =
         'Loading can take a while after upgrading to a new version. Check the <a style="text-decoration: underline; cursor: pointer" id="releasenotelink">release notes</a> for more details.'
 
@@ -182,5 +182,5 @@ export default async function loadingScreen (initUI) {
   window.siadProcess.removeAllListeners('exit')
   window.siadProcess.removeAllListeners('close')
 
-  startUI('Welcome to SiaPrime', initUI)
+  startUI('Welcome to ScPrime', initUI)
 }

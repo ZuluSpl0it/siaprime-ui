@@ -14,7 +14,7 @@ const agent = new http.Agent({
 
 // sia.js error constants
 export const errCouldNotConnect = new Error(
-  'could not connect to the SiaPrime daemon'
+  'could not connect to the ScPrime daemon'
 )
 
 // Siacoin -> hastings unit conversion functions
@@ -42,7 +42,7 @@ export const makeRequest = (address, opts) => {
     callOptions.timeout = 10000
   }
   callOptions.headers = {
-    'User-Agent': 'SiaPrime-Agent'
+    'User-Agent': 'ScPrime-Agent'
   }
   callOptions.pool = agent
 
