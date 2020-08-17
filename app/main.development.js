@@ -434,4 +434,5 @@ app.on('ready', () =>
       mainWindow.setMenu(menu)
     }
   })
+  .catch(err => console.log('installExtensionERR', err))
 )
