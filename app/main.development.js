@@ -59,7 +59,10 @@ app.on('ready', () =>
       x: mainWindowState.x,
       y: mainWindowState.y,
       autoHideMenuBar: true,
-      title: 'ScPrime Wallet'
+      title: 'ScPrime Wallet',
+      webPreferences: {
+        nodeIntegration: true
+      }
       // skipTaskbar: true
     })
     mainWindow = new BrowserWindow(browserWindowConfig)

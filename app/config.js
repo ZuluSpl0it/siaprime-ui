@@ -21,7 +21,7 @@ const daemonPath = isProd
         break; 
 	
     case 'darwin':  
-    newcPath = path.join(app.getPath('home'), '/Library/Application Support/ScPrime')
+    newcPath = path.join(app.getPath('home'), '/Library/Application Support/Electron/ScPrime')
         break; 
 		
 	 default:  
@@ -56,7 +56,7 @@ const defaultSiacPath = path.join(
 )
 // User config path
 const userConfigFolder = newcPath
-const userConfigPath = path.join(userConfigFolder, 'current-UIconfig.json')
+const userConfigPath = path.join(userConfigFolder, 'config.json')
 console.log('PATH', userConfigFolder, userConfigPath)
 // Default config
 let defaultConfig = {
