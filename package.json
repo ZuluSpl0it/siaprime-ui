@@ -149,7 +149,7 @@
     "boiler-room-custodian": "^0.6.2",
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.2",
-    "css-loader": "^0.28.4",
+    "css-loader": "^3.5.3",
     "css-modules-require-hook": "^4.0.6",
     "devtron": "^1.4.0",
     "electron": "9.2.0",
