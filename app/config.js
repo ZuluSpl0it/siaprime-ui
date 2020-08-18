@@ -12,24 +12,24 @@ const isProd = process.env.NODE_ENV === 'production'
 const daemonPath = isProd
   ? path.join(process.resourcesPath, 'bin')
   : path.join(appRootDir.get(), 'bin', getPlatform())
-  
+
   //Multi platform install
-  var platform = process.platform; 
-  switch(platform) { 
-    case 'win32':  
+  const platform = process.platform;
+  switch(platform) {
+    case 'win32':
 	newcPath = path.join(app.getPath('home'), '/Appdata/Local/ScPrime')
-        break; 
-	
-    case 'darwin':  
+        break;
+
+    case 'darwin':
     newcPath = path.join(app.getPath('home'), '/Library/Application Support/Electron/ScPrime')
-        break; 
-		
-	 default:  
+        break;
+
+	 default:
     newcPath = path.join(app.getPath('home'), './ScPrime')
-        break; 
-		 
-} 
-  
+        break;
+
+}
+
    //Try to move metadata
     newcPathExists = fs.existsSync(newcPath)
     if (!newcPathExists) {
