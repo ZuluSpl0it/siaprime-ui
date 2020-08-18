@@ -30,7 +30,8 @@ const VersionInfo = ({ title, value }) => (
 export const AboutModal: React.SFC<AboutModalProps> = ({ visible, onOk }) => {
   const openSiaDir = React.useCallback(() => {
     const path = defaultConfig.siad.datadir
-    shell.openItem(path)
+    //shell.openItem(path)
+    shell.openExternal(`file://${path}`)
   }, [])
 
   const [updateInfo, setUpdateInfo] = React.useState({
