@@ -262,7 +262,7 @@
     "babel-runtime": "6.26.0"
   },
   "devEngines": {
-    "node": ">=8.x",
-    "npm": ">=3.x"
+    "node": ">=10.x",
+    "npm": ">=6.x"
   }
 }
