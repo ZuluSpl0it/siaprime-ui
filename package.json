@@ -75,6 +75,7 @@
       "target": "nsis",
       "requestedExecutionLevel": "highestAvailable"
     },
+    "npmRebuild": false,
     "linux": {
       "target": [
         "deb",
