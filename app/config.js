@@ -7,35 +7,23 @@ const electron = require('electron')
 const appRootDir = require('app-root-dir')
 const getPlatform = require('./get-platform')
 const { dialog } = require('electron')
+
 const app = electron.app || electron.remote.app
+
 const isProd = process.env.NODE_ENV === 'production'
+
 const daemonPath = isProd
   ? path.join(process.resourcesPath, 'bin')
   : path.join(appRootDir.get(), 'bin', getPlatform())
 
-  //Multi platform install
-  const platform = process.platform;
-  switch(platform) {
-    case 'win32':
-	newcPath = path.join(app.getPath('home'), '/Appdata/Local/ScPrime')
-        break;
-
-    case 'darwin':
-    newcPath = path.join(app.getPath('home'), '/Library/Application Support/Electron/ScPrime')
-        break;
-
-	 default:
-    newcPath = path.join(app.getPath('home'), './ScPrime')
-        break;
-
-}
-
    //Try to move metadata
+    newcPath = path.join(app.getPath('home'), '/AppData/Local/ScPrime')
     newcPathExists = fs.existsSync(newcPath)
     if (!newcPathExists) {
         currentcPath = path.join(app.getPath('userData'), './siaprime')
         currentcPathExists = fs.existsSync(currentcPath)
         if (currentcPathExists) {
+
               try {
                  fs.renameSync(currentcPath, newcPath)
              } catch (err) {
@@ -45,18 +33,22 @@ const daemonPath = isProd
          }
      }
   }
+
 // Setup the default path for Siad
 const defaultSiadPath = path.join(
   daemonPath,
   `${process.platform === 'win32' ? 'spd.exe' : 'spd'}`
 )
+
 const defaultSiacPath = path.join(
   daemonPath,
   `${process.platform === 'win32' ? 'spc.exe' : 'spc'}`
 )
+
 // User config path
-const userConfigFolder = newcPath
-const userConfigPath = path.join(userConfigFolder, 'config.json')
+const userConfigFolder = path.join(app.getPath('home'), '/Appdata/Local/ScPrime')
+const userConfigPath = path.join(userConfigFolder, 'current-UIconfig.json')
+
 console.log('PATH', userConfigFolder, userConfigPath)
 // Default config
 let defaultConfig = {
@@ -66,7 +58,7 @@ let defaultConfig = {
   siad: {
     useCustomBinary: false,
     path: defaultSiadPath,
-    datadir: newcPath
+    datadir: path.join(app.getPath('home'), '/Appdata/Local/ScPrime')
   },
   siac: {
     useCustomBinary: false,
@@ -75,6 +67,8 @@ let defaultConfig = {
   logPath: userConfigFolder,
   userConfigPath
 }
+
+
 let userConfig
 try {
   const userConfigBuffer = fs.readFileSync(userConfigPath)
@@ -90,6 +84,7 @@ try {
 } catch (err) {
   console.error('error reading user config file:', err)
 }
+
 try {
   if (!isEqual(userConfig, defaultConfig)) {
     fs.writeFileSync(userConfigPath, JSON.stringify(defaultConfig, null, 4))
@@ -97,4 +92,7 @@ try {
 } catch (err) {
   console.error('error saving user config file:', err)
 }
+
+
+
 module.exports = defaultConfig
