@@ -47,7 +47,7 @@ const defaultSiacPath = path.join(
 
 // User config path
 const userConfigFolder = path.join(app.getPath('home'), '/Appdata/Local/ScPrime')
-const userConfigPath = path.join(userConfigFolder, 'current-UIconfig.json')
+const userConfigPath = path.join(userConfigFolder, 'config.json')
 
 console.log('PATH', userConfigFolder, userConfigPath)
 // Default config
