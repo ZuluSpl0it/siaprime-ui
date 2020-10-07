@@ -1,7 +1,7 @@
 {
   "name": "ScPrime-UI",
   "productName": "ScPrime-UI",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "description": "ScPrime-UI is a GUI for interfacing with the ScPrime Storage Network.",
   "main": "main.js",
   "scripts": {
@@ -82,8 +82,11 @@
       ],
       "category": "Utility"
     },
-    "appImage": {
-      "systemIntegration": "doNotAsk"
+    "mac": {
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "entitlements.mac.plist",
+      "entitlementsInherit": "entitlements.mac.plist"
     }
   },
   "bin": {
@@ -96,7 +99,7 @@
   "author": {
     "name": "SCP, Corp",
     "email": "contact@scpri.me"
-    },
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://gitlab.com/scpcorp/siaprime-ui"
