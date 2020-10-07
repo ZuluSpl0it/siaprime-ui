@@ -130,7 +130,7 @@ class TransactionView extends React.Component<Props, {}> {
               },
               filters: WalletModel.TransactionTypesList.map(v => ({
                 value: v,
-                text: v
+                text: v  === 'SIACOIN' ? 'SCPCOIN' : v === 'SIAFUND' ? 'SCPFUND' : v
               })),
               filterMultiple: true,
               onFilter: (value, record) => {
