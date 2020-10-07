@@ -82,6 +82,12 @@
         "AppImage"
       ],
       "category": "Utility"
+    },
+    "mac": {
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "entitlements.mac.plist",
+      "entitlementsInherit": "entitlements.mac.plist"
     }
   },
   "bin": {
