@@ -12,7 +12,7 @@ exports.default = async function notarizing(context) {
   const appName = context.packager.appInfo.productFilename
 
   return await notarize({
-    appBundleId: 'tech.nebulous.SiaUI',
+    appBundleId: 'me.scpcorp.ScPrimeUI',
     appPath: `${appOutDir}/${appName}.app`,
     appleId: process.env.APPLEID,
     appleIdPassword: password
