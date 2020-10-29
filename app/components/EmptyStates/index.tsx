@@ -79,7 +79,7 @@ class OffState extends React.Component<DispatchProp> {
             </Text>
             {this.state.status !== 'loading' && (
               <Text is="p" color="silver" fontSize={2} maxWidth="300em">
-                It's likely the spd process crashed or was never started. Please start siad from
+                It's likely the spd process crashed or was never started. Please start spd from
                 your terminal or using the built-in daemon by clicking on the button below.
               </Text>
             )}

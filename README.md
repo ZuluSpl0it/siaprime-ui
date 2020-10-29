@@ -68,7 +68,9 @@ bin
 ***Dev environment***  
 npm run dev
 
-***Build Executables***  
+***Build Executables***
+update version in app/package.json  
+  
 npm run package-win  
 npm run package-linux   
 npm run package-mac
