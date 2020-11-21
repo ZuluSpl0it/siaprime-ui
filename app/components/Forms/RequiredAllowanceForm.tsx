@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { FormikProps, yupToFormErrors } from 'formik'
+import { FormikProps, isNaN, yupToFormErrors } from 'formik'
 import { TextInput, TextInputGroup } from './Inputs'
 import * as Yup from 'yup'
 import { Select, Tag, Tooltip, Icon } from 'antd'
@@ -118,7 +118,7 @@ export const RequiredAllowanceForm = (
         />
       </Flex>
       <Text>
-        Allowance: {values.allowance} SC for {values.periodMonth} months of storage.
+        Allowance: {values.allowance } SCP for {values.periodMonth} months of storage.
       </Text>
     </form>
   )

@@ -2,9 +2,9 @@ import * as winston from 'winston'
 import * as path from 'path'
 const config = require('../config')
 
-const errorLogPath = path.join(config.logPath, 'siad-error.log')
-const stdoutLogPath = path.join(config.logPath, 'siad-stdout.log')
-const combinedLogPath = path.join(config.logPath, 'siad-combined.log')
+const errorLogPath = path.join(config.logPath, 'spd-error.log')
+const stdoutLogPath = path.join(config.logPath, 'spd-stdout.log')
+const combinedLogPath = path.join(config.logPath, 'spd-combined.log')
 const format = winston.format
 
 export const siadLogger = winston.createLogger({
